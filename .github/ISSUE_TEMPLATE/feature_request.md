@@ -15,4 +15,4 @@ Qual problema ou oportunidade essa funcionalidade resolve para o sistema do sal�
 Descreva o que deve ser construído tecnicamente (front-end, back-end ou banco de dados).
 
 ## Contexto Visual
-Caso exista, anexe referências de design ou links para o protótipo da Kaylanne.
+Caso exista, anexe referências de design ou links para o protótipo da UX Designer.
