@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background: #FFF;
+    background: linear-gradient(135deg,rgba(255, 255, 255, 1) 0%, rgba(255, 245, 247, 1) 50%, rgba(255, 255, 255, 1) 100%);
+    padding: 0 30px;
+    font-family: "Montserrat", sans-serif;
+}
+main {
+    text-align: center;
+}
+header {
+    text-align: center;
+    margin-top: 40px;
+}
+header p {
+    font-size: 18px;
+    font-family: "Montserrat", sans-serif;
+    color: #717182;
+    margin-top: 10px;
+
+}
+h1 {
+    font-family: "Cormorant", serif;
+    font-size: 48px;
+    font-weight: 600;
+    word-spacing: 0.5px;
+    color: #110E29;
+}
+h2 {
+    font-size: 30px;
+    color: #110E29;
+    margin-top: 12px;
+    font-weight: 400;
+}
+h2 span {
+    color: #E0456A;
+    font-weight: 600;
+}
+.horario-dia-atual {
+    text-align: center;
+    align-content: center;
+    background: #FFF;
+    border-radius: 24px;
+    box-shadow: #00000013  2px 2px 10px;
+    height: 228px;
+    margin-top: 46px;
+    
+}
+.horario-dia-atual p {
+    color: #717182;
+    font-size: 14px;
+    word-spacing: 1.4px;
+    margin-top: 16px;
+}
+#alterar-horario-padrao {
+    background: #E0456A;
+    background: linear-gradient(135deg,rgba(224, 69, 106, 1) 0%, rgba(233, 140, 164, 1) 100%);
+    color: white;
+    border: none;
+    width: 252px;
+    height: 56px;
+    border-radius: 16px;
+    cursor: pointer;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+#alterar-horario-padrao:hover {
+    box-shadow: #e045696d 2px 4px 10px;
+}
+.dias-semana {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 48px;
+}
+.card-dia {
+    text-align: center;
+    flex: 1;
+    transition: 0.3s;
+}
+.dia {
+    background: #FFF;
+    border: #FFF solid 1px;
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: #00000013  2px 2px 10px;
+    height: 136px;
+    line-height: 40px;
+    
+}
+.dia:hover {
+    box-shadow: #00000024  4px 4px 20px;
+}
+.nome-dia {
+    font-size: 12px;
+    line-height: 16px;
+}
+.numero-dia {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 40px;
+}
+.intervalo {
+    line-height: 44px;
+    display: block;
+    background: #FFF;
+    border: #FFF solid 1px;
+    border-radius: 20px;
+    margin-top: 16px;
+    height: 44px;
+    box-shadow: #00000013  2px 2px 10px;
+}
+#horarios-semana {
+    background: #ffffff;
+    color: #E0456A;
+    border: #E0456A solid 2px;
+    width: 370px;
+    height: 60px;
+    border-radius: 16px;
+    cursor: pointer;
+    margin-top: 48px;
+}
+#horarios-semana:hover {
+    box-shadow: #e045696d 2px 4px 10px;
+}

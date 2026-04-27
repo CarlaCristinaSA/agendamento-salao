@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/admin-horarios.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Horários de Funcionamento</title>
+</head>
+<body>
+    <header>
+        <img src="../../assets/clock-icon.png" alt="Ícone de circulo rosa com um relógio branco no centro">
+        <h1>Horário de Funcionamento</h1>
+        <p>Configure os horários de atendimento do seu salão</p>
+    </header>
+    <main>
+        <section class="horario-dia-atual">
+            <p>HORÁRIO PADRÃO</p>
+            <h2>Abre às <span id="abre-padrao">9:00</span> e fecha às <span id="fecha-padrao">18:00</span> </h2>
+            <button id="alterar-horario-padrao">ALTERAR HORÁRIO</button>
+        </section>
+        <section class="dias-semana">
+            <section class="card-dia">
+                <div class="dia">
+                    <span class="nome-dia">DOMINGO</span><br>
+                    <strong class="numero-dia">20</strong>
+                </div>
+                    <div class="intervalos-dia">
+                        <span class="intervalo">10:00 - 12:00</span>
+                        <span class="intervalo">14:00 - 18:00</span>
+                    </div>
+            </section>
+            <section class="card-dia">
+                <div class="dia">
+                    <span class="nome-dia">SEGUNDA</span><br>
+                    <strong class="numero-dia">20</strong>
+                </div>
+                    <div class="intervalos-dia">
+                        <span class="intervalo">10:00 - 12:00</span>
+                        <span class="intervalo">14:00 - 18:00</span>
+                    </div>
+            </section>
+            <section class="card-dia">
+                <div class="dia">
+                    <span class="nome-dia">TERÇA</span><br>
+                    <strong class="numero-dia">20</strong>
+                </div>
+                    <div class="intervalos-dia">
+                        <span class="intervalo">10:00 - 12:00</span>
+                        <span class="intervalo">14:00 - 18:00</span>
+                    </div>
+            </section>
+            <section class="card-dia">
+                <div class="dia">
+                    <span class="nome-dia">QUARTA</span><br>
+                    <strong class="numero-dia">20</strong>
+                </div>
+                    <div class="intervalos-dia">
+                        <span class="intervalo">10:00 - 12:00</span>
+                        <span class="intervalo">14:00 - 18:00</span>
+                    </div>
+            </section>
+            <section class="card-dia">
+                <div class="dia">
+                    <span class="nome-dia">QUINTA</span><br>
+                    <strong class="numero-dia">20</strong>
+                </div>
+                    <div class="intervalos-dia">
+                        <span class="intervalo">10:00 - 12:00</span>
+                        <span class="intervalo">14:00 - 18:00</span>
+                    </div>
+            </section>
+            <section class="card-dia">
+                <div class="dia">
+                    <span class="nome-dia">SEXTA</span><br>
+                    <strong class="numero-dia">20</strong>
+                </div>
+                    <div class="intervalos-dia">
+                        <span class="intervalo">10:00 - 12:00</span>
+                        <span class="intervalo">14:00 - 18:00</span>
+                    </div>
+            </section>
+            <section class="card-dia">
+                <div class="dia">
+                    <span class="nome-dia">SÁBADO</span><br>
+                    <strong class="numero-dia">20</strong>
+                </div>
+                    <div class="intervalos-dia">
+                        <span class="intervalo">10:00 - 12:00</span>
+                        <span class="intervalo">14:00 - 18:00</span>
+                    </div>
+            </section>
+        </section>
+        <button id="horarios-semana">CONFIGURAR HORÁRIOS POR DIA</button>
+    </main>
+    <script src="../../js/admin-horarios.js"></script>
+</body>
+</html>
