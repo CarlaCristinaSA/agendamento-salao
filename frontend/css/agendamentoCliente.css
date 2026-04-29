@@ -177,3 +177,22 @@ body {
     color: #ffffff;
     line-height: 1;
 }
+
+/* ─── BOTÃO ──────────────────────────────────────────────────────────────── */
+.select-btn {
+    width: 100%;
+    height: 56px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.8px;
+    text-align: center;
+    color: #ffffff;
+    margin-top: auto;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+}
