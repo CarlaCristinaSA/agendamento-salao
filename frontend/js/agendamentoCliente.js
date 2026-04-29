@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 103, nome: "Manicure Especializada", duracao: "45 minutos", valor: 80.00 },
         { id: 104, nome: "Pedicure Premium", duracao: "45 minutos", valor: 80.00 },
         { id: 105, nome: "Massagem Capilar Relaxante", duracao: "30 minutos", valor: 120.00 },
-        { id: 106, nome: "Coloração Completa", duracao: "180 minutos", valor: 450.00 }
+        { id: 106, nome: "Coloração Completa", duracao: "180 minutos", valor: 450.00 },
         { id: 101, nome: "Corte de Cabelo Feminino", duracao: "60 minutos", valor: 150.00 },
         { id: 102, nome: "Escova Progressiva", duracao: "120 minutos", valor: 350.00 },
         { id: 103, nome: "Manicure Especializada", duracao: "45 minutos", valor: 80.00 },
@@ -15,5 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 105, nome: "Massagem Capilar Relaxante", duracao: "30 minutos", valor: 120.00 },
         { id: 106, nome: "Coloração Completa", duracao: "180 minutos", valor: 450.00 }
     ];
+    
+    const container = document.getElementById('services-container');
+    
+    function renderizarCards(servicos) {
+        container.innerHTML = '';
+        servicos.forEach((servico, index) => {
+            const card = document.createElement('div');
+            card.className = 'service-card';
+            card.style.animationDelay = `${index * 0.1}s`;
+            
+            container.appendChild(card);
+        });
+    }
 
 });
