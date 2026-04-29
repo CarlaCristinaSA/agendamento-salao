@@ -81,3 +81,10 @@ body {
     text-align: center;
     color: var(--text-gray);
 }
+
+/* ─── GRID ───────────────────────────────────────────────────────────────── */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
