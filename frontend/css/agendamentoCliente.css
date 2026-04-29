@@ -196,3 +196,6 @@ body {
     margin-top: auto;
     transition: opacity 0.2s ease, transform 0.1s ease;
 }
+
+.select-btn:hover  { opacity: 0.90; }
+.select-btn:active { transform: scale(0.98); }
