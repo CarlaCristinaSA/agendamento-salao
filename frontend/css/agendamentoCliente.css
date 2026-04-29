@@ -132,6 +132,35 @@ body {
     background-color: var(--info-bg);
 }
 
+.info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--text-gray);
+}
+
+.info-value {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--text-dark);
+}
+
+.info-value.valor {
+    font-size: 20px;
+    line-height: 28px;
+}
+
 .icon-circle {
     flex-shrink: 0;
     width: 40px;
