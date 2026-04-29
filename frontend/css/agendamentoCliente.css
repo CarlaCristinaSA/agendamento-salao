@@ -28,3 +28,12 @@ body {
     justify-content: center;
     color: var(--text-dark);
 }
+
+/* ─── CONTAINER ──────────────────────────────────────────────────────────── */
+.container {
+    width: 100%;
+    max-width: 1258px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
