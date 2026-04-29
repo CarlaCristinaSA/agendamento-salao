@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Montserrat:wght@400;600&display=swap');
+
+:root {
+    --primary-gradient-start: #E0456A;
+    --primary-gradient-end:   #E98CA4;
+    --card-bg: #FFFFFF;
+    --text-dark: #110E29;
+    --text-gray: #717182;
+    --info-bg: #FAFAFA;
+}
