@@ -16,3 +16,15 @@
     margin: 0;
     padding: 0;
 }
+
+/* ─── BODY ───────────────────────────────────────────────────────────────── */
+body {
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    background: #FFF;
+    background: linear-gradient(135deg,rgba(255, 255, 255, 1) 0%, rgba(255, 245, 247, 1) 50%, rgba(255, 255, 255, 1) 100%);
+    padding: 64px 32px 64px;
+    display: flex;
+    justify-content: center;
+    color: var(--text-dark);
+}
