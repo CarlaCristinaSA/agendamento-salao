@@ -8,3 +8,11 @@
     --text-gray: #717182;
     --info-bg: #FAFAFA;
 }
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
