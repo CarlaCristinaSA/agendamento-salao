@@ -199,3 +199,13 @@ body {
 
 .select-btn:hover  { opacity: 0.90; }
 .select-btn:active { transform: scale(0.98); }
+
+/* ─── MENSAGEM VAZIA ─────────────────────────────────────────────────────── */
+.empty-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-gray);
+    font-size: 1rem;
+    padding: 40px;
+    font-family: 'Montserrat', sans-serif;
+}
