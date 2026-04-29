@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="info-label">Valor</span>
                         <span class="info-value price">${valorFormatado}</span>
                     </div>
-                    
+
                 </div>
                 <button class="select-btn">SELECIONAR SERVIÇO</button>
             `;
@@ -54,3 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
 
 });
+
+function selecionarServico(idDoServico) {
+    alert(`O usuário clicou no serviço com ID: ${idDoServico}`);
+}
