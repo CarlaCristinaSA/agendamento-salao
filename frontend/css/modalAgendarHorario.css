@@ -170,3 +170,17 @@
     transition: box-shadow 0.2s ease, background 0.2s ease;
     min-height: 120px;
 }
+
+.day-cell:hover:not(.disabled):not(.selected) {
+    box-shadow: 0px 4px 16px 0px rgba(224, 69, 106, 0.15);
+}
+
+.day-cell.disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.day-cell.selected {
+    background: linear-gradient(135deg, #E0456A, #E98CA4);
+    box-shadow: 0px 12.6px 33.6px 0px rgba(224, 69, 106, 0.35);
+}
