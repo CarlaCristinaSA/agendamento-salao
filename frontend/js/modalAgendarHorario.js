@@ -229,6 +229,11 @@ function _validarDados() {
 /* ─── CONFIRMAR ─────────────────────────────────────────────────────────── */
 function _onConfirmarDados() {
     if (!_validarDados()) return;
+    const dados = {
+        nome:     document.getElementById('input-nome').value.trim(),
+        email:    document.getElementById('input-email').value.trim(),
+        telefone: document.getElementById('input-telefone').value.trim(),
+    };
 }
 
 /* ─── EVENTOS FIXOS ─────────────────────────────────────────────────────── */
