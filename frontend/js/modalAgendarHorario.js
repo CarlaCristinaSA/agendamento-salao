@@ -119,11 +119,6 @@ function _updateConfirmBtn() {
 
 function _onConfirm() {
     // INTEGRAÇÃO: chamar aqui o endpoint de criação de agendamento.
-    // Dados disponíveis:
-    //   state.service      → { nome, duracao, valor }
-    //   state.selectedDate → Date
-    //   state.selectedTime → string "HH:MM"
-    closeAgendarModal();
     openDadosModal({
         servico: state.service,
         data:    state.selectedDate.toLocaleDateString('pt-BR'),

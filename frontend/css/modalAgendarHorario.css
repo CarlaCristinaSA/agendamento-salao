@@ -454,6 +454,10 @@
     margin-top: auto;
 }
 
+#modal-dados-overlay {
+    z-index: 1010;
+}
+
 /* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
     .modal {
