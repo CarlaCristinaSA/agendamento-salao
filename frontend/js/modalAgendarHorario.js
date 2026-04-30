@@ -183,6 +183,11 @@ function openDadosModal(agendamento) {
     document.getElementById('modal-dados-overlay').classList.add('active');
 }
 
-function closeDadosModal() {
-    document.getElementById('modal-dados-overlay').classList.remove('active');
+function openDadosModal(agendamento) {
+    document.getElementById('input-nome').value      = '';
+    document.getElementById('input-email').value     = '';
+    document.getElementById('input-telefone').value  = '';
+    document.querySelectorAll('.field-input').forEach(i => i.classList.remove('error'));
+    document.getElementById('modal-dados-overlay').classList.add('active');
+    document.getElementById('input-nome').focus();
 }
