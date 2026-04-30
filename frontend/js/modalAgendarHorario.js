@@ -217,11 +217,15 @@ function _onConfirmarDados() {
         email:    document.getElementById('input-email').value.trim(),
         telefone: document.getElementById('input-telefone').value.trim(),
     };
-    // INTEGRAÇÃO: chamar aqui o endpoint de criação de agendamento.
-    // Dados do horário estão em: state.service, state.selectedDate, state.selectedTime
-    // Dados do cliente estão em: dados.nome, dados.email, dados.telefone
-    console.log('Dados do cliente:', dados);
+    // INTEGRAÇÃO: chamar aqui o endpoint de criação de agendamento (Back-end)
+    console.log('Dados do cliente prontos para o banco:', dados);
     closeDadosModal();
+    closeAgendarModal();
+    openConfirmadoModal({
+        servico: state.service,
+        data:    state.selectedDate.toLocaleDateString('pt-BR'),
+        horario: state.selectedTime,
+    });
 }
 
 /* ─── EVENTOS FIXOS ─────────────────────────────────────────────────────── */
