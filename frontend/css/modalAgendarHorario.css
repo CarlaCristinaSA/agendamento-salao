@@ -407,6 +407,17 @@
     cursor: default;
 }
 
+.field-label i {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    font-size: 16px;
+    color: #E0456A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
     .modal {
