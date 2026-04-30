@@ -249,4 +249,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     document.getElementById('input-telefone')
         .addEventListener('input', _maskTelefone);
+    document.getElementById('modal-dados-confirm-btn')
+        .addEventListener('click', _onConfirmarDados);
 });
