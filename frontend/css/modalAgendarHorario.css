@@ -278,3 +278,12 @@
     border-color: #E0456A;
     color: #E0456A;
 }
+
+.time-btn.selected {
+    background: linear-gradient(135deg, #E0456A, #E98CA4);
+    border-color: transparent;
+    color: #ffffff;
+    box-shadow:
+    0px 4.2px 6.3px -4.2px rgba(0, 0, 0, 0.10),
+    0px 10.5px 15.75px -3.15px rgba(0, 0, 0, 0.10);
+}
