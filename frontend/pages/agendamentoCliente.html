@@ -129,33 +129,32 @@
             <button class="modal-confirm-btn" id="modal-dados-confirm-btn">CONFIRMAR AGENDAMENTO</button>
         </div>
     </div>
-
     <!-- ─── MODAL: CONFIRMADO ─────────────────────────────────────────── -->
     <div id="modal-confirmado-overlay" class="modal-overlay">
         <div class="modal modal-confirmado" role="dialog" aria-modal="true">
-            <div class="confirmado-body">  
+            <div class="confirmado-body">
                 <div class="confirmado-icon">
                     <i class="fa-solid fa-check"></i>
                 </div>
                 <h2 class="confirmado-title">Confirmado!</h2>
                 <p class="confirmado-subtitle">Seu agendamento foi realizado com sucesso</p>
-            </div>
-            <!-- Dados -->
-            <div class="confirmado-details">
-                <div class="detail-row">
-                    <span class="detail-label">Data</span>
-                    <span class="detail-value" id="conf-data">23/04/2026 - 10:00</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Serviço</span>
-                    <span class="detail-value" id="conf-servico">Corte de Cabelo</span>
-                </div>
-                <div class="detail-row highlight">
+                <!-- Resumo dos Dados -->
+                <div class="confirmado-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Data</span>
+                        <span class="detail-value" id="conf-data">23/04/2026 - 10:00</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Serviço</span>
+                        <span class="detail-value" id="conf-servico">Corte de Cabelo</span>
+                    </div>
+                    <div class="detail-row highlight">
                         <span class="detail-label">Valor</span>
                         <span class="detail-value" id="conf-valor">R$ 0,00</span>
+                    </div>
                 </div>
+                <button class="modal-confirm-btn" id="btn-ok-confirmado">OK</button>
             </div>
-            <button class="modal-confirm-btn" id="btn-ok-confirmado">OK</button>
         </div>
     </div>
 
