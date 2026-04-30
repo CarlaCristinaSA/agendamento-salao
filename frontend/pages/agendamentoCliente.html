@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../css/modalAgendarHorario.css">
 </head>
 <body>
+
     <!-- ─── PÁGINA PRINCIPAL ─────────────────────────────────────────────── -->
     <div class="container">
         <header class="header">
@@ -30,9 +31,8 @@
     <div id="modal-agendar-overlay" class="modal-overlay">
         <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <div class="modal-scroll">
-                <div class="modal-scroll">
-                    <div class="modal-header">
-                        <div class="modal-header-text">
+                <div class="modal-header">
+                    <div class="modal-header-text">
                         <h2 id="modal-title">Agendar Horário</h2>
                         <span id="modal-nome-servico"></span>
                     </div>
@@ -42,7 +42,6 @@
                 </div>
                 <div>
                     <div class="calendar-nav">
-                        <div class="calendar-days" id="calendar-days"></div>
                         <button class="cal-arrow" id="cal-prev" aria-label="Mês anterior">
                             <i class="fa-solid fa-chevron-left"></i>
                         </button>
@@ -54,7 +53,9 @@
                             <i class="fa-solid fa-chevron-right"></i>
                         </button>
                     </div>
+                    <div class="calendar-days" id="calendar-days"></div>
                 </div>
+                
                 <!-- Horários -->
                 <div class="times-section" id="times-section" style="display:none">
                     <div class="times-label">
@@ -62,10 +63,12 @@
                         <span>Horários Disponíveis</span>
                     </div>
                     <div class="times-grid" id="times-grid"></div>
-                    <button class="modal-confirm-btn" id="modal-confirm-btn" disabled>CONFIRMAR HORÁRIO</button>                    
                 </div>
             </div>
-            </div>
+            <button class="modal-confirm-btn" id="modal-confirm-btn" disabled>
+                CONFIRMAR HORÁRIO
+            </button>
+
         </div>
     </div>
 
