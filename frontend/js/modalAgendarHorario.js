@@ -20,3 +20,31 @@ const state = {
     selectedTime: null,
     weekStart:    null,
 };
+
+/* ─── ABRIR / FECHAR ────────────────────────────────────────────────────── */
+function openAgendarModal(service) {
+    state.service = service;
+    state.selectedDate = null;
+    state.selectedTime = null;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const sunday = new Date(today);
+    sunday.setDate(today.getDate() - today.getDay());
+    state.weekStart = sunday;
+
+    document.getElementById('modal-nome-servico').textContent = service.nome;
+    document.getElementById('times-section').style.display = 'none';
+    document.getElementById('times-grid').innerHTML = '';
+    document.getElementById('modal-confirm-btn').disabled = true;
+
+    // _renderCalendar(); será chamado mais pra frente
+
+    document.getElementById('modal-agendar-overlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAgendarModal() {
+    document.getElementById('modal-agendar-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
