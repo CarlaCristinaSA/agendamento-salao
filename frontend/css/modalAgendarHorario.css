@@ -501,6 +501,34 @@
     color: #FFFFFF;
 }
 
+.confirmado-title {
+    width: 155px;
+    height: 36px;
+    margin-top: -0.67px;
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: 0.3px;
+    text-align: center;
+    color: #110E29;
+    margin-bottom: 8px;
+}
+
+.confirmado-subtitle {
+    width: 312px;
+    height: 20px;
+    margin-top: 0.33px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: center;
+    color: #717182;
+    margin-bottom: 32px;
+}
+
 /* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
     .modal {
