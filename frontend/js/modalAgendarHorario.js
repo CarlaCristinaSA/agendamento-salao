@@ -59,3 +59,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target.id === 'modal-agendar-overlay') closeAgendarModal();
         });
 });
+
+/* ─── CALENDÁRIO  ──────────────────────────────────────────────────── */
+function _renderCalendar() {
+    const mid = new Date(state.weekStart);
+    mid.setDate(mid.getDate() + 3);
+    document.getElementById('cal-month-label').textContent =
+        `${PT_MONTHS[mid.getMonth()]} ${mid.getFullYear()}`;
+}
