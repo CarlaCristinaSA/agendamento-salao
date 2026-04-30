@@ -241,3 +241,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('input-telefone')
         .addEventListener('input', _maskTelefone);
 });
+
+/* ══════════════════════════════════════════════════════════════════════════
+    MODAL POP-UP CONFIRMADO (SUCESSO)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+function openConfirmadoModal(agendamento) {
+    document.getElementById('modal-confirmado-overlay').classList.add('active');
+}
+
+function closeConfirmadoModal() {
+    document.getElementById('modal-confirmado-overlay').classList.remove('active');
+}
