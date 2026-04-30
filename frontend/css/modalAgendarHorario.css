@@ -325,3 +325,11 @@
         grid-template-columns: repeat(4, 1fr);
     }
 }
+
+@media (max-width: 600px) {
+    .modal-header-text h2 { font-size: 28px; }
+    .calendar-days        { gap: 6px; }
+    .day-cell             { padding: 12px 6px; min-height: auto; }
+    .day-number           { font-size: 22px; line-height: 28px; }
+    .times-grid           { grid-template-columns: repeat(3, 1fr); }
+}
