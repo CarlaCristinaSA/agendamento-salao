@@ -95,6 +95,29 @@
         </section>
         <button id="horarios-semana">CONFIGURAR HORÁRIOS POR DIA</button>
     </main>
+    <section id="modal-horario-padrao" class="modal">
+        <section class="conteudo-modal">
+            <img src="../../assets/close-button-icon.svg" alt="Fechar Modal" class="fechar-modal">
+            <h1>Editar Horário Padrão</h1>
+            <section class="formulario-horario-padrao">
+                <form action="get">
+                    <div class="container-scroll-horarios" id="lista-horarios">
+                        <div class="input-time">
+                            <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
+                            <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                            <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
+                            <button type="button" class="limpar">X</button>
+                        </div>
+                    </div>
+                    <div id="add">
+                        <img src="../../assets/add-icon.svg" alt="Adicionar">
+                        <p>ADICIONAR HORÁRIO</p>
+                    </div>
+                    <button type="submit" id="confirmar-horario-modal">CONFIRMAR</button>
+                </form>
+            </section>
+        </section>
+    </section>
     <script src="../../js/admin-horarios.js"></script>
 </body>
 </html>
