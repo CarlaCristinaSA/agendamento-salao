@@ -446,6 +446,10 @@
     background-color: #FFFFFF;
 }
 
+.field-input.error {
+    border-color: #E0456A;
+}
+
 /* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
     .modal {
