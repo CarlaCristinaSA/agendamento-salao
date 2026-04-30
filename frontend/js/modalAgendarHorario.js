@@ -211,6 +211,13 @@ function _validarDados() {
     if (nome.value.trim().length < 3) {
         nome.classList.add('error'); ok = false;
     }
+    if (nome.value.trim().length < 3) {
+        nome.classList.add('error'); ok = false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+        email.classList.add('error'); ok = false;
+    }
+
     return ok;
 }
 
