@@ -572,6 +572,10 @@
     font-size: 20px;
 }
 
+#btn-ok-confirmado {
+    margin-top: auto; 
+}
+
 /* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
     .modal {
