@@ -94,4 +94,13 @@ function _renderCalendar() {
             </button>
         `;
     }).join('');
+    grid.querySelectorAll('.day-cell:not([disabled])').forEach(btn => {
+        btn.addEventListener('click', () => {
+            state.selectedDate = new Date(btn.dataset.date + 'T12:00:00');
+            state.selectedTime = null;
+            _renderCalendar();
+            // _renderTimes(); será chamado depois
+            // _updateConfirmBtn(); será chamado depois
+        });
+    });
 }
