@@ -1,6 +1,7 @@
 /* ══════════════════════════════════════════════════════════════════════════
-    MODAL AGENDAR HORÁRIO
-══════════════════════════════════════════════════════════════════════════ */
+    MODAL AGENDAR HORÁRIO  ·  modalAgendarHorario.js
+   ══════════════════════════════════════════════════════════════════════════ */
+
 /* ─── CONSTANTES ────────────────────────────────────────────────────────── */
 const PT_DAYS   = ['DOM','SEG','TER','QUA','QUI','SEX','SÁB'];
 const PT_MONTHS = [
@@ -26,9 +27,9 @@ const state = {
 };
 
 /* ══════════════════════════════════════════════════════════════════════════
-    GERAL
-══════════════════════════════════════════════════════════════════════════ */
-    const Modal = {
+    MODAIS
+   ══════════════════════════════════════════════════════════════════════════ */
+const Modal = {
     open(id) {
         document.getElementById(id).classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -49,7 +50,7 @@ const state = {
 
 /* ══════════════════════════════════════════════════════════════════════════
     AGENDAR HORÁRIO
-══════════════════════════════════════════════════════════════════════════ */
+   ══════════════════════════════════════════════════════════════════════════ */
 function openAgendarModal(service) {
     state.service      = service;
     state.selectedDate = null;
@@ -117,10 +118,12 @@ function _renderCalendar() {
 function _renderTimes() {
     const grid = document.getElementById('times-grid');
     document.getElementById('times-section').style.display = 'flex';
+
     grid.innerHTML = ALL_TIMES.map(t => `
         <button class="time-btn ${state.selectedTime === t ? 'selected' : ''}"
             data-time="${t}">${t}</button>
     `).join('');
+
     grid.querySelectorAll('.time-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             state.selectedTime = btn.dataset.time;
@@ -137,20 +140,19 @@ function _updateConfirmBtn() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-    DADOS DE CONTATO
-══════════════════════════════════════════════════════════════════════════ */
+    MODAL 2 · DADOS DE CONTATO
+   ══════════════════════════════════════════════════════════════════════════ */
 function openDadosModal() {
-    ['input-nome', 'input-email', 'input-telefone'].forEach(id => {
-        document.getElementById(id).value = '';
+    // Limpa o formulário antes de abrir
+    FIELD_RULES.forEach(({ inputId, errorId }) => {
+        document.getElementById(inputId).value = '';
+        _clearFieldError(inputId, errorId);
     });
-    document.querySelectorAll('.field-input').forEach(i => i.classList.remove('error'));
-    document.querySelectorAll('.error-msg').forEach(e => {
-        e.textContent = '';
-        e.classList.remove('visible');
-    });
+
     Modal.open('modal-dados-overlay');
     document.getElementById('input-nome').focus();
 }
+
 function closeDadosModal() {
     Modal.close('modal-dados-overlay');
 }
@@ -165,46 +167,74 @@ function _maskTelefone(e) {
 }
 
 /* ─── VALIDAÇÃO ─────────────────────────────────────────────────────────── */
+const FIELD_RULES = [
+    {
+        inputId:  'input-nome',
+        errorId:  'error-nome',
+        prepare:  v => v.trim(),
+        rules: [
+            { test: v => v.length > 0,              msg: 'Este campo é obrigatório.'                     },
+            { test: v => v.length >= 3,             msg: 'O nome deve ter pelo menos 3 caracteres.'      },
+            { test: v => /^[a-zA-ZÀ-ÿ\s]+$/.test(v), msg: 'O nome deve conter apenas letras.'           },
+        ],
+    },
+    {
+        inputId:  'input-email',
+        errorId:  'error-email',
+        prepare:  v => v.trim(),
+        rules: [
+            { test: v => v.length > 0,                              msg: 'Este campo é obrigatório.'                                  },
+            { test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),     msg: 'Informe um e-mail válido (exemplo: nome@email.com).'        },
+        ],
+    },
+    {
+        inputId:  'input-telefone',
+        errorId:  'error-telefone',
+        prepare:  v => v.replace(/\D/g, ''),
+        rules: [
+            { test: v => v.length > 0,   msg: 'Este campo é obrigatório.'                          },
+            { test: v => v.length >= 10, msg: 'Por favor, informe um número de telefone válido.'   },
+        ],
+    },
+];
+
 function _setFieldError(inputId, errorId, msg) {
     document.getElementById(inputId).classList.add('error');
     const el = document.getElementById(errorId);
     el.textContent = msg;
     el.classList.add('visible');
 }
+function _clearFieldError(inputId, errorId) {
+    document.getElementById(inputId).classList.remove('error');
+    const el = document.getElementById(errorId);
+    el.textContent = '';
+    el.classList.remove('visible');
+}
+function _validarCampo({ inputId, errorId, prepare, rules }) {
+    const raw   = document.getElementById(inputId).value;
+    const value = prepare(raw);
+
+    for (const { test, msg } of rules) {
+        if (!test(value)) {
+            _setFieldError(inputId, errorId, msg);
+            return false;
+        }
+    }
+    _clearFieldError(inputId, errorId);
+    return true;
+}
 
 function _validarDados() {
-    const nome     = document.getElementById('input-nome').value;
-    const email    = document.getElementById('input-email').value.trim();
-    const telefone = document.getElementById('input-telefone').value.replace(/\D/g, '');
-    let ok = true;
-    document.querySelectorAll('.field-input').forEach(i => i.classList.remove('error'));
-    document.querySelectorAll('.error-msg').forEach(e => {
-        e.textContent = '';
-        e.classList.remove('visible');
-    });
+    const results = FIELD_RULES.map(_validarCampo);
+    return results.every(Boolean);
+}
 
-    if (nome.trim().length === 0) {
-        _setFieldError('input-nome', 'error-nome', 'O nome é obrigatório e não pode ficar em branco.');
-        ok = false;
-    } else if (nome.trim().length < 3) {
-        _setFieldError('input-nome', 'error-nome', 'Por favor, digite um nome válido (mínimo de 3 letras).');
-        ok = false;
-    }
-    if (email.length === 0) {
-        _setFieldError('input-email', 'error-email', 'O e-mail é obrigatório.');
-        ok = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        _setFieldError('input-email', 'error-email', 'Formato inválido. Use o padrão: seu@email.com');
-        ok = false;
-    }
-    if (telefone.length === 0) {
-        _setFieldError('input-telefone', 'error-telefone', 'O telefone é obrigatório.');
-        ok = false;
-    } else if (telefone.length < 10) {
-        _setFieldError('input-telefone', 'error-telefone', 'Telefone inválido. Insira o DDD + número.');
-        ok = false;
-    }
-    return ok;
+function _bindRealtimeValidation() {
+    FIELD_RULES.forEach(fieldDef => {
+        const input = document.getElementById(fieldDef.inputId);
+        input.addEventListener('blur', () => _validarCampo(fieldDef));
+        input.addEventListener('input', () => _clearFieldError(fieldDef.inputId, fieldDef.errorId));
+    });
 }
 
 /* ─── CONFIRMAR DADOS ───────────────────────────────────────────────────── */
@@ -216,16 +246,18 @@ function _onConfirmarDados() {
         email:    document.getElementById('input-email').value.trim(),
         telefone: document.getElementById('input-telefone').value.trim(),
     };
+
     // INTEGRAÇÃO: chamar aqui o endpoint de criação de agendamento (Back-end)
     console.log('Dados do cliente prontos para o banco:', dados);
+
     closeDadosModal();
     closeAgendarModal();
     openConfirmadoModal();
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-    POP-UP CONFIRMADO (SUCESSO)
-══════════════════════════════════════════════════════════════════════════ */
+    CONFIRMADO
+   ══════════════════════════════════════════════════════════════════════════ */
 function openConfirmadoModal() {
     document.getElementById('conf-data').textContent    = `${state.selectedDate.toLocaleDateString('pt-BR')} - ${state.selectedTime}`;
     document.getElementById('conf-servico').textContent = state.service.nome;
@@ -239,9 +271,10 @@ function closeConfirmadoModal() {
 
 /* ══════════════════════════════════════════════════════════════════════════
     INICIALIZAÇÃO
-══════════════════════════════════════════════════════════════════════════ */
+   ══════════════════════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
-    //Modal Agendar 
+
+    // ── Modal Agendar ──────────────────────────────────────────────────────
     document.getElementById('modal-close-btn')
         .addEventListener('click', closeAgendarModal);
     Modal.bindOverlayClose('modal-agendar-overlay');
@@ -251,6 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
         today.setHours(0, 0, 0, 0);
         const thisSunday = new Date(today);
         thisSunday.setDate(today.getDate() - today.getDay());
+
         const prev = new Date(state.weekStart);
         prev.setDate(prev.getDate() - 7);
         if (prev >= thisSunday) {
@@ -258,22 +292,29 @@ document.addEventListener('DOMContentLoaded', () => {
             _renderCalendar();
         }
     });
+
     document.getElementById('cal-next').addEventListener('click', () => {
         state.weekStart = new Date(state.weekStart);
         state.weekStart.setDate(state.weekStart.getDate() + 7);
         _renderCalendar();
     });
+
     document.getElementById('modal-confirm-btn')
         .addEventListener('click', () => openDadosModal());
-    //Modal Dados 
+
+    // ── Modal Dados ────────────────────────────────────────────────────────
     document.getElementById('modal-dados-close-btn')
         .addEventListener('click', closeDadosModal);
     Modal.bindOverlayClose('modal-dados-overlay');
+
     document.getElementById('modal-dados-confirm-btn')
         .addEventListener('click', _onConfirmarDados);
     document.getElementById('input-telefone')
         .addEventListener('input', _maskTelefone);
-    //Modal Confirmado
+
+    _bindRealtimeValidation();
+
+    // ── Modal Confirmado ───────────────────────────────────────────────────
     document.getElementById('btn-ok-confirmado')
         .addEventListener('click', closeConfirmadoModal);
     Modal.bindOverlayClose('modal-confirmado-overlay');
