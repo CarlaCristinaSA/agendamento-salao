@@ -221,3 +221,38 @@
 .day-cell.selected .day-month {
     color: #ffffff;
 }
+
+/* ─── HORÁRIOS DISPONÍVEIS ───────────────────────────────────────────────── */
+.times-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.times-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.times-label i {
+    font-size: 22px;
+    color: #E0456A;
+    width: 22px;
+    height: 22px;
+}
+
+.times-label span {
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: 0px;
+    color: #110E29;
+}
+
+.times-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+}
