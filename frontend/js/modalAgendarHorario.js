@@ -103,6 +103,13 @@ function _renderTimes() {
         <button class="time-btn ${state.selectedTime === t ? 'selected' : ''}"
             data-time="${t}">${t}</button>
     `).join('');
+
+    grid.querySelectorAll('.time-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            state.selectedTime = btn.dataset.time;
+            _renderTimes();
+        });
+    });
 }
 
 }
