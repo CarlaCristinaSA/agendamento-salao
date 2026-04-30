@@ -256,3 +256,13 @@ function openConfirmadoModal(agendamento) {
 function closeConfirmadoModal() {
     document.getElementById('modal-confirmado-overlay').classList.remove('active');
 }
+
+/* ─── EVENTOS FIXOS (CONFIRMADO) ────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('btn-ok-confirmado')
+        .addEventListener('click', closeConfirmadoModal);        
+    document.getElementById('modal-confirmado-overlay')
+        .addEventListener('click', e => {
+            if (e.target.id === 'modal-confirmado-overlay') closeConfirmadoModal();
+        });
+});
