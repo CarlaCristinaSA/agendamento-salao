@@ -209,4 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .addEventListener('click', e => {
             if (e.target.id === 'modal-dados-overlay') closeDadosModal();
         });
+    document.getElementById('input-telefone')
+        .addEventListener('input', _maskTelefone);
 });
