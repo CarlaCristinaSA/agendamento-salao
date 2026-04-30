@@ -256,3 +256,25 @@
     grid-template-columns: repeat(6, 1fr);
     gap: 12px;
 }
+
+.time-btn {
+    height: 60px;
+    border-radius: 20px;
+    border: 2px solid #F3F4F6;
+    background: #ffffff;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: #110E29;
+    text-align: center;
+    transition: border-color 0.2s ease, background 0.2s ease,
+    color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.time-btn:hover:not(.selected) {
+    border-color: #E0456A;
+    color: #E0456A;
+}
