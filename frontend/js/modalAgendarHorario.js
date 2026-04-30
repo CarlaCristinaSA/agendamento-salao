@@ -1,6 +1,6 @@
 /* ══════════════════════════════════════════════════════════════════════════
-    MODAL AGENDAR HORÁRIO
-   ══════════════════════════════════════════════════════════════════════════ */
+MODAL AGENDAR HORÁRIO 
+══════════════════════════════════════════════════════════════════════════ */
 
 const PT_DAYS   = ['DOM','SEG','TER','QUA','QUI','SEX','SÁB'];
 const PT_MONTHS = [
@@ -27,23 +27,19 @@ const state = {
 
 /* ─── ABRIR / FECHAR ────────────────────────────────────────────────────── */
 function openAgendarModal(service) {
-    state.service = service;
+    state.service      = service;
     state.selectedDate = null;
     state.selectedTime = null;
-
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const sunday = new Date(today);
     sunday.setDate(today.getDate() - today.getDay());
     state.weekStart = sunday;
-
     document.getElementById('modal-nome-servico').textContent = service.nome;
-    document.getElementById('times-section').style.display = 'none';
-    document.getElementById('times-grid').innerHTML = '';
-    document.getElementById('modal-confirm-btn').disabled = true;
-
+    document.getElementById('times-section').style.display   = 'none';
+    document.getElementById('times-grid').innerHTML           = '';
+    document.getElementById('modal-confirm-btn').disabled     = true;
     _renderCalendar();
-
     document.getElementById('modal-agendar-overlay').classList.add('active');
     document.body.style.overflow = 'hidden';
 }
@@ -53,7 +49,7 @@ function closeAgendarModal() {
     document.body.style.overflow = '';
 }
 
-/* ─── CALENDÁRIO (apenas 7 dias) ────────────────────────────────────────── */
+/* ─── CALENDÁRIO ────────────────────────────────────────── */
 function _renderCalendar() {
     const mid = new Date(state.weekStart);
     mid.setDate(mid.getDate() + 3);
@@ -62,7 +58,6 @@ function _renderCalendar() {
     const grid  = document.getElementById('calendar-days');
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-
     const days = Array.from({ length: 7 }, (_, i) => {
         const d = new Date(state.weekStart);
         d.setDate(state.weekStart.getDate() + i);
@@ -73,10 +68,8 @@ function _renderCalendar() {
         const isDisabled = d < today;
         const isSelected = state.selectedDate &&
             d.toDateString() === state.selectedDate.toDateString();
-
         const classes = ['day-cell', isDisabled ? 'disabled' : '', isSelected ? 'selected' : '']
             .filter(Boolean).join(' ');
-
         return `
             <button class="${classes}"
                 data-date="${d.toISOString().split('T')[0]}"
@@ -125,6 +118,11 @@ function _updateConfirmBtn() {
 }
 
 function _onConfirm() {
+    // INTEGRAÇÃO: chamar aqui o endpoint de criação de agendamento.
+    // Dados disponíveis:
+    //   state.service      → { nome, duracao, valor }
+    //   state.selectedDate → Date
+    //   state.selectedTime → string "HH:MM"
     closeAgendarModal();
     openDadosModal({
         servico: state.service,
@@ -170,7 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .addEventListener('click', _onConfirm);
 });
 
-
 /* ══════════════════════════════════════════════════════════════════════════
     MODAL DADOS DE CONTATO
    ══════════════════════════════════════════════════════════════════════════ */
@@ -180,16 +177,13 @@ function openDadosModal(agendamento) {
     document.getElementById('input-nome').value      = '';
     document.getElementById('input-email').value     = '';
     document.getElementById('input-telefone').value  = '';
-    document.getElementById('modal-dados-overlay').classList.add('active');
-}
-
-function openDadosModal(agendamento) {
-    document.getElementById('input-nome').value      = '';
-    document.getElementById('input-email').value     = '';
-    document.getElementById('input-telefone').value  = '';
     document.querySelectorAll('.field-input').forEach(i => i.classList.remove('error'));
     document.getElementById('modal-dados-overlay').classList.add('active');
     document.getElementById('input-nome').focus();
+}
+
+function closeDadosModal() {
+    document.getElementById('modal-dados-overlay').classList.remove('active');
 }
 
 /* ─── MÁSCARA DE TELEFONE ───────────────────────────────────────────────── */
@@ -211,12 +205,6 @@ function _validarDados() {
     if (nome.value.trim().length < 3) {
         nome.classList.add('error'); ok = false;
     }
-    if (nome.value.trim().length < 3) {
-        nome.classList.add('error'); ok = false;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
-        email.classList.add('error'); ok = false;
-    }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
         email.classList.add('error'); ok = false;
     }
@@ -235,6 +223,8 @@ function _onConfirmarDados() {
         telefone: document.getElementById('input-telefone').value.trim(),
     };
     // INTEGRAÇÃO: chamar aqui o endpoint de criação de agendamento.
+    // Dados do horário estão em: state.service, state.selectedDate, state.selectedTime
+    // Dados do cliente estão em: dados.nome, dados.email, dados.telefone
     console.log('Dados do cliente:', dados);
     closeDadosModal();
 }
@@ -247,8 +237,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .addEventListener('click', e => {
             if (e.target.id === 'modal-dados-overlay') closeDadosModal();
         });
-    document.getElementById('input-telefone')
-        .addEventListener('input', _maskTelefone);
     document.getElementById('modal-dados-confirm-btn')
         .addEventListener('click', _onConfirmarDados);
+    document.getElementById('input-telefone')
+        .addEventListener('input', _maskTelefone);
 });
