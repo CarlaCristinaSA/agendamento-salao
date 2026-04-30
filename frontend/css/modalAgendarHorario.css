@@ -562,6 +562,16 @@
     color: #110E29;
 }
 
+.detail-row.highlight {
+    background: linear-gradient(135deg, #E0456A, #E98CA4);
+}
+
+.detail-row.highlight .detail-label,
+.detail-row.highlight .detail-value {
+    color: #FFFFFF;
+    font-size: 20px;
+}
+
 /* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
     .modal {
