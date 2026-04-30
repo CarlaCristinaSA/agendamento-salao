@@ -450,6 +450,10 @@
     border-color: #E0456A;
 }
 
+#modal-dados-confirm-btn {
+    margin-top: auto;
+}
+
 /* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
     .modal {
