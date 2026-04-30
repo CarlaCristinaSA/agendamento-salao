@@ -450,6 +450,19 @@
     border-color: #E0456A;
 }
 
+.error-msg {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: #E0456A;
+    margin-top: -4px;
+    display: none;
+}
+
+.error-msg.visible {
+    display: block;
+}
+
 #modal-dados-confirm-btn {
     margin-top: auto;
 }

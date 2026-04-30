@@ -85,45 +85,33 @@
                 </button>
             </div>
             <div class="form-fields">
+                <!-- Campo Nome -->
                 <div class="field-group">
                     <label class="field-label" for="input-nome">
                         <i class="fa-regular fa-user"></i>
                         NOME COMPLETO
                     </label>
-                    <input
-                        class="field-input"
-                        id="input-nome"
-                        type="text"
-                        placeholder="Digite seu nome completo"
-                        autocomplete="name"
-                    />
+                    <input class="field-input" id="input-nome" type="text" placeholder="Digite seu nome completo" autocomplete="name" />
+                    <span class="error-msg" id="error-nome"></span>
                 </div>
+                <!-- Campo E-mail -->
                 <div class="field-group">
                     <label class="field-label" for="input-email">
                         <i class="fa-regular fa-envelope"></i>
                         E-MAIL
                     </label>
-                    <input
-                        class="field-input"
-                        id="input-email"
-                        type="email"
-                        placeholder="seu@email.com"
-                        autocomplete="email"
-                    />
+                    <input class="field-input" id="input-email" type="email" placeholder="seu@email.com" autocomplete="email" />
+                    <span class="error-msg" id="error-email"></span>
                 </div>
+                <!-- Campo Telefone -->
                 <div class="field-group">
                     <label class="field-label" for="input-telefone">
                         <i class="fa-solid fa-phone"></i>
                         TELEFONE
                     </label>
-                    <input
-                        class="field-input"
-                        id="input-telefone"
-                        type="tel"
-                        placeholder="(00) 00000-0000"
-                        autocomplete="tel"
-                        maxlength="15"
-                    />
+                    <input class="field-input" id="input-telefone" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" maxlength="15" />
+                    <!-- Novo: span de erro para o telefone -->
+                    <span class="error-msg" id="error-telefone"></span>
                 </div>
             </div>
             <button class="modal-confirm-btn" id="modal-dados-confirm-btn">CONFIRMAR AGENDAMENTO</button>

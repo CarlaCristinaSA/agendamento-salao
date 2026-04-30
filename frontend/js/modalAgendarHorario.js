@@ -192,19 +192,53 @@ function _maskTelefone(e) {
 
 /* ─── VALIDAÇÃO ─────────────────────────────────────────────────────────── */
 function _validarDados() {
-    const nome     = document.getElementById('input-nome');
-    const email    = document.getElementById('input-email');
-    const telefone = document.getElementById('input-telefone');
+    const nomeInput     = document.getElementById('input-nome');
+    const emailInput    = document.getElementById('input-email');
+    const telefoneInput = document.getElementById('input-telefone');
+    const errorNome     = document.getElementById('error-nome');
+    const errorEmail    = document.getElementById('error-email');
+    const errorTelefone = document.getElementById('error-telefone');
     let ok = true;
-    [nome, email, telefone].forEach(i => i.classList.remove('error'));
-    if (nome.value.trim().length < 3) {
-        nome.classList.add('error'); ok = false;
+    [nomeInput, emailInput, telefoneInput].forEach(i => i.classList.remove('error'));
+    [errorNome, errorEmail, errorTelefone].forEach(e => { 
+        e.textContent = ''; 
+        e.classList.remove('visible'); 
+    });
+    const nomeValor = nomeInput.value;
+    if (nomeValor.trim().length === 0) {
+        nomeInput.classList.add('error');
+        errorNome.textContent = 'O nome é obrigatório e não pode ficar em branco.';
+        errorNome.classList.add('visible');
+        ok = false;
+    } else if (nomeValor.trim().length < 3) {
+        nomeInput.classList.add('error');
+        errorNome.textContent = 'Por favor, digite um nome válido (mínimo de 3 letras).';
+        errorNome.classList.add('visible');
+        ok = false;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
-        email.classList.add('error'); ok = false;
+    const emailValor = emailInput.value.trim();
+    if (emailValor.length === 0) {
+        emailInput.classList.add('error');
+        errorEmail.textContent = 'O e-mail é obrigatório.';
+        errorEmail.classList.add('visible');
+        ok = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValor)) {
+        emailInput.classList.add('error');
+        errorEmail.textContent = 'Formato inválido. Use o padrão: seu@email.com';
+        errorEmail.classList.add('visible');
+        ok = false;
     }
-    if (telefone.value.replace(/\D/g, '').length < 10) {
-        telefone.classList.add('error'); ok = false;
+    const telefoneValor = telefoneInput.value.replace(/\D/g, ''); 
+    if (telefoneValor.length === 0) {
+        telefoneInput.classList.add('error');
+        errorTelefone.textContent = 'O telefone é obrigatório.';
+        errorTelefone.classList.add('visible');
+        ok = false;
+    } else if (telefoneValor.length < 10) {
+        telefoneInput.classList.add('error');
+        errorTelefone.textContent = 'Telefone inválido. Insira o DDD + número.';
+        errorTelefone.classList.add('visible');
+        ok = false;
     }
     return ok;
 }
