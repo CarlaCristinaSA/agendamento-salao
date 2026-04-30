@@ -55,7 +55,7 @@
                     </div>
                     <div class="calendar-days" id="calendar-days"></div>
                 </div>
-                
+
                 <!-- Horários -->
                 <div class="times-section" id="times-section" style="display:none">
                     <div class="times-label">
@@ -80,34 +80,53 @@
                     <h2 id="modal-dados-title">Dados de Contato</h2>
                     <span>Complete seu agendamento</span>
                 </div>
-                <div class="form-fields">
-                    <div class="field-group">
-                        <label class="field-label" for="input-nome">
-                            <i class="fa-regular fa-user"></i>
-                            NOME COMPLETO
-                        </label>
-                        <input class="field-input" id="input-nome" type="text" placeholder="Digite seu nome completo" autocomplete="name" />
-                    </div>
-                    <div class="field-group">
+                <button class="modal-close" id="modal-dados-close-btn" aria-label="Fechar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="form-fields">
+                <div class="field-group">
+                    <label class="field-label" for="input-nome">
+                        <i class="fa-regular fa-user"></i>
+                        NOME COMPLETO
+                    </label>
+                    <input
+                        class="field-input"
+                        id="input-nome"
+                        type="text"
+                        placeholder="Digite seu nome completo"
+                        autocomplete="name"
+                    />
+                </div>
+                <div class="field-group">
                     <label class="field-label" for="input-email">
                         <i class="fa-regular fa-envelope"></i>
                         E-MAIL
                     </label>
-                    <input class="field-input" id="input-email" type="email" placeholder="seu@email.com" autocomplete="email" />
+                    <input
+                        class="field-input"
+                        id="input-email"
+                        type="email"
+                        placeholder="seu@email.com"
+                        autocomplete="email"
+                    />
                 </div>
                 <div class="field-group">
                     <label class="field-label" for="input-telefone">
                         <i class="fa-solid fa-phone"></i>
                         TELEFONE
                     </label>
-                    <input class="field-input" id="input-telefone" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" maxlength="15" />
+                    <input
+                        class="field-input"
+                        id="input-telefone"
+                        type="tel"
+                        placeholder="(00) 00000-0000"
+                        autocomplete="tel"
+                        maxlength="15"
+                    />
                 </div>
-                <button class="modal-confirm-btn" id="modal-dados-confirm-btn">CONFIRMAR AGENDAMENTO</button>
-                </div>
-                <button class="modal-close" id="modal-dados-close-btn" aria-label="Fechar">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
             </div>
+            <button class="modal-confirm-btn" id="modal-dados-confirm-btn">CONFIRMAR AGENDAMENTO</button>
         </div>
     </div>
 
