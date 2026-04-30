@@ -305,3 +305,12 @@
     text-align: center;
     transition: opacity 0.2s ease, transform 0.1s ease;
 }
+
+.modal-confirm-btn:hover   { opacity: 0.90; }
+.modal-confirm-btn:active  { transform: scale(0.98); }
+
+.modal-confirm-btn:disabled {
+    opacity: 0.40;
+    cursor: not-allowed;
+    transform: none;
+}
