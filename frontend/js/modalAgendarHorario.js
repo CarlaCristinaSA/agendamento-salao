@@ -118,7 +118,7 @@ function _updateConfirmBtn() {
 }
 
 function _onConfirm() {
-    // INTEGRAÇÃO: chamar aqui o endpoint de criação de agendamento.
+    // Abre o modal de contato sem fechar o de agendamento (Stacking Modals)
     openDadosModal({
         servico: state.service,
         data:    state.selectedDate.toLocaleDateString('pt-BR'),
@@ -126,7 +126,7 @@ function _onConfirm() {
     });
 }
 
-/* ─── EVENTOS FIXOS ─────────────────────────────────────────────────────── */
+/* ─── EVENTOS FIXOS (AGENDAMENTO) ───────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('modal-close-btn')
         .addEventListener('click', closeAgendarModal);
@@ -209,16 +209,17 @@ function _validarDados() {
     return ok;
 }
 
-/* ─── CONFIRMAR ─────────────────────────────────────────────────────────── */
+/* ─── CONFIRMAR E ABRIR POP-UP FINAL ─────────────────────────────────────── */
 function _onConfirmarDados() {
     if (!_validarDados()) return;
+    
     const dados = {
         nome:     document.getElementById('input-nome').value.trim(),
         email:    document.getElementById('input-email').value.trim(),
         telefone: document.getElementById('input-telefone').value.trim(),
     };
     // INTEGRAÇÃO: chamar aqui o endpoint de criação de agendamento (Back-end)
-    console.log('Dados do cliente prontos para o banco:', dados);
+    console.log('Dados do cliente prontos para o banco:', dados);    
     closeDadosModal();
     closeAgendarModal();
     openConfirmadoModal({
@@ -228,7 +229,7 @@ function _onConfirmarDados() {
     });
 }
 
-/* ─── EVENTOS FIXOS ─────────────────────────────────────────────────────── */
+/* ─── EVENTOS FIXOS (CONTATO) ───────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('modal-dados-close-btn')
         .addEventListener('click', closeDadosModal);
@@ -260,7 +261,7 @@ function closeConfirmadoModal() {
 /* ─── EVENTOS FIXOS (CONFIRMADO) ────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-ok-confirmado')
-        .addEventListener('click', closeConfirmadoModal);        
+        .addEventListener('click', closeConfirmadoModal);
     document.getElementById('modal-confirmado-overlay')
         .addEventListener('click', e => {
             if (e.target.id === 'modal-confirmado-overlay') closeConfirmadoModal();
