@@ -147,3 +147,11 @@
     letter-spacing: 0px;
     color: #110E29;
 }
+
+/* ─── DIAS DA SEMANA ─────────────────────────────────────────────────────── */
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
