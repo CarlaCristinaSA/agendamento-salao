@@ -66,4 +66,32 @@ function _renderCalendar() {
     mid.setDate(mid.getDate() + 3);
     document.getElementById('cal-month-label').textContent =
         `${PT_MONTHS[mid.getMonth()]} ${mid.getFullYear()}`;
+    const grid  = document.getElementById('calendar-days');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const days = Array.from({ length: 7 }, (_, i) => {
+        const d = new Date(state.weekStart);
+        d.setDate(state.weekStart.getDate() + i);
+        return d;
+    });
+
+    grid.innerHTML = days.map(d => {
+        const isDisabled = d < today;
+        const isSelected = state.selectedDate &&
+            d.toDateString() === state.selectedDate.toDateString();
+
+        const classes = ['day-cell', isDisabled ? 'disabled' : '', isSelected ? 'selected' : '']
+            .filter(Boolean).join(' ');
+
+        return `
+            <button class="${classes}"
+                data-date="${d.toISOString().split('T')[0]}"
+                ${isDisabled ? 'disabled' : ''}>
+                <span class="day-name">${PT_DAYS[d.getDay()]}</span>
+                <span class="day-number">${d.getDate()}</span>
+                <span class="day-month">${PT_MONTHS_SHORT[d.getMonth()]}</span>
+            </button>
+        `;
+    }).join('');
 }
