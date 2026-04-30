@@ -548,6 +548,20 @@
     border-radius: 16px;
 }
 
+.detail-row .detail-label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #717182;
+}
+
+.detail-row .detail-value {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #110E29;
+}
+
 /* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
     .modal {
