@@ -247,6 +247,9 @@ document.addEventListener('DOMContentLoaded', () => {
    ══════════════════════════════════════════════════════════════════════════ */
 
 function openConfirmadoModal(agendamento) {
+    document.getElementById('conf-data').textContent = `${agendamento.data} - ${agendamento.horario}`;
+    document.getElementById('conf-servico').textContent = agendamento.servico.nome;
+    document.getElementById('conf-valor').textContent = agendamento.servico.valor;
     document.getElementById('modal-confirmado-overlay').classList.add('active');
 }
 
