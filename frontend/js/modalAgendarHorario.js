@@ -234,6 +234,9 @@ function _onConfirmarDados() {
         email:    document.getElementById('input-email').value.trim(),
         telefone: document.getElementById('input-telefone').value.trim(),
     };
+    // INTEGRAÇÃO: chamar aqui o endpoint de criação de agendamento.
+    console.log('Dados do cliente:', dados);
+    closeDadosModal();
 }
 
 /* ─── EVENTOS FIXOS ─────────────────────────────────────────────────────── */
