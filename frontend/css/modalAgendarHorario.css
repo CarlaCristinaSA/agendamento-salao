@@ -314,3 +314,14 @@
     cursor: not-allowed;
     transform: none;
 }
+
+/* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
+@media (max-width: 960px) {
+    .modal {
+        padding: 32px 24px;
+        gap: 24px;
+    }
+    .times-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
