@@ -184,3 +184,40 @@
     background: linear-gradient(135deg, #E0456A, #E98CA4);
     box-shadow: 0px 12.6px 33.6px 0px rgba(224, 69, 106, 0.35);
 }
+
+.day-name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #110E29;
+    text-align: center;
+}
+
+.day-number {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: 0.5px;
+    color: #110E29;
+    text-align: center;
+}
+
+.day-month {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+    color: #110E29;
+    text-align: center;
+}
+
+.day-cell.selected .day-name,
+.day-cell.selected .day-number,
+.day-cell.selected .day-month {
+    color: #ffffff;
+}
