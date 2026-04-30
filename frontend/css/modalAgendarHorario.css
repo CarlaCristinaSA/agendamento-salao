@@ -97,3 +97,53 @@
 }
 
 .modal-close:hover { opacity: 0.6; }
+
+/* ─── NAVEGAÇÃO DO CALENDÁRIO ────────────────────────────────────────────── */
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.cal-arrow {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #110E29;
+    padding: 6px 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+}
+
+.cal-arrow:hover { opacity: 0.6; }
+
+.cal-arrow i {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.cal-month {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cal-month i {
+    font-size: 20px;
+    color: #E0456A;
+    width: 20px;
+    height: 20px;
+}
+
+.cal-month span {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: 0px;
+    color: #110E29;
+}
