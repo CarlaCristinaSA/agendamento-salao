@@ -18,3 +18,36 @@
     opacity: 1;
     visibility: visible;
 }
+
+/* ─── MODAL BOX ──────────────────────────────────────────────────────────── */
+.modal {
+    background: #ffffff;
+    border-radius: 24px;
+    width: min(896px, calc(100vw - 32px));
+    box-shadow: 0px 24px 80px 0px rgba(0, 0, 0, 0.20);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    transform: translateY(20px) scale(0.98);
+    transition: transform 0.25s ease;
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.modal-scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    overflow-y: auto;
+    flex: 1;
+    scrollbar-width: none;
+}
+
+.modal-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.modal-overlay.active .modal {
+    transform: translateY(0) scale(1);
+}
