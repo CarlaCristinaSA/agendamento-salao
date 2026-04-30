@@ -226,6 +226,11 @@ function _validarDados() {
     return ok;
 }
 
+/* ─── CONFIRMAR ─────────────────────────────────────────────────────────── */
+function _onConfirmarDados() {
+    if (!_validarDados()) return;
+}
+
 /* ─── EVENTOS FIXOS ─────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('modal-dados-close-btn')
