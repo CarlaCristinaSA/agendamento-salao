@@ -201,6 +201,16 @@ function _maskTelefone(e) {
     e.target.value = v;
 }
 
+/* ─── VALIDAÇÃO ─────────────────────────────────────────────────────────── */
+function _validarDados() {
+    const nome     = document.getElementById('input-nome');
+    const email    = document.getElementById('input-email');
+    const telefone = document.getElementById('input-telefone');
+    let ok = true;
+    [nome, email, telefone].forEach(i => i.classList.remove('error'));
+    return ok;
+}
+
 /* ─── EVENTOS FIXOS ─────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('modal-dados-close-btn')
