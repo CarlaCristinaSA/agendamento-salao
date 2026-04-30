@@ -51,3 +51,49 @@
 .modal-overlay.active .modal {
     transform: translateY(0) scale(1);
 }
+
+/* ─── CABEÇALHO ──────────────────────────────────────────────────────────── */
+.modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.modal-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.modal-header-text h2 {
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 40px;
+    letter-spacing: 0.3px;
+    color: #110E29;
+}
+
+.modal-header-text span {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0px;
+    color: #717182;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #110E29;
+    font-size: 20px;
+    line-height: 1;
+    padding: 4px;
+    flex-shrink: 0;
+    transition: opacity 0.2s ease;
+}
+
+.modal-close:hover { opacity: 0.6; }
