@@ -529,6 +529,14 @@
     margin-bottom: 32px;
 }
 
+.confirmado-details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
 /* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
     .modal {
