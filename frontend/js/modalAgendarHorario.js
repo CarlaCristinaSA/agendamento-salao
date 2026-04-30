@@ -92,4 +92,17 @@ function _renderCalendar() {
             _updateConfirmBtn();
         });
     });
+
+/* ─── HORÁRIOS ──────────────────────────────────────────────────────────── */
+function _renderTimes() {
+    const section = document.getElementById('times-section');
+    const grid    = document.getElementById('times-grid');
+    section.style.display = 'flex';
+
+    grid.innerHTML = ALL_TIMES.map(t => `
+        <button class="time-btn ${state.selectedTime === t ? 'selected' : ''}"
+            data-time="${t}">${t}</button>
+    `).join('');
+}
+
 }
