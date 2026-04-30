@@ -349,6 +349,29 @@
     gap: 8px;
 }
 
+.modal-dados h2#modal-dados-title {
+    width: 218px;
+    height: 36px;
+    margin-top: -0.67px;
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: 0.3px;
+    color: #110E29;
+}
+
+.modal-dados .modal-header-text span {
+    width: 231px;
+    height: 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0px;
+    color: #717182;
+}
+
 /* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
     .modal {
