@@ -191,3 +191,13 @@ function openDadosModal(agendamento) {
     document.getElementById('modal-dados-overlay').classList.add('active');
     document.getElementById('input-nome').focus();
 }
+
+/* ─── EVENTOS FIXOS ─────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('modal-dados-close-btn')
+        .addEventListener('click', closeDadosModal);
+    document.getElementById('modal-dados-overlay')
+        .addEventListener('click', e => {
+            if (e.target.id === 'modal-dados-overlay') closeDadosModal();
+        });
+});
