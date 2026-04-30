@@ -458,6 +458,11 @@
     z-index: 1010;
 }
 
+/* ─── MODAL CONFIRMADO ───────────────────────────────────────────────────── */
+#modal-confirmado-overlay {
+    z-index: 1020;
+}
+
 /* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
     .modal {
