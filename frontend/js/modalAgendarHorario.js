@@ -1,3 +1,6 @@
+/* ══════════════════════════════════════════════════════════════════════════
+    MODAL AGENDAR HORÁRIO
+   ══════════════════════════════════════════════════════════════════════════ */
 
 const PT_DAYS   = ['DOM','SEG','TER','QUA','QUI','SEX','SÁB'];
 const PT_MONTHS = [
@@ -166,5 +169,19 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('modal-confirm-btn')
         .addEventListener('click', _onConfirm);
 });
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+    MODAL DADOS DE CONTATO
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── ABRIR / FECHAR ────────────────────────────────────────────────────── */
+function openDadosModal(agendamento) {
+    document.getElementById('modal-dados-overlay').classList.add('active');
+}
+
+function closeDadosModal() {
+    document.getElementById('modal-dados-overlay').classList.remove('active');
+}
 
 
