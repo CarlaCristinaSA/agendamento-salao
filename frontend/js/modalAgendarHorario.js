@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════════════════════════════════════
-MODAL AGENDAR HORÁRIO 
+    MODAL AGENDAR HORÁRIO
 ══════════════════════════════════════════════════════════════════════════ */
-
+/* ─── CONSTANTES ────────────────────────────────────────────────────────── */
 const PT_DAYS   = ['DOM','SEG','TER','QUA','QUI','SEX','SÁB'];
 const PT_MONTHS = [
     'Janeiro','Fevereiro','Março','Abril','Maio','Junho',
@@ -11,13 +11,13 @@ const PT_MONTHS_SHORT = [
     'Jan','Fev','Mar','Abr','Mai','Jun',
     'Jul','Ago','Set','Out','Nov','Dez'
 ];
-
 const ALL_TIMES = [
     '09:00','09:30','10:00','10:30','11:00','11:30',
     '14:00','14:30','15:00','15:30','16:00','16:30',
     '17:00','17:30'
 ];
 
+/* ─── ESTADO GLOBAL ─────────────────────────────────────────────────────── */
 const state = {
     service:      null,
     selectedDate: null,
@@ -25,7 +25,31 @@ const state = {
     weekStart:    null,
 };
 
-/* ─── ABRIR / FECHAR ────────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════════════
+    GERAL
+══════════════════════════════════════════════════════════════════════════ */
+    const Modal = {
+    open(id) {
+        document.getElementById(id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    },
+    close(id) {
+        document.getElementById(id).classList.remove('active');
+        // Só libera o scroll quando nenhum modal estiver aberto
+        const anyOpen = document.querySelector('.modal-overlay.active');
+        if (!anyOpen) document.body.style.overflow = '';
+    },
+    /** Fecha ao clicar no overlay (fora do modal) */
+    bindOverlayClose(overlayId) {
+        document.getElementById(overlayId).addEventListener('click', e => {
+            if (e.target.id === overlayId) Modal.close(overlayId);
+        });
+    },
+};
+
+/* ══════════════════════════════════════════════════════════════════════════
+    AGENDAR HORÁRIO
+══════════════════════════════════════════════════════════════════════════ */
 function openAgendarModal(service) {
     state.service      = service;
     state.selectedDate = null;
@@ -40,22 +64,19 @@ function openAgendarModal(service) {
     document.getElementById('times-grid').innerHTML           = '';
     document.getElementById('modal-confirm-btn').disabled     = true;
     _renderCalendar();
-    document.getElementById('modal-agendar-overlay').classList.add('active');
-    document.body.style.overflow = 'hidden';
+    Modal.open('modal-agendar-overlay');
 }
 
 function closeAgendarModal() {
-    document.getElementById('modal-agendar-overlay').classList.remove('active');
-    document.body.style.overflow = '';
+    Modal.close('modal-agendar-overlay');
 }
 
-/* ─── CALENDÁRIO ────────────────────────────────────────── */
+/* ─── CALENDÁRIO ────────────────────────────────────────────────────────── */
 function _renderCalendar() {
     const mid = new Date(state.weekStart);
     mid.setDate(mid.getDate() + 3);
     document.getElementById('cal-month-label').textContent =
         `${PT_MONTHS[mid.getMonth()]} ${mid.getFullYear()}`;
-    const grid  = document.getElementById('calendar-days');
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const days = Array.from({ length: 7 }, (_, i) => {
@@ -64,11 +85,12 @@ function _renderCalendar() {
         return d;
     });
 
+    const grid = document.getElementById('calendar-days');
     grid.innerHTML = days.map(d => {
         const isDisabled = d < today;
         const isSelected = state.selectedDate &&
             d.toDateString() === state.selectedDate.toDateString();
-        const classes = ['day-cell', isDisabled ? 'disabled' : '', isSelected ? 'selected' : '']
+        const classes = ['day-cell', isDisabled && 'disabled', isSelected && 'selected']
             .filter(Boolean).join(' ');
         return `
             <button class="${classes}"
@@ -77,9 +99,9 @@ function _renderCalendar() {
                 <span class="day-name">${PT_DAYS[d.getDay()]}</span>
                 <span class="day-number">${d.getDate()}</span>
                 <span class="day-month">${PT_MONTHS_SHORT[d.getMonth()]}</span>
-            </button>
-        `;
+            </button>`;
     }).join('');
+
     grid.querySelectorAll('.day-cell:not([disabled])').forEach(btn => {
         btn.addEventListener('click', () => {
             state.selectedDate = new Date(btn.dataset.date + 'T12:00:00');
@@ -93,15 +115,12 @@ function _renderCalendar() {
 
 /* ─── HORÁRIOS ──────────────────────────────────────────────────────────── */
 function _renderTimes() {
-    const section = document.getElementById('times-section');
-    const grid    = document.getElementById('times-grid');
-    section.style.display = 'flex';
-
+    const grid = document.getElementById('times-grid');
+    document.getElementById('times-section').style.display = 'flex';
     grid.innerHTML = ALL_TIMES.map(t => `
         <button class="time-btn ${state.selectedTime === t ? 'selected' : ''}"
             data-time="${t}">${t}</button>
     `).join('');
-
     grid.querySelectorAll('.time-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             state.selectedTime = btn.dataset.time;
@@ -117,187 +136,145 @@ function _updateConfirmBtn() {
         !(state.selectedDate && state.selectedTime);
 }
 
-function _onConfirm() {
-    // Abre o modal de contato sem fechar o de agendamento (Stacking Modals)
-    openDadosModal({
-        servico: state.service,
-        data:    state.selectedDate.toLocaleDateString('pt-BR'),
-        horario: state.selectedTime,
-    });
-}
-
-/* ─── EVENTOS FIXOS (AGENDAMENTO) ───────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('modal-close-btn')
-        .addEventListener('click', closeAgendarModal);
-
-    document.getElementById('modal-agendar-overlay')
-        .addEventListener('click', e => {
-            if (e.target.id === 'modal-agendar-overlay') closeAgendarModal();
-        });
-
-    // Semana anterior
-    document.getElementById('cal-prev').addEventListener('click', () => {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const prev = new Date(state.weekStart);
-        prev.setDate(prev.getDate() - 7);
-        // Não permite voltar para semanas no passado
-        const thisSunday = new Date(today);
-        thisSunday.setDate(today.getDate() - today.getDay());
-        if (prev >= thisSunday) {
-            state.weekStart = prev;
-            _renderCalendar();
-        }
-    });
-
-    // Próxima semana
-    document.getElementById('cal-next').addEventListener('click', () => {
-        const next = new Date(state.weekStart);
-        next.setDate(next.getDate() + 7);
-        state.weekStart = next;
-        _renderCalendar();
-    });
-
-    document.getElementById('modal-confirm-btn')
-        .addEventListener('click', _onConfirm);
-});
-
 /* ══════════════════════════════════════════════════════════════════════════
-    MODAL DADOS DE CONTATO
-   ══════════════════════════════════════════════════════════════════════════ */
-
-/* ─── ABRIR / FECHAR ────────────────────────────────────────────────────── */
-function openDadosModal(agendamento) {
-    document.getElementById('input-nome').value      = '';
-    document.getElementById('input-email').value     = '';
-    document.getElementById('input-telefone').value  = '';
+    DADOS DE CONTATO
+══════════════════════════════════════════════════════════════════════════ */
+function openDadosModal() {
+    ['input-nome', 'input-email', 'input-telefone'].forEach(id => {
+        document.getElementById(id).value = '';
+    });
     document.querySelectorAll('.field-input').forEach(i => i.classList.remove('error'));
-    document.getElementById('modal-dados-overlay').classList.add('active');
+    document.querySelectorAll('.error-msg').forEach(e => {
+        e.textContent = '';
+        e.classList.remove('visible');
+    });
+    Modal.open('modal-dados-overlay');
     document.getElementById('input-nome').focus();
 }
-
 function closeDadosModal() {
-    document.getElementById('modal-dados-overlay').classList.remove('active');
+    Modal.close('modal-dados-overlay');
 }
 
 /* ─── MÁSCARA DE TELEFONE ───────────────────────────────────────────────── */
 function _maskTelefone(e) {
     let v = e.target.value.replace(/\D/g, '').slice(0, 11);
-    if (v.length > 6)      v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+    if      (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
     else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
     else if (v.length > 0) v = `(${v}`;
     e.target.value = v;
 }
 
 /* ─── VALIDAÇÃO ─────────────────────────────────────────────────────────── */
+function _setFieldError(inputId, errorId, msg) {
+    document.getElementById(inputId).classList.add('error');
+    const el = document.getElementById(errorId);
+    el.textContent = msg;
+    el.classList.add('visible');
+}
+
 function _validarDados() {
-    const nomeInput     = document.getElementById('input-nome');
-    const emailInput    = document.getElementById('input-email');
-    const telefoneInput = document.getElementById('input-telefone');
-    const errorNome     = document.getElementById('error-nome');
-    const errorEmail    = document.getElementById('error-email');
-    const errorTelefone = document.getElementById('error-telefone');
+    const nome     = document.getElementById('input-nome').value;
+    const email    = document.getElementById('input-email').value.trim();
+    const telefone = document.getElementById('input-telefone').value.replace(/\D/g, '');
     let ok = true;
-    [nomeInput, emailInput, telefoneInput].forEach(i => i.classList.remove('error'));
-    [errorNome, errorEmail, errorTelefone].forEach(e => { 
-        e.textContent = ''; 
-        e.classList.remove('visible'); 
+    document.querySelectorAll('.field-input').forEach(i => i.classList.remove('error'));
+    document.querySelectorAll('.error-msg').forEach(e => {
+        e.textContent = '';
+        e.classList.remove('visible');
     });
-    const nomeValor = nomeInput.value;
-    if (nomeValor.trim().length === 0) {
-        nomeInput.classList.add('error');
-        errorNome.textContent = 'O nome é obrigatório e não pode ficar em branco.';
-        errorNome.classList.add('visible');
+
+    if (nome.trim().length === 0) {
+        _setFieldError('input-nome', 'error-nome', 'O nome é obrigatório e não pode ficar em branco.');
         ok = false;
-    } else if (nomeValor.trim().length < 3) {
-        nomeInput.classList.add('error');
-        errorNome.textContent = 'Por favor, digite um nome válido (mínimo de 3 letras).';
-        errorNome.classList.add('visible');
+    } else if (nome.trim().length < 3) {
+        _setFieldError('input-nome', 'error-nome', 'Por favor, digite um nome válido (mínimo de 3 letras).');
         ok = false;
     }
-    const emailValor = emailInput.value.trim();
-    if (emailValor.length === 0) {
-        emailInput.classList.add('error');
-        errorEmail.textContent = 'O e-mail é obrigatório.';
-        errorEmail.classList.add('visible');
+    if (email.length === 0) {
+        _setFieldError('input-email', 'error-email', 'O e-mail é obrigatório.');
         ok = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValor)) {
-        emailInput.classList.add('error');
-        errorEmail.textContent = 'Formato inválido. Use o padrão: seu@email.com';
-        errorEmail.classList.add('visible');
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        _setFieldError('input-email', 'error-email', 'Formato inválido. Use o padrão: seu@email.com');
         ok = false;
     }
-    const telefoneValor = telefoneInput.value.replace(/\D/g, ''); 
-    if (telefoneValor.length === 0) {
-        telefoneInput.classList.add('error');
-        errorTelefone.textContent = 'O telefone é obrigatório.';
-        errorTelefone.classList.add('visible');
+    if (telefone.length === 0) {
+        _setFieldError('input-telefone', 'error-telefone', 'O telefone é obrigatório.');
         ok = false;
-    } else if (telefoneValor.length < 10) {
-        telefoneInput.classList.add('error');
-        errorTelefone.textContent = 'Telefone inválido. Insira o DDD + número.';
-        errorTelefone.classList.add('visible');
+    } else if (telefone.length < 10) {
+        _setFieldError('input-telefone', 'error-telefone', 'Telefone inválido. Insira o DDD + número.');
         ok = false;
     }
     return ok;
 }
 
-/* ─── CONFIRMAR E ABRIR POP-UP FINAL ─────────────────────────────────────── */
+/* ─── CONFIRMAR DADOS ───────────────────────────────────────────────────── */
 function _onConfirmarDados() {
     if (!_validarDados()) return;
-    
+
     const dados = {
         nome:     document.getElementById('input-nome').value.trim(),
         email:    document.getElementById('input-email').value.trim(),
         telefone: document.getElementById('input-telefone').value.trim(),
     };
     // INTEGRAÇÃO: chamar aqui o endpoint de criação de agendamento (Back-end)
-    console.log('Dados do cliente prontos para o banco:', dados);    
+    console.log('Dados do cliente prontos para o banco:', dados);
     closeDadosModal();
     closeAgendarModal();
-    openConfirmadoModal({
-        servico: state.service,
-        data:    state.selectedDate.toLocaleDateString('pt-BR'),
-        horario: state.selectedTime,
-    });
+    openConfirmadoModal();
 }
 
-/* ─── EVENTOS FIXOS (CONTATO) ───────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════════════
+    POP-UP CONFIRMADO (SUCESSO)
+══════════════════════════════════════════════════════════════════════════ */
+function openConfirmadoModal() {
+    document.getElementById('conf-data').textContent    = `${state.selectedDate.toLocaleDateString('pt-BR')} - ${state.selectedTime}`;
+    document.getElementById('conf-servico').textContent = state.service.nome;
+    document.getElementById('conf-valor').textContent   = state.service.valor;
+    Modal.open('modal-confirmado-overlay');
+}
+
+function closeConfirmadoModal() {
+    Modal.close('modal-confirmado-overlay');
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+    INICIALIZAÇÃO
+══════════════════════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
+    //Modal Agendar 
+    document.getElementById('modal-close-btn')
+        .addEventListener('click', closeAgendarModal);
+    Modal.bindOverlayClose('modal-agendar-overlay');
+
+    document.getElementById('cal-prev').addEventListener('click', () => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const thisSunday = new Date(today);
+        thisSunday.setDate(today.getDate() - today.getDay());
+        const prev = new Date(state.weekStart);
+        prev.setDate(prev.getDate() - 7);
+        if (prev >= thisSunday) {
+            state.weekStart = prev;
+            _renderCalendar();
+        }
+    });
+    document.getElementById('cal-next').addEventListener('click', () => {
+        state.weekStart = new Date(state.weekStart);
+        state.weekStart.setDate(state.weekStart.getDate() + 7);
+        _renderCalendar();
+    });
+    document.getElementById('modal-confirm-btn')
+        .addEventListener('click', () => openDadosModal());
+    //Modal Dados 
     document.getElementById('modal-dados-close-btn')
         .addEventListener('click', closeDadosModal);
-    document.getElementById('modal-dados-overlay')
-        .addEventListener('click', e => {
-            if (e.target.id === 'modal-dados-overlay') closeDadosModal();
-        });
+    Modal.bindOverlayClose('modal-dados-overlay');
     document.getElementById('modal-dados-confirm-btn')
         .addEventListener('click', _onConfirmarDados);
     document.getElementById('input-telefone')
         .addEventListener('input', _maskTelefone);
-});
-
-/* ══════════════════════════════════════════════════════════════════════════
-    MODAL POP-UP CONFIRMADO (SUCESSO)
-   ══════════════════════════════════════════════════════════════════════════ */
-
-function openConfirmadoModal(agendamento) {
-    document.getElementById('conf-data').textContent = `${agendamento.data} - ${agendamento.horario}`;
-    document.getElementById('conf-servico').textContent = agendamento.servico.nome;
-    document.getElementById('conf-valor').textContent = agendamento.servico.valor;
-    document.getElementById('modal-confirmado-overlay').classList.add('active');
-}
-
-function closeConfirmadoModal() {
-    document.getElementById('modal-confirmado-overlay').classList.remove('active');
-}
-
-/* ─── EVENTOS FIXOS (CONFIRMADO) ────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
+    //Modal Confirmado
     document.getElementById('btn-ok-confirmado')
         .addEventListener('click', closeConfirmadoModal);
-    document.getElementById('modal-confirmado-overlay')
-        .addEventListener('click', e => {
-            if (e.target.id === 'modal-confirmado-overlay') closeConfirmadoModal();
-        });
+    Modal.bindOverlayClose('modal-confirmado-overlay');
 });
