@@ -60,6 +60,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
+    // Semana anterior
+    document.getElementById('cal-prev').addEventListener('click', () => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const prev = new Date(state.weekStart);
+        prev.setDate(prev.getDate() - 7);
+        // Não permite voltar para semanas no passado
+        const thisSunday = new Date(today);
+        thisSunday.setDate(today.getDate() - today.getDay());
+        if (prev >= thisSunday) {
+            state.weekStart = prev;
+            _renderCalendar();
+        }
+    });
+
+    // Próxima semana
+    document.getElementById('cal-next').addEventListener('click', () => {
+        const next = new Date(state.weekStart);
+        next.setDate(next.getDate() + 7);
+        state.weekStart = next;
+        _renderCalendar();
+    });
+
 /* ─── CALENDÁRIO  ──────────────────────────────────────────────────── */
 function _renderCalendar() {
     const mid = new Date(state.weekStart);
