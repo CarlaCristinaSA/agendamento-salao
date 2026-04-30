@@ -1,3 +1,5 @@
+/* ─── MODAL AGENDAR HORÁRIO ─────────────────────────────────────────────── */
+
 /* ─── OVERLAY ────────────────────────────────────────────────────────────── */
 .modal-overlay {
     position: fixed;
@@ -313,6 +315,20 @@
     opacity: 0.40;
     cursor: not-allowed;
     transform: none;
+}
+
+/* ─── MODAL DADOS DE CONTATO ─────────────────────────────────────────────── */
+.modal-dados {
+    width: 512px;
+    height: 592px;
+    border-radius: 24px;
+    background: #FFF;
+    background: linear-gradient(135deg,rgba(255, 255, 255, 1) 0%, rgba(255, 245, 247, 1) 50%, rgba(255, 255, 255, 1) 100%);
+    box-shadow: 0px 24px 80px 0px rgba(0, 0, 0, 0.20);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
 }
 
 /* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
