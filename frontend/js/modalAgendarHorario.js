@@ -208,6 +208,9 @@ function _validarDados() {
     const telefone = document.getElementById('input-telefone');
     let ok = true;
     [nome, email, telefone].forEach(i => i.classList.remove('error'));
+    if (nome.value.trim().length < 3) {
+        nome.classList.add('error'); ok = false;
+    }
     return ok;
 }
 
