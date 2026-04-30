@@ -217,7 +217,12 @@ function _validarDados() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
         email.classList.add('error'); ok = false;
     }
-
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+        email.classList.add('error'); ok = false;
+    }
+    if (telefone.value.replace(/\D/g, '').length < 10) {
+        telefone.classList.add('error'); ok = false;
+    }
     return ok;
 }
 
