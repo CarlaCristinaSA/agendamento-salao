@@ -1,3 +1,4 @@
+
 const PT_DAYS   = ['DOM','SEG','TER','QUA','QUI','SEX','SÁB'];
 const PT_MONTHS = [
     'Janeiro','Fevereiro','Março','Abril','Maio','Junho',
@@ -49,7 +50,7 @@ function closeAgendarModal() {
     document.body.style.overflow = '';
 }
 
-/* ─── CALENDÁRIO  ──────────────────────────────────────────────────────────────────────────────────── */
+/* ─── CALENDÁRIO (apenas 7 dias) ────────────────────────────────────────── */
 function _renderCalendar() {
     const mid = new Date(state.weekStart);
     mid.setDate(mid.getDate() + 3);
@@ -92,6 +93,7 @@ function _renderCalendar() {
             _updateConfirmBtn();
         });
     });
+}
 
 /* ─── HORÁRIOS ──────────────────────────────────────────────────────────── */
 function _renderTimes() {
@@ -108,8 +110,66 @@ function _renderTimes() {
         btn.addEventListener('click', () => {
             state.selectedTime = btn.dataset.time;
             _renderTimes();
+            _updateConfirmBtn();
         });
     });
 }
 
+/* ─── BOTÃO CONFIRMAR ───────────────────────────────────────────────────── */
+function _updateConfirmBtn() {
+    document.getElementById('modal-confirm-btn').disabled =
+        !(state.selectedDate && state.selectedTime);
 }
+
+function _onConfirm() {
+    // INTEGRAÇÃO: chamar aqui o endpoint de criação de agendamento.
+    // Dados disponíveis:
+    //   state.service      → { nome, duracao, valor }
+    //   state.selectedDate → Date
+    //   state.selectedTime → string "HH:MM"
+    console.log('Agendamento:', {
+        servico: state.service,
+        data:    state.selectedDate.toLocaleDateString('pt-BR'),
+        horario: state.selectedTime,
+    });
+    closeAgendarModal();
+}
+
+/* ─── EVENTOS FIXOS ─────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('modal-close-btn')
+        .addEventListener('click', closeAgendarModal);
+
+    document.getElementById('modal-agendar-overlay')
+        .addEventListener('click', e => {
+            if (e.target.id === 'modal-agendar-overlay') closeAgendarModal();
+        });
+
+    // Semana anterior
+    document.getElementById('cal-prev').addEventListener('click', () => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const prev = new Date(state.weekStart);
+        prev.setDate(prev.getDate() - 7);
+        // Não permite voltar para semanas no passado
+        const thisSunday = new Date(today);
+        thisSunday.setDate(today.getDate() - today.getDay());
+        if (prev >= thisSunday) {
+            state.weekStart = prev;
+            _renderCalendar();
+        }
+    });
+
+    // Próxima semana
+    document.getElementById('cal-next').addEventListener('click', () => {
+        const next = new Date(state.weekStart);
+        next.setDate(next.getDate() + 7);
+        state.weekStart = next;
+        _renderCalendar();
+    });
+
+    document.getElementById('modal-confirm-btn')
+        .addEventListener('click', _onConfirm);
+});
+
+
