@@ -437,6 +437,15 @@
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.field-input::placeholder {
+    color: rgba(17, 14, 41, 0.50);
+}
+
+.field-input:focus {
+    border-color: #E0456A;
+    background-color: #FFFFFF;
+}
+
 /* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
     .modal {
