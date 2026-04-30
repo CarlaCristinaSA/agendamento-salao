@@ -48,3 +48,14 @@ function closeAgendarModal() {
     document.getElementById('modal-agendar-overlay').classList.remove('active');
     document.body.style.overflow = '';
 }
+
+/* ─── EVENTOS FIXOS ─────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('modal-close-btn')
+        .addEventListener('click', closeAgendarModal);
+
+    document.getElementById('modal-agendar-overlay')
+        .addEventListener('click', e => {
+            if (e.target.id === 'modal-agendar-overlay') closeAgendarModal();
+        });
+});
