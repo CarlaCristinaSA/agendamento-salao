@@ -418,6 +418,25 @@
     justify-content: center;
 }
 
+.field-input {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 60px;
+    border-radius: 16px;
+    background-color: #FAFAFA;
+    border: 2px solid #F3F4F6;
+    padding: 16px 20px;   
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    color: rgba(17, 14, 41, 0.50);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
 /* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
     .modal {
