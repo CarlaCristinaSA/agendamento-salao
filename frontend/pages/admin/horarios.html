@@ -60,7 +60,7 @@
                     <h1>Horários da Semana</h1>
                     <p>Configure múltiplos turnos para cada dia</p>
                 </div>
-                <img id="fechar-modal" src="../../assets/close-button-icon.svg" alt="botão para fechar modal">
+                <img class="fechar-modal" src="../../assets/close-button-icon.svg" alt="botão para fechar modal">
             </section>
             <form action="get" class="form-modal-semana">
                 <section class="lista-dias" id="lista-dias-modal">
@@ -68,6 +68,53 @@
                 <button type="submit" id="confirmar-horarios-semana">CONFIRMAR ALTERAÇÕES</button>
             </form>
         </section>
+    </section>
+
+    <!--Modal de editar horário dia-->
+    <section class="modal" id="modal-horarios-dia">
+        <section class="conteudo-modal-dia">
+            <section class="cabecalho-modal-dia">
+                <div class="icone-dia-dinamico">
+                    <span id="icone-dia-abrev">TER</span>
+                    <strong id="icone-dia-num">22</strong>
+                </div>
+                <div class="textos-cabecalho">
+                    <h1 id="titulo-modal-dia">Editar Terça</h1>
+                    <p>Configure os horários deste dia</p>
+                </div>
+                <img class="fechar-modal" src="../../assets/close-button-icon.svg" alt="botão para fechar modal">
+            </section>
+            <div class="salao-aberto">
+                <p>SALÃO ABERTO NESTE DIA</p>
+                <input type="checkbox" class="toggle" checked>
+            </div>
+            <form action="get" class="form-modal-dia">
+                <div class="container-scroll-horarios" id="lista-horarios-dia">
+                    <div class="input-time caixa-hora-dia">
+                        <div class="grupo-input">
+                            <label>INÍCIO</label>
+                            <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
+                        </div>
+                        <img src="../../assets/intervalo-separator-icon.svg" alt="separador"> 
+                        <div class="grupo-input">
+                            <label>TÉRMINO</label>
+                            <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
+                        </div>
+                        <button type="button" class="limpar">X</button>
+                    </div>
+                </div>
+                <div class="add-btn">
+                    <img src="../../assets/add-icon.svg" alt="Adicionar">
+                    <p>ADICIONAR NOVO HORÁRIO</p>
+                </div>
+                <div class="aviso-modal">
+                    <img src="../../assets/simple-clock-icon.svg" alt="">
+                    <p>As alterações afetarão apenas este dia da semana</p>
+                </div>
+                <button type="submit" id="confirmar-horarios-dia">CONFIRMAR</button>
+            </form>
+        </section>
+
     </section>
 
 
