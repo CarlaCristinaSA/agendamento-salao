@@ -130,6 +130,7 @@ h2 span {
     box-shadow: #e045696d 2px 4px 10px;
 }
 
+/*modais*/
 .modal {
     position: fixed;
     top: 0;
@@ -141,6 +142,10 @@ h2 span {
     justify-content: center;
     align-items: center;
 }
+.modal.aberto {
+    display: flex; 
+}
+/*modal horario padrao*/
 .conteudo-modal {
     display: flex;
     flex-direction: column;
@@ -203,17 +208,18 @@ input {
     font-family: "Montserrat", sans-serif;
     text-align: center;
 }
-#add {
+.add-btn {
     display: flex;
-    align-items: center; /* Centraliza o ícone com o texto */
+    align-items: center;
     gap: 10px;
     margin-bottom: 32px;
-    align-self: flex-start; /* Joga para a esquerda */
-    margin-left: 25px; /* Alinha visualmente com a borda do input de cima */
+    align-self: flex-start;
+    margin-left: 25px;
     cursor: pointer;
+    color: #E0456A;
 }
 
-#confirmar-horario-modal {
+#confirmar-horario-padrao {
     width: 432px;
     height: 64px;
     background: linear-gradient(135deg,rgba(224, 69, 106, 1) 0%, rgba(233, 140, 164, 1) 100%);
@@ -231,4 +237,119 @@ input {
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 10px;
+}
+
+/*Modal alterar horarios da semana*/
+.conteudo-modal-semana {
+    display: flex;
+    flex-direction: column;
+    background: #FFF;
+    border-radius: 24px;
+    width: 896px;
+    padding: 40px;
+    box-shadow: #00000013;
+    position: relative;
+}
+.cabecalho-modal-semana {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+.cabecalho-modal-semana h1 {
+    font-size: 30px;
+}
+.cabecalho-modal-semana p {
+    font-size: 14px;
+    color: #717182;
+}
+.cabecalho-modal-semana #icone-calendario {
+    position: relative;
+    align-self: flex-start;
+}
+.cabecalho-modal-semana #fechar-modal {
+    position: absolute;
+    top: 48px;
+    right: 48px;
+    cursor: pointer;
+}
+.lista-dias {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 588px;
+    overflow-y: auto;
+    padding-right: 15px;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+.lista-dias h2 {
+    font-size: 20px;
+    color: #110E29;
+    font-weight: 600;
+    margin: 0;
+}
+.dia-modal {
+    border: 2px solid #F3F4F6;
+    border-radius: 16px;
+    padding: 24px 30px;
+}
+.cabecalho-dia-modal {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+.dia-modal .input-time {
+    justify-content: flex-start;
+    margin-bottom: 40px;
+}
+.dia-modal #add {
+    margin-bottom: 10px;
+    margin-left: 0;
+}
+.toggle {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 46px;
+    height: 24px;
+    background-color: #D1D5DB;
+    border-radius: 24px;
+    position: relative;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.toggle::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+.toggle:checked {
+    background-color: #E0456A;
+}
+.toggle:checked::after {
+    transform: translateX(22px);
+}
+#confirmar-horarios-semana {
+    width: 816px;
+    height: 64px;
+    background: linear-gradient(135deg,rgba(224, 69, 106, 1) 0%, rgba(233, 140, 164, 1) 100%);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    word-spacing: 0.8px;
+    align-self: center;
+}
+#confirmar-horarios-semana:hover {
+    box-shadow: #e045696d 2px 4px 10px;
 }

@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/admin-horarios.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>Horários de Funcionamento</title>
 </head>
 <body>
@@ -21,80 +21,12 @@
             <h2>Abre às <span id="abre-padrao">9:00</span> e fecha às <span id="fecha-padrao">18:00</span> </h2>
             <button id="alterar-horario-padrao">ALTERAR HORÁRIO</button>
         </section>
-        <section class="dias-semana">
-            <section class="card-dia">
-                <div class="dia">
-                    <span class="nome-dia">DOMINGO</span><br>
-                    <strong class="numero-dia">20</strong>
-                </div>
-                    <div class="intervalos-dia">
-                        <span class="intervalo">10:00 - 12:00</span>
-                        <span class="intervalo">14:00 - 18:00</span>
-                    </div>
-            </section>
-            <section class="card-dia">
-                <div class="dia">
-                    <span class="nome-dia">SEGUNDA</span><br>
-                    <strong class="numero-dia">20</strong>
-                </div>
-                    <div class="intervalos-dia">
-                        <span class="intervalo">10:00 - 12:00</span>
-                        <span class="intervalo">14:00 - 18:00</span>
-                    </div>
-            </section>
-            <section class="card-dia">
-                <div class="dia">
-                    <span class="nome-dia">TERÇA</span><br>
-                    <strong class="numero-dia">20</strong>
-                </div>
-                    <div class="intervalos-dia">
-                        <span class="intervalo">10:00 - 12:00</span>
-                        <span class="intervalo">14:00 - 18:00</span>
-                    </div>
-            </section>
-            <section class="card-dia">
-                <div class="dia">
-                    <span class="nome-dia">QUARTA</span><br>
-                    <strong class="numero-dia">20</strong>
-                </div>
-                    <div class="intervalos-dia">
-                        <span class="intervalo">10:00 - 12:00</span>
-                        <span class="intervalo">14:00 - 18:00</span>
-                    </div>
-            </section>
-            <section class="card-dia">
-                <div class="dia">
-                    <span class="nome-dia">QUINTA</span><br>
-                    <strong class="numero-dia">20</strong>
-                </div>
-                    <div class="intervalos-dia">
-                        <span class="intervalo">10:00 - 12:00</span>
-                        <span class="intervalo">14:00 - 18:00</span>
-                    </div>
-            </section>
-            <section class="card-dia">
-                <div class="dia">
-                    <span class="nome-dia">SEXTA</span><br>
-                    <strong class="numero-dia">20</strong>
-                </div>
-                    <div class="intervalos-dia">
-                        <span class="intervalo">10:00 - 12:00</span>
-                        <span class="intervalo">14:00 - 18:00</span>
-                    </div>
-            </section>
-            <section class="card-dia">
-                <div class="dia">
-                    <span class="nome-dia">SÁBADO</span><br>
-                    <strong class="numero-dia">20</strong>
-                </div>
-                    <div class="intervalos-dia">
-                        <span class="intervalo">10:00 - 12:00</span>
-                        <span class="intervalo">14:00 - 18:00</span>
-                    </div>
-            </section>
+        <section class="dias-semana" id="container-dias-semana">
         </section>
         <button id="horarios-semana">CONFIGURAR HORÁRIOS POR DIA</button>
     </main>
+
+    <!--Modal horário padrão-->
     <section id="modal-horario-padrao" class="modal">
         <section class="conteudo-modal">
             <img src="../../assets/close-button-icon.svg" alt="Fechar Modal" class="fechar-modal">
@@ -109,15 +41,36 @@
                             <button type="button" class="limpar">X</button>
                         </div>
                     </div>
-                    <div id="add">
+                    <div class="add-btn">
                         <img src="../../assets/add-icon.svg" alt="Adicionar">
                         <p>ADICIONAR HORÁRIO</p>
                     </div>
-                    <button type="submit" id="confirmar-horario-modal">CONFIRMAR</button>
+                    <button type="submit" id="confirmar-horario-padrao">CONFIRMAR</button>
                 </form>
             </section>
         </section>
     </section>
-    <script src="../../js/admin-horarios.js"></script>
+
+    <!--Modal horários por dia da semana-->
+    <section class="modal" id="modal-horarios-semana">
+        <section class="conteudo-modal-semana">
+            <section class="cabecalho-modal-semana">
+                <img id="icone-calendario" src="../../assets/calendar-icon.svg" alt="Círculo rosa com um ícone de calendário branco dentro">
+                <div class="textos-cabecalho">
+                    <h1>Horários da Semana</h1>
+                    <p>Configure múltiplos turnos para cada dia</p>
+                </div>
+                <img id="fechar-modal" src="../../assets/close-button-icon.svg" alt="botão para fechar modal">
+            </section>
+            <form action="get" class="form-modal-semana">
+                <section class="lista-dias" id="lista-dias-modal">
+                </section>
+                <button type="submit" id="confirmar-horarios-semana">CONFIRMAR ALTERAÇÕES</button>
+            </form>
+        </section>
+    </section>
+
+
+     <script src="../../js/admin-horarios.js"></script>
 </body>
 </html>
