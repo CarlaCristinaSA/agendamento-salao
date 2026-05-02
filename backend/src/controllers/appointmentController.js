@@ -1,10 +1,3 @@
-/**
- * src/controllers/appointmentController.js
- * Gestão de agendamentos (EP-003, EP-005).
- * HU-006, HU-007, HU-008, HU-013, HU-014, HU-015.
- * RN-001, RN-002, RN-003, RN-004, RN-005, RN-006, RN-007, RN-008, RNF-009.
- */
-
 const { getClient }    = require('../config/database');
 const { validateSlotAvailability } = require('../services/availabilityService');
 const { sendConfirmationEmail, sendCancellationEmail } = require('../services/emailService');
@@ -14,9 +7,6 @@ const {
   listAppointmentsSchema,
 } = require('../validations/appointmentValidation');
 
-// -----------------------------------------------------------------------
-// Helper: busca agendamento completo por ID
-// -----------------------------------------------------------------------
 async function fetchAppointmentById(id, dbClient) {
   const exec = dbClient.query.bind(dbClient);
   const result = await exec(
@@ -43,9 +33,6 @@ async function fetchAppointmentById(id, dbClient) {
   return result.rows[0] || null;
 }
 
-// -----------------------------------------------------------------------
-// POST /api/public/appointments  (HU-006 — Agendamento pelo Cliente)
-// -----------------------------------------------------------------------
 async function createClientAppointment(req, res) {
   const { error, value } = clientAppointmentSchema.validate(req.body, { abortEarly: true });
   if (error) {
@@ -64,9 +51,6 @@ async function createClientAppointment(req, res) {
   });
 }
 
-// -----------------------------------------------------------------------
-// POST /api/admin/appointments  (HU-008 — Agendamento Administrativo)
-// -----------------------------------------------------------------------
 async function createAdminAppointment(req, res) {
   const { error, value } = adminAppointmentSchema.validate(req.body, { abortEarly: true });
   if (error) {
@@ -81,15 +65,12 @@ async function createAdminAppointment(req, res) {
   return _createAppointment(req, res, {
     service_id, appointment_date, appointment_time,
     client_name,
-    client_email: client_email || null, // e-mail opcional no fluxo admin (RN-005)
+    client_email: client_email || null,
     client_phone,
     created_by_admin: true,
   });
 }
 
-// -----------------------------------------------------------------------
-// Lógica compartilhada de criação de agendamento com transação (RNF-009)
-// -----------------------------------------------------------------------
 async function _createAppointment(req, res, data) {
   const {
     service_id, appointment_date, appointment_time,
@@ -100,7 +81,6 @@ async function _createAppointment(req, res, data) {
   try {
     await dbClient.query('BEGIN');
 
-    // Lock na tabela de agendamentos para o dia — evita race condition (RNF-009)
     await dbClient.query(
       `SELECT id FROM appointments
         WHERE appointment_date = $1 AND status = 'confirmed'
@@ -108,7 +88,6 @@ async function _createAppointment(req, res, data) {
       [appointment_date]
     );
 
-    // Verifica se o serviço existe e está ativo (RN-004)
     const serviceResult = await dbClient.query(
       'SELECT id, name, duration_minutes, price FROM services WHERE id = $1 AND status = $2',
       [service_id, 'active']
@@ -122,7 +101,6 @@ async function _createAppointment(req, res, data) {
     }
     const service = serviceResult.rows[0];
 
-    // Revalida disponibilidade no exato momento da confirmação (RNF-009, HU-006)
     const validation = await validateSlotAvailability(
       appointment_date,
       appointment_time,
@@ -135,7 +113,6 @@ async function _createAppointment(req, res, data) {
       return res.status(409).json({ success: false, error: validation.reason });
     }
 
-    // Persiste o agendamento
     const insertResult = await dbClient.query(
       `INSERT INTO appointments
          (client_name, client_email, client_phone, service_id,
@@ -154,7 +131,6 @@ async function _createAppointment(req, res, data) {
     await dbClient.query('COMMIT');
     const appointment = insertResult.rows[0];
 
-    // Disparo assíncrono do e-mail de confirmação (RN-006, RNF-010)
     sendConfirmationEmail(appointment, service);
 
     return res.status(201).json({
@@ -178,9 +154,6 @@ async function _createAppointment(req, res, data) {
   }
 }
 
-// -----------------------------------------------------------------------
-// GET /api/admin/appointments  (HU-013 — Consultar Agendamentos)
-// -----------------------------------------------------------------------
 async function listAppointments(req, res) {
   const { error, value } = listAppointmentsSchema.validate(req.query, { abortEarly: true });
   if (error) {
@@ -220,14 +193,12 @@ async function listAppointments(req, res) {
   const sortDir = sort === 'desc' ? 'DESC' : 'ASC';
   const offset  = (page - 1) * limit;
 
-  // Total sem paginação
   const countResult = await require('../config/database').query(
     `SELECT COUNT(*) FROM appointments a ${where}`,
     params
   );
   const total = parseInt(countResult.rows[0].count, 10);
 
-  // Query com paginação
   const dataResult = await require('../config/database').query(
     `SELECT
         a.id,
@@ -262,9 +233,6 @@ async function listAppointments(req, res) {
   });
 }
 
-// -----------------------------------------------------------------------
-// GET /api/admin/appointments/:id  (HU-014 — Visualizar Detalhes)
-// -----------------------------------------------------------------------
 async function getAppointmentById(req, res) {
   const { id } = req.params;
   const dbClient = await getClient();
@@ -279,9 +247,6 @@ async function getAppointmentById(req, res) {
   }
 }
 
-// -----------------------------------------------------------------------
-// PATCH /api/admin/appointments/:id/cancel  (HU-015 — Cancelar Agendamento)
-// -----------------------------------------------------------------------
 async function cancelAppointment(req, res) {
   const { id } = req.params;
   const dbClient = await getClient();
@@ -315,7 +280,6 @@ async function cancelAppointment(req, res) {
       });
     }
 
-    // Altera status para cancelado (preserva histórico — RN-002, HU-015)
     await dbClient.query(
       `UPDATE appointments SET status = 'cancelled' WHERE id = $1`,
       [id]
@@ -323,7 +287,6 @@ async function cancelAppointment(req, res) {
 
     await dbClient.query('COMMIT');
 
-    // Notificação assíncrona de cancelamento (RN-006, HU-007, RNF-010)
     const service = { name: appt.service_name, price: appt.price };
     sendCancellationEmail(appt, service);
 

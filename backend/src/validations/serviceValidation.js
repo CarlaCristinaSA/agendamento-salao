@@ -1,9 +1,3 @@
-/**
- * src/validations/serviceValidation.js
- * Schemas Joi para gestão de serviços (EP-001).
- * Cobre HU-001, HU-002, HU-003, HU-004 e RN-001.
- */
-
 const Joi = require('joi');
 
 const createServiceSchema = Joi.object({
@@ -38,7 +32,6 @@ const createServiceSchema = Joi.object({
     }),
 });
 
-// Para edição, os mesmos campos e regras
 const updateServiceSchema = createServiceSchema;
 
 module.exports = { createServiceSchema, updateServiceSchema };

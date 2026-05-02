@@ -1,8 +1,3 @@
-/**
- * src/validations/authValidation.js
- * Schemas Joi para autenticação e perfil do admin (EP-004).
- */
-
 const Joi = require('joi');
 
 const loginSchema = Joi.object({

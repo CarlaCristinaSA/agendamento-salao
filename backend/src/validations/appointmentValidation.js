@@ -1,14 +1,5 @@
-/**
- * src/validations/appointmentValidation.js
- * Schemas Joi para agendamentos (EP-003, HU-006, HU-008, RN-005).
- */
-
 const Joi = require('joi');
 
-/**
- * Valida formato de telefone brasileiro.
- * Aceita com ou sem formatação; verifica que possui 10 ou 11 dígitos.
- */
 const phoneValidator = (value, helpers) => {
   const digits = value.replace(/\D/g, '');
   if (digits.length < 10 || digits.length > 11) {
@@ -19,10 +10,6 @@ const phoneValidator = (value, helpers) => {
 
 const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
-/**
- * Schema para agendamento pelo cliente (HU-006).
- * E-mail obrigatório (RN-005).
- */
 const clientAppointmentSchema = Joi.object({
   service_id: Joi.number().integer().min(1).required().messages({
     'number.base':  'O ID do serviço deve ser um número válido.',
@@ -56,10 +43,6 @@ const clientAppointmentSchema = Joi.object({
   }),
 });
 
-/**
- * Schema para agendamento administrativo (HU-008).
- * E-mail opcional (flexibilização RN-005 para clientes presenciais/telefone).
- */
 const adminAppointmentSchema = Joi.object({
   service_id: Joi.number().integer().min(1).required().messages({
     'number.base':  'O ID do serviço deve ser um número válido.',

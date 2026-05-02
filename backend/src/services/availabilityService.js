@@ -1,21 +1,10 @@
-/**
- * src/services/availabilityService.js
- * Lógica de cálculo de disponibilidade de horários (EP-002, RN-002, RN-003, RNF-009).
- */
-
 const { query } = require('../config/database');
 
-/**
- * Converte string "HH:MM" em minutos desde meia-noite.
- */
 function timeToMinutes(timeStr) {
   const [h, m] = timeStr.split(':').map(Number);
   return h * 60 + m;
 }
 
-/**
- * Converte minutos desde meia-noite em string "HH:MM".
- */
 function minutesToTime(minutes) {
   const h = Math.floor(minutes / 60).toString().padStart(2, '0');
   const m = (minutes % 60).toString().padStart(2, '0');
@@ -37,7 +26,6 @@ function minutesToTime(minutes) {
 async function getIntervalsForDate(dateStr, dbClient = null) {
   const exec = dbClient ? dbClient.query.bind(dbClient) : query;
 
-  // Tenta buscar por data específica primeiro
   const specificResult = await exec(
     `SELECT start_time::text, end_time::text
        FROM business_hours
@@ -50,16 +38,13 @@ async function getIntervalsForDate(dateStr, dbClient = null) {
     return specificResult.rows;
   }
 
-  // Fallback: dia da semana (0=Dom … 6=Sáb)
-  const date      = new Date(dateStr + 'T00:00:00');
-  const dayOfWeek = date.getDay(); // getDay() já retorna 0–6
-
   const weekResult = await exec(
     `SELECT start_time::text, end_time::text
        FROM business_hours
-      WHERE type = 'day_of_week' AND day_of_week = $1
+      WHERE type = 'day_of_week'
+        AND day_of_week = EXTRACT(DOW FROM $1::date)::smallint
       ORDER BY start_time`,
-    [dayOfWeek]
+    [dateStr]
   );
 
   return weekResult.rows;
@@ -102,12 +87,10 @@ function hasConflict(newTime, newDuration, existingAppts) {
   const newEnd   = newStart + newDuration;
 
   for (const appt of existingAppts) {
-    // Normaliza "HH:MM:SS" → "HH:MM"
     const apptTimeStr = appt.appointment_time.substring(0, 5);
     const apptStart   = timeToMinutes(apptTimeStr);
     const apptEnd     = apptStart + appt.duration_minutes;
 
-    // Sobreposição: newStart < apptEnd && apptStart < newEnd
     if (newStart < apptEnd && apptStart < newEnd) {
       return true;
     }
@@ -163,8 +146,6 @@ async function getAvailableSlots(dateStr, duration, dbClient = null) {
   for (const interval of intervals) {
     const iStart = timeToMinutes(interval.start_time.substring(0, 5));
     const iEnd   = timeToMinutes(interval.end_time.substring(0, 5));
-
-    // Gera slots a cada `duration` minutos dentro do intervalo
     for (let slot = iStart; slot + duration <= iEnd; slot += duration) {
       const slotTime = minutesToTime(slot);
       if (!hasConflict(slotTime, duration, existingAppts)) {

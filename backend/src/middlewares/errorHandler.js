@@ -1,14 +1,6 @@
-/**
- * src/middlewares/errorHandler.js
- * Handler centralizado de erros da aplicação.
- */
-
-// eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
-  // Log do erro no servidor
   console.error(`[${new Date().toISOString()}] ERROR ${req.method} ${req.path}:`, err);
 
-  // Erro de validação Joi
   if (err.isJoi || err.name === 'ValidationError') {
     return res.status(422).json({
       success: false,
@@ -16,7 +8,6 @@ function errorHandler(err, req, res, next) {
     });
   }
 
-  // Erro de constraint do PostgreSQL
   if (err.code === '23505') {
     return res.status(409).json({
       success: false,
@@ -31,7 +22,6 @@ function errorHandler(err, req, res, next) {
     });
   }
 
-  // Erro genérico
   const statusCode = err.statusCode || err.status || 500;
   const message    = err.message || 'Erro interno do servidor.';
 

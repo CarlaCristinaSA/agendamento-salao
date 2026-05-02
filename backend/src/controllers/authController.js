@@ -1,9 +1,3 @@
-/**
- * src/controllers/authController.js
- * Autenticação e gestão de perfil do administrador (EP-004).
- * HU-009, HU-010, HU-011, HU-012.
- */
-
 const bcrypt = require('bcryptjs');
 const jwt    = require('jsonwebtoken');
 const { v4: uuidv4 } = require('crypto').randomUUID
@@ -17,12 +11,8 @@ const {
   changePasswordSchema,
 } = require('../validations/authValidation');
 
-// Gera JTI único para rastreamento do token
 const generateJti = () => require('crypto').randomBytes(16).toString('hex');
 
-// -----------------------------------------------------------------------
-// POST /api/auth/login  (HU-009)
-// -----------------------------------------------------------------------
 async function login(req, res) {
   const { error, value } = loginSchema.validate(req.body, { abortEarly: true });
   if (error) {
@@ -31,7 +21,6 @@ async function login(req, res) {
 
   const { email, password } = value;
 
-  // Mensagem genérica — não revela qual campo está incorreto (HU-009)
   const GENERIC_ERROR = 'Credenciais inválidas.';
 
   const result = await query(
@@ -78,15 +67,10 @@ async function login(req, res) {
   });
 }
 
-// -----------------------------------------------------------------------
-// POST /api/auth/logout  (HU-010)
-// Adiciona o JTI à blacklist — invalida o token mesmo antes de expirar.
-// -----------------------------------------------------------------------
 async function logout(req, res) {
-  const decoded = req.user; // já validado pelo middleware authenticate
+  const decoded = req.user;
 
   try {
-    // Calcula a expiração do token para limpeza futura da blacklist
     const expiresAt = decoded.exp
       ? new Date(decoded.exp * 1000).toISOString()
       : new Date(Date.now() + 8 * 3600 * 1000).toISOString();
@@ -106,9 +90,6 @@ async function logout(req, res) {
   });
 }
 
-// -----------------------------------------------------------------------
-// GET /api/auth/me  (HU-012)
-// -----------------------------------------------------------------------
 async function getProfile(req, res) {
   const result = await query(
     'SELECT id, name, email, phone, created_at, updated_at FROM admins WHERE id = $1',
@@ -122,9 +103,6 @@ async function getProfile(req, res) {
   return res.status(200).json({ success: true, data: result.rows[0] });
 }
 
-// -----------------------------------------------------------------------
-// PUT /api/auth/me  (HU-012) — Atualizar dados pessoais
-// -----------------------------------------------------------------------
 async function updateProfile(req, res) {
   const { error, value } = updateProfileSchema.validate(req.body, { abortEarly: true });
   if (error) {
@@ -134,7 +112,6 @@ async function updateProfile(req, res) {
   const { name, email, phone } = value;
   const normalizedEmail = email.trim().toLowerCase();
 
-  // Verifica se o novo e-mail já está em uso por outro admin (HU-012)
   const duplicate = await query(
     'SELECT id FROM admins WHERE email = $1 AND id <> $2',
     [normalizedEmail, req.user.id]
@@ -161,9 +138,6 @@ async function updateProfile(req, res) {
   });
 }
 
-// -----------------------------------------------------------------------
-// PUT /api/auth/me/password  (HU-012) — Alterar senha
-// -----------------------------------------------------------------------
 async function changePassword(req, res) {
   const { error, value } = changePasswordSchema.validate(req.body, { abortEarly: true });
   if (error) {
@@ -172,7 +146,6 @@ async function changePassword(req, res) {
 
   const { currentPassword, newPassword } = value;
 
-  // Busca hash atual
   const adminResult = await query(
     'SELECT password_hash FROM admins WHERE id = $1',
     [req.user.id]

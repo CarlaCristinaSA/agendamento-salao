@@ -1,15 +1,6 @@
-/**
- * src/controllers/serviceController.js
- * Gestão do catálogo de serviços (EP-001).
- * HU-001, HU-002, HU-003, HU-004 — RN-001, RN-004, RN-008.
- */
-
 const { query } = require('../config/database');
 const { createServiceSchema, updateServiceSchema } = require('../validations/serviceValidation');
 
-// -----------------------------------------------------------------------
-// POST /api/admin/services  (HU-001 — Cadastrar Serviço)
-// -----------------------------------------------------------------------
 async function createService(req, res) {
   const { error, value } = createServiceSchema.validate(req.body, { abortEarly: true });
   if (error) {
@@ -19,7 +10,6 @@ async function createService(req, res) {
   const { name, duration_minutes, price } = value;
   const trimmedName = name.trim();
 
-  // Verifica duplicidade de nome (case-insensitive, RN-001)
   const dup = await query(
     'SELECT id FROM services WHERE LOWER(TRIM(name)) = LOWER($1)',
     [trimmedName]
@@ -45,9 +35,6 @@ async function createService(req, res) {
   });
 }
 
-// -----------------------------------------------------------------------
-// GET /api/admin/services  (HU-002 — Listar Serviços — todos para admin)
-// -----------------------------------------------------------------------
 async function listServices(req, res) {
   const { sort = 'asc', status } = req.query;
   const sortDir = sort === 'desc' ? 'DESC' : 'ASC';
@@ -77,9 +64,6 @@ async function listServices(req, res) {
   });
 }
 
-// -----------------------------------------------------------------------
-// GET /api/public/services  (HU-006 — apenas serviços ATIVOS para o cliente)
-// -----------------------------------------------------------------------
 async function listActiveServices(req, res) {
   const result = await query(
     `SELECT id, name, duration_minutes, price
@@ -95,9 +79,6 @@ async function listActiveServices(req, res) {
   });
 }
 
-// -----------------------------------------------------------------------
-// GET /api/admin/services/:id
-// -----------------------------------------------------------------------
 async function getServiceById(req, res) {
   const { id } = req.params;
 
@@ -113,13 +94,9 @@ async function getServiceById(req, res) {
   return res.status(200).json({ success: true, data: result.rows[0] });
 }
 
-// -----------------------------------------------------------------------
-// PUT /api/admin/services/:id  (HU-003 — Editar Serviço)
-// -----------------------------------------------------------------------
 async function updateService(req, res) {
   const { id } = req.params;
 
-  // Verifica existência
   const existing = await query('SELECT id FROM services WHERE id = $1', [id]);
   if (existing.rowCount === 0) {
     return res.status(404).json({ success: false, error: 'Serviço não encontrado.' });
@@ -133,7 +110,6 @@ async function updateService(req, res) {
   const { name, duration_minutes, price } = value;
   const trimmedName = name.trim();
 
-  // Verifica duplicidade (case-insensitive), excluindo o próprio serviço (RN-001)
   const dup = await query(
     'SELECT id FROM services WHERE LOWER(TRIM(name)) = LOWER($1) AND id <> $2',
     [trimmedName, id]
@@ -160,9 +136,6 @@ async function updateService(req, res) {
   });
 }
 
-// -----------------------------------------------------------------------
-// PATCH /api/admin/services/:id/toggle-status  (HU-004 — Ativar/Desativar)
-// -----------------------------------------------------------------------
 async function toggleServiceStatus(req, res) {
   const { id } = req.params;
 

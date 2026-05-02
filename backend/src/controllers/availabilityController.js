@@ -1,8 +1,3 @@
-/**
- * src/controllers/availabilityController.js
- * Gestão de horários de funcionamento (EP-002, HU-005, RN-003, RN-008).
- */
-
 const { query }             = require('../config/database');
 const { getAvailableSlots: computeAvailableSlots, hasIntervalOverlap } = require('../services/availabilityService');
 const {
@@ -10,9 +5,6 @@ const {
   getAvailableSlotsSchema,
 } = require('../validations/availabilityValidation');
 
-// -----------------------------------------------------------------------
-// POST /api/admin/availability  (HU-005 — Definir Horário de Funcionamento)
-// -----------------------------------------------------------------------
 async function createBusinessHour(req, res) {
   const { error, value } = createBusinessHourSchema.validate(req.body, { abortEarly: true });
   if (error) {
@@ -24,7 +16,6 @@ async function createBusinessHour(req, res) {
 
   const { type, day_of_week, specific_date, start_time, end_time } = value;
 
-  // Busca intervalos existentes para o mesmo dia/data e verifica sobreposição (HU-005)
   let existingIntervals = [];
   if (type === 'day_of_week') {
     const r = await query(
@@ -65,9 +56,6 @@ async function createBusinessHour(req, res) {
   });
 }
 
-// -----------------------------------------------------------------------
-// GET /api/admin/availability  (listar horários de funcionamento)
-// -----------------------------------------------------------------------
 async function listBusinessHours(req, res) {
   const result = await query(
     `SELECT id, type, day_of_week, specific_date::text, start_time::text, end_time::text,
@@ -76,7 +64,6 @@ async function listBusinessHours(req, res) {
       ORDER BY type, day_of_week NULLS LAST, specific_date NULLS LAST, start_time`
   );
 
-  // Formata para facilitar uso no front
   const formatted = result.rows.map((row) => ({
     ...row,
     day_label: row.type === 'day_of_week'
@@ -91,9 +78,6 @@ async function listBusinessHours(req, res) {
   });
 }
 
-// -----------------------------------------------------------------------
-// GET /api/admin/availability/:id
-// -----------------------------------------------------------------------
 async function getBusinessHourById(req, res) {
   const { id } = req.params;
   const result = await query(
@@ -107,9 +91,6 @@ async function getBusinessHourById(req, res) {
   return res.status(200).json({ success: true, data: result.rows[0] });
 }
 
-// -----------------------------------------------------------------------
-// DELETE /api/admin/availability/:id
-// -----------------------------------------------------------------------
 async function deleteBusinessHour(req, res) {
   const { id } = req.params;
 
@@ -126,11 +107,6 @@ async function deleteBusinessHour(req, res) {
   });
 }
 
-// -----------------------------------------------------------------------
-// GET /api/public/availability  (HU-006 — slots disponíveis para o cliente)
-// GET /api/admin/availability/slots  (para uso administrativo)
-// Query params: date, service_id
-// -----------------------------------------------------------------------
 async function getAvailableSlots(req, res) {
   const { error, value } = getAvailableSlotsSchema.validate(req.query, { abortEarly: true });
   if (error) {
@@ -139,7 +115,6 @@ async function getAvailableSlots(req, res) {
 
   const { date, service_id } = value;
 
-  // Verifica se o serviço existe e está ativo (RN-004)
   const serviceResult = await query(
     'SELECT id, name, duration_minutes FROM services WHERE id = $1 AND status = $2',
     [service_id, 'active']

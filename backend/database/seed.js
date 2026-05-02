@@ -20,7 +20,6 @@ async function seed() {
     await client.query(schema);
     console.log('✔  Schema aplicado.');
 
-    // Admin padrão
     const email = 'admin@salao.com';
     const password = 'Admin@123';
     const hash = await bcrypt.hash(password, 12);
@@ -35,7 +34,6 @@ async function seed() {
     console.log(`   E-mail : ${email}`);
     console.log(`   Senha  : ${password}`);
 
-    // Serviços de exemplo
     const services = [
       { name: 'Corte Feminino', duration: 60, price: 80.00 },
       { name: 'Corte Masculino', duration: 30, price: 40.00 },
@@ -54,7 +52,6 @@ async function seed() {
     }
     console.log('✔  Serviços de exemplo criados (ou já existentes).');
 
-    // Horários de funcionamento de exemplo (seg-sex 9h-18h, sáb 9h-13h)
     const businessHours = [
       { type: 'day_of_week', day_of_week: 1, start_time: '09:00', end_time: '18:00' }, // Segunda
       { type: 'day_of_week', day_of_week: 2, start_time: '09:00', end_time: '18:00' }, // Terça

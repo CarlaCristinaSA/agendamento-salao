@@ -1,8 +1,3 @@
-/**
- * src/validations/availabilityValidation.js
- * Schemas Joi para gestão de horários de funcionamento (EP-002, HU-005, RN-003).
- */
-
 const Joi = require('joi');
 
 const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
@@ -52,7 +47,6 @@ const createBusinessHourSchema = Joi.object({
       'any.required':        'A hora final é obrigatória.',
     }),
 }).custom((value, helpers) => {
-  // Valida que end_time > start_time
   if (value.start_time && value.end_time && value.end_time <= value.start_time) {
     return helpers.error('any.invalid', {
       message: 'A hora final deve ser maior que a hora inicial.',

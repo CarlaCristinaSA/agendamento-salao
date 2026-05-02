@@ -1,28 +1,16 @@
-/**
- * src/services/emailService.js
- * Serviço de envio de e-mails (RN-006, HU-007, RNF-010).
- *
- * O disparo é assíncrono (não bloqueia a confirmação do agendamento).
- * Falhas no envio são logadas, mas não revertem a transação (RN-006, HU-007).
- */
-
 const transporter = require('../config/email');
 
 const salonName  = () => process.env.SALON_NAME  || 'Salão de Beleza';
 const emailFrom  = () =>
   `"${process.env.EMAIL_FROM_NAME || salonName()}" <${process.env.EMAIL_FROM || 'nao-responda@salao.com'}>`;
 
-/**
- * Formata data BR: 2026-04-15 → 15/04/2026
- */
+
 function formatDate(dateStr) {
   const [y, m, d] = dateStr.split('-');
   return `${d}/${m}/${y}`;
 }
 
-/**
- * Formata valor monetário: 80 → R$ 80,00
- */
+
 function formatCurrency(value) {
   return `R$ ${parseFloat(value).toFixed(2).replace('.', ',')}`;
 }
@@ -35,9 +23,8 @@ function formatCurrency(value) {
  * @param {object} service     - Dados do serviço
  */
 function sendConfirmationEmail(appointment, service) {
-  // Disparo em background — não bloqueia o fluxo principal (RNF-010)
   setImmediate(async () => {
-    if (!appointment.client_email) return; // e-mail opcional no fluxo admin
+    if (!appointment.client_email) return;
 
     const subject = `Confirmação de Agendamento - ${salonName()}`;
     const html = `
@@ -82,7 +69,6 @@ function sendConfirmationEmail(appointment, service) {
       });
       console.log(`[Email] Confirmação enviada para ${appointment.client_email}`);
     } catch (err) {
-      // RN-006 / HU-007: falha no e-mail não reverte o agendamento
       console.error(`[Email] Falha ao enviar confirmação para ${appointment.client_email}:`, err.message);
     }
   });

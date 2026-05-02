@@ -1,15 +1,3 @@
--- =============================================
--- SISTEMA DE AGENDAMENTO DE SALÃO DE BELEZA
--- UFC Quixadá - Engenharia de Software 2026
--- Schema do Banco de Dados PostgreSQL
--- =============================================
-
--- Extensão para UUID (opcional, mas útil)
--- CREATE EXTENSION IF NOT EXISTS "pgcrypto";
-
--- -------------------------
--- TABELA: admins
--- -------------------------
 CREATE TABLE IF NOT EXISTS admins (
   id         SERIAL PRIMARY KEY,
   name       VARCHAR(255)  NOT NULL,
@@ -21,9 +9,6 @@ CREATE TABLE IF NOT EXISTS admins (
   updated_at TIMESTAMPTZ   NOT NULL DEFAULT NOW()
 );
 
--- -------------------------
--- TABELA: services (EP-001)
--- -------------------------
 CREATE TABLE IF NOT EXISTS services (
   id                SERIAL PRIMARY KEY,
   name              VARCHAR(255)   NOT NULL UNIQUE,
@@ -35,11 +20,6 @@ CREATE TABLE IF NOT EXISTS services (
   updated_at        TIMESTAMPTZ    NOT NULL DEFAULT NOW()
 );
 
--- -------------------------
--- TABELA: business_hours (EP-002)
--- Suporta dia da semana (recorrente) ou data específica.
--- Specific_date tem prioridade sobre day_of_week na consulta de disponibilidade.
--- -------------------------
 CREATE TABLE IF NOT EXISTS business_hours (
   id            SERIAL PRIMARY KEY,
   type          VARCHAR(20)  NOT NULL CHECK (type IN ('day_of_week', 'specific_date')),
@@ -57,17 +37,12 @@ CREATE TABLE IF NOT EXISTS business_hours (
   CONSTRAINT chk_time_order CHECK (end_time > start_time)
 );
 
--- Índice para busca eficiente de horários por dia da semana
 CREATE INDEX IF NOT EXISTS idx_business_hours_day ON business_hours(day_of_week)
   WHERE type = 'day_of_week';
 
--- Índice para busca por data específica
 CREATE INDEX IF NOT EXISTS idx_business_hours_date ON business_hours(specific_date)
   WHERE type = 'specific_date';
 
--- -------------------------
--- TABELA: appointments (EP-003, EP-005)
--- -------------------------
 CREATE TABLE IF NOT EXISTS appointments (
   id                 SERIAL PRIMARY KEY,
   client_name        VARCHAR(255)   NOT NULL,
@@ -83,16 +58,11 @@ CREATE TABLE IF NOT EXISTS appointments (
   updated_at         TIMESTAMPTZ    NOT NULL DEFAULT NOW()
 );
 
--- Índices para consultas frequentes
 CREATE INDEX IF NOT EXISTS idx_appointments_date        ON appointments(appointment_date);
 CREATE INDEX IF NOT EXISTS idx_appointments_status      ON appointments(status);
 CREATE INDEX IF NOT EXISTS idx_appointments_service_id  ON appointments(service_id);
 CREATE INDEX IF NOT EXISTS idx_appointments_date_status ON appointments(appointment_date, status);
 
--- -------------------------
--- TABELA: token_blacklist
--- Lista negra de tokens JWT (logout)
--- -------------------------
 CREATE TABLE IF NOT EXISTS token_blacklist (
   id         SERIAL PRIMARY KEY,
   token_jti  VARCHAR(255) NOT NULL UNIQUE,
@@ -102,12 +72,6 @@ CREATE TABLE IF NOT EXISTS token_blacklist (
 
 CREATE INDEX IF NOT EXISTS idx_token_blacklist_jti ON token_blacklist(token_jti);
 
--- Limpeza automática de tokens expirados (executar via cron se necessário)
--- DELETE FROM token_blacklist WHERE expires_at < NOW();
-
--- -------------------------
--- FUNÇÃO: atualizar updated_at automaticamente
--- -------------------------
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -116,7 +80,6 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
--- Triggers para updated_at
 DROP TRIGGER IF EXISTS set_updated_at_admins      ON admins;
 DROP TRIGGER IF EXISTS set_updated_at_services    ON services;
 DROP TRIGGER IF EXISTS set_updated_at_business    ON business_hours;

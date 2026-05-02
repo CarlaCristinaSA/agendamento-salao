@@ -1,9 +1,3 @@
-/**
- * src/controllers/reportController.js
- * Relatórios gerenciais (EP-006).
- * HU-016, HU-017 — RN-008, RNF-001, RNF-007.
- */
-
 const { query } = require('../config/database');
 const Joi       = require('joi');
 
@@ -38,9 +32,6 @@ const indicatorsFilterSchema = Joi.object({
   'any.invalid': 'A data inicial não pode ser maior que a data final.',
 });
 
-// -----------------------------------------------------------------------
-// GET /api/admin/reports/appointments  (HU-016 — Relatório de Agendamentos)
-// -----------------------------------------------------------------------
 async function getAppointmentsReport(req, res) {
   const { error, value } = reportFilterSchema.validate(req.query, { abortEarly: true });
   if (error) {
@@ -64,7 +55,6 @@ async function getAppointmentsReport(req, res) {
 
   const where = `WHERE ${conditions.join(' AND ')}`;
 
-  // Lista de agendamentos filtrados
   const dataResult = await query(
     `SELECT
         a.id,
@@ -84,7 +74,6 @@ async function getAppointmentsReport(req, res) {
     params
   );
 
-  // Totalizador financeiro (apenas agendamentos confirmados)
   const totalsResult = await query(
     `SELECT COUNT(*) AS total_appointments,
             COALESCE(SUM(s.price), 0) AS total_revenue
@@ -109,9 +98,6 @@ async function getAppointmentsReport(req, res) {
   });
 }
 
-// -----------------------------------------------------------------------
-// GET /api/admin/reports/services  (HU-017 — Indicadores de Serviços)
-// -----------------------------------------------------------------------
 async function getServicesIndicators(req, res) {
   const { error, value } = indicatorsFilterSchema.validate(req.query, { abortEarly: true });
   if (error) {
@@ -135,7 +121,6 @@ async function getServicesIndicators(req, res) {
 
   const where = `WHERE ${conditions.join(' AND ')}`;
 
-  // Ranking de serviços mais solicitados (ordem decrescente, HU-017)
   const rankingResult = await query(
     `SELECT
         s.id,
@@ -163,7 +148,6 @@ async function getServicesIndicators(req, res) {
     });
   }
 
-  // Totais gerais
   const grandTotal = rankingResult.rows.reduce(
     (acc, row) => {
       acc.total_appointments += row.total_appointments;

@@ -1,9 +1,4 @@
 /**
- * src/middlewares/authorize.js
- * Middleware de autorização baseado em papel (RN-008, HU-011).
- */
-
-/**
  * Retorna um middleware que verifica se o usuário autenticado possui
  * um dos papéis permitidos.
  *
