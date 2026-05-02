@@ -1,168 +1,353 @@
-/*Gerar os cards de dia e colocar os dias corretos da semana atual*/
+const URL_API = 'http://localhost:3000/api';
+let tokenGlobal = null;
+let horariosGlobais = [];
 const diasSemana = ["DOMINGO", "SEGUNDA", "TERÇA", "QUARTA", "QUINTA", "SEXTA", "SÁBADO"];
+
+// ==========================================
+// 1. COMUNICAÇÃO COM O BACKEND
+// ==========================================
+
+async function carregarHorariosDoBanco() {
+    try {
+        const resLogin = await fetch(`${URL_API}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: 'admin@salao.com', password: 'Admin@123' }) 
+        });
+        const jsonLogin = await resLogin.json();
+
+        if (jsonLogin.success) {
+            tokenGlobal = jsonLogin.data.token;
+            const resHorarios = await fetch(`${URL_API}/admin/availability`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${tokenGlobal}` }
+            });
+            const jsonHorarios = await resHorarios.json();
+
+            if (jsonHorarios.success) {
+                horariosGlobais = jsonHorarios.data;
+            }
+        }
+    } catch (erro) {
+        console.error("Erro na integração:", erro);
+    } finally {
+        renderizarDiasDaSemana(); 
+    }
+}
+
+async function limparDiaNoBanco(diaIndex) {
+    if (!tokenGlobal) return;
+    const turnosAntigos = horariosGlobais.filter(h => h.type === 'day_of_week' && h.day_of_week === diaIndex);
+    for (const turno of turnosAntigos) {
+        await fetch(`${URL_API}/admin/availability/${turno.id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${tokenGlobal}` }
+        });
+    }
+}
+
+async function salvarIntervaloNoBanco(diaDaSemana, startTime, endTime) {
+    if (!tokenGlobal) return;
+    await fetch(`${URL_API}/admin/availability`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenGlobal}` },
+        body: JSON.stringify({ type: "day_of_week", day_of_week: diaDaSemana, start_time: startTime, end_time: endTime })
+    });
+}
+
+// ==========================================
+// 2. DESENHO DA TELA E DOS MODAIS
+// ==========================================
 
 function renderizarDiasDaSemana() {
     const containerDias = document.getElementById('container-dias-semana');
+    if (!containerDias) return;
+
     const dataDeHoje = new Date();
-    const domingoDestaSemana = new Date(dataDeHoje);
-    domingoDestaSemana.setDate(dataDeHoje.getDate() - dataDeHoje.getDay());
+    const domingo = new Date(dataDeHoje);
+    domingo.setDate(dataDeHoje.getDate() - dataDeHoje.getDay());
 
     let cardsDias = "";
     for (let i = 0; i < 7; i++) {
-        const dataDoCartao = new Date(domingoDestaSemana);
-        dataDoCartao.setDate(domingoDestaSemana.getDate() + i);
+        const data = new Date(domingo);
+        data.setDate(domingo.getDate() + i);
         
-        const numeroDoDia = dataDoCartao.getDate();
-        const nomeDoDia = diasSemana[i];
+        const turnos = horariosGlobais.filter(h => h.type === 'day_of_week' && h.day_of_week === i);
+        let htmlIntervalos = "";
+
+        if (turnos.length > 0) {
+            turnos.sort((a, b) => a.start_time.localeCompare(b.start_time));
+            turnos.forEach(t => {
+                htmlIntervalos += `<span class="intervalo">${t.start_time.substring(0, 5)} - ${t.end_time.substring(0, 5)}</span>`;
+            });
+        } else {
+            htmlIntervalos = `<span class="intervalo" style="color: #ccc; border-color: #f9f9f9; box-shadow: none;">Fechado</span>`;
+        }
+
         cardsDias += `
-            <section class="card-dia">
+            <section class="card-dia" data-dia-index="${i}">
                 <div class="dia">
-                    <span class="nome-dia">${nomeDoDia}</span><br>
-                    <strong class="numero-dia">${numeroDoDia}</strong>
+                    <span class="nome-dia">${diasSemana[i]}</span><br>
+                    <strong class="numero-dia">${data.getDate()}</strong>
                 </div>
-                <div class="intervalos-dia">
-                    <span class="intervalo">10:00 - 12:00</span>
-                    <span class="intervalo">14:00 - 18:00</span>
-                </div>
-            </section>
-        `;
+                <div class="intervalos-dia">${htmlIntervalos}</div>
+            </section>`;
     }
     containerDias.innerHTML = cardsDias;
 }
 
-// Gerar os dias dentro do modal da semana
-function renderizarDiasModalSemana() {
-    const containerListaDias = document.getElementById('lista-dias-modal');
-    if (!containerListaDias) return;
+function prepararModalPadrao() {
+    const turnos = horariosGlobais.filter(h => h.type === 'day_of_week' && h.day_of_week === 1); 
+    const container = document.getElementById('lista-horarios');
+    let html = "";
 
-    let dias = "";
+    if (turnos.length > 0) {
+        turnos.sort((a, b) => a.start_time.localeCompare(b.start_time));
+        turnos.forEach(t => {
+            html += `
+                <div class="input-time">
+                    <input type="time" class="input-intervalo" value="${t.start_time.substring(0,5)}">
+                    <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                    <input type="time" class="input-intervalo" value="${t.end_time.substring(0,5)}">
+                    <button type="button" class="limpar">X</button>
+                </div>`;
+        });
+    } else {
+        html = `
+            <div class="input-time">
+                <input type="time" class="input-intervalo">
+                <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                <input type="time" class="input-intervalo">
+                <button type="button" class="limpar">X</button>
+            </div>`;
+    }
+    container.innerHTML = html;
+}
 
+function prepararModalSemana() {
+    const container = document.getElementById('lista-dias-modal');
+    if (!container) return;
+
+    let diasHTML = "";
     for (let i = 0; i < 7; i++) {
+        const turnos = horariosGlobais.filter(h => h.type === 'day_of_week' && h.day_of_week === i);
+        const isAberto = turnos.length > 0;
+        let inputsHTML = "";
 
-        dias += `
-            <section class="dia-modal">
+        if (isAberto) {
+            turnos.sort((a, b) => a.start_time.localeCompare(b.start_time));
+            turnos.forEach(t => {
+                inputsHTML += `
+                    <div class="input-time">
+                        <input type="time" class="input-intervalo" value="${t.start_time.substring(0,5)}">
+                        <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                        <input type="time" class="input-intervalo" value="${t.end_time.substring(0,5)}">
+                        <button type="button" class="limpar">X</button>
+                    </div>`;
+            });
+        } else {
+            inputsHTML = `
+                <div class="input-time">
+                    <input type="time" class="input-intervalo">
+                    <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                    <input type="time" class="input-intervalo">
+                    <button type="button" class="limpar">X</button>
+                </div>`;
+        }
+
+        diasHTML += `
+            <section class="dia-modal" data-index="${i}">
                 <div class="cabecalho-dia-modal">
                     <h2>${diasSemana[i]}</h2>
-                    <input type="checkbox" class="toggle" checked>
+                    <input type="checkbox" class="toggle" ${isAberto ? 'checked' : ''}>
                 </div>
-                
-                <div class="container-scroll-horarios">
-                    <div class="input-time">
-                        <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
-                        <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
-                        <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
-                        <button type="button" class="limpar">X</button>
-                    </div>
-                </div>
-                
+                <div class="container-scroll-horarios">${inputsHTML}</div>
                 <div class="add-btn">
                     <img src="../../assets/add-icon.svg" alt="Adicionar">
                     <p>ADICIONAR HORÁRIO</p>
                 </div>
-            </section>
-        `;
+            </section>`;
     }
-
-    containerListaDias.innerHTML = dias;
+    container.innerHTML = diasHTML;
 }
 
-/*funcionamento dos modais*/
+function prepararModalDia(diaIndex, nomeDia, numeroDia) {
+    document.getElementById('icone-dia-abrev').textContent = nomeDia.substring(0, 3);
+    document.getElementById('icone-dia-num').textContent = numeroDia;
+    document.getElementById('titulo-modal-dia').textContent = `Editar ${nomeDia.charAt(0) + nomeDia.slice(1).toLowerCase()}`;
+    
+    const turnos = horariosGlobais.filter(h => h.type === 'day_of_week' && h.day_of_week === diaIndex);
+    
+    const toggle = document.querySelector('#modal-horarios-dia .salao-aberto .toggle');
+    if (toggle) toggle.checked = turnos.length > 0;
+
+    const container = document.getElementById('lista-horarios-dia');
+    let inputsHTML = "";
+
+    if (turnos.length > 0) {
+        turnos.sort((a, b) => a.start_time.localeCompare(b.start_time));
+        turnos.forEach(t => {
+            inputsHTML += `
+                <div class="input-time caixa-hora-dia">
+                    <div class="grupo-input"><label>INÍCIO</label><input type="time" class="input-intervalo" value="${t.start_time.substring(0,5)}"></div>
+                    <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                    <div class="grupo-input"><label>TÉRMINO</label><input type="time" class="input-intervalo" value="${t.end_time.substring(0,5)}"></div>
+                    <button type="button" class="limpar">X</button>
+                </div>`;
+        });
+    } else {
+        inputsHTML = `
+            <div class="input-time caixa-hora-dia">
+                <div class="grupo-input"><label>INÍCIO</label><input type="time" class="input-intervalo"></div>
+                <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                <div class="grupo-input"><label>TÉRMINO</label><input type="time" class="input-intervalo"></div>
+                <button type="button" class="limpar">X</button>
+            </div>`;
+    }
+    container.innerHTML = inputsHTML;
+}
+
+// ==========================================
+// 3. EVENTOS DE CLIQUE E FORMULÁRIOS
+// ==========================================
+
 document.addEventListener('DOMContentLoaded', () => {
-    renderizarDiasDaSemana();
-    renderizarDiasModalSemana();
-
-    // Abrir os Modais
-    const btnAbrirPadrao = document.getElementById('alterar-horario-padrao');
-    const modalPadrao = document.getElementById('modal-horario-padrao');
-    const btnAbrirSemana = document.getElementById('horarios-semana'); 
-    const modalSemana = document.getElementById('modal-horarios-semana');
-
-    if (btnAbrirPadrao && modalPadrao) {
-        btnAbrirPadrao.addEventListener('click', () => modalPadrao.classList.add('aberto'));
-    }
-    if (btnAbrirSemana && modalSemana) {
-        btnAbrirSemana.addEventListener('click', () => modalSemana.classList.add('aberto'));
-    }
+    carregarHorariosDoBanco();
 
     document.addEventListener('click', (evento) => {
-        const elementoClicado = evento.target;
+        const el = evento.target;
 
-        // Fechar modal
-        if (elementoClicado.classList.contains('fechar-modal') || elementoClicado.id === 'fechar-modal') {
-            const modalParaFechar = elementoClicado.closest('.modal');
-            if (modalParaFechar) modalParaFechar.classList.remove('aberto'); 
-        } 
-        else if (elementoClicado.classList.contains('modal')) {
-            elementoClicado.classList.remove('aberto');
+        // Fechar Modal
+        if (el.classList.contains('fechar-modal') || el.id === 'fechar-modal') {
+            const m = el.closest('.modal'); if (m) m.classList.remove('aberto'); 
+        } else if (el.classList.contains('modal')) el.classList.remove('aberto');
+
+        // Abrir Modal Padrão
+        else if (el.id === 'alterar-horario-padrao') {
+            prepararModalPadrao();
+            document.getElementById('modal-horario-padrao').classList.add('aberto');
+        }
+        
+        // Abrir Modal Semana
+        else if (el.id === 'horarios-semana') {
+            prepararModalSemana();
+            document.getElementById('modal-horarios-semana').classList.add('aberto');
         }
 
-        // Abrir modal do dia específico
-        else if (elementoClicado.closest('.card-dia')) {
-            const cardClicado = elementoClicado.closest('.card-dia');
-            const modalEditarDia = document.getElementById('modal-horarios-dia');
-
-            if (modalEditarDia) {
-                // Pega os dados do card
-                const nomeDiaOriginal = cardClicado.querySelector('.nome-dia').textContent; 
-                const numeroDia = cardClicado.querySelector('.numero-dia').textContent;     
-                // Formata os textos
-                const abreviacao = nomeDiaOriginal.substring(0, 3); 
-                const nomeFormatado = nomeDiaOriginal.charAt(0) + nomeDiaOriginal.slice(1).toLowerCase();
-                document.getElementById('icone-dia-abrev').textContent = abreviacao;
-                document.getElementById('icone-dia-num').textContent = numeroDia;
-                document.getElementById('titulo-modal-dia').textContent = `Editar ${nomeFormatado}`;
-                modalEditarDia.classList.add('aberto');
-            }
+        // Abrir Modal Dia
+        else if (el.closest('.card-dia')) {
+            const card = el.closest('.card-dia');
+            const diaIndex = parseInt(card.getAttribute('data-dia-index'));
+            prepararModalDia(diaIndex, card.querySelector('.nome-dia').textContent, card.querySelector('.numero-dia').textContent);
+            document.getElementById('modal-horarios-dia').classList.add('aberto');
         }
 
-        // Excluir Linha de Horário
-        else if (elementoClicado.classList.contains('limpar')) {
-            const linhaParaRemover = elementoClicado.closest('.input-time');
-            if (linhaParaRemover) linhaParaRemover.remove();
+        // Limpar Linha
+        else if (el.classList.contains('limpar')) {
+            const linha = el.closest('.input-time'); if (linha) linha.remove();
         }
 
-        // Adicionar Nova Linha de Horário
-        else if (elementoClicado.closest('.add-btn')) { 
-            const botaoAdicionar = elementoClicado.closest('.add-btn');
-            const caixaScroll = botaoAdicionar.parentElement.querySelector('.container-scroll-horarios');
-            const isModalDia = elementoClicado.closest('#modal-horarios-dia');
-
-            let novaLinha= "";
-
-            if (isModalDia) {
-                // Estrutura para o Modal Dia
-                novaLinha= `
-                    <div class="input-time caixa-hora-dia">
-                        <div class="grupo-input">
-                            <label>INÍCIO</label>
-                            <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
-                        </div>
-                        <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
-                        <div class="grupo-input">
-                            <label>TÉRMINO</label>
-                            <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
-                        </div>
-                        <button type="button" class="limpar">X</button>
-                    </div>
-                `;
-            } else {
-                // Estrutura para os outros modais
-                novaLinha = `
-                    <div class="input-time">
-                        <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
-                        <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
-                        <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
-                        <button type="button" class="limpar">X</button>
-                    </div>
-                `;
-            }
-
-            // Insere na caixa de rolagem
-            if (caixaScroll) {
-                caixaScroll.insertAdjacentHTML('beforeend', novaLinha);
-            } else {
-                botaoAdicionar.insertAdjacentHTML('beforebegin', novaLinha);
-            }
+        // Adicionar Linha
+        else if (el.closest('.add-btn')) { 
+            const isModalDia = el.closest('#modal-horarios-dia');
+            const html = isModalDia ? `
+                <div class="input-time caixa-hora-dia">
+                    <div class="grupo-input"><label>INÍCIO</label><input type="time" class="input-intervalo"></div>
+                    <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                    <div class="grupo-input"><label>TÉRMINO</label><input type="time" class="input-intervalo"></div>
+                    <button type="button" class="limpar">X</button>
+                </div>` : `
+                <div class="input-time">
+                    <input type="time" class="input-intervalo">
+                    <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                    <input type="time" class="input-intervalo">
+                    <button type="button" class="limpar">X</button>
+                </div>`;
+            
+            const scroll = el.closest('.add-btn').parentElement.querySelector('.container-scroll-horarios');
+            if (scroll) scroll.insertAdjacentHTML('beforeend', html);
         }
     });
+
+    // --- FORM SUBMIT: MODAL PADRÃO ---
+    const formPadrao = document.querySelector('.formulario-horario-padrao form');
+    if (formPadrao) {
+        formPadrao.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const linhas = formPadrao.querySelectorAll('.input-time');
+            
+            for (let dia = 1; dia <= 5; dia++) { 
+                await limparDiaNoBanco(dia);
+                for (const linha of linhas) {
+                    const inputs = linha.querySelectorAll('.input-intervalo');
+                    if (inputs.length === 2 && inputs[0].value && inputs[1].value) {
+                        await salvarIntervaloNoBanco(dia, inputs[0].value, inputs[1].value);
+                    }
+                }
+            }
+            document.getElementById('modal-horario-padrao').classList.remove('aberto');
+            carregarHorariosDoBanco();
+        });
+    }
+
+    // --- FORM SUBMIT: MODAL SEMANA ---
+    const formSemana = document.querySelector('.form-modal-semana');
+    if (formSemana) {
+        formSemana.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const blocosDeDia = formSemana.querySelectorAll('.dia-modal');
+            
+            for (const bloco of blocosDeDia) {
+                const i = parseInt(bloco.getAttribute('data-index'));
+                const toggle = bloco.querySelector('.toggle'); 
+                
+                await limparDiaNoBanco(i);
+
+                if (toggle && toggle.checked) {
+                    const linhas = bloco.querySelectorAll('.input-time');
+                    for (const linha of linhas) {
+                        const inputs = linha.querySelectorAll('.input-intervalo');
+                        if (inputs.length === 2 && inputs[0].value && inputs[1].value) {
+                            await salvarIntervaloNoBanco(i, inputs[0].value, inputs[1].value);
+                        }
+                    }
+                }
+            }
+            document.getElementById('modal-horarios-semana').classList.remove('aberto');
+            carregarHorariosDoBanco();
+        });
+    }
+
+    // --- FORM SUBMIT: MODAL DIA ---
+    const formDia = document.querySelector('.form-modal-dia');
+    if (formDia) {
+        formDia.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const titulo = document.getElementById('titulo-modal-dia').textContent.toUpperCase();
+            let diaIndex = diasSemana.findIndex(d => titulo.includes(d));
+            if (diaIndex === -1) { 
+                if (titulo.includes("TERÇA")) diaIndex = 2; 
+                if (titulo.includes("SÁBADO") || titulo.includes("SABADO")) diaIndex = 6; 
+            }
+
+            if (diaIndex !== -1) {
+                await limparDiaNoBanco(diaIndex);
+                
+                const toggle = document.querySelector('#modal-horarios-dia .salao-aberto .toggle');
+                
+                if (toggle && toggle.checked) {
+                    const linhas = formDia.querySelectorAll('.input-time');
+                    for (const linha of linhas) {
+                        const inputs = linha.querySelectorAll('.input-intervalo');
+                        if (inputs.length === 2 && inputs[0].value && inputs[1].value) {
+                            await salvarIntervaloNoBanco(diaIndex, inputs[0].value, inputs[1].value);
+                        }
+                    }
+                }
+            }
+            document.getElementById('modal-horarios-dia').classList.remove('aberto');
+            carregarHorariosDoBanco();
+        });
+    }
 });

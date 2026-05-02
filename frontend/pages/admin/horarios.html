@@ -32,7 +32,7 @@
             <img src="../../assets/close-button-icon.svg" alt="Fechar Modal" class="fechar-modal">
             <h1>Editar Horário Padrão</h1>
             <section class="formulario-horario-padrao">
-                <form action="get">
+                <form>
                     <div class="container-scroll-horarios" id="lista-horarios">
                         <div class="input-time">
                             <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
@@ -62,7 +62,7 @@
                 </div>
                 <img class="fechar-modal" src="../../assets/close-button-icon.svg" alt="botão para fechar modal">
             </section>
-            <form action="get" class="form-modal-semana">
+            <form class="form-modal-semana">
                 <section class="lista-dias" id="lista-dias-modal">
                 </section>
                 <button type="submit" id="confirmar-horarios-semana">CONFIRMAR ALTERAÇÕES</button>
@@ -88,7 +88,7 @@
                 <p>SALÃO ABERTO NESTE DIA</p>
                 <input type="checkbox" class="toggle" checked>
             </div>
-            <form action="get" class="form-modal-dia">
+            <form class="form-modal-dia">
                 <div class="container-scroll-horarios" id="lista-horarios-dia">
                     <div class="input-time caixa-hora-dia">
                         <div class="grupo-input">
@@ -117,7 +117,6 @@
 
     </section>
 
-
-     <script src="../../js/admin-horarios.js"></script>
+    <script src="../../js/admin-horarios.js"></script>
 </body>
 </html>
