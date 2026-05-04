@@ -14,6 +14,7 @@ async function authenticate(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
     const blacklisted = await query(
       'SELECT id FROM token_blacklist WHERE token_jti = $1',
       [decoded.jti]
@@ -26,7 +27,7 @@ async function authenticate(req, res, next) {
     }
 
     const adminResult = await query(
-      'SELECT id, name, email, role FROM admins WHERE id = $1 AND is_active = TRUE',
+      'SELECT id, name, email FROM admins WHERE id = $1 AND is_active = TRUE',
       [decoded.id]
     );
     if (adminResult.rowCount === 0) {
