@@ -1,32 +1,39 @@
 const form = document.getElementById("formServico");
 
+// 🔹 Função de normalização (resolve espaços + maiúsc/minúsc)
+function normalizarNome(nome) {
+    return nome.trim().toLowerCase();
+}
+
 form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    let nome = document.getElementById("nome").value.trim();
+    let nomeInput = document.getElementById("nome").value;
+    let nome = normalizarNome(nomeInput);
+
     let duracao = document.getElementById("duracao").value;
     let valor = document.getElementById("valor").value;
 
-  // ===== VALIDAÇÕES =====
+    // ===== VALIDAÇÕES =====
 
-  // Nome vazio
+    // Nome vazio
     if (!nome) {
         alert("Nome do serviço é obrigatório");
         return;
     }
 
-  // Duração
+    // Duração
     if (!duracao) {
         alert("Duração é obrigatória");
         return;
     }
 
-    if (!Number.isInteger(Number(duracao)) || duracao <= 0) {
+    if (!Number.isInteger(Number(duracao)) || Number(duracao) <= 0) {
         alert("Duração deve ser um número inteiro maior que zero");
         return;
     }
 
-  // Valor
+    // Valor
     valor = valor.replace(",", "."); // permite decimal BR
 
     if (!valor) {
@@ -39,11 +46,11 @@ form.addEventListener("submit", function (e) {
         return;
     }
 
-  // ===== SIMULAÇÃO DE DUPLICIDADE =====
+    // ===== DUPLICIDADE (AGORA CORRETA) =====
     let servicos = JSON.parse(localStorage.getItem("servicos")) || [];
 
-    let existe = servicos.some(
-        (s) => s.nome.toLowerCase() === nome.toLowerCase(),
+    let existe = servicos.some((s) =>
+        normalizarNome(s.nome) === nome
     );
 
     if (existe) {
@@ -51,9 +58,9 @@ form.addEventListener("submit", function (e) {
         return;
     }
 
-  // ===== SALVAR =====
+    // ===== SALVAR =====
     const novoServico = {
-        nome,
+        nome: nomeInput.trim(), // mantém formato bonito
         duracao: Number(duracao),
         valor: Number(valor),
         status: "ativo",
