@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/admin-horarios.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Horários de Funcionamento</title>
+</head>
+<body>
+    <header>
+        <img src="../../assets/clock-icon.png" alt="Ícone de circulo rosa com um relógio branco no centro">
+        <h1>Horário de Funcionamento</h1>
+        <p>Configure os horários de atendimento do seu salão</p>
+    </header>
+    <main>
+        <section class="horario-dia-atual">
+            <p>HORÁRIO PADRÃO</p>
+            <h2>Abre às <span id="abre-padrao">9:00</span> e fecha às <span id="fecha-padrao">18:00</span> </h2>
+            <button id="alterar-horario-padrao">ALTERAR HORÁRIO</button>
+        </section>
+        <section class="dias-semana" id="container-dias-semana">
+        </section>
+        <button id="horarios-semana">CONFIGURAR HORÁRIOS POR DIA</button>
+    </main>
+
+    <!--Modal horário padrão-->
+    <section id="modal-horario-padrao" class="modal">
+        <section class="conteudo-modal">
+            <img src="../../assets/close-button-icon.svg" alt="Fechar Modal" class="fechar-modal">
+            <h1>Editar Horário Padrão</h1>
+            <section class="formulario-horario-padrao">
+                <form>
+                    <div class="container-scroll-horarios" id="lista-horarios">
+                        <div class="input-time">
+                            <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
+                            <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                            <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
+                            <button type="button" class="limpar">X</button>
+                        </div>
+                    </div>
+                    <div class="add-btn">
+                        <img src="../../assets/add-icon.svg" alt="Adicionar">
+                        <p>ADICIONAR HORÁRIO</p>
+                    </div>
+                    <button type="submit" id="confirmar-horario-padrao">CONFIRMAR</button>
+                </form>
+            </section>
+        </section>
+    </section>
+
+    <!--Modal horários por dia da semana-->
+    <section class="modal" id="modal-horarios-semana">
+        <section class="conteudo-modal-semana">
+            <section class="cabecalho-modal-semana">
+                <img id="icone-calendario" src="../../assets/calendar-icon.svg" alt="Círculo rosa com um ícone de calendário branco dentro">
+                <div class="textos-cabecalho">
+                    <h1>Horários da Semana</h1>
+                    <p>Configure múltiplos turnos para cada dia</p>
+                </div>
+                <img class="fechar-modal" src="../../assets/close-button-icon.svg" alt="botão para fechar modal">
+            </section>
+            <form class="form-modal-semana">
+                <section class="lista-dias" id="lista-dias-modal">
+                </section>
+                <button type="submit" id="confirmar-horarios-semana">CONFIRMAR ALTERAÇÕES</button>
+            </form>
+        </section>
+    </section>
+
+    <!--Modal de editar horário dia-->
+    <section class="modal" id="modal-horarios-dia">
+        <section class="conteudo-modal-dia">
+            <section class="cabecalho-modal-dia">
+                <div class="icone-dia-dinamico">
+                    <span id="icone-dia-abrev">TER</span>
+                    <strong id="icone-dia-num">22</strong>
+                </div>
+                <div class="textos-cabecalho">
+                    <h1 id="titulo-modal-dia">Editar Terça</h1>
+                    <p>Configure os horários deste dia</p>
+                </div>
+                <img class="fechar-modal" src="../../assets/close-button-icon.svg" alt="botão para fechar modal">
+            </section>
+            <div class="salao-aberto">
+                <p>SALÃO ABERTO NESTE DIA</p>
+                <input type="checkbox" class="toggle" checked>
+            </div>
+            <form class="form-modal-dia">
+                <div class="container-scroll-horarios" id="lista-horarios-dia">
+                    <div class="input-time caixa-hora-dia">
+                        <div class="grupo-input">
+                            <label>INÍCIO</label>
+                            <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
+                        </div>
+                        <img src="../../assets/intervalo-separator-icon.svg" alt="separador"> 
+                        <div class="grupo-input">
+                            <label>TÉRMINO</label>
+                            <input type="text" class="input-intervalo" onfocus="(this.type='time')" onblur="(this.type='text')">
+                        </div>
+                        <button type="button" class="limpar">X</button>
+                    </div>
+                </div>
+                <div class="add-btn">
+                    <img src="../../assets/add-icon.svg" alt="Adicionar">
+                    <p>ADICIONAR NOVO HORÁRIO</p>
+                </div>
+                <div class="aviso-modal">
+                    <img src="../../assets/simple-clock-icon.svg" alt="">
+                    <p>As alterações afetarão apenas este dia da semana</p>
+                </div>
+                <button type="submit" id="confirmar-horarios-dia">CONFIRMAR</button>
+            </form>
+        </section>
+
+    </section>
+
+    <script src="../../js/admin-horarios.js"></script>
+</body>
+</html>
