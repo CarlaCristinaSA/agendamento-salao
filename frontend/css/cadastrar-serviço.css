@@ -85,10 +85,12 @@ button {
     text-align: center;
 
     cursor: pointer;
+
+    transition: all 0.3s ease;
 }
 
 button:hover {
-    opacity: 0.9;
+    box-shadow: 0 8px 20px rgba(224, 69, 106, 0.3);
 }
 
 small {
@@ -131,8 +133,4 @@ small {
 input:focus {
     outline: none;
     border-color: #e05672;
-}
-
-button:hover {
-    opacity: 0.9;
 }

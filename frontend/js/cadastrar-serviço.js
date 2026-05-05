@@ -1,11 +1,40 @@
+const URL_API = "http://localhost:3000/api";
+let tokenGlobal = null;
+
 const form = document.getElementById("formServico");
 
-// 🔹 Função de normalização (resolve espaços + maiúsc/minúsc)
-function normalizarNome(nome) {
-    return nome.trim().toLowerCase();
+// 1. FAZER LOGIN AUTOMÁTICO
+async function fazerLogin() {
+    try {
+        const response = await fetch(`${URL_API}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email: "admin@salao.com",
+                password: "Admin@123"
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            tokenGlobal = data.data.token;
+            console.log("Login realizado!");
+        } else {
+            alert("Erro ao autenticar");
+        }
+    } catch (error) {
+        console.error("Erro no login:", error);
+    }
 }
 
-form.addEventListener("submit", function (e) {
+// 🔹 Normalização (mantém tua validação)
+function normalizarNome(nome) {
+    return nome.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+// 2. SUBMIT DO FORM
+form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     let nomeInput = document.getElementById("nome").value;
@@ -15,61 +44,58 @@ form.addEventListener("submit", function (e) {
     let valor = document.getElementById("valor").value;
 
     // ===== VALIDAÇÕES =====
-
-    // Nome vazio
     if (!nome) {
         alert("Nome do serviço é obrigatório");
         return;
     }
 
-    // Duração
-    if (!duracao) {
-        alert("Duração é obrigatória");
+    if (!duracao || !Number.isInteger(Number(duracao)) || Number(duracao) <= 0) {
+        alert("Duração inválida");
         return;
     }
 
-    if (!Number.isInteger(Number(duracao)) || Number(duracao) <= 0) {
-        alert("Duração deve ser um número inteiro maior que zero");
+    valor = valor.replace(",", ".");
+
+    if (!valor || isNaN(valor) || Number(valor) <= 0) {
+        alert("Valor inválido");
         return;
     }
 
-    // Valor
-    valor = valor.replace(",", "."); // permite decimal BR
-
-    if (!valor) {
-        alert("Valor é obrigatório");
+    // garante que tem token
+    if (!tokenGlobal) {
+        alert("Usuário não autenticado");
         return;
     }
 
-    if (isNaN(valor) || Number(valor) <= 0) {
-        alert("Valor deve ser numérico e maior que zero");
-        return;
+    // CHAMADA REAL PRO BACKEND
+    try {
+        const response = await fetch(`${URL_API}/services`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${tokenGlobal}`
+            },
+            body: JSON.stringify({
+                name: nomeInput.trim(),
+                duration_minutes: Number(duracao),
+                price: Number(valor)
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.message || "Erro ao cadastrar serviço");
+            return;
+        }
+
+        alert("Serviço cadastrado com sucesso!");
+        form.reset();
+
+    } catch (error) {
+        console.error(error);
+        alert("Erro ao conectar com o servidor");
     }
-
-    // ===== DUPLICIDADE (AGORA CORRETA) =====
-    let servicos = JSON.parse(localStorage.getItem("servicos")) || [];
-
-    let existe = servicos.some((s) =>
-        normalizarNome(s.nome) === nome
-    );
-
-    if (existe) {
-        alert("Já existe um serviço com esse nome");
-        return;
-    }
-
-    // ===== SALVAR =====
-    const novoServico = {
-        nome: nomeInput.trim(), // mantém formato bonito
-        duracao: Number(duracao),
-        valor: Number(valor),
-        status: "ativo",
-    };
-
-    servicos.push(novoServico);
-    localStorage.setItem("servicos", JSON.stringify(servicos));
-
-    alert("Serviço cadastrado com sucesso!");
-
-    form.reset();
 });
+
+document.addEventListener("DOMContentLoaded", fazerLogin);
