@@ -104,22 +104,52 @@ function _renderCalendar() {
     }).join('');
 
     grid.querySelectorAll('.day-cell:not([disabled])').forEach(btn => {
-        btn.addEventListener('click', () => {
-            state.selectedDate = new Date(btn.dataset.date + 'T12:00:00');
+        btn.addEventListener('click', async () => {
+            const dateIso = btn.dataset.date;
+            
+            state.selectedDate = new Date(dateIso + 'T12:00:00');
             state.selectedTime = null;
+            
             _renderCalendar();
-            _renderTimes();
             _updateConfirmBtn();
+            
+            await _loadAndRenderTimes(dateIso);
         });
     });
 }
 
 /* ─── HORÁRIOS ──────────────────────────────────────────────────────────── */
-function _renderTimes() {
+async function _loadAndRenderTimes(dateIso) {
     const grid = document.getElementById('times-grid');
-    document.getElementById('times-section').style.display = 'flex';
+    const section = document.getElementById('times-section');
 
-    grid.innerHTML = ALL_TIMES.map(t => `
+    section.style.display = 'flex';
+    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #717182;">Buscando horários disponíveis...</p>';
+
+    try {
+        const response = await fetch(`http://localhost:3000/api/public/availability?date=${dateIso}&service_id=${state.service.id}`);
+        const result = await response.json();
+
+        if (result.success) {
+            _renderTimesGrid(result.data.available_slots); 
+        } else {
+            grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #E0456A;">Erro ao buscar horários.</p>';
+        }
+    } catch (error) {
+        console.error('Erro de conexão ao buscar horários:', error);
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #E0456A;">Erro de conexão com o servidor.</p>';
+    }
+}
+
+function _renderTimesGrid(availableTimes) {
+    const grid = document.getElementById('times-grid');
+
+    if (!availableTimes || availableTimes.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #717182;">Não há horários disponíveis para esta data.</p>';
+        return;
+    }
+
+    grid.innerHTML = availableTimes.map(t => `
         <button class="time-btn ${state.selectedTime === t ? 'selected' : ''}"
             data-time="${t}">${t}</button>
     `).join('');
@@ -127,7 +157,7 @@ function _renderTimes() {
     grid.querySelectorAll('.time-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             state.selectedTime = btn.dataset.time;
-            _renderTimes();
+            _renderTimesGrid(availableTimes);
             _updateConfirmBtn();
         });
     });
