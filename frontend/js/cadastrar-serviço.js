@@ -3,7 +3,7 @@ let tokenGlobal = null;
 
 const form = document.getElementById("formServico");
 
-// 1. FAZER LOGIN AUTOMÁTICO
+// LOGIN AUTOMÁTICO
 async function fazerLogin() {
     try {
         const response = await fetch(`${URL_API}/auth/login`, {
@@ -19,7 +19,7 @@ async function fazerLogin() {
 
         if (data.success) {
             tokenGlobal = data.data.token;
-            console.log("Login realizado!");
+            console.log("✅ Login realizado!");
         } else {
             alert("Erro ao autenticar");
         }
@@ -28,7 +28,7 @@ async function fazerLogin() {
     }
 }
 
-// 🔹 Normalização (mantém tua validação)
+// Normalização do nome
 function normalizarNome(nome) {
     return nome.trim().replace(/\s+/g, " ").toLowerCase();
 }
@@ -43,40 +43,41 @@ form.addEventListener("submit", async function (e) {
     let duracao = document.getElementById("duracao").value;
     let valor = document.getElementById("valor").value;
 
-    // ===== VALIDAÇÕES =====
+    // VALIDAÇÕES 
+
     if (!nome) {
         alert("Nome do serviço é obrigatório");
         return;
     }
 
     if (!duracao || !Number.isInteger(Number(duracao)) || Number(duracao) <= 0) {
-        alert("Duração inválida");
+        alert("Duração deve ser um número inteiro maior que zero");
         return;
     }
 
     valor = valor.replace(",", ".");
 
     if (!valor || isNaN(valor) || Number(valor) <= 0) {
-        alert("Valor inválido");
+        alert("Valor deve ser numérico e maior que zero");
         return;
     }
 
-    // garante que tem token
+    // garante autenticação
     if (!tokenGlobal) {
         alert("Usuário não autenticado");
         return;
     }
 
-    // CHAMADA REAL PRO BACKEND
+    //  CHAMADA AO BACKEND
     try {
-        const response = await fetch(`${URL_API}/services`, {
+        const response = await fetch(`${URL_API}/admin/services`, { // ✅ CORRIGIDO
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${tokenGlobal}`
             },
             body: JSON.stringify({
-                name: nomeInput.trim(),
+                name: nomeInput.trim(), // mantém original (backend valida)
                 duration_minutes: Number(duracao),
                 price: Number(valor)
             })
@@ -89,11 +90,11 @@ form.addEventListener("submit", async function (e) {
             return;
         }
 
-        alert("Serviço cadastrado com sucesso!");
+        alert("✅ Serviço cadastrado com sucesso!");
         form.reset();
 
     } catch (error) {
-        console.error(error);
+        console.error("Erro:", error);
         alert("Erro ao conectar com o servidor");
     }
 });
