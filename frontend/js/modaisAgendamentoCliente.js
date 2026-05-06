@@ -238,21 +238,54 @@ function _bindRealtimeValidation() {
 }
 
 /* ─── CONFIRMAR DADOS ───────────────────────────────────────────────────── */
-function _onConfirmarDados() {
+async function _onConfirmarDados() {
     if (!_validarDados()) return;
 
-    const dados = {
-        nome:     document.getElementById('input-nome').value.trim(),
-        email:    document.getElementById('input-email').value.trim(),
-        telefone: document.getElementById('input-telefone').value.trim(),
+    // Extrai e formata a data para o padrão YYYY-MM-DD
+    const dataAgendamentoIso = new Date(state.selectedDate.getTime() - (state.selectedDate.getTimezoneOffset() * 60000))
+        .toISOString()
+        .split('T')[0];
+
+    const payload = {
+        client_name:  document.getElementById('input-nome').value.trim(),
+        client_email: document.getElementById('input-email').value.trim(),
+        client_phone: document.getElementById('input-telefone').value.trim(),
+        service_id:       state.service.id,
+        appointment_date: dataAgendamentoIso, 
+        appointment_time: state.selectedTime
     };
 
-    // INTEGRAÇÃO: chamar aqui o endpoint de criação de agendamento (Back-end)
-    console.log('Dados do cliente prontos para o banco:', dados);
+    const btn = document.getElementById('modal-dados-confirm-btn');
+    const textoOriginal = btn.textContent;
+    
+    try {
+        // Feedback visual de carregamento
+        btn.textContent = 'AGENDANDO...';
+        btn.disabled = true;
 
-    closeDadosModal();
-    closeAgendarModal();
-    openConfirmadoModal();
+        const response = await fetch('http://localhost:3000/api/public/appointments', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const result = await response.json();
+
+        if (result.success) {
+            closeDadosModal();
+            closeAgendarModal();
+            openConfirmadoModal();
+        } else {
+            alert(`Não foi possível agendar: ${result.error}`);
+        }
+    } catch (error) {
+        console.error('Erro de conexão com o servidor:', error);
+        alert('Erro de conexão. Tente novamente mais tarde.');
+    } finally {
+        // Restaura o botão ao estado original caso haja erro
+        btn.textContent = textoOriginal;
+        btn.disabled = false;
+    }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════

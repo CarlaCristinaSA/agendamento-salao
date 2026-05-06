@@ -1,16 +1,3 @@
-/* ══════════════════════════════════════════════════════════════════════════
-    Arquivo temporário para testes do frontend
-   ══════════════════════════════════════════════════════════════════════════ */
-
-const SERVICOS = [
-    { id: 101, nome: 'Corte de Cabelo Feminino',   duracao: '60 minutos',  valor: 150.00 },
-    { id: 102, nome: 'Escova Progressiva',          duracao: '120 minutos', valor: 350.00 },
-    { id: 103, nome: 'Manicure Especializada',      duracao: '45 minutos',  valor: 80.00  },
-    { id: 104, nome: 'Pedicure Premium',            duracao: '45 minutos',  valor: 80.00  },
-    { id: 105, nome: 'Massagem Capilar Relaxante',  duracao: '30 minutos',  valor: 120.00 },
-    { id: 106, nome: 'Coloração Completa',          duracao: '180 minutos', valor: 450.00 },
-];
-
 function formatarValor(valor) {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
@@ -53,6 +40,30 @@ function renderizarCards(servicos) {
     servicos.forEach((servico, i) => container.appendChild(criarCard(servico, i)));
 }
 
+async function carregarServicosDoBackend() {
+    try {
+        const response = await fetch('http://localhost:3000/api/public/services');
+        const result = await response.json();
+
+        if (result.success) {
+            const servicosMapeados = result.data.map(servico => ({
+                id: servico.id,
+                nome: servico.name,
+                duracao: `${servico.duration_minutes} minutos`,
+                valor: parseFloat(servico.price)
+            }));
+            
+            renderizarCards(servicosMapeados);
+        } else {
+            throw new Error("Erro ao listar serviços");
+        }
+    } catch (error) {
+        console.error("Erro ao carregar serviços:", error);
+        const container = document.getElementById('services-container');
+        container.innerHTML = '<p class="empty-message">Nenhum serviço disponível no momento.</p>';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => renderizarCards(SERVICOS), 1000);
+    carregarServicosDoBackend();
 });
