@@ -22,12 +22,13 @@
 body {
     font-family: 'Montserrat', sans-serif;
     min-height: 100vh;
+    background: #FFF;
+    background: linear-gradient(135deg,rgba(255, 255, 255, 1) 0%, rgba(255, 245, 247, 1) 50%, rgba(255, 255, 255, 1) 100%);
     width: 100%;
     margin: 0;
     display: flex;
     align-items: center; 
     justify-content: center; 
-    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 245, 247, 1) 50%, rgba(255, 255, 255, 1) 100%);
     color: var(--text-dark);
     box-sizing: border-box;
     padding: 2rem;
