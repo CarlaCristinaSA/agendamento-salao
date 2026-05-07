@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Montserrat:wght@400;500;600&display=swap');
+
+:root {
+    --primary-gradient-start: #E0456A;
+    --primary-gradient-end:   #E98CA4;
+    --card-bg: #FFFFFF;
+    --text-dark: #110E29;
+    --text-gray: #717182;
+    --info-bg: #FAFAFA;
+    --border-color: #F3F4F6;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ─── BODY ───────────────────────────────────────────────────────────────── */
+body {
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    background: #FFF;
+    background: linear-gradient(135deg,rgba(255, 255, 255, 1) 0%, rgba(255, 245, 247, 1) 50%, rgba(255, 255, 255, 1) 100%);
+    width: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    color: var(--text-dark);
+    box-sizing: border-box;
+    padding: 2rem;
+    color: var(--text-dark);
+}
+
+/* ─── CONTAINER ──────────────────────────────────────────────────────────── */
+.container {
+    width: 100%;
+    max-width: 48rem; /* Equivale a 768px */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ─── HEADER ─────────────────────────────────────────────────────────────── */
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+}
+
+.header-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+    box-shadow: 0 0.5rem 1.5rem rgba(224, 69, 106, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.header-icon i {
+    font-size: 1.75rem;
+    color: #ffffff;
+}
+
+.header h1 {
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 3rem); 
+    line-height: 1.1;
+    letter-spacing: 0.03rem;
+    text-align: center;
+    color: var(--text-dark);
+}
+
+.header p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    text-align: center;
+    color: var(--text-gray);
+}
+
+/* ─── CARD ───────────────────────────────────────────────────────────────── */
+.card {
+    width: 100%;
+    background: var(--card-bg);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    box-shadow: 0 1.25rem 3.75rem rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+/* ─── FORM & FIELDS ──────────────────────────────────────────────────────── */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* Espaço entre os campos */
+    width: 100%;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: var(--text-dark);
+}
+
+input {
+    width: 100%;
+    height: 60px;
+    border-radius: 16px;
+    border: 2px solid var(--border-color);
+    background-color: var(--info-bg);
+    padding: 16px 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    color: var(--text-dark);
+    transition: border-color 0.2s ease;
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--primary-gradient-start);
+}
+
+input::placeholder {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: rgba(17, 14, 41, 0.5); /* #110E29 com 50% de opacidade */
+}
+
+/* ─── BOTÃO ──────────────────────────────────────────────────────────────── */
+.confirm-btn {
+    width: 100%;
+    height: 56px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.8px;
+    text-align: center;
+    color: #ffffff;
+    margin-top: auto;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.confirm-btn:hover {
+    opacity: 0.90;
+}
+
+.confirm-btn:active {
+    transform: scale(0.98);
+}
+
+/* ─── SMALL (Fora do Card) ───────────────────────────────────────────────── */
+small {
+    display: block;
+    width: 100%;
+    max-width: 27.5rem;
+    text-align: center;
+    color: var(--text-gray);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    margin: 0 auto 1.9375rem;
+}
+
+.error-msg {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: #E0456A;
+    margin-top: -4px;
+    display: none;
+}
+
+.error-msg.visible {
+    display: block;
+}
+
+input.error {
+    border-color: var(--primary-gradient-start);
+}
+
+/* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
+@media (max-height: 43.75rem) {
+    body {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto; 
+        padding: 2rem 1rem;
+    }
+}

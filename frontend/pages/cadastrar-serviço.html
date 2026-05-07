@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Serviço</title>
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Ícones FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/cadastrar-servico.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-icon">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <h1>Cadastrar Serviço</h1>
+            <p>Adicione um novo serviço ao seu portfólio</p>
+        </header>
+        <div class="card">
+            <form id="formServico">
+                <div class="field-group">
+                    <label for="nome">Nome do serviço</label>
+                    <input type="text" id="nome" placeholder="Ex: Corte de cabelo feminino" autocomplete="off">
+                    <span class="error-msg" id="error-nome"></span>
+                </div>
+                <div class="field-group">
+                    <label for="duracao">Duração do serviço (em minutos)</label>
+                    <input type="text" id="duracao" placeholder="Ex: 120" autocomplete="off">
+                    <span class="error-msg" id="error-duracao"></span>
+                </div>
+                <div class="field-group">
+                    <label for="valor">Valor do serviço</label>
+                    <input type="text" id="valor" placeholder="R$ 0,00" autocomplete="off">
+                    <span class="error-msg" id="error-valor"></span>
+                </div>
+                <button type="submit" class="confirm-btn">CONFIRMAR CADASTRO</button>
+            </form>
+        </div>
+        <small>Após o cadastro, o serviço estará disponível para agendamento</small>
+    </div>
+
+    <script src="../js/cadastrar-servico.js"></script>
+</body>
+
+</html>
