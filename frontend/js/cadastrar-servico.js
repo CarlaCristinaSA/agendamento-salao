@@ -3,6 +3,10 @@ let tokenGlobal = null;
 
 const form = document.getElementById("formServico");
 
+function formatarValor(valor) {
+    return Number(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
 // LOGIN AUTOMÁTICO
 async function fazerLogin() {
     try {
@@ -131,7 +135,13 @@ form.addEventListener("submit", async function (e) {
     }
 
     //  CHAMADA AO BACKEND
+    const btnSubmit = form.querySelector('.confirm-btn');
+    const textoOriginal = btnSubmit.textContent;
+
     try {
+        btnSubmit.textContent = "CADASTRANDO...";
+        btnSubmit.disabled = true;
+
         const response = await fetch(`${URL_API}/admin/services`, {
             method: "POST",
             headers: {
@@ -141,27 +151,45 @@ form.addEventListener("submit", async function (e) {
             body: JSON.stringify({
                 name: nomeInput.trim(),
                 duration_minutes: Number(duracao),
-                price: Number(valor),
+                price: Number(valor)
             })
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-            if (data.message && data.message.toLowerCase().includes("nome")) {
-                _setFieldError('nome', 'error-nome', "Já existe um serviço com este nome.");
-            } else {
-                alert(data.message || "Erro ao cadastrar serviço");
-            }
+            alert(data.message || data.error || "Erro ao cadastrar serviço");
             return;
         }
 
-        alert("✅ Serviço cadastrado com sucesso!");
+        document.getElementById('conf-nome').textContent = data.data.name;
+        document.getElementById('conf-duracao').textContent = `${data.data.duration_minutes} minutos`;
+        document.getElementById('conf-valor').textContent = formatarValor(data.data.price);
+        
+        document.getElementById('modal-confirmado-overlay').classList.add('active');
+        
+        document.body.style.overflow = 'hidden';
+
         form.reset();
 
     } catch (error) {
         console.error("Erro:", error);
         alert("Erro ao conectar com o servidor");
+    } finally {
+        btnSubmit.textContent = textoOriginal;
+        btnSubmit.disabled = false;
+    }
+});
+
+// Função para fechar o modal
+function fecharModalConfirmado() {
+    document.getElementById('modal-confirmado-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+document.getElementById('btn-ok-confirmado').addEventListener('click', fecharModalConfirmado);
+document.getElementById('modal-confirmado-overlay').addEventListener('click', function(e) {
+    if (e.target.id === 'modal-confirmado-overlay') {
+        fecharModalConfirmado();
     }
 });
 
