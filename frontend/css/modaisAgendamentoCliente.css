@@ -1,0 +1,608 @@
+/* ─── MODAL AGENDAR HORÁRIO ─────────────────────────────────────────────── */
+
+/* ─── OVERLAY ────────────────────────────────────────────────────────────── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(17, 14, 41, 0.35);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ─── MODAL BOX ──────────────────────────────────────────────────────────── */
+.modal {
+    background: #ffffff;
+    border-radius: 24px;
+    width: min(896px, calc(100vw - 32px));
+    box-shadow: 0px 24px 80px 0px rgba(0, 0, 0, 0.20);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    transform: translateY(20px) scale(0.98);
+    transition: transform 0.25s ease;
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.modal-scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    overflow-y: auto;
+    flex: 1;
+    scrollbar-width: none;
+}
+
+.modal-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.modal-overlay.active .modal {
+    transform: translateY(0) scale(1);
+}
+
+/* ─── CABEÇALHO ──────────────────────────────────────────────────────────── */
+.modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.modal-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.modal-header-text h2 {
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 40px;
+    letter-spacing: 0.3px;
+    color: #110E29;
+}
+
+.modal-header-text span {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0px;
+    color: #717182;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #110E29;
+    font-size: 20px;
+    line-height: 1;
+    padding: 4px;
+    flex-shrink: 0;
+    transition: opacity 0.2s ease;
+}
+
+.modal-close:hover { opacity: 0.6; }
+
+/* ─── NAVEGAÇÃO DO CALENDÁRIO ────────────────────────────────────────────── */
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.cal-arrow {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #110E29;
+    padding: 6px 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+}
+
+.cal-arrow:hover { opacity: 0.6; }
+
+.cal-arrow i {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.cal-month {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cal-month i {
+    font-size: 20px;
+    color: #E0456A;
+    width: 20px;
+    height: 20px;
+}
+
+.cal-month span {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: 0px;
+    color: #110E29;
+}
+
+/* ─── DIAS DA SEMANA ─────────────────────────────────────────────────────── */
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.day-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 20px;
+    border-radius: 16px;
+    cursor: pointer;
+    border: none;
+    background: #ffffff;
+    box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.2s ease, background 0.2s ease;
+    min-height: 120px;
+}
+
+.day-cell:hover:not(.disabled):not(.selected) {
+    box-shadow: 0px 4px 16px 0px rgba(224, 69, 106, 0.15);
+}
+
+.day-cell.disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.day-cell.selected {
+    background: linear-gradient(135deg, #E0456A, #E98CA4);
+    box-shadow: 0px 12.6px 33.6px 0px rgba(224, 69, 106, 0.35);
+}
+
+.day-name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #110E29;
+    text-align: center;
+}
+
+.day-number {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: 0.5px;
+    color: #110E29;
+    text-align: center;
+}
+
+.day-month {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+    color: #110E29;
+    text-align: center;
+}
+
+.day-cell.selected .day-name,
+.day-cell.selected .day-number,
+.day-cell.selected .day-month {
+    color: #ffffff;
+}
+
+/* ─── HORÁRIOS DISPONÍVEIS ───────────────────────────────────────────────── */
+.times-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.times-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.times-label i {
+    font-size: 22px;
+    color: #E0456A;
+    width: 22px;
+    height: 22px;
+}
+
+.times-label span {
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: 0px;
+    color: #110E29;
+}
+
+.times-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+}
+
+.time-btn {
+    height: 60px;
+    border-radius: 20px;
+    border: 2px solid #F3F4F6;
+    background: #ffffff;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: #110E29;
+    text-align: center;
+    transition: border-color 0.2s ease, background 0.2s ease,
+    color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.time-btn:hover:not(.selected) {
+    border-color: #E0456A;
+    color: #E0456A;
+}
+
+.time-btn.selected {
+    background: linear-gradient(135deg, #E0456A, #E98CA4);
+    border-color: transparent;
+    color: #ffffff;
+    box-shadow:
+    0px 4.2px 6.3px -4.2px rgba(0, 0, 0, 0.10),
+    0px 10.5px 15.75px -3.15px rgba(0, 0, 0, 0.10);
+}
+
+/* ─── BOTÃO CONFIRMAR ────────────────────────────────────────────────────── */
+.modal-confirm-btn {
+    width: 100%;
+    height: 64px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #E0456A, #E98CA4);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.8px;
+    color: #ffffff;
+    text-align: center;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.modal-confirm-btn:hover   { opacity: 0.90; }
+.modal-confirm-btn:active  { transform: scale(0.98); }
+
+.modal-confirm-btn:disabled {
+    opacity: 0.40;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ─── MODAL DADOS DE CONTATO ─────────────────────────────────────────────── */
+.modal-dados {
+    width: 512px;
+    height: 592px;
+    border-radius: 24px;
+    background: #FFF;
+    background: linear-gradient(135deg,rgba(255, 255, 255, 1) 0%, rgba(255, 245, 247, 1) 50%, rgba(255, 255, 255, 1) 100%);
+    box-shadow: 0px 24px 80px 0px rgba(0, 0, 0, 0.20);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* ─── HEADER DO MODAL DE DADOS ────────────────────────────────────────────── */
+.modal-dados .modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 68px;
+    align-items: flex-start;
+}
+
+.modal-dados .modal-header-text {
+    display: flex;
+    flex-direction: column;
+    width: 230.13px;
+    height: 68px;
+    gap: 8px;
+}
+
+.modal-dados h2#modal-dados-title {
+    width: 218px;
+    height: 36px;
+    margin-top: -0.67px;
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: 0.3px;
+    color: #110E29;
+}
+
+.modal-dados .modal-header-text span {
+    width: 231px;
+    height: 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0px;
+    color: #717182;
+}
+
+/* ─── CAMPOS DO FORMULÁRIO ───────────────────────────────────────────────── */
+.form-fields {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 316px;
+    gap: 20px;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 92px;
+    gap: 12px;
+}
+
+.field-label {
+    width: auto;
+    height: 20px;
+    margin-top: 0.33px;
+    margin-left: 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: #110E29;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: default;
+}
+
+.field-label i {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    font-size: 16px;
+    color: #E0456A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.field-input {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 60px;
+    border-radius: 16px;
+    background-color: #FAFAFA;
+    border: 2px solid #F3F4F6;
+    padding: 16px 20px;   
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    color: rgba(17, 14, 41, 0.50);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-input::placeholder {
+    color: rgba(17, 14, 41, 0.50);
+}
+
+.field-input:focus {
+    border-color: #E0456A;
+    background-color: #FFFFFF;
+}
+
+.field-input.error {
+    border-color: #E0456A;
+}
+
+.error-msg {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: #E0456A;
+    margin-top: -4px;
+    display: none;
+}
+
+.error-msg.visible {
+    display: block;
+}
+
+#modal-dados-confirm-btn {
+    margin-top: auto;
+}
+
+#modal-dados-overlay {
+    z-index: 1010;
+}
+/* ─── MODAL CONFIRMADO ───────────────────────────────────────────────────── */
+#modal-confirmado-overlay {
+    z-index: 1020;
+}
+
+.modal-confirmado {
+    width: 448px;
+    height: 532px;
+    border-radius: 24px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 24px 80px 0px rgba(0, 0, 0, 0.20);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.confirmado-body {
+    width: 384px;
+    height: 468px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.confirmado-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E0456A, #E98CA4);
+    box-shadow: 0px 8px 24px 0px rgba(224, 69, 106, 0.30);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    flex-shrink: 0;
+}
+
+.confirmado-icon i {
+    font-size: 28px;
+    color: #FFFFFF;
+}
+
+.confirmado-title {
+    width: 155px;
+    height: 36px;
+    margin-top: -0.67px;
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: 0.3px;
+    text-align: center;
+    color: #110E29;
+    margin-bottom: 8px;
+}
+
+.confirmado-subtitle {
+    width: 312px;
+    height: 20px;
+    margin-top: 0.33px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: center;
+    color: #717182;
+    margin-bottom: 32px;
+}
+
+.confirmado-details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 56px;
+    padding: 0 20px;
+    background-color: #FAFAFA;
+    border-radius: 16px;
+}
+
+.detail-row.highlight {
+    background: linear-gradient(135deg, #E0456A, #E98CA4);
+}
+
+.detail-row .detail-label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #717182;
+}
+
+.detail-row .detail-value {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #110E29;
+}
+
+.detail-row.highlight .detail-label,
+.detail-row.highlight .detail-value {
+    color: #FFFFFF;
+    font-size: 20px;
+}
+
+#btn-ok-confirmado {
+    margin-top: auto; 
+}
+
+/* ─── RESPONSIVIDADE ─────────────────────────────────────────────────────── */
+@media (max-width: 960px) {
+    .modal {
+        padding: 32px 24px;
+        gap: 24px;
+    }
+    .times-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .modal-header-text h2 { font-size: 28px; }
+    .calendar-days        { gap: 6px; }
+    .day-cell             { padding: 12px 6px; min-height: auto; }
+    .day-number           { font-size: 22px; line-height: 28px; }
+    .times-grid           { grid-template-columns: repeat(3, 1fr); }
+}

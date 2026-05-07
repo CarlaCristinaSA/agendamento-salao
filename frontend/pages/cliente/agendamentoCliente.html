@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços Disponíveis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/agendamentoCliente.css">
+    <link rel="stylesheet" href="../../css/modaisAgendamentoCliente.css">
+</head>
+<body>
+
+    <!-- ─── PÁGINA PRINCIPAL ─────────────────────────────────────────────── -->
+    <div class="container">
+        <header class="header">
+            <div class="header-icon">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <h1>Serviços Disponíveis</h1>
+            <p>Escolha o serviço perfeito para você</p>
+        </header>
+        <div class="services-grid" id="services-container">
+            <p class="empty-message">Carregando serviços...</p>
+        </div>
+    </div>
+
+    <!-- ─── MODAL: AGENDAR HORÁRIO ───────────────────────────────────────── -->
+    <div id="modal-agendar-overlay" class="modal-overlay">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="modal-scroll">
+                <div class="modal-header">
+                    <div class="modal-header-text">
+                        <h2 id="modal-title">Agendar Horário</h2>
+                        <span id="modal-nome-servico"></span>
+                    </div>
+                    <button class="modal-close" id="modal-close-btn" aria-label="Fechar">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div>
+                    <div class="calendar-nav">
+                        <button class="cal-arrow" id="cal-prev" aria-label="Mês anterior">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <div class="cal-month">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span id="cal-month-label"></span>
+                        </div>
+                        <button class="cal-arrow" id="cal-next" aria-label="Próximo mês">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="calendar-days" id="calendar-days"></div>
+                </div>
+
+                <!-- Horários -->
+                <div class="times-section" id="times-section" style="display:none">
+                    <div class="times-label">
+                        <i class="fa-regular fa-clock"></i>
+                        <span>Horários Disponíveis</span>
+                    </div>
+                    <div class="times-grid" id="times-grid"></div>
+                </div>
+            </div>
+            <button class="modal-confirm-btn" id="modal-confirm-btn" disabled>
+                CONFIRMAR HORÁRIO
+            </button>
+
+        </div>
+    </div>
+
+    <!-- ─── MODAL: DADOS DE CONTATO ─────────────────────────────────────────── -->
+    <div id="modal-dados-overlay" class="modal-overlay">
+        <div class="modal modal-dados" role="dialog" aria-modal="true" aria-labelledby="modal-dados-title">
+            <div class="modal-header">
+                <div class="modal-header-text">
+                    <h2 id="modal-dados-title">Dados de Contato</h2>
+                    <span>Complete seu agendamento</span>
+                </div>
+                <button class="modal-close" id="modal-dados-close-btn" aria-label="Fechar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="form-fields">
+                <!-- Campo Nome -->
+                <div class="field-group">
+                    <label class="field-label" for="input-nome">
+                        <i class="fa-regular fa-user"></i>
+                        NOME COMPLETO
+                    </label>
+                    <input class="field-input" id="input-nome" type="text" placeholder="Digite seu nome completo" autocomplete="name" />
+                    <span class="error-msg" id="error-nome"></span>
+                </div>
+                <!-- Campo E-mail -->
+                <div class="field-group">
+                    <label class="field-label" for="input-email">
+                        <i class="fa-regular fa-envelope"></i>
+                        E-MAIL
+                    </label>
+                    <input class="field-input" id="input-email" type="email" placeholder="seu@email.com" autocomplete="email" />
+                    <span class="error-msg" id="error-email"></span>
+                </div>
+                <!-- Campo Telefone -->
+                <div class="field-group">
+                    <label class="field-label" for="input-telefone">
+                        <i class="fa-solid fa-phone"></i>
+                        TELEFONE
+                    </label>
+                    <input class="field-input" id="input-telefone" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" maxlength="15" />
+                    <span class="error-msg" id="error-telefone"></span>
+                </div>
+            </div>
+            <button class="modal-confirm-btn" id="modal-dados-confirm-btn">CONFIRMAR AGENDAMENTO</button>
+        </div>
+    </div>
+    <!-- ─── MODAL: CONFIRMADO ─────────────────────────────────────────── -->
+    <div id="modal-confirmado-overlay" class="modal-overlay">
+        <div class="modal modal-confirmado" role="dialog" aria-modal="true">
+            <div class="confirmado-body">
+                <div class="confirmado-icon">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h2 class="confirmado-title">Confirmado!</h2>
+                <p class="confirmado-subtitle">Seu agendamento foi realizado com sucesso</p>
+                <div class="confirmado-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Data</span>
+                        <span class="detail-value" id="conf-data">23/04/2026 - 10:00</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Serviço</span>
+                        <span class="detail-value" id="conf-servico">Corte de Cabelo</span>
+                    </div>
+                    <div class="detail-row highlight">
+                        <span class="detail-label">Valor</span>
+                        <span class="detail-value" id="conf-valor">R$ 0,00</span>
+                    </div>
+                </div>
+                <button class="modal-confirm-btn" id="btn-ok-confirmado">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/modaisAgendamentoCliente.js"></script>
+    <script src="../../js/agendamentoCliente.js"></script>
+</body>
+</html>
