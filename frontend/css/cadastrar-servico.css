@@ -32,6 +32,7 @@ body {
     color: var(--text-dark);
     box-sizing: border-box;
     padding: 2rem;
+    color: var(--text-dark);
 }
 
 /* ─── CONTAINER ──────────────────────────────────────────────────────────── */
@@ -165,7 +166,7 @@ input::placeholder {
     letter-spacing: 0.8px;
     text-align: center;
     color: #ffffff;
-    margin-top: 16px; /* Para descolar do último input */
+    margin-top: auto;
     transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
