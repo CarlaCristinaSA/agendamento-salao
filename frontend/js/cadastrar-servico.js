@@ -48,7 +48,8 @@ const FIELD_RULES = [
         errorId:  'error-duracao',
         prepare:  v => v.trim(),
         rules: [
-            { test: v => v.length > 0, msg: 'A duração é obrigatória.' },
+            { test: v => v.length > 0 || document.getElementById('duracao').validity.badInput, msg: 'A duração é obrigatória.' },
+            { test: v => !document.getElementById('duracao').validity.badInput && !isNaN(Number(v)), msg: 'A duração deve ser numérica.' },
             { test: v => Number.isInteger(Number(v)), msg: 'A duração deve ser um número inteiro.' },
             { test: v => Number(v) > 0, msg: 'A duração deve ser maior que zero.' },
         ],
