@@ -3,6 +3,10 @@ let tokenGlobal = null;
 
 const form = document.getElementById("formServico");
 
+function formatarValor(valor) {
+    return Number(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
 // LOGIN AUTOMÁTICO
 async function fazerLogin() {
     try {
@@ -90,12 +94,34 @@ form.addEventListener("submit", async function (e) {
             return;
         }
 
-        alert("✅ Serviço cadastrado com sucesso!");
+       if (!response.ok) {
+            alert(data.message || "Erro ao cadastrar serviço");
+            return;
+        }
+
+        document.getElementById('conf-nome').textContent = data.data.name;
+        document.getElementById('conf-duracao').textContent = `${data.data.duration_minutes} minutos`;
+        document.getElementById('conf-valor').textContent = formatarValor(data.data.price);
+        document.getElementById('modal-confirmado-overlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+
         form.reset();
 
     } catch (error) {
         console.error("Erro:", error);
         alert("Erro ao conectar com o servidor");
+    }
+});
+
+// Função para fechar o modal
+function fecharModalConfirmado() {
+    document.getElementById('modal-confirmado-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+document.getElementById('btn-ok-confirmado').addEventListener('click', fecharModalConfirmado);
+document.getElementById('modal-confirmado-overlay').addEventListener('click', function(e) {
+    if (e.target.id === 'modal-confirmado-overlay') {
+        fecharModalConfirmado();
     }
 });
 

@@ -134,3 +134,166 @@ input:focus {
     outline: none;
     border-color: #e05672;
 }
+
+/* ─── OVERLAY E ANIMAÇÃO DO MODAL ────────────────────────────────────────── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(17, 14, 41, 0.35);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ─── MODAL CONFIRMADO ───────────────────────────────────────────────────── */
+.modal-confirmado {
+    box-sizing: border-box;
+    width: 448px;
+    height: 532px;
+    border-radius: 24px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 24px 80px 0px rgba(0, 0, 0, 0.20);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateY(20px) scale(0.98);
+    transition: transform 0.25s ease;
+}
+
+.modal-overlay.active .modal-confirmado {
+    transform: translateY(0) scale(1);
+}
+
+.confirmado-body {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.confirmado-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E0456A, #E98CA4);
+    box-shadow: 0px 8px 24px 0px rgba(224, 69, 106, 0.30);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    flex-shrink: 0;
+}
+
+.confirmado-icon i {
+    font-size: 28px;
+    color: #FFFFFF;
+}
+
+.confirmado-title {
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: 30px;
+    color: #110E29;
+    margin: 0 0 8px 0;
+    text-align: center;
+}
+
+.confirmado-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #717182;
+    margin: 0 0 32px 0;
+    text-align: center;
+}
+
+.confirmado-details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.detail-row {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 56px;
+    padding: 0 20px;
+    background-color: #FAFAFA;
+    border-radius: 16px;
+}
+
+.detail-row.highlight {
+    background: linear-gradient(135deg, #E0456A, #E98CA4);
+}
+
+.detail-row .detail-label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #717182;
+}
+
+.detail-row .detail-value {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #110E29;
+}
+
+.detail-row.highlight .detail-label,
+.detail-row.highlight .detail-value {
+    color: #FFFFFF;
+    font-size: 20px;
+}
+
+/* ─── BOTÃO DO MODAL ─────────────────────────────────────────────────────── */
+.modal-confirm-btn {
+    box-sizing: border-box;
+    width: 100%;
+    height: 64px;
+    padding: 0;
+    margin: auto 0 0 0;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #E0456A, #E98CA4);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.8px;
+    color: #ffffff;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    transition: box-shadow 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
+}
+
+.modal-confirm-btn:hover { 
+    opacity: 0.90; 
+    box-shadow: 0px 8px 20px rgba(224, 69, 106, 0.3);
+}
+
+.modal-confirm-btn:active { 
+    transform: scale(0.98); 
+}
