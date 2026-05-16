@@ -1,4 +1,23 @@
 let servicoEmEdicaoId = null;
+let tokenGlobal = null;
+let servicoEmEdicaoStatusOriginal = null;
+
+async function realizarLoginAutomatico() {
+    try {
+        const resLogin = await fetch('http://localhost:3000/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: 'admin@salao.com', password: 'Admin@123' }) 
+        });
+        const jsonLogin = await resLogin.json();
+
+        if (jsonLogin.success) {
+            tokenGlobal = jsonLogin.data.token;
+        }
+    } catch (erro) {
+        console.error("Erro no auto-login:", erro);
+    }
+}
 
 function formatarValor(valor) {
     if (isNaN(valor)) return "R$ 0,00";
@@ -41,11 +60,40 @@ function criarCard(servico, index) {
         abrirEdicao(servico);
     });
 
+    card.querySelector('.ativar-servico').addEventListener('click', async () => {
+        if (!tokenGlobal) {
+            alert("Aguarde, autenticando no sistema...");
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:3000/api/admin/services/${servico.id}/toggle-status`, {
+                method: 'PATCH', 
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${tokenGlobal}` 
+                }
+            });
+
+            const resultado = await response.json();
+
+            if (response.ok && resultado.success) {
+                carregarServicosDoBackend();
+            } else {
+                alert(resultado.error || "Erro ao alterar o status. Verifique suas permissões.");
+            }
+        } catch (error) {
+            console.error("Erro na requisição de toggle:", error);
+            alert("Não foi possível conectar ao servidor para alterar o status.");
+        }
+    });
+
     return card;
 }
 
 function abrirEdicao(servico) {
     servicoEmEdicaoId = servico.id;
+    servicoEmEdicaoStatusOriginal = !!servico.ativo;
 
     const modal = document.getElementById('modal-servico-overlay');
     const inputNome = document.getElementById('input-nome');
@@ -97,7 +145,15 @@ function renderizarCards(servicos) {
 
 async function carregarServicosDoBackend() {
     try {
-        const response = await fetch('http://localhost:3000/api/public/services');
+        if (!tokenGlobal) await realizarLoginAutomatico();
+
+        const response = await fetch('http://localhost:3000/api/admin/services', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${tokenGlobal}`
+            }
+        });
+
         const result = await response.json();
 
         if (result.success) {
@@ -107,9 +163,14 @@ async function carregarServicosDoBackend() {
                 const precoVal = parseFloat(servico.valor || servico.preco || servico.price || 0);
                 
                 let estaAtivo = false;
-                if (typeof servico.ativo === 'boolean') estaAtivo = servico.ativo;
-                else if (typeof servico.active === 'boolean') estaAtivo = servico.active;
-                else if (servico.status === 'ATIVO' || servico.status === 'ativo') estaAtivo = true;
+                if (typeof servico.ativo === 'boolean') {
+                    estaAtivo = servico.ativo;
+                } else if (typeof servico.active === 'boolean') {
+                    estaAtivo = servico.active;
+                } else if (typeof servico.status === 'string') {
+                    const s = servico.status.toLowerCase();
+                    if (s === 'active' || s === 'ativo') estaAtivo = true;
+                }
 
                 return {
                     id: servico.id,
@@ -132,7 +193,8 @@ async function carregarServicosDoBackend() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    await realizarLoginAutomatico();
     carregarServicosDoBackend();
     
     const toggleInput = document.getElementById('input-status');
@@ -155,20 +217,46 @@ document.addEventListener('DOMContentLoaded', () => {
         const dadosAtualizados = {
             name: document.getElementById('input-nome').value,
             duration_minutes: parseInt(document.getElementById('input-duracao').value),
-            price: precoFloat,
-            active: toggleInput.checked
+            price: precoFloat
         };
 
         try {
-            const response = await fetch(`http://localhost:3000/api/public/services/${servicoEmEdicaoId}`, {
+            if (!tokenGlobal) await realizarLoginAutomatico();
+
+            const response = await fetch(`http://localhost:3000/api/admin/services/${servicoEmEdicaoId}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${tokenGlobal}`
+                },
                 body: JSON.stringify(dadosAtualizados)
             });
 
             const resultado = await response.json();
 
             if (resultado.success) {
+                const desiredStatus = document.getElementById('input-status').checked;
+
+                if (servicoEmEdicaoStatusOriginal !== null && desiredStatus !== servicoEmEdicaoStatusOriginal) {
+                    try {
+                        const toggleRes = await fetch(`http://localhost:3000/api/admin/services/${servicoEmEdicaoId}/toggle-status`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${tokenGlobal}`
+                            }
+                        });
+
+                        const toggleJson = await toggleRes.json();
+                        if (!toggleRes.ok || !toggleJson.success) {
+                            alert(toggleJson.error || 'Erro ao alterar o status do serviço.');
+                        }
+                    } catch (err) {
+                        console.error('Erro ao enviar toggle-status:', err);
+                        alert('Não foi possível alterar o status do serviço.');
+                    }
+                }
+
                 fecharModal();
                 carregarServicosDoBackend();
             } else {
