@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamentos Cadastrados</title>
+    <link rel="stylesheet" href="../../css/consultar-agendamentos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Montserrat:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="../../css/modais-consultar-agendamentos.css">
+</head>
+<body>
+
+<svg style="display:none">
+    <defs>
+        <symbol id="icone-calendario" viewBox="0 0 18 18" fill="none">
+            <path d="M6 1.5V4.5M12 1.5V4.5M14.25 3H3.75C2.92 3 2.25 3.67 2.25 4.5V15C2.25 15.83 2.92 16.5 3.75 16.5H14.25C15.08 16.5 15.75 15.83 15.75 15V4.5C15.75 3.67 15.08 3 14.25 3ZM2.25 7.5H15.75" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icone-relogio" viewBox="0 0 18 18" fill="none">
+            <circle cx="9" cy="9" r="7.5" stroke="white" stroke-width="1.5"/>
+            <path d="M9 4.5V9L12 10.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icone-cifrao" viewBox="0 0 18 18" fill="none">
+            <path d="M9 1.5V16.5M12.75 3.75H7.125C5.67 3.75 4.5 4.92 4.5 6.375C4.5 7.83 5.67 9 7.125 9H10.875C12.33 9 13.5 10.17 13.5 11.625C13.5 13.08 12.33 14.25 10.875 14.25H4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+    </defs>
+</svg>
+
+<!-- TELA PRINCIPAL -->
+<div class="pagina">
+    <header class="topo">
+        <div>
+            <h1>Agendamentos</h1>
+            <p>Gerencie todos os agendamentos do salão</p>
+        </div>
+        <div class="acoes-topo">
+            <button class="btn-contorno" onclick="abrirFiltro()">
+                <svg width="17" height="16" viewBox="0 0 17 16" fill="none">
+                    <path d="M1.5 2.667h14M4.833 8h7.334M7.5 13.333h2" stroke="#E0456A" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Filtrar
+            </button>
+            <button class="btn-contorno" onclick="abrirOrdenacao()">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <path d="M3 4.5h12M3 9h8M3 13.5h4" stroke="#110E29" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                Ordenar
+            </button>
+            <button class="btn-primario" onclick="abrirConfirmar()">+ Cadastrar Agendamento</button>
+        </div>
+    </header>
+    <main class="grade-cards" id="containerAgendamentos">
+    </main>
+</div>
+
+<!-- MODAIS-->
+<div id="overlay" onclick="fecharModais()"></div>
+
+<!-- Modal: Detalhamento-->
+<div class="modal" id="modalDetalhamento">
+    <div class="circulo-icone">
+        <svg width="32" height="32"><use href="#icone-calendario"/></svg>
+    </div>
+    <h2 id="det-nome"></h2>
+    <p class="subtitulo">Detalhes do agendamento</p>
+    <div class="lista-dados">
+        <div class="linha-dado cinza">
+            <span class="rotulo">Telefone</span>
+            <span id="det-telefone" class="valor"></span>
+        </div>
+        <div class="linha-dado">
+            <span class="rotulo">E-mail</span>
+            <span id="det-email" class="valor"></span>
+        </div>
+        <div class="linha-dado cinza">
+            <span class="rotulo">Serviço</span>
+            <span id="det-servico" class="valor"></span>
+        </div>
+        <div class="linha-dado cinza">
+            <span class="rotulo">Data</span>
+            <span id="det-data" class="valor"></span>
+        </div>
+        <div class="linha-dado gradiente">
+            <span class="rotulo branco">Valor</span>
+            <span id="det-valor" class="valor branco grande"></span>
+        </div>
+    </div>
+    <button class="btn-primario largo" onclick="fecharModais()">OK</button>
+</div>
+
+<!-- Modal: Filtro-->
+<div class="modal" id="modalFiltro">
+    <p class="titulo-secao">Filtrar por Data</p>
+    <div class="grupo-campo">
+        <label class="rotulo-campo">Data Específica</label>
+        <input type="date" class="campo-data" id="filtroDataEspecifica">
+    </div>
+    <div class="grupo-campo separador">
+        <label class="rotulo-campo">Intervalo de Datas</label>
+        <div class="grupo-campo">
+            <span class="sub-rotulo">Data Inicial</span>
+            <input type="date" class="campo-data" id="filtroDataInicio">
+        </div>
+        <div class="grupo-campo">
+            <span class="sub-rotulo">Data Final</span>
+            <input type="date" class="campo-data" id="filtroDataFim">
+        </div>
+    </div>
+    <div class="rodape-modal">
+        <button class="btn-secundario" onclick="limparFiltros()">Limpar</button>
+        <button class="btn-primario" onclick="aplicarFiltro()">Aplicar</button>
+    </div>
+</div>
+
+<!-- Modal: Ordenação-->
+<div class="modal" id="modalOrdenacao">
+    <div class="titulo-ordenacao">
+        <span class="titulo-secao">Ordenar por</span>
+    </div>
+    <div class="opcoes-ordem">
+        <button class="opcao-ordem ativo" id="ordRecente" onclick="selecionarOrdem('recente')">
+            <span class="icone-ordem ativo">↓</span>
+            <span>Mais Próximos</span>
+            <svg class="check" width="14" height="10" viewBox="0 0 14 10" fill="none">
+                <path d="M1 5L5 9L13 1" stroke="#E0456A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <button class="opcao-ordem" id="ordAntigo" onclick="selecionarOrdem('antigo')">
+            <span class="icone-ordem">↑</span>
+            <span>Mais Distantes</span>
+            <svg class="check oculto" width="14" height="10" viewBox="0 0 14 10" fill="none">
+                <path d="M1 5L5 9L13 1" stroke="#E0456A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<!-- Modal: Confirmar-->
+<div class="modal centralizado" id="modalConfirmar">
+    <div class="circulo-icone">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5V19M5 12H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
+    <h2>Cadastrar Agendamento</h2>
+    <p class="subtitulo">Deseja registrar um agendamento manualmente?</p>
+    <div class="rodape-modal">
+        <button class="btn-secundario" onclick="fecharModais()">Cancelar</button>
+        <button class="btn-primario" onclick="fecharModais()">Sim</button>
+    </div>
+</div>
+
+<script src="../../js/modais-consultar-agendamentos.js"></script>
+<script src="../../js/consultar-agendamentos.js"></script>
+</body>
+</html>

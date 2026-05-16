@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root {
+    --gradiente:   linear-gradient(135deg, #E0456A 0%, #E98CA4 100%);
+    --rosa:        #E0456A;
+    --escuro:      #110E29;
+    --cinza:       #717182;
+    --borda:       #F3F4F6;
+    --fundo-info:  #FAFAFA;
+    --branco:      #FFFFFF;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #FFFFFF 0%, #FFF5F7 50%, #FFFFFF 100%);
+    color: var(--escuro);
+    padding: clamp(1rem, 3vw, 2rem);
+}
+
+.pagina {
+    max-width: 1258px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.5rem, 3.6vw, 3rem);
+}
+
+.topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.topo h1 {
+    font-family: 'Cormorant', serif;
+    font-size: clamp(2rem, 3.6vw, 3rem);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+
+.topo p {
+    font-size: clamp(0.875rem, 1.36vw, 1.125rem);
+    color: var(--cinza);
+    margin-top: 0.5rem;
+}
+
+.acoes-topo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.btn-primario,
+.btn-secundario,
+.btn-contorno {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: clamp(0.8125rem, 1.2vw, 1rem);
+    letter-spacing: 0.8px;
+    border-radius: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: opacity .2s, box-shadow .2s;
+    white-space: nowrap;
+    justify-content: center;
+}
+
+.btn-primario {
+    padding: clamp(0.75rem, 1.2vw, 1rem) clamp(1.25rem, 2.4vw, 2rem);
+    background: var(--gradiente);
+    color: var(--branco);
+}
+
+.btn-primario:hover { opacity: .9; box-shadow: 0 4px 20px rgba(224,69,106,.35); }
+
+.btn-primario.largo { width: 100%; padding: 1rem; }
+
+.btn-secundario {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border: 2px solid #E5E7EB;
+    color: var(--escuro);
+    border-radius: 1.25rem;
+}
+
+.btn-contorno {
+    padding: clamp(0.625rem, 1.2vw, 1rem) clamp(1rem, 2.4vw, 2rem);
+    background: var(--branco);
+    border: 2px solid var(--borda);
+    color: var(--escuro);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.btn-contorno:hover { border-color: var(--rosa); box-shadow: 0 2px 12px rgba(224,69,106,.12); }
+
+.btn-contorno svg path { transition: stroke 0.2s ease; }
+
+.btn-contorno:first-of-type svg path { stroke: var(--cinza); }
+.btn-contorno:first-of-type.ativo svg path { stroke: var(--rosa); }
+
+.btn-contorno:nth-of-type(2) svg path { stroke: var(--cinza); }
+.btn-contorno:nth-of-type(2).ativo svg path { stroke: var(--rosa); }
+
+/* ── Grade de cards ──────────────────────────────────────── */
+.grade-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1rem, 2vw, 1.75rem);
+}
+
+@media (max-width: 900px) { .grade-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .grade-cards { grid-template-columns: 1fr; } }
+
+/* ── Card ────────────────────────────────────────────────── */
+.card {
+    background: var(--branco);
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,.06);
+    padding: clamp(1.25rem, 2.4vw, 2rem);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: transform .2s, box-shadow .2s;
+}
+
+.card:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,0,0,.1); }
+
+.card h3 {
+    font-family: 'Cormorant', serif;
+    font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+    font-weight: 600;
+    color: var(--escuro);
+}
+
+.infos-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--fundo-info);
+    border-radius: 1.25rem;
+    padding: 1rem;
+}
+
+.info div { display: flex; flex-direction: column; gap: 0.25rem; }
+
+.info strong {
+    font-size: clamp(0.8125rem, 1.2vw, 1rem);
+    font-weight: 600;
+    color: var(--escuro);
+}
+
+.circulo-info,
+.circulo-icone {
+    border-radius: 50%;
+    background: var(--gradiente);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.circulo-info {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.rotulo {
+    font-size: clamp(0.625rem, 0.9vw, 0.75rem);
+    font-weight: 400;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--cinza);
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.3);
+    z-index: 100;
+}
+
+#overlay.visivel { display: block; }
+
+/* ── Responsividade ───────────────────── */
+@media (max-width: 768px) {
+    body { padding: 0.75rem 1rem; }
+    
+    .topo { gap: 1.5rem; }
+    
+    .acoes-topo { gap: 0.5rem; }
+    .acoes-topo button { font-size: 0.75rem; }
+}
+
+@media (max-width: 560px) {
+    body { padding: 0.5rem; }
+    
+    .pagina { gap: clamp(1rem, 2.4vw, 1.5rem); }
+    
+    .topo { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .topo h1 { font-size: clamp(1.5rem, 4vw, 2rem); }
+    
+    .acoes-topo { 
+        width: 100%; 
+        gap: 0.4rem; 
+    }
+    .acoes-topo button { 
+        flex: 1; 
+        font-size: 0.75rem;
+        padding: 0.625rem 0.75rem;
+    }
+    .acoes-topo .btn-primario { padding: 0.625rem 0.5rem; }
+    
+    .card { padding: 1rem; gap: 1rem; }
+    .card h3 { font-size: clamp(1rem, 3vw, 1.25rem); }
+    .card:hover { transform: translateY(-2px); }
+    
+    .info { gap: 0.75rem; padding: 0.75rem; }
+    .info strong { font-size: 0.8rem; }
+    .circulo-info { width: 2rem; height: 2rem; }
+    .circulo-info svg { width: 16px !important; height: 16px !important; }
+}
+
+@media (max-width: 400px) {
+    .acoes-topo { flex-direction: column; }
+    .acoes-topo button { width: 100%; }
+    .info div { gap: 0.15rem; }
+    .rotulo { font-size: 0.65rem; }
+}
