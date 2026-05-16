@@ -25,31 +25,38 @@ body {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: clamp(1.5rem, 3.6vw, 3rem);
 }
 
 /* ── Menu do Topo ────────────────────────────────────────── */
 .topo {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     flex-wrap: wrap;
     gap: 1rem;
 }
 
 .topo h1 {
     font-family: 'Cormorant', serif;
-    font-size: clamp(2rem, 5vw, 2.5rem);
-    color: var(--escuro);
-    margin-bottom: 0.25rem;
+    font-size: clamp(2rem, 3.6vw, 3rem);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    line-height: 1;
 }
 
 .topo p {
+    font-size: clamp(0.875rem, 1.36vw, 1.125rem);
     color: var(--cinza);
-    font-size: clamp(0.875rem, 2vw, 1rem);
+    margin-top: 0.5rem;
 }
 
-.acoes-topo { display: flex; gap: 1rem; }
+.acoes-topo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
 
 .btn-contorno {
     display: inline-flex;
