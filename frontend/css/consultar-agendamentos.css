@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root {
+    --gradiente:   linear-gradient(135deg, #E0456A 0%, #E98CA4 100%);
+    --rosa:        #E0456A;
+    --escuro:      #110E29;
+    --cinza:       #717182;
+    --borda:       #F3F4F6;
+    --fundo-info:  #FAFAFA;
+    --branco:      #FFFFFF;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #FFFFFF 0%, #FFF5F7 50%, #FFFFFF 100%);
+    color: var(--escuro);
+    padding: clamp(1rem, 3vw, 2rem);
+}
+
+.pagina {
+    max-width: 1258px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* ── Menu do Topo ────────────────────────────────────────── */
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.topo h1 {
+    font-family: 'Cormorant', serif;
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    color: var(--escuro);
+    margin-bottom: 0.25rem;
+}
+
+.topo p {
+    color: var(--cinza);
+    font-size: clamp(0.875rem, 2vw, 1rem);
+}
+
+.acoes-topo { display: flex; gap: 1rem; }
+
+.btn-contorno {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: 1.5px solid var(--borda);
+    border-radius: 0.75rem;
+    background: var(--branco);
+    color: var(--escuro);
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-contorno:hover {
+    border-color: var(--rosa);
+    color: var(--rosa);
+    background: #FFF5F7;
+}
