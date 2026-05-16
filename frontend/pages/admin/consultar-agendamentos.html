@@ -113,19 +113,24 @@
 
 <!-- Modal: Ordenação-->
 <div class="modal" id="modalOrdenacao">
-    <div class="corpo-modal" style="display: flex; flex-direction: column; gap: 0.5rem;">
-        <div class="opcao-ordem ativo" id="ordRecente" onclick="selecionarOrdem('recente')">
-            <div class="radio-custom">
-                <div class="icone-ordem ativo"></div>
-            </div>
-            Mais recentes
-        </div>
-        <div class="opcao-ordem" id="ordAntigo" onclick="selecionarOrdem('antigo')">
-            <div class="radio-custom">
-                <div class="icone-ordem"></div>
-            </div>
-            Mais antigos
-        </div>
+    <div class="titulo-ordenacao">
+        <span class="titulo-secao">Ordenar por</span>
+    </div>
+    <div class="opcoes-ordem">
+        <button class="opcao-ordem ativo" id="ordRecente" onclick="selecionarOrdem('recente')">
+            <span class="icone-ordem ativo">↓</span>
+            <span>Mais recentes primeiro</span>
+            <svg class="check" width="14" height="10" viewBox="0 0 14 10" fill="none">
+                <path d="M1 5L5 9L13 1" stroke="#E0456A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <button class="opcao-ordem" id="ordAntigo" onclick="selecionarOrdem('antigo')">
+            <span class="icone-ordem">↑</span>
+            <span>Mais antigos primeiro</span>
+            <svg class="check oculto" width="14" height="10" viewBox="0 0 14 10" fill="none">
+                <path d="M1 5L5 9L13 1" stroke="#E0456A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
     </div>
 </div>
 
