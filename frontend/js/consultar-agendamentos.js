@@ -159,3 +159,28 @@ function _limparFiltros() {
 function limparFiltros() {
     _limparFiltros();
 }
+
+// ── LÓGICA PARA ORDENAR ────────────────────────────────────
+function _selecionarOrdem(tipo) {
+    const ativo   = document.getElementById(tipo === 'recente' ? 'ordRecente' : 'ordAntigo');
+    const inativo = document.getElementById(tipo === 'recente' ? 'ordAntigo'  : 'ordRecente');
+    if (ativo && inativo) {
+        [ativo, inativo].forEach((el, i) => {
+            el.classList.toggle('ativo', i === 0);
+            const icone = el.querySelector('.icone-ordem');
+            if (icone) icone.classList.toggle('ativo', i === 0);
+        });
+    }
+    const multiplicador = tipo === 'recente' ? -1 : 1;    
+    const agendamentosOrdenados = [...todosAgendamentos].sort((a, b) => {
+        if (a.data > b.data) return multiplicador;
+        if (a.data < b.data) return -multiplicador;
+        return 0;
+    });
+    preencherCards(agendamentosOrdenados);
+}
+
+function selecionarOrdem(tipo) {
+    _selecionarOrdem(tipo);
+    if (typeof fecharModais === 'function') fecharModais();
+}
