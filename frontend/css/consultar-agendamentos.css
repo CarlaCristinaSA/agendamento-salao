@@ -58,23 +58,50 @@ body {
     flex-wrap: wrap;
 }
 
+.btn-primario,
+.btn-secundario,
 .btn-contorno {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    border: 1.5px solid var(--borda);
-    border-radius: 0.75rem;
-    background: var(--branco);
-    color: var(--escuro);
+    gap: 0.75rem;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: clamp(0.8125rem, 1.2vw, 1rem);
+    letter-spacing: 0.8px;
+    border-radius: 1rem;
+    border: none;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: opacity .2s, box-shadow .2s;
+    white-space: nowrap;
+    justify-content: center;
 }
 
-.btn-contorno:hover {
-    border-color: var(--rosa);
-    color: var(--rosa);
-    background: #FFF5F7;
+.btn-primario {
+    padding: clamp(0.75rem, 1.2vw, 1rem) clamp(1.25rem, 2.4vw, 2rem);
+    background: var(--gradiente);
+    color: var(--branco);
 }
+
+.btn-primario:hover { opacity: .9; box-shadow: 0 4px 20px rgba(224,69,106,.35); }
+
+.btn-primario.largo { width: 100%; padding: 1rem; }
+
+.btn-secundario {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border: 2px solid #E5E7EB;
+    color: var(--escuro);
+    border-radius: 1.25rem;
+}
+
+.btn-contorno {
+    padding: clamp(0.625rem, 1.2vw, 1rem) clamp(1rem, 2.4vw, 2rem);
+    background: var(--branco);
+    border: 2px solid var(--borda);
+    color: var(--escuro);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.btn-contorno:hover { border-color: var(--rosa); box-shadow: 0 2px 12px rgba(224,69,106,.12); }
