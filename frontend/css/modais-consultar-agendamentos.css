@@ -79,7 +79,7 @@
     margin-top: 1rem;
 }
 
-/* ── Modal de Filtros ────────────────────────────────────── */
+/* ── Modal: Filtros ────────────────────────────────────── */
 .modal#modalFiltro {
     top: clamp(5rem, 10vh, 8rem);
     right: clamp(1rem, 5vw, 3rem);

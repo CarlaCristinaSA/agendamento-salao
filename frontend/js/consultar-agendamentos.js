@@ -108,3 +108,54 @@ window.onload = async () => {
     await fazerLoginAutomatico();
     await carregarAgendamentos();
 };
+
+// ── LÓGICA PARA APLICAR OS FILTROS ──────────────────────────────────────
+function _aplicarFiltro() {
+    const status = document.getElementById('filtroStatus').value;
+    const dataEspecifica = document.getElementById('filtroDataEspecifica').value;
+    const dataInicio = document.getElementById('filtroDataInicio').value;
+    const dataFim = document.getElementById('filtroDataFim').value;
+
+    const agendamentosFiltrados = todosAgendamentos.filter(agendamento => {
+        // Filtro por Status
+        if (status && agendamento.status !== status) {
+            return false;
+        }
+
+        // Filtro por Data Específica
+        if (dataEspecifica && agendamento.data !== dataEspecifica) {
+            return false;
+        }
+        const dataAgendamento = agendamento.data;
+        if (dataInicio && dataFim) {
+            return dataAgendamento >= dataInicio && dataAgendamento <= dataFim;
+        }
+        if (dataInicio) {
+            return dataAgendamento >= dataInicio;
+        }
+        if (dataFim) {
+            return dataAgendamento <= dataFim;
+        }
+        return true;
+    });
+
+    preencherCards(agendamentosFiltrados);
+}
+
+function aplicarFiltro() {
+    _aplicarFiltro();
+    if (typeof fecharModais === 'function') fecharModais();
+}
+
+function _limparFiltros() {
+    document.getElementById('filtroStatus').value = '';
+    ['filtroDataEspecifica', 'filtroDataInicio', 'filtroDataFim'].forEach(id => {
+        document.getElementById(id).value = '';
+    });
+    
+    preencherCards(todosAgendamentos);
+}
+
+function limparFiltros() {
+    _limparFiltros();
+}
