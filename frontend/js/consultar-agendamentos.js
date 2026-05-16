@@ -1,132 +1,132 @@
-const URL_API = 'http://localhost:8080';
-let tokenGlobal = '';
+const URL_API = 'http://localhost:3000/api';
+let tokenGlobal = null;
+let agendamentosGlobais = [];
 
-async function fazerLoginAutomatico() {
+// COMUNICAÇÃO COM O BACKEND
+async function fazerLoginAutomático() {
     try {
-        const resposta = await fetch(`${URL_API}/auth/login`, {
+        const response = await fetch(`${URL_API}/auth/login`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                email: 'admin@admin.com',
-                senha: 'admin'
+                email: 'admin@salao.com',
+                password: 'Admin@123'
             })
         });
-
-        if (resposta.ok) {
-            const dados = await resposta.json();
-            tokenGlobal = dados.token;
-            console.log("Login automático realizado com sucesso.");            
-        } else {
-            console.error("Falha ao realizar login automático.");
+        const data = await response.json();
+        if (data.success) {
+            tokenGlobal = data.data.token;
+            return;
         }
+        throw new Error(data.error || 'Erro ao autenticar');
     } catch (erro) {
-        console.error("Erro ao conectar com a API no login:", erro);
+        console.error('Erro no login automático:', erro);
+        document.getElementById('containerAgendamentos').innerHTML =
+            '<p style="grid-column: 1/-1; text-align: center; color: #999;">Erro ao autenticar para carregar os agendamentos.</p>';
     }
 }
 
-let todosAgendamentos = [];
-
 async function carregarAgendamentos() {
+    if (!tokenGlobal) return;
     try {
-        const resposta = await fetch(`${URL_API}/agendamentos`, {
+        const response = await fetch(`${URL_API}/admin/appointments`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${tokenGlobal}`
             }
         });
-
-        if (resposta.ok) {
-            todosAgendamentos = await resposta.json();
-            preencherCards(todosAgendamentos);
-        } else {
-            console.error("Erro ao buscar a lista de agendamentos.");
+        const result = await response.json();
+        if (!response.ok || !result.success) {
+            throw new Error(result.error || 'Erro ao buscar agendamentos');
         }
+        const agendamentos = Array.isArray(result.data) ? result.data : [];
+        agendamentosGlobais = agendamentos;
+        preencherCards(agendamentos);
     } catch (erro) {
-        console.error("Erro de requisição:", erro);
+        console.error('Erro:', erro);
+        document.getElementById('containerAgendamentos').innerHTML =
+            '<p style="grid-column: 1/-1; text-align: center; color: #999;">Erro ao carregar agendamentos</p>';
     }
 }
 
-function formatarDataBR(dataString) {
-    if (!dataString) return '--/--/----';
-    const partes = dataString.split('-');
-    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+function mapearAgendamento(appt) {
+    return {
+        nome: appt.client_name,
+        telefone: appt.client_phone,
+        email: appt.client_email,
+        servico: appt.service_name,
+        data: appt.appointment_date,
+        hora: appt.appointment_time,
+        valor: appt.price,
+    };
 }
 
-function getStatusConfig(status) {
-    const configs = {
-        'PENDENTE': { cor: '#F59E0B', texto: 'Pendente' },
-        'CONCLUIDO': { cor: '#10B981', texto: 'Concluído' },
-        'CANCELADO': { cor: '#EF4444', texto: 'Cancelado' }
-    };
-    return configs[status?.toUpperCase()] || { cor: 'var(--cinza)', texto: status || 'Indefinido' };
+function _formatarDataHora(data, hora) {
+    if (!data || !hora) return 'N/A';
+    const [ano, mes, dia] = String(data).split('-');
+    if (!ano || !mes || !dia) return 'N/A';
+    return `${dia}/${mes}/${ano} - ${String(hora).substring(0, 5)}`;
+}
+
+function _formatarValor(valor) {
+    if (valor === null || valor === undefined || valor === '') return 'N/A';
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(valor));
+}
+
+function _escapeHtml(texto) {
+    return String(texto)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
 function preencherCards(agendamentos) {
     const container = document.getElementById('containerAgendamentos');
-    container.innerHTML = '';
-
-    if (!agendamentos || agendamentos.length === 0) {
-        container.innerHTML = '<div style="text-align: center; color: var(--cinza); width: 100%; grid-column: 1 / -1; padding: 2rem;">Nenhum agendamento encontrado...</div>';
+    
+    if (agendamentos.length === 0) {
+        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999;">Nenhum agendamento encontrado</p>';
         return;
     }
 
-    agendamentos.forEach(agendamento => {
-        const statusConfig = getStatusConfig(agendamento.status);
-        
-        const cardHTML = `
-            <div class="card" onclick="abrirDetalhamento(${agendamento.id})">
-                <h3>${agendamento.cliente?.nome || 'Cliente não informado'}</h3>
+    container.innerHTML = agendamentos.map(appt => {
+        const dados = mapearAgendamento(appt);
+        const dataHora = _formatarDataHora(dados.data, dados.hora);
+        const valorFormatado = _formatarValor(dados.valor);
+
+        return `
+            <article class="card" onclick="abrirDetalhamento('${_escapeHtml(dados.nome || '')}','${_escapeHtml(dados.telefone || '')}','${_escapeHtml(dados.email || '')}','${_escapeHtml(dados.servico || '')}','${_escapeHtml(dataHora)}','${_escapeHtml(valorFormatado)}')">
+                <h3>${_escapeHtml(dados.nome || 'N/A')}</h3>
                 <div class="infos-card">
-                    <div class="info">
-                        <div class="circulo-icone">
-                            <svg width="20" height="20"><use href="#icone-calendario"></use></svg>
-                        </div>
-                        <div>
-                            <span class="rotulo">Data e Hora</span>
-                            <strong>${formatarDataBR(agendamento.data)} às ${agendamento.horario}</strong>
-                        </div>
-                    </div>
-                    <div class="info">
-                        <div class="circulo-icone" style="background: ${statusConfig.cor}">
-                            <svg width="20" height="20"><use href="#icone-relogio"></use></svg>
-                        </div>
-                        <div>
-                            <span class="rotulo">Status</span>
-                            <strong style="color: ${statusConfig.cor}">${statusConfig.texto}</strong>
-                        </div>
-                    </div>
+                    <div class="info"><div class="circulo-info"><svg width="18" height="18"><use href="#icone-calendario"/></svg></div><div><span class="rotulo">Data e Hora</span><strong>${_escapeHtml(dataHora)}</strong></div></div>
+                    <div class="info"><div class="circulo-info"><svg width="18" height="18"><use href="#icone-relogio"/></svg></div><div><span class="rotulo">Serviço</span><strong>${_escapeHtml(dados.servico || 'N/A')}</strong></div></div>
+                    <div class="info"><div class="circulo-info"><svg width="18" height="18"><use href="#icone-cifrao"/></svg></div><div><span class="rotulo">Valor</span><strong>${_escapeHtml(valorFormatado)}</strong></div></div>
                 </div>
-            </div>
+            </article>
         `;
-        container.innerHTML += cardHTML;
-    });
+    }).join('');
 }
 
-window.onload = async () => {
-    await fazerLoginAutomatico();
-    await carregarAgendamentos();
-};
-
-// ── LÓGICA PARA APLICAR OS FILTROS ──────────────────────────────────────
+// Filtro funcional
 function _aplicarFiltro() {
-    const status = document.getElementById('filtroStatus').value;
     const dataEspecifica = document.getElementById('filtroDataEspecifica').value;
     const dataInicio = document.getElementById('filtroDataInicio').value;
     const dataFim = document.getElementById('filtroDataFim').value;
 
-    const agendamentosFiltrados = todosAgendamentos.filter(agendamento => {
-        // Filtro por Status
-        if (status && agendamento.status !== status) {
-            return false;
-        }
+    if (!dataEspecifica && !dataInicio && !dataFim) {
+        preencherCards(agendamentosGlobais);
+        return;
+    }
 
-        // Filtro por Data Específica
-        if (dataEspecifica && agendamento.data !== dataEspecifica) {
-            return false;
+    const agendamentosFiltrados = agendamentosGlobais.filter(appt => {
+        const dataAgendamento = appt.appointment_date;
+
+        // Filtro por data específica
+        if (dataEspecifica) {
+            return dataAgendamento === dataEspecifica;
         }
-        const dataAgendamento = agendamento.data;
+        // Filtro por intervalo de datas
         if (dataInicio && dataFim) {
             return dataAgendamento >= dataInicio && dataAgendamento <= dataFim;
         }
@@ -144,43 +144,37 @@ function _aplicarFiltro() {
 
 function aplicarFiltro() {
     _aplicarFiltro();
-    if (typeof fecharModais === 'function') fecharModais();
+    _fecharModais();
 }
 
 function _limparFiltros() {
-    document.getElementById('filtroStatus').value = '';
-    ['filtroDataEspecifica', 'filtroDataInicio', 'filtroDataFim'].forEach(id => {
-        document.getElementById(id).value = '';
-    });
-    
-    preencherCards(todosAgendamentos);
+    ['filtroDataEspecifica','filtroDataInicio','filtroDataFim']
+        .forEach(id => document.getElementById(id).value = '');
+    preencherCards(agendamentosGlobais);
 }
 
 function limparFiltros() {
     _limparFiltros();
 }
 
-// ── LÓGICA PARA ORDENAR ────────────────────────────────────
 function _selecionarOrdem(tipo) {
     const ativo   = document.getElementById(tipo === 'recente' ? 'ordRecente' : 'ordAntigo');
     const inativo = document.getElementById(tipo === 'recente' ? 'ordAntigo'  : 'ordRecente');
-    if (ativo && inativo) {
-        [ativo, inativo].forEach((el, i) => {
-            el.classList.toggle('ativo', i === 0);
-            const icone = el.querySelector('.icone-ordem');
-            if (icone) icone.classList.toggle('ativo', i === 0);
-        });
-    }
-    const multiplicador = tipo === 'recente' ? -1 : 1;    
-    const agendamentosOrdenados = [...todosAgendamentos].sort((a, b) => {
-        if (a.data > b.data) return multiplicador;
-        if (a.data < b.data) return -multiplicador;
-        return 0;
+
+    [ativo, inativo].forEach((el, i) => {
+        el.classList.toggle('ativo', i === 0);
+        el.querySelector('.icone-ordem').classList.toggle('ativo', i === 0);
+        el.querySelector('.check').classList.toggle('oculto', i !== 0);
     });
-    preencherCards(agendamentosOrdenados);
+
+    setTimeout(_fecharModais, 300);
 }
 
 function selecionarOrdem(tipo) {
     _selecionarOrdem(tipo);
-    if (typeof fecharModais === 'function') fecharModais();
 }
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await fazerLoginAutomático();
+    await carregarAgendamentos();
+});
