@@ -92,6 +92,34 @@
         </div>
     </div>
 
+    <!-- Modal de Confirmação da Alteração -->
+    <div id="modal-confirmado-overlay" class="modal-overlay">
+        <div class="modal-confirmado" role="dialog" aria-modal="true">
+            <div class="confirmado-body">
+                <div class="confirmado-icon">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h2 class="confirmado-title">Confirmado!</h2>
+                <p class="confirmado-subtitle">Seu serviço foi atualizado com sucesso.</p>
+                <div class="confirmado-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Serviço</span>
+                        <span class="detail-value" id="conf-nome">Nome do Serviço</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Duração</span>
+                        <span class="detail-value" id="conf-duracao">0 minutos</span>
+                    </div>
+                    <div class="detail-row highlight">
+                        <span class="detail-label">Valor</span>
+                        <span class="detail-value" id="conf-valor">R$ 0,00</span>
+                    </div>
+                </div>
+                <button class="modal-confirm-btn" id="btn-ok-confirmado">OK</button>
+            </div>
+        </div>
+    </div>
+
     <script src="../../js/listar-servicos.js"></script>
 </body>
 </html>

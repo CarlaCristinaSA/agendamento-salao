@@ -123,7 +123,20 @@ function fecharModal() {
     const modal = document.getElementById('modal-servico-overlay');
     modal.classList.remove('active');
     servicoEmEdicaoId = null;
+    servicoEmEdicaoStatusOriginal = null;
     document.getElementById('form-servico').reset();
+}
+
+function abrirModalConfirmacao({ nome, duracao, valor, status }) {
+    document.getElementById('conf-nome').textContent = nome;
+    document.getElementById('conf-duracao').textContent = duracao;
+    document.getElementById('conf-valor').textContent = valor;
+
+    document.getElementById('modal-confirmado-overlay').classList.add('active');
+}
+
+function fecharModalConfirmacao() {
+    document.getElementById('modal-confirmado-overlay').classList.remove('active');
 }
 
 function atualizarLabelsStatus(isChecked) {
@@ -207,6 +220,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (e.target.id === 'modal-servico-overlay') fecharModal();
     });
 
+    document.getElementById('btn-ok-confirmado').addEventListener('click', fecharModalConfirmacao);
+    document.getElementById('modal-confirmado-overlay').addEventListener('click', (e) => {
+        if (e.target.id === 'modal-confirmado-overlay') fecharModalConfirmacao();
+    });
+
     // Envio do Formulário de Edição
     document.getElementById('form-servico').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -235,6 +253,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             const resultado = await response.json();
 
             if (resultado.success) {
+                const nomeServico = document.getElementById('input-nome').value.trim();
+                const duracaoServico = `${parseInt(document.getElementById('input-duracao').value)} minutos`;
+                const valorServico = precoFloat.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
                 const desiredStatus = document.getElementById('input-status').checked;
 
                 if (servicoEmEdicaoStatusOriginal !== null && desiredStatus !== servicoEmEdicaoStatusOriginal) {
@@ -259,6 +280,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 fecharModal();
                 carregarServicosDoBackend();
+                abrirModalConfirmacao({
+                    nome: nomeServico,
+                    duracao: duracaoServico,
+                    valor: valorServico,
+                    status: desiredStatus,
+                });
             } else {
                 alert("Erro ao atualizar o serviço.");
             }
