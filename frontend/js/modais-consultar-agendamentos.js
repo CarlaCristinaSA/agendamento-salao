@@ -36,20 +36,12 @@ function fecharModais(overlay = true) {
 
 //MODAL DETALHAMENTO
 function abrirDetalhamento(nome, tel, email, servico, data, valor) {
-    const elNome = document.getElementById('det-nome') || document.getElementById('detalheNomeCliente');
-    const elTel = document.getElementById('det-telefone');
-    const elEmail = document.getElementById('det-email');
-    const elServico = document.getElementById('det-servico') || document.getElementById('detalheServico');
-    const elData = document.getElementById('det-data') || document.getElementById('detalheData');
-    const elValor = document.getElementById('det-valor') || document.getElementById('detalheStatus'); // Usando fallback dependendo da sua versão de HTML
-    
-    if(elNome) elNome.textContent = nome || 'Não informado';
-    if(elTel) elTel.textContent = tel || '--';
-    if(elEmail) elEmail.textContent = email || '--';
-    if(elServico) elServico.textContent = servico || '--';
-    if(elData) elData.textContent = data || '--/--/----';
-    if(elValor) elValor.textContent = valor || '--';
-    
+    document.getElementById('det-nome').textContent     = nome;
+    document.getElementById('det-telefone').textContent = tel;
+    document.getElementById('det-email').textContent    = email;
+    document.getElementById('det-servico').textContent  = servico;
+    document.getElementById('det-data').textContent     = data;
+    document.getElementById('det-valor').textContent    = valor;
     Modal.open('modalDetalhamento');
 }
 
@@ -57,11 +49,16 @@ function fecharDetalhamento() {
     Modal.close('modalDetalhamento');
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    Modal.bindOverlayClose('overlay');
-});
+//MODAL FILTRO
+function abrirFiltro() {
+    Modal.open('modalFiltro');
+}
 
-// ── MODAL ORDENAÇÃO ───────────────────────────────────────
+function fecharFiltro() {
+    Modal.close('modalFiltro');
+}
+
+//MODAL ORDENAÇÃO
 function abrirOrdenacao() {
     Modal.open('modalOrdenacao');
 }
@@ -70,11 +67,15 @@ function fecharOrdenacao() {
     Modal.close('modalOrdenacao');
 }
 
-// ── MODAL CONFIRMAÇÃO ─────────────────────────────────────
-function abrirConfirmacao(idAgendamento) {
+//MODAL CONFIRMAÇÃO
+function abrirConfirmar() {
     Modal.open('modalConfirmar');
 }
 
-function fecharConfirmacao() {
+function fecharConfirmar() {
     Modal.close('modalConfirmar');
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    Modal.bindOverlayClose('overlay');
+});
