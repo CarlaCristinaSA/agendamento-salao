@@ -1,6 +1,7 @@
 const URL_API = 'http://localhost:3000/api';
 let tokenGlobal = null;
 let agendamentosGlobais = [];
+let ordenacaoAtual = 'recente';
 
 // COMUNICAÇÃO COM O BACKEND
 async function fazerLoginAutomático() {
@@ -85,12 +86,14 @@ function _escapeHtml(texto) {
 function preencherCards(agendamentos) {
     const container = document.getElementById('containerAgendamentos');
     
-    if (agendamentos.length === 0) {
+    // Aplicar ordenação
+    const agendamentosOrdenados = _ordenarAgendamentos([...agendamentos]);
+    if (agendamentosOrdenados.length === 0) {
         container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999;">Nenhum agendamento encontrado</p>';
         return;
     }
 
-    container.innerHTML = agendamentos.map(appt => {
+    container.innerHTML = agendamentosOrdenados.map(appt => {
         const dados = mapearAgendamento(appt);
         const dataHora = _formatarDataHora(dados.data, dados.hora);
         const valorFormatado = _formatarValor(dados.valor);
@@ -170,6 +173,27 @@ function _limparFiltros() {
     _atualizarEstadoBotaoFiltro();
 }
 
+function _ordenarAgendamentos(agendamentos) {
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    
+    const agendamentosFuturos = agendamentos.filter(appt => {
+        const dataAgendamento = new Date(`${appt.appointment_date}T00:00:00`);
+        return dataAgendamento >= hoje;
+    });
+    
+    return agendamentosFuturos.sort((a, b) => {
+        const dataA = new Date(`${a.appointment_date}T${a.appointment_time}`);
+        const dataB = new Date(`${b.appointment_date}T${b.appointment_time}`);
+        
+        if (ordenacaoAtual === 'recente') {
+            return dataA - dataB;
+        } else {
+            return dataB - dataA;
+        }
+    });
+}
+
 function limparFiltros() {
     _limparFiltros();
     _fecharModais();
@@ -181,6 +205,8 @@ function _atualizarEstadoBotaoOrdenacao() {
 }
 
 function _selecionarOrdem(tipo) {
+    ordenacaoAtual = tipo;
+    
     const ativo   = document.getElementById(tipo === 'recente' ? 'ordRecente' : 'ordAntigo');
     const inativo = document.getElementById(tipo === 'recente' ? 'ordAntigo'  : 'ordRecente');
 
@@ -190,6 +216,9 @@ function _selecionarOrdem(tipo) {
         el.querySelector('.check').classList.toggle('oculto', i !== 0);
     });
 
+    // Reaplicar a ordenação
+    preencherCards(agendamentosGlobais);
+    
     setTimeout(_fecharModais, 300);
 }
 
