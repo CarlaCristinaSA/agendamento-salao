@@ -78,3 +78,74 @@
     justify-content: flex-end;
     margin-top: 1rem;
 }
+
+/* ── Modal de Filtros ────────────────────────────────────── */
+.modal#modalFiltro {
+    top: clamp(5rem, 10vh, 8rem);
+    right: clamp(1rem, 5vw, 3rem);
+    width: min(320px, 92vw);
+    gap: 1rem;
+    left: auto;
+    transform: none;
+}
+
+.grupo-filtro {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.grupo-filtro:last-child { margin-bottom: 0; }
+
+.subtitulo {
+    font-weight: 600;
+    color: var(--escuro);
+    font-size: 0.875rem;
+}
+
+.input-padrao {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--borda);
+    border-radius: 0.5rem;
+    font-family: inherit;
+    font-size: 0.875rem;
+    color: var(--escuro);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-padrao:focus { border-color: var(--rosa); }
+
+.rodape-modal {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.rodape-modal button {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+}
+
+.btn-secundario {
+    background: var(--fundo-info);
+    border: 1px solid var(--borda);
+    color: var(--escuro);
+}
+
+.btn-secundario:hover { background: #E5E7EB; }
+
+.btn-primario {
+    background: var(--gradiente);
+    border: none;
+    color: var(--branco);
+}
+
+.btn-primario:hover { opacity: 0.9; }
