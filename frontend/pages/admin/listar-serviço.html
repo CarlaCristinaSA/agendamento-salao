@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços Disponíveis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/listar-servicos.css">
+</head>
+<body>
+
+    <!-- ─── PÁGINA PRINCIPAL ─────────────────────────────────────────────── -->
+    <div class="container">
+        <header class="header">
+            <div class="texto-header">
+                <h1>Serviços Cadastrados</h1>
+                <p>Gerencie todo o seu portifólio de serviços</p>
+            </div>
+            <div class="botoes-header">
+                <a href="cadastrar-serviço.html" style="text-decoration: none;">
+                    <button class="btn-criar-servico" id="btn-criar-servico">
+                        <i class="fa-solid fa-plus"></i>
+                        ADICIONAR SERVIÇO
+                    </button>
+                </a>
+                <button class="btn-filtrar-servico" id="btn-filtrar-servico">
+                    <img src="../../assets/filter-arrows.svg" alt="">
+                    Ordenar
+                </button>
+            </div>
+
+        </header>
+        <div class="services-grid" id="services-container">
+            <p class="empty-message">Carregando serviços...</p>
+        </div>
+    </div>
+    
+    
+
+   
+
+    <script src="../../js/listar-servicos.js"></script>
+
+</body>
+</html>
