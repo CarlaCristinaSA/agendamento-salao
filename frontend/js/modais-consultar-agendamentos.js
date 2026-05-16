@@ -36,6 +36,20 @@ function fecharModais(overlay = true) {
 
 //MODAL DETALHAMENTO
 function abrirDetalhamento(nome, tel, email, servico, data, valor) {
+    const elNome = document.getElementById('det-nome') || document.getElementById('detalheNomeCliente');
+    const elTel = document.getElementById('det-telefone');
+    const elEmail = document.getElementById('det-email');
+    const elServico = document.getElementById('det-servico') || document.getElementById('detalheServico');
+    const elData = document.getElementById('det-data') || document.getElementById('detalheData');
+    const elValor = document.getElementById('det-valor') || document.getElementById('detalheStatus'); // Usando fallback dependendo da sua versão de HTML
+    
+    if(elNome) elNome.textContent = nome || 'Não informado';
+    if(elTel) elTel.textContent = tel || '--';
+    if(elEmail) elEmail.textContent = email || '--';
+    if(elServico) elServico.textContent = servico || '--';
+    if(elData) elData.textContent = data || '--/--/----';
+    if(elValor) elValor.textContent = valor || '--';
+    
     Modal.open('modalDetalhamento');
 }
 
