@@ -93,6 +93,41 @@
     </div>
 </div>
 
+<!-- Modal: Filtro-->
+<div class="modal" id="modalFiltro">
+    <div class="topo-modal">
+        <h2>Filtrar por</h2>
+    </div>
+    
+    <div class="corpo-modal">
+        <div class="grupo-filtro">
+            <label class="subtitulo">Status do Agendamento</label>
+            <select id="filtroStatus" class="input-padrao">
+                <option value="">Todos os status</option>
+                <option value="PENDENTE">Pendente</option>
+                <option value="CONCLUIDO">Concluído</option>
+                <option value="CANCELADO">Cancelado</option>
+            </select>
+        </div>
+        
+        <div class="grupo-filtro">
+            <label class="subtitulo">Data de Agendamento</label>
+            <input type="date" id="filtroDataEspecifica" class="input-padrao" style="margin-bottom: 0.5rem;">
+            
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <input type="date" id="filtroDataInicio" class="input-padrao">
+                <span style="color: var(--cinza); font-size: 0.875rem;">até</span>
+                <input type="date" id="filtroDataFim" class="input-padrao">
+            </div>
+        </div>
+    </div>
+    
+    <div class="rodape-modal">
+        <button class="btn-secundario" onclick="limparFiltros()">Limpar</button>
+        <button class="btn-primario" onclick="aplicarFiltro()">Aplicar</button>
+    </div>
+</div>
+
 <script src="../../js/modais-consultar-agendamentos.js"></script>
 <script src="../../js/consultar-agendamentos.js"></script>
 </body>
