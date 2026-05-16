@@ -1,3 +1,5 @@
+let servicoEmEdicaoId = null;
+
 function formatarValor(valor) {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
@@ -8,13 +10,14 @@ function criarCard(servico, index) {
     card.className = 'service-card';
     card.style.animationDelay = `${index * 0.1}s`;
 
+    const badgeHTML = servico.ativo 
+        ? `<button class="ativar-servico"><i class="fa-regular fa-circle-check" style="color: white;"></i> ATIVO</button>`
+        : `<button class="ativar-servico badge-inativo"><i class="fa-regular fa-circle-xmark"></i> INATIVO</button>`;
+
     card.innerHTML = `
         <div class="topo-card">
             <h3>${servico.nome}</h3>
-            <button class="ativar-servico">
-                <i class="fa-regular fa-circle-check" style="color: rgb(255, 255, 255);"></i>
-                ATIVO
-            </button>
+            ${badgeHTML}
         </div>
         <div class="info-row">
             <div class="icon-circle"><i class="fa-regular fa-clock"></i></div>
@@ -33,18 +36,44 @@ function criarCard(servico, index) {
         <button class="select-btn">EDITAR SERVIÇO</button>
     `;
 
-    // Evento de clique para Editar o Serviço
     card.querySelector('.select-btn').addEventListener('click', () => {
-        constatarEdicao(servico);
+        abrirEdicao(servico);
     });
 
     return card;
 }
 
-// Função para manipular a ação de editar (Implemente a abertura do seu modal de edição aqui)
-function constatarEdicao(servico) {
-    console.log("Editar o serviço:", servico);
-    // Exemplo: abrirModalEditar(servico);
+function abrirEdicao(servico) {
+    servicoEmEdicaoId = servico.id;
+
+    const modal = document.getElementById('modal-servico-overlay');
+    const inputNome = document.getElementById('input-nome');
+    const inputDuracao = document.getElementById('input-duracao');
+    const inputPreco = document.getElementById('input-preco');
+    const checkboxStatus = document.getElementById('input-status');
+    
+    const apenasMinutos = servico.duracao.replace(/[^0-9]/g, '');
+    
+    inputNome.value = servico.nome;
+    inputDuracao.value = apenasMinutos;
+    inputPreco.value = servico.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    
+    checkboxStatus.checked = !!servico.ativo;
+    atualizarLabelsStatus(checkboxStatus.checked);
+
+    modal.classList.add('active');
+}
+
+function fecharModal() {
+    const modal = document.getElementById('modal-servico-overlay');
+    modal.classList.remove('active');
+    servicoEmEdicaoId = null;
+    document.getElementById('form-servico').reset();
+}
+
+function actualizarLabelsStatus(isChecked) {
+    document.getElementById('label-ativo').classList.toggle('active', isChecked);
+    document.getElementById('label-inativo').classList.toggle('active', !isChecked);
 }
 
 function renderizarCards(servicos) {
@@ -69,7 +98,8 @@ async function carregarServicosDoBackend() {
                 id: servico.id,
                 nome: servico.name,
                 duracao: `${servico.duration_minutes} minutos`,
-                valor: parseFloat(servico.price)
+                valor: parseFloat(servico.price),
+                ativo: servico.active
             }));
             
             renderizarCards(servicosMapeados);
@@ -86,12 +116,47 @@ async function carregarServicosDoBackend() {
 document.addEventListener('DOMContentLoaded', () => {
     carregarServicosDoBackend();
     
-    // Configuração básica dos botões do Header (opcional)
-    document.getElementById('btn-criar-servico').addEventListener('click', () => {
-        console.log('Ação de adicionar serviço disparada');
+    const toggleInput = document.getElementById('input-status');
+
+    toggleInput.addEventListener('change', (e) => atualizarLabelsStatus(e.target.checked));
+    
+    document.getElementById('btn-fechar-modal').addEventListener('click', fecharModal);
+    document.getElementById('btn-cancelar-modal').addEventListener('click', fecharModal);
+    document.getElementById('modal-servico-overlay').addEventListener('click', (e) => {
+        if (e.target.id === 'modal-servico-overlay') fecharModal();
     });
 
-    document.getElementById('btn-filtrar-servico').addEventListener('click', () => {
-        console.log('Ação de ordenar disparada');
+    document.getElementById('form-servico').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        let precoTexto = document.getElementById('input-preco').value;
+        let precoFloat = parseFloat(precoTexto.replace(/\./g, '').replace(',', '.'));
+
+        const dadosAtualizados = {
+            name: document.getElementById('input-nome').value,
+            duration_minutes: parseInt(document.getElementById('input-duracao').value),
+            price: precoFloat,
+            active: toggleInput.checked
+        };
+
+        try {
+            const response = await fetch(`http://localhost:3000/api/public/services/${servicoEmEdicaoId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dadosAtualizados)
+            });
+
+            const resultado = await response.json();
+
+            if (resultado.success) {
+                fecharModal();
+                carregarServicosDoBackend();
+            } else {
+                alert("Erro ao atualizar o serviço.");
+            }
+        } catch (error) {
+            console.error("Erro na requisição de atualização:", error);
+            alert("Não foi possível conectar ao servidor.");
+        }
     });
 });
