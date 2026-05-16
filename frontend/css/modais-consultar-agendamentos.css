@@ -149,3 +149,72 @@
 }
 
 .btn-primario:hover { opacity: 0.9; }
+
+/* ── Modal: Ordenação ──────────────────────────────────── */
+.modal#modalOrdenacao {
+    top: clamp(5rem, 10vh, 8rem);
+    right: clamp(1rem, 5vw, 3rem);
+    width: min(256px, 92vw);
+    padding: 0.75rem;
+    gap: 0;
+    left: auto;
+    transform: none;
+}
+
+.opcao-ordem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--escuro);
+    transition: background 0.2s;
+}
+
+.opcao-ordem:hover { background: var(--fundo-info); }
+.opcao-ordem.ativo { color: var(--rosa); font-weight: 600; }
+
+.radio-custom {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--borda);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s;
+}
+
+.opcao-ordem.ativo .radio-custom { border-color: var(--rosa); }
+
+.icone-ordem {
+    width: 8px;
+    height: 8px;
+    background: transparent;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.opcao-ordem.ativo .icone-ordem { background: var(--rosa); }
+
+/* ── Modal: Confirmação ────────────────────────────────── */
+.modal#modalConfirmar {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(448px, 95vw);
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.circulo-icone {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
