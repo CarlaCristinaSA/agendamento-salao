@@ -135,21 +135,17 @@
 </div>
 
 <!-- Modal: Confirmar-->
-<div class="modal" id="modalConfirmar">
-    <div class="topo-modal" style="justify-content: center; margin-bottom: 0.5rem;">
-        <div class="circulo-icone" style="background: #FEE2E2; width: 48px; height: 48px;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
+<div class="modal centralizado" id="modalConfirmar">
+    <div class="circulo-icone">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5V19M5 12H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
     </div>
-    <div class="corpo-modal" style="text-align: center;">
-        <h2 style="font-family: 'Cormorant', serif; font-size: 1.5rem; color: var(--escuro); margin-bottom: 0.5rem;">Tem certeza?</h2>
-        <p style="color: var(--cinza); font-size: 0.875rem; line-height: 1.5;">Você está prestes a cancelar este agendamento. Esta ação não pode ser desfeita.</p>
-    </div>
-    <div class="rodape-modal" style="margin-top: 1.5rem;">
-        <button class="btn-secundario" onclick="fecharModais()">Voltar</button>
-        <button class="btn-primario" style="background: #EF4444;" onclick="fecharModais()">Cancelar Agendamento</button>
+    <h2>Cadastrar Agendamento</h2>
+    <p class="subtitulo">Deseja registrar um agendamento manualmente?</p>
+    <div class="rodape-modal">
+        <button class="btn-secundario" onclick="fecharModais()">Cancelar</button>
+        <button class="btn-primario" onclick="fecharModais()">Sim</button>
     </div>
 </div>
 
