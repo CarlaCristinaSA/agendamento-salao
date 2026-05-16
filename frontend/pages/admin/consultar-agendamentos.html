@@ -89,38 +89,28 @@
 
 <!-- Modal: Filtro-->
 <div class="modal" id="modalFiltro">
-    <div class="topo-modal">
-        <h2>Filtrar por</h2>
+    <p class="titulo-secao">Filtrar por Data</p>
+    <div class="grupo-campo">
+        <label class="rotulo-campo">Data Específica</label>
+        <input type="date" class="campo-data" id="filtroDataEspecifica">
     </div>
-    
-    <div class="corpo-modal">
-        <div class="grupo-filtro">
-            <label class="subtitulo">Status do Agendamento</label>
-            <select id="filtroStatus" class="input-padrao">
-                <option value="">Todos os status</option>
-                <option value="PENDENTE">Pendente</option>
-                <option value="CONCLUIDO">Concluído</option>
-                <option value="CANCELADO">Cancelado</option>
-            </select>
+    <div class="grupo-campo separador">
+        <label class="rotulo-campo">Intervalo de Datas</label>
+        <div class="grupo-campo">
+            <span class="sub-rotulo">Data Inicial</span>
+            <input type="date" class="campo-data" id="filtroDataInicio">
         </div>
-        
-        <div class="grupo-filtro">
-            <label class="subtitulo">Data de Agendamento</label>
-            <input type="date" id="filtroDataEspecifica" class="input-padrao" style="margin-bottom: 0.5rem;">
-            
-            <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <input type="date" id="filtroDataInicio" class="input-padrao">
-                <span style="color: var(--cinza); font-size: 0.875rem;">até</span>
-                <input type="date" id="filtroDataFim" class="input-padrao">
-            </div>
+        <div class="grupo-campo">
+            <span class="sub-rotulo">Data Final</span>
+            <input type="date" class="campo-data" id="filtroDataFim">
         </div>
     </div>
-    
     <div class="rodape-modal">
         <button class="btn-secundario" onclick="limparFiltros()">Limpar</button>
         <button class="btn-primario" onclick="aplicarFiltro()">Aplicar</button>
     </div>
 </div>
+
 <!-- Modal: Ordenação-->
 <div class="modal" id="modalOrdenacao">
     <div class="corpo-modal" style="display: flex; flex-direction: column; gap: 0.5rem;">
