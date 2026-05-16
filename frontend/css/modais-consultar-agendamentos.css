@@ -218,3 +218,32 @@
     align-items: center;
     justify-content: center;
 }
+
+/* ── Responsividade ──────────────────────────────── */
+@media (max-width: 560px) {
+    .modal { padding: 1.25rem; }
+    .modal h2 { font-size: 1.25rem; }
+    .subtitulo { font-size: 0.75rem; margin-bottom: 0.75rem; }
+    
+    .rodape-modal { 
+        gap: 0.5rem; 
+        padding-top: 0.75rem;
+        flex-wrap: wrap;
+    }
+    
+    .rodape-modal button { 
+        padding: 0.625rem 0.75rem; 
+        font-size: 0.8rem;
+    }
+    
+    .modal#modalFiltro,
+    .modal#modalOrdenacao {
+        top: auto;
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 1rem;
+    }
+    
+    .modal#modalFiltro { width: min(300px, 95vw); }
+}
