@@ -2,6 +2,7 @@ const URL_API = 'http://localhost:3000/api';
 let tokenGlobal = null;
 let agendamentosGlobais = [];
 let ordenacaoAtual = 'recente';
+let duracaoServicos = {}; 
 
 // COMUNICAÇÃO COM O BACKEND
 async function fazerLoginAutomático() {
@@ -24,6 +25,20 @@ async function fazerLoginAutomático() {
         console.error('Erro no login automático:', erro);
         document.getElementById('containerAgendamentos').innerHTML =
             '<p style="grid-column: 1/-1; text-align: center; color: #999;">Erro ao autenticar para carregar os agendamentos.</p>';
+    }
+}
+
+async function carregarDuracaoServicos() {
+    try {
+        const response = await fetch(`${URL_API}/public/services`);
+        const result = await response.json();
+        if (result.success && Array.isArray(result.data)) {
+            result.data.forEach(s => {
+                duracaoServicos[s.name] = Number(s.duration_minutes) || 0;
+            });
+        }
+    } catch (erro) {
+        console.warn('Não foi possível carregar duração dos serviços:', erro);
     }
 }
 
@@ -174,12 +189,13 @@ function _limparFiltros() {
 }
 
 function _ordenarAgendamentos(agendamentos) {
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0);
-    
+    const agora = new Date();
     const agendamentosFuturos = agendamentos.filter(appt => {
-        const dataAgendamento = new Date(`${appt.appointment_date}T00:00:00`);
-        return dataAgendamento >= hoje;
+        const hora = String(appt.appointment_time).substring(0, 5);
+        const inicio = new Date(`${appt.appointment_date}T${hora}:00`);
+        const duracaoMin = Number(appt.duration_minutes) || duracaoServicos[appt.service_name] || 0;
+        const fim = new Date(inicio.getTime() + duracaoMin * 60 * 1000);
+        return fim > agora;
     });
     
     return agendamentosFuturos.sort((a, b) => {
@@ -228,6 +244,7 @@ function selecionarOrdem(tipo) {
 
 document.addEventListener('DOMContentLoaded', async () => {
     await fazerLoginAutomático();
+    await carregarDuracaoServicos();
     await carregarAgendamentos();
     _atualizarEstadoBotaoFiltro();
     _atualizarEstadoBotaoOrdenacao();
