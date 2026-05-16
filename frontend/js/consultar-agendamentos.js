@@ -175,6 +175,11 @@ function limparFiltros() {
     _fecharModais();
 }
 
+function _atualizarEstadoBotaoOrdenacao() {
+    const botaoOrdenacao = document.querySelector('button[onclick="abrirOrdenacao()"]');
+    botaoOrdenacao.classList.add('ativo');
+}
+
 function _selecionarOrdem(tipo) {
     const ativo   = document.getElementById(tipo === 'recente' ? 'ordRecente' : 'ordAntigo');
     const inativo = document.getElementById(tipo === 'recente' ? 'ordAntigo'  : 'ordRecente');
@@ -196,4 +201,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     await fazerLoginAutomático();
     await carregarAgendamentos();
     _atualizarEstadoBotaoFiltro();
+    _atualizarEstadoBotaoOrdenacao();
 });

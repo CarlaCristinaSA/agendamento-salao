@@ -108,7 +108,10 @@ body {
 .btn-contorno svg path { transition: stroke 0.2s ease; }
 
 .btn-contorno:first-of-type svg path { stroke: var(--cinza); }
-.btn-contorno.ativo svg path { stroke: var(--rosa); }
+.btn-contorno:first-of-type.ativo svg path { stroke: var(--rosa); }
+
+.btn-contorno:nth-of-type(2) svg path { stroke: var(--cinza); }
+.btn-contorno:nth-of-type(2).ativo svg path { stroke: var(--rosa); }
 
 /* ── Grade de cards ──────────────────────────────────────── */
 .grade-cards {
