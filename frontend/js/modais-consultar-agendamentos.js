@@ -46,3 +46,21 @@ function fecharDetalhamento() {
 window.addEventListener('DOMContentLoaded', () => {
     Modal.bindOverlayClose('overlay');
 });
+
+// ── MODAL ORDENAÇÃO ───────────────────────────────────────
+function abrirOrdenacao() {
+    Modal.open('modalOrdenacao');
+}
+
+function fecharOrdenacao() {
+    Modal.close('modalOrdenacao');
+}
+
+// ── MODAL CONFIRMAÇÃO ─────────────────────────────────────
+function abrirConfirmacao(idAgendamento) {
+    Modal.open('modalConfirmar');
+}
+
+function fecharConfirmacao() {
+    Modal.close('modalConfirmar');
+}
