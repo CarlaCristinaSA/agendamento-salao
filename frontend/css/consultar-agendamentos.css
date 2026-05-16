@@ -138,3 +138,50 @@ body {
     font-weight: 600;
     color: var(--escuro);
 }
+
+
+/* ── Responsividade ───────────────────── */
+@media (max-width: 768px) {
+    body { padding: 0.75rem 1rem; }
+    
+    .topo { gap: 1.5rem; }
+    
+    .acoes-topo { gap: 0.5rem; }
+    .acoes-topo button { font-size: 0.75rem; }
+}
+
+@media (max-width: 560px) {
+    body { padding: 0.5rem; }
+    
+    .pagina { gap: clamp(1rem, 2.4vw, 1.5rem); }
+    
+    .topo { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .topo h1 { font-size: clamp(1.5rem, 4vw, 2rem); }
+    
+    .acoes-topo { 
+        width: 100%; 
+        gap: 0.4rem; 
+    }
+    .acoes-topo button { 
+        flex: 1; 
+        font-size: 0.75rem;
+        padding: 0.625rem 0.75rem;
+    }
+    .acoes-topo .btn-primario { padding: 0.625rem 0.5rem; }
+    
+    .card { padding: 1rem; gap: 1rem; }
+    .card h3 { font-size: clamp(1rem, 3vw, 1.25rem); }
+    .card:hover { transform: translateY(-2px); }
+    
+    .info { gap: 0.75rem; padding: 0.75rem; }
+    .info strong { font-size: 0.8rem; }
+    .circulo-info { width: 2rem; height: 2rem; }
+    .circulo-info svg { width: 16px !important; height: 16px !important; }
+}
+
+@media (max-width: 400px) {
+    .acoes-topo { flex-direction: column; }
+    .acoes-topo button { width: 100%; }
+    .info div { gap: 0.15rem; }
+    .rotulo { font-size: 0.65rem; }
+}
