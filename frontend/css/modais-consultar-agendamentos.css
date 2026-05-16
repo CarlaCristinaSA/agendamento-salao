@@ -1,0 +1,80 @@
+#overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.3);
+    z-index: 100;
+}
+#overlay.visivel { display: block; }
+
+/* ── Base de todos os modais ─────────────────────────────── */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 200;
+    background: var(--branco);
+    border-radius: 1.5rem;
+    box-shadow: 0 24px 80px rgba(0,0,0,.2);
+    padding: clamp(1.5rem, 3vw, 2rem);
+}
+
+.modal.visivel { display: flex; flex-direction: column; }
+
+/* ── Modal: Detalhamento ────────────────────── */
+.modal#modalDetalhamento {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(448px, 95vw);
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.topo-modal {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.topo-modal h2 {
+    font-family: 'Cormorant', serif;
+    color: var(--escuro);
+    font-size: 1.5rem;
+}
+
+.btn-fechar {
+    background: none;
+    border: none;
+    color: var(--cinza);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.btn-fechar:hover { color: var(--rosa); }
+
+.corpo-modal { width: 100%; }
+
+.detalhamento .linha-detalhe {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.875rem 0;
+    border-bottom: 1px solid var(--borda);
+}
+
+.detalhamento .linha-detalhe:last-child { border-bottom: none; }
+
+.rotulo { color: var(--cinza); font-size: 0.875rem; }
+.detalhamento strong { color: var(--escuro); font-size: 0.875rem; font-weight: 600; }
+
+.acoes-modal {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
