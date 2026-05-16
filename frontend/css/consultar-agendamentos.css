@@ -105,6 +105,11 @@ body {
 
 .btn-contorno:hover { border-color: var(--rosa); box-shadow: 0 2px 12px rgba(224,69,106,.12); }
 
+.btn-contorno svg path { transition: stroke 0.2s ease; }
+
+.btn-contorno:first-of-type svg path { stroke: var(--cinza); }
+.btn-contorno.ativo svg path { stroke: var(--rosa); }
+
 /* ── Grade de cards ──────────────────────────────────────── */
 .grade-cards {
     display: grid;

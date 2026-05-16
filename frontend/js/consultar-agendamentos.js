@@ -109,6 +109,20 @@ function preencherCards(agendamentos) {
 }
 
 // Filtro funcional
+function _atualizarEstadoBotaoFiltro() {
+    const dataEspecifica = document.getElementById('filtroDataEspecifica').value;
+    const dataInicio = document.getElementById('filtroDataInicio').value;
+    const dataFim = document.getElementById('filtroDataFim').value;
+    const temFiltro = dataEspecifica || dataInicio || dataFim;
+    
+    const botaoFiltro = document.querySelector('button[onclick="abrirFiltro()"]');
+    if (temFiltro) {
+        botaoFiltro.classList.add('ativo');
+    } else {
+        botaoFiltro.classList.remove('ativo');
+    }
+}
+
 function _aplicarFiltro() {
     const dataEspecifica = document.getElementById('filtroDataEspecifica').value;
     const dataInicio = document.getElementById('filtroDataInicio').value;
@@ -116,6 +130,7 @@ function _aplicarFiltro() {
 
     if (!dataEspecifica && !dataInicio && !dataFim) {
         preencherCards(agendamentosGlobais);
+        _atualizarEstadoBotaoFiltro();
         return;
     }
 
@@ -140,6 +155,7 @@ function _aplicarFiltro() {
     });
 
     preencherCards(agendamentosFiltrados);
+    _atualizarEstadoBotaoFiltro();
 }
 
 function aplicarFiltro() {
@@ -151,10 +167,12 @@ function _limparFiltros() {
     ['filtroDataEspecifica','filtroDataInicio','filtroDataFim']
         .forEach(id => document.getElementById(id).value = '');
     preencherCards(agendamentosGlobais);
+    _atualizarEstadoBotaoFiltro();
 }
 
 function limparFiltros() {
     _limparFiltros();
+    _fecharModais();
 }
 
 function _selecionarOrdem(tipo) {
@@ -177,4 +195,5 @@ function selecionarOrdem(tipo) {
 document.addEventListener('DOMContentLoaded', async () => {
     await fazerLoginAutomático();
     await carregarAgendamentos();
+    _atualizarEstadoBotaoFiltro();
 });
