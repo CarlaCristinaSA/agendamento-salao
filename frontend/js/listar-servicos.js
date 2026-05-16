@@ -1,6 +1,7 @@
 let servicoEmEdicaoId = null;
 
 function formatarValor(valor) {
+    if (isNaN(valor)) return "R$ 0,00";
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
@@ -23,7 +24,7 @@ function criarCard(servico, index) {
             <div class="icon-circle"><i class="fa-regular fa-clock"></i></div>
             <div class="info-text">
                 <span class="info-label">Duração</span>
-                <span class="info-value">${servico.duracao}</span>
+                <span class="info-value">${servico.duracaoStr}</span>
             </div>
         </div>
         <div class="info-row">
@@ -52,13 +53,19 @@ function abrirEdicao(servico) {
     const inputPreco = document.getElementById('input-preco');
     const checkboxStatus = document.getElementById('input-status');
     
-    const apenasMinutos = servico.duracao.replace(/[^0-9]/g, '');
-    
+    // Preenche os campos
     inputNome.value = servico.nome;
-    inputDuracao.value = apenasMinutos;
-    inputPreco.value = servico.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    inputDuracao.value = servico.duracaoNum;
     
-    checkboxStatus.checked = !!servico.ativo;
+    // Formata o preço
+    if (!isNaN(servico.valor)) {
+        inputPreco.value = servico.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    } else {
+        inputPreco.value = "0,00";
+    }
+    
+    // Configura e atualiza o estado do Toggle Switch
+    checkboxStatus.checked = servico.ativo;
     atualizarLabelsStatus(checkboxStatus.checked);
 
     modal.classList.add('active');
@@ -71,7 +78,7 @@ function fecharModal() {
     document.getElementById('form-servico').reset();
 }
 
-function actualizarLabelsStatus(isChecked) {
+function atualizarLabelsStatus(isChecked) {
     document.getElementById('label-ativo').classList.toggle('active', isChecked);
     document.getElementById('label-inativo').classList.toggle('active', !isChecked);
 }
@@ -94,13 +101,25 @@ async function carregarServicosDoBackend() {
         const result = await response.json();
 
         if (result.success) {
-            const servicosMapeados = result.data.map(servico => ({
-                id: servico.id,
-                nome: servico.name,
-                duracao: `${servico.duration_minutes} minutos`,
-                valor: parseFloat(servico.price),
-                ativo: servico.active
-            }));
+            const servicosMapeados = result.data.map(servico => {
+                const nomeStr = servico.nome || servico.name || 'Serviço Sem Nome';
+                const duracaoVal = servico.duracao || servico.duration_minutes || servico.duration || 0;
+                const precoVal = parseFloat(servico.valor || servico.preco || servico.price || 0);
+                
+                let estaAtivo = false;
+                if (typeof servico.ativo === 'boolean') estaAtivo = servico.ativo;
+                else if (typeof servico.active === 'boolean') estaAtivo = servico.active;
+                else if (servico.status === 'ATIVO' || servico.status === 'ativo') estaAtivo = true;
+
+                return {
+                    id: servico.id,
+                    nome: nomeStr,
+                    duracaoStr: `${duracaoVal} minutos`,
+                    duracaoNum: duracaoVal,
+                    valor: precoVal,
+                    ativo: estaAtivo
+                };
+            });
             
             renderizarCards(servicosMapeados);
         } else {
@@ -109,7 +128,7 @@ async function carregarServicosDoBackend() {
     } catch (error) {
         console.error("Erro ao carregar serviços:", error);
         const container = document.getElementById('services-container');
-        container.innerHTML = '<p class="empty-message">Erro ao carregar os serviços. Tente novamente mais tarde.</p>';
+        container.innerHTML = '<p class="empty-message">Erro ao carregar os serviços. Verifique a conexão com o servidor.</p>';
     }
 }
 
@@ -126,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.id === 'modal-servico-overlay') fecharModal();
     });
 
+    // Envio do Formulário de Edição
     document.getElementById('form-servico').addEventListener('submit', async (e) => {
         e.preventDefault();
 
