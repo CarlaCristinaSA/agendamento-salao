@@ -481,6 +481,10 @@ body {
     transition: background-color 0.3s ease;
 }
 
+.switch-wrapper:hover {
+    transform: translateY(-2px) scale(1.02);
+}
+
 .switch-slider::after {
     content: "";
     position: absolute;
@@ -526,8 +530,7 @@ body {
 }
 
 .btn-cancelar:hover {
-    background-color: #F3F4F6;
-    color: var(--text-dark);
+    box-shadow: #5050506d 2px 4px 10px;
 }
 
 .btn-salvar {
@@ -537,7 +540,7 @@ body {
 }
 
 .btn-salvar:hover {
-    opacity: 0.95;
+    box-shadow: #e045696d 2px 4px 10px;
 }
 
 .btn-salvar:active, .btn-cancelar:active {
