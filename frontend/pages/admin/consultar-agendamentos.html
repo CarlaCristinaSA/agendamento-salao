@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../css/consultar-agendamentos.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Montserrat:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="../../css/modais-consultar-agendamentos.css">
 </head>
 <body>
 
@@ -49,6 +50,50 @@
         </div>
 </div>
 
+<!-- MODAIS-->
+<!-- Modal: Detalhamento-->
+
+<div id="overlay"></div>
+
+<div class="modal" id="modalDetalhamento">
+    <div class="topo-modal">
+        <h2 id="detalheNomeCliente">Nome do Cliente</h2>
+        <button class="btn-fechar" onclick="fecharDetalhamento()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+    
+    <div class="corpo-modal detalhamento">
+        <div class="linha-detalhe">
+            <span class="rotulo">Serviço</span>
+            <strong id="detalheServico">--</strong>
+        </div>
+        <div class="linha-detalhe">
+            <span class="rotulo">Profissional</span>
+            <strong id="detalheProfissional">--</strong>
+        </div>
+        <div class="linha-detalhe">
+            <span class="rotulo">Data do Agendamento</span>
+            <strong id="detalheData">--/--/----</strong>
+        </div>
+        <div class="linha-detalhe">
+            <span class="rotulo">Horário</span>
+            <strong id="detalheHorario">--:--</strong>
+        </div>
+        <div class="linha-detalhe">
+            <span class="rotulo">Status</span>
+            <strong id="detalheStatus">--</strong>
+        </div>
+    </div>
+    
+    <div class="acoes-modal">
+        <button class="btn-contorno" onclick="fecharDetalhamento()">Voltar</button>
+    </div>
+</div>
+
+<script src="../../js/modais-consultar-agendamentos.js"></script>
 <script src="../../js/consultar-agendamentos.js"></script>
 </body>
 </html>
