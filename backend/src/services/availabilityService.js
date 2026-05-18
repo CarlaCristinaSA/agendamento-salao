@@ -134,6 +134,8 @@ function fitsInBusinessHours(time, duration, intervals) {
  * @returns {string[]} Lista de horários disponíveis "HH:MM"
  */
 async function getAvailableSlots(dateStr, duration, dbClient = null) {
+  const SLOT_INTERVAL = 30;
+
   const [intervals, existingAppts] = await Promise.all([
     getIntervalsForDate(dateStr, dbClient),
     getConfirmedAppointmentsForDate(dateStr, dbClient),
@@ -141,15 +143,43 @@ async function getAvailableSlots(dateStr, duration, dbClient = null) {
 
   if (intervals.length === 0) return [];
 
+  const totalWorkMinutes = intervals.reduce((acc, interval) => {
+    const iStart = timeToMinutes(interval.start_time.substring(0, 5));
+    const iEnd   = timeToMinutes(interval.end_time.substring(0, 5));
+    return acc + (iEnd - iStart);
+  }, 0);
+
+  const isLongService = duration > totalWorkMinutes / 2;
+
   const available = [];
 
   for (const interval of intervals) {
     const iStart = timeToMinutes(interval.start_time.substring(0, 5));
     const iEnd   = timeToMinutes(interval.end_time.substring(0, 5));
-    for (let slot = iStart; slot + duration <= iEnd; slot += duration) {
-      const slotTime = minutesToTime(slot);
-      if (!hasConflict(slotTime, duration, existingAppts)) {
-        available.push(slotTime);
+
+    if (isLongService) {
+      const firstSlot = minutesToTime(iStart);
+      if (!hasConflict(firstSlot, duration, existingAppts)) {
+        available.push(firstSlot);
+      }
+
+      const lastSlotStart = iEnd - duration;
+      if (lastSlotStart > iStart) {
+        const lastSlotRounded = Math.floor(lastSlotStart / SLOT_INTERVAL) * SLOT_INTERVAL;
+        const lastSlot = minutesToTime(lastSlotRounded);
+
+        if (lastSlotRounded !== iStart && lastSlotRounded + duration <= iEnd) {
+          if (!hasConflict(lastSlot, duration, existingAppts)) {
+            available.push(lastSlot);
+          }
+        }
+      }
+    } else {
+      for (let slot = iStart; slot + duration <= iEnd; slot += SLOT_INTERVAL) {
+        const slotTime = minutesToTime(slot);
+        if (!hasConflict(slotTime, duration, existingAppts)) {
+          available.push(slotTime);
+        }
       }
     }
   }
