@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços Disponíveis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/listar-servicos.css">
+</head>
+<body>
+
+
+    <!-- Página principal -->
+    <div class="container">
+        <header class="header">
+            <div class="texto-header">
+                <h1>Serviços Cadastrados</h1>
+                <p>Gerencie todo o seu portifólio de serviços</p>
+            </div>
+            <div class="botoes-header">
+                <a href="cadastrar-serviço.html" style="text-decoration: none;">
+                    <button class="btn-criar-servico" id="btn-criar-servico">
+                        <i class="fa-solid fa-plus"></i>
+                        ADICIONAR SERVIÇO
+                    </button>
+                </a>
+                <div class="filter-menu-wrapper">
+                    <button class="btn-filtrar-servico" id="btn-filtrar-servico" aria-haspopup="true" aria-expanded="false">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.5 13.3333L14.1666 16.6667L10.8333 13.3333" stroke="#E0456A" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14.1667 16.6667V3.33334" stroke="#E0456A" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2.5 6.66667L5.83333 3.33334L9.16667 6.66667" stroke="#E0456A" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5.83331 3.33334V16.6667" stroke="#E0456A" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Ordenar
+                    </button>
+                    <!-- Menu de filtros -->
+                    <div class="filter-menu" id="filter-menu" aria-hidden="true">
+                        <span class="filter-menu-label">Filtro</span>
+                        <div class="filter-menu-panel" role="menu" aria-label="Ordenar serviços">
+                            <div class="filter-menu-title">ORDENAR POR</div>
+
+                            <button type="button" class="filter-option active" data-sort="nome-asc">
+                                <span class="filter-option-icon"><i class="fa-solid fa-arrow-up"></i></span>
+                                <span class="filter-option-text">Nome (A-Z)</span>
+                                <i class="fa-solid fa-check filter-option-check"></i>
+                            </button>
+
+                            <button type="button" class="filter-option" data-sort="nome-desc">
+                                <span class="filter-option-icon"><i class="fa-solid fa-arrow-down"></i></span>
+                                <span class="filter-option-text">Nome (Z-A)</span>
+                                <i class="fa-solid fa-check filter-option-check"></i>
+                            </button>
+
+                            <button type="button" class="filter-option" data-sort="valor-asc">
+                                <span class="filter-option-icon"><i class="fa-solid fa-arrow-up"></i></span>
+                                <span class="filter-option-text">Menor Valor</span>
+                                <i class="fa-solid fa-check filter-option-check"></i>
+                            </button>
+
+                            <button type="button" class="filter-option" data-sort="valor-desc">
+                                <span class="filter-option-icon"><i class="fa-solid fa-arrow-down"></i></span>
+                                <span class="filter-option-text">Maior Valor</span>
+                                <i class="fa-solid fa-check filter-option-check"></i>
+                            </button>
+
+                            <button type="button" class="filter-option" data-sort="duracao-asc">
+                                <span class="filter-option-icon"><i class="fa-solid fa-arrow-up"></i></span>
+                                <span class="filter-option-text">Menor Duração</span>
+                                <i class="fa-solid fa-check filter-option-check"></i>
+                            </button>
+
+                            <button type="button" class="filter-option" data-sort="duracao-desc">
+                                <span class="filter-option-icon"><i class="fa-solid fa-arrow-down"></i></span>
+                                <span class="filter-option-text">Maior Duração</span>
+                                <i class="fa-solid fa-check filter-option-check"></i>
+                            </button>
+
+                            <button type="button" class="filter-option" data-sort="ativos">
+                                <span class="filter-option-icon"><i class="fa-solid fa-check"></i></span>
+                                <span class="filter-option-text">Somente Ativos</span>
+                                <i class="fa-solid fa-check filter-option-check"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="services-grid" id="services-container">
+            <p class="empty-message">Carregando serviços...</p>
+        </div>
+    </div>
+    
+    <!-- Modal de Edição de Serviço -->
+
+    <div id="modal-servico-overlay" class="modal-overlay">
+        <div class="modal-container" role="dialog" aria-modal="true">
+            <button class="modal-close-btn" id="btn-fechar-modal" aria-label="Fechar modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <h2 class="modal-title">Editar Serviço</h2>
+
+            <form id="form-servico" class="modal-form">
+                <div class="input-group">
+                    <label for="input-nome">Nome do Serviço</label>
+                    <div class="input-container">
+                        <input type="text" id="input-nome" placeholder="Ex: Corte de Cabelo Feminino" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="input-duracao">Duração do serviço (em minutos)</label>
+                    <div class="input-container">
+                        <input type="number" id="input-duracao" placeholder="Ex: 60" min="1" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="input-preco">Valor do Serviço</label>
+                    <div class="input-container">
+                        <span>R$</span>
+                        <input type="text" id="input-preco" placeholder="0,00" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Status do Serviço</label>
+                    <div class="status-row-container">
+                        <span class="status-text text-inativo" id="label-inativo">Inativo</span>
+                        <label class="switch-wrapper">
+                            <input type="checkbox" id="input-status">
+                            <span class="switch-slider"></span>
+                        </label>
+                        <span class="status-text text-ativo" id="label-ativo">Ativo</span>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar" id="btn-cancelar-modal">Cancelar</button>
+                    <button type="submit" class="btn-salvar">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação da Alteração -->
+    <div id="modal-confirmado-overlay" class="modal-overlay">
+        <div class="modal-confirmado" role="dialog" aria-modal="true">
+            <div class="confirmado-body">
+                <div class="confirmado-icon">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h2 class="confirmado-title">Confirmado!</h2>
+                <p class="confirmado-subtitle">Seu serviço foi atualizado com sucesso.</p>
+                <div class="confirmado-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Serviço</span>
+                        <span class="detail-value" id="conf-nome">Nome do Serviço</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Duração</span>
+                        <span class="detail-value" id="conf-duracao">0 minutos</span>
+                    </div>
+                    <div class="detail-row highlight">
+                        <span class="detail-label">Valor</span>
+                        <span class="detail-value" id="conf-valor">R$ 0,00</span>
+                    </div>
+                </div>
+                <button class="modal-confirm-btn" id="btn-ok-confirmado">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/listar-servicos.js"></script>
+</body>
+</html>
