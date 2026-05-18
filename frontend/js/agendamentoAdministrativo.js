@@ -380,6 +380,7 @@ function validarDadosCliente() {
   const nome = document.getElementById("input-nome").value.trim();
   const email = document.getElementById("input-email").value.trim();
   const telefone = document.getElementById("input-telefone").value.trim();
+
   const telefoneDigitos = telefone.replace(/\D/g, "");
 
   limparErroCampo("input-nome", "error-nome");
@@ -387,14 +388,31 @@ function validarDadosCliente() {
   limparErroCampo("input-telefone", "error-telefone");
   limparErroGeral("error-agendamento");
 
+  /* ─── VALIDAÇÃO NOME ───────────────────────────── */
+
   if (!nome) {
+    mostrarErroCampo("input-nome", "error-nome", "Este campo é obrigatório.");
+
+    valido = false;
+  } else if (nome.length < 3) {
     mostrarErroCampo(
       "input-nome",
       "error-nome",
-      "O nome do cliente é obrigatório.",
+      "O nome deve ter pelo menos 3 caracteres.",
     );
+
+    valido = false;
+  } else if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(nome)) {
+    mostrarErroCampo(
+      "input-nome",
+      "error-nome",
+      "O nome deve conter apenas letras.",
+    );
+
     valido = false;
   }
+
+  /* ─── VALIDAÇÃO EMAIL (OPCIONAL) ───────────────── */
 
   if (email && !validarEmail(email)) {
     mostrarErroCampo(
@@ -402,22 +420,27 @@ function validarDadosCliente() {
       "error-email",
       "Informe um e-mail válido ou deixe o campo em branco.",
     );
+
     valido = false;
   }
+
+  /* ─── VALIDAÇÃO TELEFONE ───────────────────────── */
 
   if (!telefoneDigitos) {
     mostrarErroCampo(
       "input-telefone",
       "error-telefone",
-      "O telefone é obrigatório.",
+      "Este campo é obrigatório.",
     );
+
     valido = false;
   } else if (telefoneDigitos.length !== 10 && telefoneDigitos.length !== 11) {
     mostrarErroCampo(
       "input-telefone",
       "error-telefone",
-      "Informe um telefone com 10 ou 11 dígitos.",
+      "Por favor, informe um número de telefone válido.",
     );
+
     valido = false;
   }
 
@@ -452,7 +475,7 @@ async function confirmarAgendamento() {
       },
       body: JSON.stringify({
         client_name: nome,
-        client_email: email || null,
+        client_email: email,
         client_phone: telefone,
         service_id: servicoSelecionado.id,
         appointment_date: dataSelecionada,
@@ -555,16 +578,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   confirmHorarioBtn.addEventListener("click", () => {
-  if (!horarioSelecionado) {
-    mostrarErroGeral("error-horario", "Selecione um horário disponível.");
-    return;
-  }
+    if (!horarioSelecionado) {
+      mostrarErroGeral("error-horario", "Selecione um horário disponível.");
+      return;
+    }
 
-  limparFormularioCliente();
+    limparFormularioCliente();
 
-  fecharModal(modalAgendar);
-  abrirModal(modalDados);
-});
+    fecharModal(modalAgendar);
+    abrirModal(modalDados);
+  });
 
   confirmDadosBtn.addEventListener("click", confirmarAgendamento);
 
@@ -588,3 +611,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     limparErroCampo("input-email", "error-email");
   });
 });
+
