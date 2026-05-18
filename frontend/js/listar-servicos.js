@@ -1,6 +1,8 @@
 let servicoEmEdicaoId = null;
 let tokenGlobal = null;
 let servicoEmEdicaoStatusOriginal = null;
+let servicosBase = [];
+let criterioOrdenacaoAtual = 'nome-asc';
 
 async function realizarLoginAutomatico() {
     try {
@@ -144,6 +146,79 @@ function atualizarLabelsStatus(isChecked) {
     document.getElementById('label-inativo').classList.toggle('active', !isChecked);
 }
 
+function normalizarTexto(texto) {
+    return (texto || '').toString().trim().toLocaleLowerCase('pt-BR');
+}
+
+function ordenarServicos(servicos) {
+    const lista = [...servicos];
+
+    switch (criterioOrdenacaoAtual) {
+        case 'nome-desc':
+            return lista.sort((a, b) => b.nome.localeCompare(a.nome, 'pt-BR', { sensitivity: 'base' }));
+        case 'valor-asc':
+            return lista.sort((a, b) => a.valor - b.valor);
+        case 'valor-desc':
+            return lista.sort((a, b) => b.valor - a.valor);
+        case 'duracao-asc':
+            return lista.sort((a, b) => a.duracaoNum - b.duracaoNum);
+        case 'duracao-desc':
+            return lista.sort((a, b) => b.duracaoNum - a.duracaoNum);
+        case 'ativos':
+            return lista.filter((servico) => servico.ativo);
+        case 'nome-asc':
+        default:
+            return lista.sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR', { sensitivity: 'base' }));
+    }
+}
+
+function atualizarEstadoFiltroAtivo() {
+    document.querySelectorAll('.filter-option').forEach((botao) => {
+        botao.classList.toggle('active', botao.dataset.sort === criterioOrdenacaoAtual);
+    });
+}
+
+function fecharMenuFiltro() {
+    const menu = document.getElementById('filter-menu');
+    const botao = document.getElementById('btn-filtrar-servico');
+
+    if (!menu || !botao) return;
+
+    menu.classList.remove('open');
+    menu.setAttribute('aria-hidden', 'true');
+    botao.setAttribute('aria-expanded', 'false');
+}
+
+function abrirFecharMenuFiltro() {
+    const menu = document.getElementById('filter-menu');
+    const botao = document.getElementById('btn-filtrar-servico');
+
+    if (!menu || !botao) return;
+
+    const estaAberto = menu.classList.contains('open');
+
+    if (estaAberto) {
+        fecharMenuFiltro();
+        return;
+    }
+
+    menu.classList.add('open');
+    menu.setAttribute('aria-hidden', 'false');
+    botao.setAttribute('aria-expanded', 'true');
+}
+
+function aplicarOrdenacao() {
+    const servicosExibidos = ordenarServicos(servicosBase);
+    renderizarCards(servicosExibidos);
+}
+
+function definirOrdenacao(novoCriterio) {
+    criterioOrdenacaoAtual = novoCriterio;
+    atualizarEstadoFiltroAtivo();
+    fecharMenuFiltro();
+    aplicarOrdenacao();
+}
+
 function renderizarCards(servicos) {
     const container = document.getElementById('services-container');
     container.innerHTML = '';
@@ -170,7 +245,7 @@ async function carregarServicosDoBackend() {
         const result = await response.json();
 
         if (result.success) {
-            const servicosMapeados = result.data.map(servico => {
+            servicosBase = result.data.map(servico => {
                 const nomeStr = servico.nome || servico.name || 'Serviço Sem Nome';
                 const duracaoVal = servico.duracao || servico.duration_minutes || servico.duration || 0;
                 const precoVal = parseFloat(servico.valor || servico.preco || servico.price || 0);
@@ -194,13 +269,14 @@ async function carregarServicosDoBackend() {
                     ativo: estaAtivo
                 };
             });
-            
-            renderizarCards(servicosMapeados);
+
+            aplicarOrdenacao();
         } else {
             throw new Error("Erro ao listar serviços");
         }
     } catch (error) {
         console.error("Erro ao carregar serviços:", error);
+        servicosBase = [];
         const container = document.getElementById('services-container');
         container.innerHTML = '<p class="empty-message">Erro ao carregar os serviços. Verifique a conexão com o servidor.</p>';
     }
@@ -211,8 +287,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     carregarServicosDoBackend();
     
     const toggleInput = document.getElementById('input-status');
+    const botaoFiltro = document.getElementById('btn-filtrar-servico');
+    const menuFiltro = document.getElementById('filter-menu');
 
     toggleInput.addEventListener('change', (e) => atualizarLabelsStatus(e.target.checked));
+
+    botaoFiltro.addEventListener('click', (e) => {
+        e.stopPropagation();
+        abrirFecharMenuFiltro();
+    });
+
+    menuFiltro.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const opcao = e.target.closest('.filter-option');
+
+        if (opcao) {
+            definirOrdenacao(opcao.dataset.sort);
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!menuFiltro.contains(e.target) && !botaoFiltro.contains(e.target)) {
+            fecharMenuFiltro();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            fecharMenuFiltro();
+        }
+    });
     
     document.getElementById('btn-fechar-modal').addEventListener('click', fecharModal);
     document.getElementById('btn-cancelar-modal').addEventListener('click', fecharModal);

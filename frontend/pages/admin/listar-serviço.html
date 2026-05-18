@@ -27,10 +27,61 @@
                         ADICIONAR SERVIÇO
                     </button>
                 </a>
-                <button class="btn-filtrar-servico" id="btn-filtrar-servico">
-                    <img src="../../assets/filter-arrows.svg" alt="">
-                    Ordenar
-                </button>
+                <div class="filter-menu-wrapper">
+                    <button class="btn-filtrar-servico" id="btn-filtrar-servico" aria-haspopup="true" aria-expanded="false">
+                        <img src="../../assets/filter-arrows.svg" alt="">
+                        Ordenar
+                    </button>
+
+                    <div class="filter-menu" id="filter-menu" aria-hidden="true">
+                        <span class="filter-menu-label">Filtro</span>
+                        <div class="filter-menu-panel" role="menu" aria-label="Ordenar serviços">
+                            <div class="filter-menu-title">ORDENAR POR</div>
+
+                            <button type="button" class="filter-option active" data-sort="nome-asc">
+                                <span class="filter-option-icon"><i class="fa-solid fa-arrow-up"></i></span>
+                                <span class="filter-option-text">Nome (A-Z)</span>
+                                <i class="fa-solid fa-check filter-option-check"></i>
+                            </button>
+
+                            <button type="button" class="filter-option" data-sort="nome-desc">
+                                <span class="filter-option-icon"><i class="fa-solid fa-arrow-down"></i></span>
+                                <span class="filter-option-text">Nome (Z-A)</span>
+                                <i class="fa-solid fa-check filter-option-check"></i>
+                            </button>
+
+                            <button type="button" class="filter-option" data-sort="valor-asc">
+                                <span class="filter-option-icon"><i class="fa-solid fa-arrow-up"></i></span>
+                                <span class="filter-option-text">Menor Valor</span>
+                                <i class="fa-solid fa-check filter-option-check"></i>
+                            </button>
+
+                            <button type="button" class="filter-option" data-sort="valor-desc">
+                                <span class="filter-option-icon"><i class="fa-solid fa-arrow-down"></i></span>
+                                <span class="filter-option-text">Maior Valor</span>
+                                <i class="fa-solid fa-check filter-option-check"></i>
+                            </button>
+
+                            <button type="button" class="filter-option" data-sort="duracao-asc">
+                                <span class="filter-option-icon"><i class="fa-solid fa-arrow-up"></i></span>
+                                <span class="filter-option-text">Menor Duração</span>
+                                <i class="fa-solid fa-check filter-option-check"></i>
+                            </button>
+
+                            <button type="button" class="filter-option" data-sort="duracao-desc">
+                                <span class="filter-option-icon"><i class="fa-solid fa-arrow-down"></i></span>
+                                <span class="filter-option-text">Maior Duração</span>
+                                <i class="fa-solid fa-check filter-option-check"></i>
+                            </button>
+
+                            <button type="button" class="filter-option" data-sort="ativos">
+                                <span class="filter-option-icon"><i class="fa-solid fa-check"></i></span>
+                                <span class="filter-option-text">Somente Ativos</span>
+                                <i class="fa-solid fa-check filter-option-check"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </header>
 
