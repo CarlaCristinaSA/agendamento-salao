@@ -468,19 +468,25 @@ async function confirmarAgendamento() {
     confirmDadosBtn.disabled = true;
     confirmDadosBtn.textContent = "CONFIRMANDO...";
 
-    const response = await fetch(`${URL_API}/public/appointments`, {
+    const payload = {
+      client_name: nome,
+      client_phone: telefone,
+      service_id: servicoSelecionado.id,
+      appointment_date: dataSelecionada,
+      appointment_time: horarioSelecionado,
+    };
+
+    if (email) {
+      payload.client_email = email;
+    }
+
+    const response = await fetch(`${URL_API}/admin/appointments`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${tokenGlobal}`,
       },
-      body: JSON.stringify({
-        client_name: nome,
-        client_email: email,
-        client_phone: telefone,
-        service_id: servicoSelecionado.id,
-        appointment_date: dataSelecionada,
-        appointment_time: horarioSelecionado,
-      }),
+      body: JSON.stringify(payload),
     });
 
     const data = await response.json();
@@ -611,4 +617,3 @@ document.addEventListener("DOMContentLoaded", async () => {
     limparErroCampo("input-email", "error-email");
   });
 });
-
