@@ -45,6 +45,9 @@ async function carregarServicosDoBackend() {
         const response = await fetch('http://localhost:3000/api/public/services');
         const result = await response.json();
 
+        console.debug('[cliente] GET /api/public/services status=', response.status, 'ok=', response.ok);
+        console.debug('[cliente] payload:', result);
+
         if (result.success) {
             const servicosMapeados = result.data.map(servico => ({
                 id: servico.id,
@@ -54,6 +57,7 @@ async function carregarServicosDoBackend() {
             }));
             
             renderizarCards(servicosMapeados);
+            console.debug('[cliente] Serviços renderizados:', servicosMapeados.length);
         } else {
             throw new Error("Erro ao listar serviços");
         }
