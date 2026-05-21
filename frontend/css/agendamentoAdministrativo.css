@@ -1,0 +1,550 @@
+/* ─── TELA PRINCIPAL ADMIN ──────────────────────────────────────────────── */
+
+body {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #ffffff 0%, #fff5f7 50%, #ffffff 100%);
+}
+
+.container {
+    width: 100%;
+    max-width: 78.625rem;
+    gap: 3rem;
+}
+
+.header {
+    width: 100%;
+    min-height: 11.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.header-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E0456A 0%, #E98CA4 100%);
+    box-shadow: 0 0.5rem 1.5rem rgba(224, 69, 106, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.header-icon i {
+    font-size: 1.75rem;
+    color: #ffffff;
+}
+
+.header h1 {
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1;
+    letter-spacing: 0.03125rem;
+    color: #110E29;
+    text-align: center;
+}
+
+.header p {
+    max-width: 42rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.875rem, 1.4vw, 1.125rem);
+    line-height: 1.55;
+    color: #717182;
+    text-align: center;
+}
+
+.services-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+}
+
+.service-card {
+    width: 100%;
+    min-height: 23.5rem;
+    border-radius: 1.5rem;
+    padding: 2rem;
+}
+
+.select-btn {
+    width: 100%;
+    height: 3.5rem;
+    border-radius: 1rem;
+}
+
+.icon-circle {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.money-symbol {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: #ffffff;
+    line-height: 1;
+}
+
+.select-btn:hover,
+.modal-confirm-btn:hover:not(:disabled) {
+    opacity: 1;
+    transform: translateY(-0.125rem);
+    box-shadow: 0 0.5rem 1.5rem rgba(224, 69, 106, 0.25);
+}
+
+.select-btn:active,
+.modal-confirm-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+/* ─── ERROS ─────────────────────────────────────────────────────────────── */
+
+.admin-error {
+    display: none;
+    width: 100%;
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+.admin-error.visible {
+    display: block;
+}
+
+.field-input.error {
+    border-color: #E0456A;
+    background-color: #ffffff;
+}
+
+/* ─── MODAL DADOS ADMIN ─────────────────────────────────────────────────── */
+
+#modal-dados-overlay .modal-dados {
+    width: min(100%, 45.5rem);
+    max-width: calc(100vw - 2rem);
+    height: auto;
+    min-height: auto;
+    padding: clamp(2rem, 4vw, 3.5rem);
+    gap: 2rem;
+    background: #ffffff;
+    border-radius: 1.5rem;
+}
+
+#modal-dados-overlay .modal-header {
+    width: 100%;
+    height: auto;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+#modal-dados-overlay .modal-header-text {
+    width: auto;
+    height: auto;
+    gap: 0.5rem;
+}
+
+#modal-dados-overlay #modal-dados-title {
+    width: auto;
+    height: auto;
+    margin: 0;
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: 0.01875rem;
+    color: #110E29;
+}
+
+#modal-dados-overlay .modal-header-text span {
+    width: auto;
+    height: auto;
+    max-width: 32rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    line-height: 1.5;
+    color: #717182;
+}
+
+#modal-dados-overlay .form-fields {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+#modal-dados-overlay .field-group {
+    width: 100%;
+    height: auto;
+    gap: 0.75rem;
+}
+
+#modal-dados-overlay .field-label {
+    width: auto;
+    height: auto;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    letter-spacing: 0.04375rem;
+    text-transform: uppercase;
+    color: #110E29;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#modal-dados-overlay .label-icon {
+    font-family: 'Material Symbols Outlined';
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1;
+    color: #E0456A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 300,
+        'GRAD' 0,
+        'opsz' 24;
+}
+
+#modal-dados-overlay .field-input {
+    width: 100%;
+    height: 4.25rem;
+    border-radius: 1rem;
+    border: 0.125rem solid #F3F4F6;
+    background-color: #FAFAFA;
+    padding: 1rem 1.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.125rem;
+    color: #110E29;
+    outline: none;
+}
+
+#modal-dados-overlay .field-input::placeholder {
+    color: rgba(17, 14, 41, 0.5);
+}
+
+#modal-dados-overlay .field-input:focus {
+    border-color: #E0456A;
+    background-color: #ffffff;
+}
+
+#modal-dados-overlay #modal-dados-confirm-btn {
+    height: 4.5rem;
+    margin-top: 0.5rem;
+    border-radius: 1rem;
+}
+
+#modal-dados-confirm-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* ─── MODAL AGENDAR - ADMINISTRADOR ─────────────────────────────────────── */
+
+#modal-agendar-overlay .modal {
+    width: min(100%, 56rem);
+    max-width: calc(100vw - 2rem);
+    min-height: 47.75rem;
+    height: auto;
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    gap: 2rem;
+}
+
+#modal-agendar-overlay .modal-scroll {
+    gap: 2rem;
+}
+
+#modal-agendar-overlay .modal-header {
+    width: 100%;
+    height: auto;
+}
+
+#modal-agendar-overlay .modal-header-text h2 {
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    line-height: 1.1;
+}
+
+#modal-agendar-overlay .modal-header-text span {
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    line-height: 1.5;
+}
+
+#modal-agendar-overlay .calendar-nav {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0 1rem;
+    margin-bottom: 1.5rem;
+}
+
+#modal-agendar-overlay .cal-month span {
+    font-size: clamp(1.125rem, 1.8vw, 1.25rem);
+}
+
+#modal-agendar-overlay .calendar-days {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+#modal-agendar-overlay .day-cell {
+    width: 100%;
+    min-height: 7.875rem;
+    border-radius: 1.05rem;
+    padding: 1.3125rem;
+}
+
+#modal-agendar-overlay .day-name {
+    font-size: 0.75rem;
+}
+
+#modal-agendar-overlay .day-number {
+    font-size: clamp(1.75rem, 3vw, 2rem);
+    line-height: 1.15;
+}
+
+#modal-agendar-overlay .day-month {
+    font-size: 0.75rem;
+}
+
+#modal-agendar-overlay .times-section {
+    gap: 1.5rem;
+}
+
+#modal-agendar-overlay .times-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+#modal-agendar-overlay .time-btn {
+    height: 3.75rem;
+    border-radius: 1.25rem;
+}
+
+#modal-agendar-overlay #modal-confirm-btn {
+    width: 100%;
+    height: 4rem;
+    border-radius: 1rem;
+    margin-top: auto;
+}
+
+/* ─── MODAL CONFIRMADO ADMIN ────────────────────────────────────────────── */
+
+#modal-confirmado-overlay .modal-confirmado {
+    width: min(100%, 28rem);
+    max-width: calc(100vw - 2rem);
+    min-height: 41.75rem;
+    height: auto;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    background: #ffffff;
+    box-shadow: 0 1.5rem 5rem rgba(0, 0, 0, 0.20);
+}
+
+#modal-confirmado-overlay .confirmado-body {
+    width: 100%;
+    min-height: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#modal-confirmado-overlay .confirmado-icon {
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+#modal-confirmado-overlay .confirmado-title {
+    margin: 0 0 0.75rem;
+    font-family: 'Cormorant', serif;
+    font-size: 1.875rem;
+    font-weight: 600;
+    line-height: 2.25rem;
+    color: #110E29;
+    text-align: center;
+}
+
+#modal-confirmado-overlay .confirmado-subtitle {
+    margin: 0 0 2rem;
+    max-width: 19.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: #717182;
+    text-align: center;
+}
+
+#modal-confirmado-overlay .confirmado-details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+#modal-confirmado-overlay .detail-row {
+    width: 100%;
+    min-height: 3.75rem;
+    border-radius: 1.25rem;
+    padding: 1rem;
+    background: #FAFAFA;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    box-sizing: border-box;
+}
+
+#modal-confirmado-overlay .detail-row.highlight {
+    height: 3.75rem;
+    background: linear-gradient(90deg, #E0456A 0%, #E98CA4 100%);
+}
+
+#modal-confirmado-overlay .detail-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+    color: #717182;
+}
+
+#modal-confirmado-overlay .detail-value {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.25rem;
+    color: #110E29;
+    text-align: right;
+}
+
+#modal-confirmado-overlay .detail-row.highlight .detail-label {
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+#modal-confirmado-overlay .detail-row.highlight .detail-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.75rem;
+    color: #ffffff;
+}
+
+#modal-confirmado-overlay #btn-ok-confirmado {
+    width: 100%;
+    height: 3.5rem;
+    border-radius: 1rem;
+    margin-top: 0;
+}
+
+/* ─── RESPONSIVIDADE ────────────────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+    .services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    #modal-agendar-overlay .modal {
+        min-height: auto;
+        padding: 2rem 1.5rem;
+    }
+
+    #modal-agendar-overlay .calendar-days {
+        gap: 0.5rem;
+    }
+
+    #modal-agendar-overlay .day-cell {
+        min-height: 6.5rem;
+        padding: 0.875rem 0.5rem;
+    }
+
+    #modal-agendar-overlay .times-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 2.5rem 1rem;
+    }
+
+    .container {
+        gap: 2rem;
+    }
+
+    .header {
+        min-height: auto;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-card {
+        min-height: auto;
+    }
+
+    #modal-dados-overlay .modal-dados,
+    #modal-confirmado-overlay .modal-confirmado {
+        width: min(100%, 32rem);
+    }
+
+    #modal-dados-overlay .modal-dados {
+        padding: 2rem 1.5rem;
+    }
+
+    #modal-confirmado-overlay .detail-row {
+        gap: 1rem;
+    }
+
+    #modal-confirmado-overlay .detail-value {
+        text-align: right;
+    }
+}
+
+@media (max-width: 600px) {
+    #modal-agendar-overlay .calendar-days {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #modal-agendar-overlay .times-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    #modal-dados-overlay #modal-dados-title {
+        font-size: 1.75rem;
+    }
+
+    #modal-dados-overlay .modal-header-text span {
+        font-size: 0.9375rem;
+    }
+
+    #modal-dados-overlay .field-input {
+        height: 3.75rem;
+        font-size: 1rem;
+    }
+
+    #modal-dados-overlay #modal-dados-confirm-btn {
+        height: 4rem;
+    }
+
+    #modal-confirmado-overlay .modal-confirmado {
+        padding: 1.5rem;
+    }
+}
