@@ -186,11 +186,11 @@ function validateSenha(value) {
     }
 
     const rules = [
-        { re: /.{8,}/,                                                    msg: 'A senha deve ter pelo menos 8 caracteres.' },
-        { re: /[A-Z]/,                                                     msg: 'A senha deve conter pelo menos uma letra maiúscula.' },
-        { re: /[a-z]/,                                                     msg: 'A senha deve conter pelo menos uma letra minúscula.' },
-        { re: /[0-9]/,                                                     msg: 'A senha deve conter pelo menos um número.' },
-        { re: /[@#$%!&*^()\-_+=<>?]/,                     msg: 'A senha deve conter pelo menos um caractere especial (@, #, $, %, etc.).' },
+        { re: /.{8,}/, msg: 'A senha deve ter pelo menos 8 caracteres.' },
+        { re: /[A-Z]/, msg: 'A senha deve conter pelo menos uma letra maiúscula.' },
+        { re: /[a-z]/, msg: 'A senha deve conter pelo menos uma letra minúscula.' },
+        { re: /[0-9]/, msg: 'A senha deve conter pelo menos um número.' },
+        { re: /[@#$%!&*^()\-_+=<>?.]/, msg: 'A senha deve conter pelo menos um caractere especial (@, #, $, %, etc.).' },
     ];
 
     for (const rule of rules) {
