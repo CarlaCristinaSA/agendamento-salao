@@ -94,9 +94,11 @@ document.querySelectorAll('.icon-btn').forEach(btn => {
 
         if (input.type === 'password') {
             input.type = 'text';
+            btn.classList.add('active');
             btn.setAttribute('aria-label', btn.getAttribute('aria-label').replace('Mostrar', 'Ocultar'));
         } else {
             input.type = 'password';
+            btn.classList.remove('active');
             btn.setAttribute('aria-label', btn.getAttribute('aria-label').replace('Ocultar', 'Mostrar'));
         }
     });

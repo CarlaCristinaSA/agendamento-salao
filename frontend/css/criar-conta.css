@@ -203,6 +203,28 @@ FIELDS
     outline-offset: 2px;
 }
 
+.icon-btn .material-icons {
+    font-size: 20px;
+    color: #717182;
+    display: none;
+}
+
+.icon-btn .icon-open {
+    display: block;
+}
+
+.icon-btn .icon-closed {
+    display: none;
+}
+
+.icon-btn.active .icon-open {
+    display: none;
+}
+
+.icon-btn.active .icon-closed {
+    display: block;
+}
+
 /* Mensagem de erro */
 .field-error {
     font-family: 'Montserrat', sans-serif;
