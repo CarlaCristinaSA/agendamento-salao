@@ -184,7 +184,10 @@ async function getAvailableSlots(dateStr, duration, dbClient = null) {
     }
   }
 
-  return available;
+  // Remove possíveis duplicatas (ex.: intervalos sobrepostos) e ordena os horários
+  const unique = Array.from(new Set(available));
+  unique.sort((a, b) => timeToMinutes(a) - timeToMinutes(b));
+  return unique;
 }
 
 /**
