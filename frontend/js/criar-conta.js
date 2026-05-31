@@ -42,3 +42,69 @@ modalSucesso.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal(modalSucesso);
 });
+
+// ============================================================
+// UTILITÁRIOS DE ERRO
+// ============================================================
+function showError(el, msg) {
+    el.textContent = msg;
+    el.classList.add('visible');
+    const inputId = el.id.replace('error-', 'input-');
+    const input = document.getElementById(inputId);
+    if (input) input.classList.add('error');
+}
+
+function clearError(el) {
+    el.textContent = '';
+    el.classList.remove('visible');
+    const inputId = el.id.replace('error-', 'input-');
+    const input = document.getElementById(inputId);
+    if (input) input.classList.remove('error');
+}
+
+// ============================================================
+// MÁSCARA DE TELEFONE
+// ============================================================
+function applyPhoneMask(value) {
+    const digits = value.replace(/\D/g, '').slice(0, 11);
+    if (digits.length === 0) return '';
+    if (digits.length <= 2)    return `(${digits}`;
+    if (digits.length <= 6)    return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+    if (digits.length <= 10) return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+}
+
+inputTelefone.addEventListener('input', (e) => {
+    const raw        = e.target.value;
+    const cursor = e.target.selectionStart;
+    const masked = applyPhoneMask(raw);
+    e.target.value = masked;
+    const diff = masked.length - raw.length;
+    e.target.setSelectionRange(cursor + diff, cursor + diff);
+});
+
+// ============================================================
+// ÍCONE DE OLHINHO (mostrar/ocultar senha)
+// ============================================================
+document.querySelectorAll('.icon-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const targetId = btn.dataset.target;
+        const input        = document.getElementById(targetId);
+        if (!input) return;
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            btn.setAttribute('aria-label', btn.getAttribute('aria-label').replace('Mostrar', 'Ocultar'));
+        } else {
+            input.type = 'password';
+            btn.setAttribute('aria-label', btn.getAttribute('aria-label').replace('Ocultar', 'Mostrar'));
+        }
+    });
+});
+
+// ============================================================
+// HIGIENIZAÇÃO DE E-MAIL
+// ============================================================
+inputEmail.addEventListener('blur', () => {
+    inputEmail.value = inputEmail.value.toLowerCase();
+});
