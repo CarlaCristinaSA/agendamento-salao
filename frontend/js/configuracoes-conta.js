@@ -325,3 +325,34 @@ window.addEventListener('beforeunload', (e) => {
     e.returnValue = '';
   }
 });
+
+// FLUXO: ALTERAR SENHA
+btnOpenSenha.addEventListener('click', () => {
+  inputSenhaAtual.value     = '';
+  inputNovaSenha.value      = '';
+  inputConfirmarSenha.value = '';
+  clearError(errorSenhaAtual);
+  clearError(errorNovaSenha);
+  clearError(errorConfirmarSenha);
+  openModal(modals.alterarSenha);
+});
+
+document.getElementById('btn-cancelar-senha').addEventListener('click', () => {
+  closeModal(modals.alterarSenha);
+});
+
+document.querySelectorAll('.modal-eye-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetId = btn.dataset.target;
+    const input = document.getElementById(targetId);
+    if (!input) return;
+
+    if (input.type === 'password') {
+      input.type = 'text';
+      btn.setAttribute('aria-label', btn.getAttribute('aria-label').replace('Mostrar', 'Ocultar'));
+    } else {
+      input.type = 'password';
+      btn.setAttribute('aria-label', btn.getAttribute('aria-label').replace('Ocultar', 'Mostrar'));
+    }
+  });
+});
