@@ -292,3 +292,22 @@ function submitForm() {
         }
     }, 800);
 }
+
+// ============================================================
+// FLUXO: OK NO MODAL DE SUCESSO → redireciona para login
+// ============================================================
+btnOkSucesso.addEventListener('click', () => {
+    closeModal(modalSucesso);
+    // Redirecionar para a tela de login
+    // window.location.href = '/login';
+    alert('Redirecionando para a tela de Login…');
+});
+
+// ============================================================
+// LINK "ENTRAR"
+// ============================================================
+linkEntrar.addEventListener('click', (e) => {
+    e.preventDefault();
+    // window.location.href = '/login';
+    alert('Redirecionando para a tela de Login…');
+});
