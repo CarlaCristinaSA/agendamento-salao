@@ -222,3 +222,35 @@ FIELDS
     max-height: 40px;
     opacity: 1;
 }
+
+/* ============================================================
+BOTÃO PRIMÁRIO
+============================================================ */
+.btn-primary {
+    width: 100%;
+    height: 64px;
+    background: linear-gradient(135deg, #E0456A 0%, #E98CA4 100%);
+    border: none;
+    border-radius: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.8px;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover {
+    opacity: 0.92;
+}
+
+.btn-primary:active {
+    transform: scale(0.99);
+}
+
+.btn-primary:focus-visible {
+    outline: 2px solid #E0456A;
+    outline-offset: 3px;
+}
