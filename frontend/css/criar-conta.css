@@ -370,3 +370,50 @@ MODAL OVERLAY
     width: 384px;
     height: 56px;
 }
+
+/* ============================================================
+RESPONSIVIDADE
+============================================================ */
+@media (max-width: 1024px) {
+    .page {
+        padding: 64px 40px;
+    }
+}
+
+@media (max-width: 600px) {
+    .page {
+        padding: 40px 20px;
+    }
+
+    .container,
+    .page-header,
+    .card,
+    .page-footer {
+        width: 100%;
+    }
+
+    .card {
+        padding: 24px 20px;
+    }
+
+    .card-inner {
+        width: 100%;
+    }
+
+    .field-input {
+        width: 100%;
+    }
+
+    .page-header p {
+        width: 100%;
+        white-space: normal;
+    }
+
+    .modal {
+        width: 90vw;
+    }
+
+    .modal-btn {
+        width: 100%;
+    }
+}
