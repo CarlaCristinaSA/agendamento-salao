@@ -246,3 +246,49 @@ inputSenha.addEventListener('input', () => {
         clearError(errorSenha);
     }
 });
+
+// ============================================================
+// VALIDAÇÃO COMPLETA DO FORMULÁRIO
+// ============================================================
+function validateAllFields() {
+    const vNome                     = validateNome(inputNome.value);
+    const vEmail                    = validateEmail(inputEmail.value);
+    const vTelefone             = validateTelefone(inputTelefone.value);
+    const vSenha                    = validateSenha(inputSenha.value);
+    const vConfirmarSenha = validateConfirmarSenha(inputConfirmarSenha.value);
+    return vNome && vEmail && vTelefone && vSenha && vConfirmarSenha;
+}
+
+// ============================================================
+// FLUXO: CRIAR CONTA
+// ============================================================
+btnCriarConta.addEventListener('click', () => {
+    if (!validateAllFields()) {
+        // Foca o primeiro campo com erro
+        const firstError = document.querySelector('.field-input.error');
+        if (firstError) firstError.focus();
+        return;
+    }
+
+    submitForm();
+});
+
+function submitForm() {
+    btnCriarConta.disabled        = true;
+    btnCriarConta.textContent = 'Criando…';
+
+    // Simula latência de rede / persistência no backend
+    setTimeout(() => {
+        const success = true; // substituir pela resposta real da API
+
+        btnCriarConta.disabled        = false;
+        btnCriarConta.textContent = 'CRIAR CONTA';
+
+        if (success) {
+            openModal(modalSucesso);
+        } else {
+            // Exibir modal de erro genérico caso necessário
+            alert('Não foi possível criar a conta no momento. Verifique sua conexão e tente novamente.');
+        }
+    }, 800);
+}
