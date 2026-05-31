@@ -254,3 +254,119 @@ BOTÃO PRIMÁRIO
     outline: 2px solid #E0456A;
     outline-offset: 3px;
 }
+
+/* ============================================================
+RODAPÉ
+============================================================ */
+.page-footer {
+    width: 512px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #717182;
+}
+
+.link-entrar {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: #E0456A;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+}
+
+.link-entrar:hover {
+    opacity: 0.75;
+}
+
+/* ============================================================
+MODAL OVERLAY
+============================================================ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Modal card */
+.modal {
+    width: 448px;
+    background: #FFFFFF;
+    border-radius: 24px;
+    box-shadow: 0px 24px 80px 0px #00000033;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    transform: translateY(8px) scale(0.98);
+    transition: transform 0.25s ease;
+}
+
+.modal-overlay.active .modal {
+    transform: translateY(0) scale(1);
+}
+
+/* Cabeçalho do modal */
+.modal-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.modal-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E0456A 0%, #E98CA4 100%);
+    box-shadow: 0px 8px 24px 0px #E0456A4D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-title {
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: 0.3px;
+    text-align: center;
+    color: #110E29;
+    margin-bottom: 8px;
+}
+
+.modal-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    color: #717182;
+    margin-bottom: 32px;
+}
+
+.modal-btn {
+    width: 384px;
+    height: 56px;
+}
