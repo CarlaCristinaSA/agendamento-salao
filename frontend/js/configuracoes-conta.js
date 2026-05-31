@@ -303,3 +303,25 @@ function discardChanges() {
   btnSave.disabled  = true;
   btnSave.setAttribute('aria-disabled', 'true');
 }
+
+// FLUXO: SAIR DA CONTA
+btnSignout.addEventListener('click', () => {
+  openModal(modals.confirmarSair);
+});
+
+document.getElementById('btn-cancelar-sair').addEventListener('click', () => {
+  closeModal(modals.confirmarSair);
+});
+
+document.getElementById('btn-sim-sair').addEventListener('click', () => {
+  closeModal(modals.confirmarSair);
+  alert('Sessão encerrada. Redirecionando para o login...');
+});
+
+// AVISO AO SAIR DA PÁGINA COM ALTERAÇÕES PENDENTES
+window.addEventListener('beforeunload', (e) => {
+  if (hasUnsavedChanges) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
