@@ -122,10 +122,9 @@
       </div>
 
       <!-- SEÇÃO SENHA -->
-      <div class="password-section">
-        <div class="password-row">
-          <div class="password-info">
-            <div class="password-icon-circle" aria-hidden="true">
+      <div class="password-row">
+        <div class="icon-label">
+          <div class="icon-circle" aria-hidden="true">
               <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15.8333 9.16675H4.16667C3.24619 9.16675 2.5 9.91294 2.5 10.8334V16.6667C2.5 17.5872 3.24619 18.3334 4.16667 18.3334H15.8333C16.7538 18.3334 17.5 17.5872 17.5 16.6667V10.8334C17.5 9.91294 16.7538 9.16675 15.8333 9.16675Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M5.83337 9.16675V5.83341C5.83337 4.72835 6.27236 3.66854 7.05376 2.88714C7.83516 2.10573 8.89497 1.66675 10 1.66675C11.1051 1.66675 12.1649 2.10573 12.9463 2.88714C13.7277 3.66854 14.1667 4.72835 14.1667 5.83341V9.16675" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
@@ -137,7 +136,6 @@
             Alterar Senha
           </button>
         </div>
-      </div>
 
       <!-- BOTÕES DE AÇÃO -->
       <div class="action-buttons">
@@ -173,17 +171,17 @@
       <h2 class="modal-senha-title" id="modal-senha-title">Alterar Senha</h2>
       <div class="modal-senha-fields">
         <!-- SENHA ATUAL -->
-        <div class="modal-senha-field-group">
-          <label class="modal-senha-label" for="input-senha-atual">
+        <div class="field-group">
+          <label class="field-label" for="input-senha-atual">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M12.6667 7.33337H3.33333C2.59695 7.33337 2 7.93033 2 8.66671V13.3334C2 14.0698 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0698 14 13.3334V8.66671C14 7.93033 13.403 7.33337 12.6667 7.33337Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M4.66675 7.33337V4.66671C4.66675 3.78265 5.01794 2.93481 5.64306 2.30968C6.26818 1.68456 7.11603 1.33337 8.00008 1.33337C8.88414 1.33337 9.73198 1.68456 10.3571 2.30968C10.9822 2.93481 11.3334 3.78265 11.3334 4.66671V7.33337" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <span>Senha Atual</span>
           </label>
-          <div class="modal-senha-input-wrapper">
-            <input class="modal-senha-input" type="password" id="input-senha-atual" placeholder="Digite sua senha atual" autocomplete="current-password" />
-            <button class="modal-eye-btn" type="button" aria-label="Mostrar senha atual" data-target="input-senha-atual">
+          <div class="input-wrapper">
+            <input class="field-input" type="password" id="input-senha-atual" placeholder="Digite sua senha atual" autocomplete="current-password" />
+            <button class="icon-btn" type="button" aria-label="Mostrar senha atual" data-target="input-senha-atual">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
@@ -194,17 +192,17 @@
         </div>
 
         <!-- NOVA SENHA -->
-        <div class="modal-senha-field-group">
-          <label class="modal-senha-label" for="input-nova-senha">
+        <div class="field-group">
+          <label class="field-label" for="input-nova-senha">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M12.6667 7.33337H3.33333C2.59695 7.33337 2 7.93033 2 8.66671V13.3334C2 14.0698 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0698 14 13.3334V8.66671C14 7.93033 13.403 7.33337 12.6667 7.33337Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M4.66675 7.33337V4.66671C4.66675 3.78265 5.01794 2.93481 5.64306 2.30968C6.26818 1.68456 7.11603 1.33337 8.00008 1.33337C8.88414 1.33337 9.73198 1.68456 10.3571 2.30968C10.9822 2.93481 11.3334 3.78265 11.3334 4.66671V7.33337" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <span>Nova Senha</span>
           </label>
-          <div class="modal-senha-input-wrapper">
-            <input class="modal-senha-input" type="password" id="input-nova-senha" placeholder="Digite sua nova senha" autocomplete="new-password" />
-            <button class="modal-eye-btn" type="button" aria-label="Mostrar nova senha" data-target="input-nova-senha">
+          <div class="input-wrapper">
+            <input class="field-input" type="password" id="input-nova-senha" placeholder="Digite sua nova senha" autocomplete="new-password" />
+            <button class="icon-btn" type="button" aria-label="Mostrar nova senha" data-target="input-nova-senha">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
@@ -215,17 +213,17 @@
         </div>
 
         <!-- CONFIRMAR SENHA -->
-        <div class="modal-senha-field-group">
-          <label class="modal-senha-label" for="input-confirmar-senha">
+        <div class="field-group">
+          <label class="field-label" for="input-confirmar-senha">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M12.6667 7.33337H3.33333C2.59695 7.33337 2 7.93033 2 8.66671V13.3334C2 14.0698 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0698 14 13.3334V8.66671C14 7.93033 13.403 7.33337 12.6667 7.33337Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M4.66675 7.33337V4.66671C4.66675 3.78265 5.01794 2.93481 5.64306 2.30968C6.26818 1.68456 7.11603 1.33337 8.00008 1.33337C8.88414 1.33337 9.73198 1.68456 10.3571 2.30968C10.9822 2.93481 11.3334 3.78265 11.3334 4.66671V7.33337" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <span>Confirmar Senha</span>
           </label>
-          <div class="modal-senha-input-wrapper">
-            <input class="modal-senha-input" type="password" id="input-confirmar-senha" placeholder="Confirme sua nova senha" autocomplete="new-password" />
-            <button class="modal-eye-btn" type="button" aria-label="Mostrar confirmação de senha" data-target="input-confirmar-senha">
+          <div class="input-wrapper">
+            <input class="field-input" type="password" id="input-confirmar-senha" placeholder="Confirme sua nova senha" autocomplete="new-password" />
+            <button class="icon-btn" type="button" aria-label="Mostrar confirmação de senha" data-target="input-confirmar-senha">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
@@ -238,9 +236,9 @@
       </div>
 
       <!-- BOTÕES -->
-      <div class="modal-senha-btn-row">
-        <button class="modal-senha-btn-cancel" type="button" id="btn-cancelar-senha">Cancelar</button>
-        <button class="modal-senha-btn-confirm" type="button" id="btn-confirmar-senha">Confirmar</button>
+      <div class="modal-form-btn-row">
+        <button class="modal-form-btn-cancel" type="button" id="btn-cancelar-senha">Cancelar</button>
+        <button class="modal-form-btn-confirm" type="button" id="btn-confirmar-senha">Confirmar</button>
       </div>
 
     </div>
@@ -250,9 +248,9 @@
 
 <!-- ===== MODAL: CONFIRMADO — SENHA ===== -->
 <div class="modal-overlay" id="modal-sucesso-senha" role="dialog" aria-modal="true" aria-labelledby="modal-sucesso-senha-title">
-  <div class="modal-box" style="text-align:center;">
-    <div class="modal-icon-center">
-      <div class="modal-icon-circle">
+  <div class="modal-box modal-centered">
+    <div class="icon-center">
+      <div class="icon-circle icon-circle--lg">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <polyline points="22 4 12 14.01 9 11.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -268,9 +266,9 @@
 
 <!-- ===== MODAL: CONFIRMADO — DADOS ===== -->
 <div class="modal-overlay" id="modal-sucesso-dados" role="dialog" aria-modal="true" aria-labelledby="modal-sucesso-dados-title">
-  <div class="modal-box" style="text-align:center;">
-    <div class="modal-icon-center">
-      <div class="modal-icon-circle">
+  <div class="modal-box modal-centered">
+    <div class="icon-center">
+      <div class="icon-circle icon-circle--lg">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <polyline points="22 4 12 14.01 9 11.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -286,9 +284,9 @@
 
 <!-- ===== MODAL: CONFIRMAR SALVAR ===== -->
 <div class="modal-overlay" id="modal-confirmar-salvar" role="dialog" aria-modal="true" aria-labelledby="modal-confirmar-salvar-title">
-  <div class="modal-box" style="text-align:center;">
-    <div class="modal-icon-center">
-      <div class="modal-icon-circle" style="background: var(--gradient-primary);">
+  <div class="modal-box modal-centered">
+    <div class="icon-center">
+      <div class="icon-circle icon-circle--lg">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
           <line x1="12" y1="8" x2="12" y2="12" stroke="white" stroke-width="2" stroke-linecap="round"/>
@@ -308,9 +306,9 @@
 
 <!-- ===== MODAL: CONFIRMAR DESCARTAR ===== -->
 <div class="modal-overlay" id="modal-confirmar-descartar" role="dialog" aria-modal="true" aria-labelledby="modal-confirmar-descartar-title">
-  <div class="modal-box" style="text-align:center;">
-    <div class="modal-icon-center">
-      <div class="modal-icon-circle" style="background: var(--gradient-primary);">
+  <div class="modal-box modal-centered">
+    <div class="icon-center">
+      <div class="icon-circle icon-circle--lg">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
           <line x1="12" y1="8" x2="12" y2="12" stroke="white" stroke-width="2" stroke-linecap="round"/>
@@ -330,9 +328,9 @@
 
 <!-- ===== MODAL: CONFIRMAR SAIR DA CONTA ===== -->
 <div class="modal-overlay" id="modal-confirmar-sair" role="dialog" aria-modal="true" aria-labelledby="modal-confirmar-sair-title">
-  <div class="modal-box" style="text-align:center;">
-    <div class="modal-icon-center">
-      <div class="modal-icon-circle" style="background: var(--gradient-primary);">
+  <div class="modal-box modal-centered">
+    <div class="icon-center">
+      <div class="icon-circle icon-circle--lg">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
           <line x1="12" y1="8" x2="12" y2="12" stroke="white" stroke-width="2" stroke-linecap="round"/>
@@ -352,9 +350,9 @@
 
 <!-- ===== MODAL: ERRO ===== -->
 <div class="modal-overlay" id="modal-erro" role="dialog" aria-modal="true" aria-labelledby="modal-erro-title">
-  <div class="modal-box" style="text-align:center;">
-    <div class="modal-icon-center">
-      <div class="modal-icon-circle" style="background: var(--gradient-primary);">
+  <div class="modal-box modal-centered">
+    <div class="icon-center">
+      <div class="icon-circle icon-circle--lg">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <line x1="1" y1="1" x2="23" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
           <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 12.55a10.94 10.94 0 0 1 5.17-2.39M10.71 5.05A16 16 0 0 1 22.56 9M1.42 9a15.91 15.91 0 0 1 4.7-2.88M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

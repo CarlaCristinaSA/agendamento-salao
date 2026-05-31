@@ -342,7 +342,7 @@ document.getElementById('btn-cancelar-senha').addEventListener('click', () => {
   closeModal(modals.alterarSenha);
 });
 
-document.querySelectorAll('.modal-eye-btn').forEach(btn => {
+document.querySelectorAll('.icon-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const targetId = btn.dataset.target;
     const input = document.getElementById(targetId);
