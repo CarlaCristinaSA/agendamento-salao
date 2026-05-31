@@ -214,3 +214,35 @@ function validateConfirmarSenha(value) {
     clearError(errorConfirmarSenha);
     return true;
 }
+
+// ============================================================
+// VALIDAÇÃO AO SAIR DO CAMPO (blur)
+// ============================================================
+inputNome.addEventListener('blur',                     () => validateNome(inputNome.value));
+inputEmail.addEventListener('blur',                    () => validateEmail(inputEmail.value));
+inputTelefone.addEventListener('blur',             () => validateTelefone(inputTelefone.value));
+inputSenha.addEventListener('blur',                    () => validateSenha(inputSenha.value));
+inputConfirmarSenha.addEventListener('blur', () => validateConfirmarSenha(inputConfirmarSenha.value));
+
+// Revalida "confirmar senha" em tempo real sempre que "senha" muda
+inputSenha.addEventListener('input', () => {
+    if (inputConfirmarSenha.value) {
+        validateConfirmarSenha(inputConfirmarSenha.value);
+    }
+});
+
+// Revalida "confirmar senha" enquanto digita
+inputConfirmarSenha.addEventListener('input', () => {
+    if (inputConfirmarSenha.value) {
+        validateConfirmarSenha(inputConfirmarSenha.value);
+    }
+});
+
+// Exibe feedback de senha enquanto digita (após primeira interação)
+inputSenha.addEventListener('input', () => {
+    if (inputSenha.value) {
+        validateSenha(inputSenha.value);
+    } else {
+        clearError(errorSenha);
+    }
+});
