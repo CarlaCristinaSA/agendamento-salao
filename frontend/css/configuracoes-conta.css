@@ -117,6 +117,7 @@ body {
     margin-bottom: 0;
 }
 
+/* ===== CAMPO DE INPUT ===== */
 .field-group {
     display: flex;
     flex-direction: column;
@@ -233,7 +234,7 @@ body {
     display: block;
 }
 
-/* ===== SENHA ===== */
+/* ===== DIVIDER + SENHA ===== */
 .password-section {
     padding-top: 2rem;
     border-top: 0.67px solid var(--gray-border);
@@ -306,7 +307,7 @@ body {
     transform: translateY(0);
 }
 
-/* ===== BOTÕES ===== */
+/* ===== BOTÕES SALVAR / DESCARTAR ===== */
 .action-buttons {
     display: flex;
     gap: 1rem;
@@ -412,7 +413,7 @@ body {
     color: var(--pink-danger);
 }
 
-/* ===== MODAIS ===== */
+/* ===== MODAL OVERLAY ===== */
 .modal-overlay {
     display: none;
     position: fixed;

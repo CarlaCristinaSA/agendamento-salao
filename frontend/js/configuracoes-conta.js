@@ -237,6 +237,7 @@ function persistData() {
       originalData.nome     = nome;
       originalData.telefone = telefone;
       originalData.email    = email;
+
       inputNome.value     = nome;
       inputEmail.value    = email;
 
