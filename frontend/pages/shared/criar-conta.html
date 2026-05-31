@@ -73,6 +73,71 @@
                         <span id="error-email" class="field-error" role="alert" aria-live="polite"></span>
                     </div>
 
+                    <!-- TELEFONE -->
+                    <div class="field-group">
+                        <label for="input-telefone" class="field-label">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <g clip-path="url(#clip0_503_37)">
+                                <path d="M14.6667 11.28V13.28C14.6675 13.4657 14.6294 13.6494 14.555 13.8195C14.4807 13.9897 14.3716 14.1424 14.2348 14.2679C14.0979 14.3934 13.9364 14.489 13.7605 14.5485C13.5847 14.6079 13.3983 14.63 13.2134 14.6133C11.1619 14.3904 9.19137 13.6894 7.46004 12.5667C5.84926 11.5431 4.48359 10.1774 3.46004 8.56665C2.33336 6.82745 1.6322 4.84731 1.41337 2.78665C1.39671 2.60229 1.41862 2.41649 1.4777 2.24107C1.53679 2.06564 1.63175 1.90444 1.75655 1.76773C1.88134 1.63102 2.03324 1.52179 2.20256 1.447C2.37189 1.37221 2.55493 1.33349 2.74004 1.33332H4.74004C5.06357 1.33013 5.37723 1.4447 5.62254 1.65567C5.86786 1.86664 6.02809 2.15961 6.07337 2.47998C6.15779 3.12003 6.31434 3.74847 6.54004 4.35332C6.62973 4.59193 6.64915 4.85126 6.59597 5.10057C6.5428 5.34988 6.41928 5.57872 6.24004 5.75998L5.39337 6.60665C6.34241 8.27568 7.72434 9.65761 9.39337 10.6067L10.24 9.75998C10.4213 9.58074 10.6501 9.45722 10.8994 9.40405C11.1488 9.35088 11.4081 9.37029 11.6467 9.45998C12.2516 9.68568 12.88 9.84224 13.52 9.92665C13.8439 9.97234 14.1396 10.1355 14.3511 10.385C14.5625 10.6345 14.6748 10.953 14.6667 11.28Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_503_37">
+                                <rect width="16" height="16" fill="white"/>
+                                </clipPath>
+                            </defs>
+                            </svg>
+                            Telefone
+                        </label>
+
+                        <input
+                            id="input-telefone"
+                            type="tel"
+                            class="field-input"
+                            placeholder="(00) 00000-0000"
+                            autocomplete="tel"
+                            maxlength="16"
+                            aria-describedby="error-telefone"
+                        />
+
+                        <span id="error-telefone" class="field-error" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <!-- SENHA -->
+                    <div class="field-group">
+                        <label for="input-senha" class="field-label">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M12.6667 7.33331H3.33333C2.59695 7.33331 2 7.93027 2 8.66665V13.3333C2 14.0697 2.59695 14.6666 3.33333 14.6666H12.6667C13.403 14.6666 14 14.0697 14 13.3333V8.66665C14 7.93027 13.403 7.33331 12.6667 7.33331Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4.66675 7.33331V4.66665C4.66675 3.78259 5.01794 2.93475 5.64306 2.30962C6.26818 1.6845 7.11603 1.33331 8.00008 1.33331C8.88414 1.33331 9.73198 1.6845 10.3571 2.30962C10.9822 2.93475 11.3334 3.78259 11.3334 4.66665V7.33331" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Senha
+                        </label>
+
+                        <div class="input-password-wrapper">
+                            <input
+                            id="input-senha"
+                            type="password"
+                            class="field-input"
+                            placeholder="Digite sua senha"
+                            autocomplete="new-password"
+                            aria-describedby="error-senha"
+                            />
+
+                            <button
+                            type="button"
+                            class="icon-btn"
+                            data-target="input-senha"
+                            aria-label="Mostrar senha"
+                            >
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1.71835 9.71C1.6489 9.89709 1.6489 10.1029 1.71835 10.29C2.39476 11.9301 3.54294 13.3325 5.01732 14.3192C6.4917 15.306 8.22588 15.8328 10 15.8328C11.7741 15.8328 13.5083 15.306 14.9827 14.3192C16.4571 13.3325 17.6053 11.9301 18.2817 10.29C18.3511 10.1029 18.3511 9.89709 18.2817 9.71C17.6053 8.06987 16.4571 6.66753 14.9827 5.68074C13.5083 4.69396 11.7741 4.16718 10 4.16718C8.22588 4.16718 6.4917 4.69396 5.01732 5.68074C3.54294 6.66753 2.39476 8.06987 1.71835 9.71Z" stroke="#717182" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z" stroke="#717182" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            </button>
+                        </div>
+
+                        <span id="error-senha" class="field-error" role="alert" aria-live="polite"></span>
+                    </div>
+
 <script src="/frontend/js/criar-conta.js"></script>
 </body>
 </html>
