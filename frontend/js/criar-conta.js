@@ -108,3 +108,109 @@ document.querySelectorAll('.icon-btn').forEach(btn => {
 inputEmail.addEventListener('blur', () => {
     inputEmail.value = inputEmail.value.toLowerCase();
 });
+
+// ============================================================
+// VALIDAÇÕES INDIVIDUAIS
+// ============================================================
+
+/* Nome: não pode ser vazio nem somente espaços; mínimo 3 letras. */
+function validateNome(value) {
+    const trimmed = value.trim();
+
+    if (!trimmed) {
+        showError(errorNome, 'O nome não pode ficar em branco.');
+        return false;
+    }
+
+    const lettersOnly = trimmed.replace(/\s/g, '');
+    if (lettersOnly.length < 3) {
+        showError(errorNome, 'O nome deve ter pelo menos 3 letras.');
+        return false;
+    }
+
+    clearError(errorNome);
+    return true;
+}
+
+/* E-mail: formato válido (com @ e domínio). */
+function validateEmail(value) {
+    const lower            = value.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!lower) {
+        showError(errorEmail, 'O e-mail não pode ficar em branco.');
+        return false;
+    }
+
+    if (!emailRegex.test(lower)) {
+        showError(errorEmail, 'Formato de e-mail inválido. Ex: usuario@dominio.com');
+        return false;
+    }
+
+    clearError(errorEmail);
+    return true;
+}
+
+/* Telefone: 10 ou 11 dígitos numéricos (considerando DDD). */
+function validateTelefone(value) {
+    const digits = value.replace(/\D/g, '');
+
+    if (!digits) {
+        showError(errorTelefone, 'O telefone não pode ficar em branco.');
+        return false;
+    }
+
+    if (digits.length < 10 || digits.length > 11) {
+        showError(errorTelefone, 'Formato de telefone inválido. Ex: (XX) 9XXXX-XXXX');
+        return false;
+    }
+
+    clearError(errorTelefone);
+    return true;
+}
+
+/*
+ * Senha: mínimo 8 caracteres, ao menos uma maiúscula, uma minúscula,
+ * um número e um caractere especial.
+ * (Regras herdadas de HU-012 / configuracoes-conta.js)
+ */
+function validateSenha(value) {
+    if (!value) {
+        showError(errorSenha, 'Informe uma senha.');
+        return false;
+    }
+
+    const rules = [
+        { re: /.{8,}/,                                                    msg: 'A senha deve ter pelo menos 8 caracteres.' },
+        { re: /[A-Z]/,                                                     msg: 'A senha deve conter pelo menos uma letra maiúscula.' },
+        { re: /[a-z]/,                                                     msg: 'A senha deve conter pelo menos uma letra minúscula.' },
+        { re: /[0-9]/,                                                     msg: 'A senha deve conter pelo menos um número.' },
+        { re: /[@#$%!&*^()\-_+=<>?]/,                     msg: 'A senha deve conter pelo menos um caractere especial (@, #, $, %, etc.).' },
+    ];
+
+    for (const rule of rules) {
+        if (!rule.re.test(value)) {
+            showError(errorSenha, rule.msg);
+            return false;
+        }
+    }
+
+    clearError(errorSenha);
+    return true;
+}
+
+/* Confirmar senha: deve ser idêntica à senha. */
+function validateConfirmarSenha(value) {
+    if (!value) {
+        showError(errorConfirmarSenha, 'Confirme sua senha.');
+        return false;
+    }
+
+    if (value !== inputSenha.value) {
+        showError(errorConfirmarSenha, 'As senhas não coincidem.');
+        return false;
+    }
+
+    clearError(errorConfirmarSenha);
+    return true;
+}
