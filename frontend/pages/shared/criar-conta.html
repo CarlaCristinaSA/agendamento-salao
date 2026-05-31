@@ -24,8 +24,54 @@
             <h1>Criar conta</h1>
             <p>Seja bem-vindo(a) ao Sistema de Agendamento do Espaço Beleza</p>
         </header>
-    </div>
-</main>
+
+        <!-- CARD DE DADOS -->
+        <div class="card">
+            <div class="card-inner">
+                <div class="fields">
+                    <!-- NOME COMPLETO -->
+                    <div class="field-group">
+                        <label for="input-nome" class="field-label">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M12.6666 14V12.6667C12.6666 11.9594 12.3856 11.2811 11.8855 10.781C11.3854 10.281 10.7072 10 9.99992 10H5.99992C5.29267 10 4.6144 10.281 4.1143 10.781C3.6142 11.2811 3.33325 11.9594 3.33325 12.6667V14" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7.99992 7.33333C9.47268 7.33333 10.6666 6.13943 10.6666 4.66667C10.6666 3.19391 9.47268 2 7.99992 2C6.52716 2 5.33325 3.19391 5.33325 4.66667C5.33325 6.13943 6.52716 7.33333 7.99992 7.33333Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Nome Completo
+                        </label>
+
+                        <input
+                            id="input-nome"
+                            type="text"
+                            class="field-input"
+                            placeholder="Digite seu nome completo"
+                            autocomplete="name"
+                            aria-describedby="error-nome"
+                        />
+
+                        <span id="error-nome" class="field-error" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <!-- E-MAIL -->
+                    <div class="field-group">
+                        <label for="input-email" class="field-label">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M13.3333 2.66666H2.66659C1.93021 2.66666 1.33325 3.26361 1.33325 3.99999V12C1.33325 12.7364 1.93021 13.3333 2.66659 13.3333H13.3333C14.0696 13.3333 14.6666 12.7364 14.6666 12V3.99999C14.6666 3.26361 14.0696 2.66666 13.3333 2.66666Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14.6666 4.66666L8.68659 8.46666C8.48077 8.59561 8.2428 8.664 7.99992 8.664C7.75704 8.664 7.51907 8.59561 7.31325 8.46666L1.33325 4.66666" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            E-mail
+                        </label>
+
+                        <input
+                            id="input-email"
+                            type="email"
+                            class="field-input"
+                            placeholder="seu@email.com"
+                            autocomplete="email"
+                            aria-describedby="error-email"
+                        />
+
+                        <span id="error-email" class="field-error" role="alert" aria-live="polite"></span>
+                    </div>
 
 <script src="/frontend/js/criar-conta.js"></script>
 </body>
