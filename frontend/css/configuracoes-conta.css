@@ -226,6 +226,27 @@ body {
     color: var(--pink-primary);
 }
 
+.icon-btn .material-icons {
+    font-size: 20px;
+    display: none;
+}
+
+.icon-btn .icon-open {
+    display: block;
+}
+
+.icon-btn .icon-closed {
+    display: none;
+}
+
+.icon-btn.active .icon-open {
+    display: none;
+}
+
+.icon-btn.active .icon-closed {
+    display: block;
+}
+
 .field-error {
     display: none;
     font-size: 0.75rem;
