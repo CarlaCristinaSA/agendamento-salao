@@ -138,6 +138,57 @@
                         <span id="error-senha" class="field-error" role="alert" aria-live="polite"></span>
                     </div>
 
+                    <!-- CONFIRMAR SENHA -->
+                    <div class="field-group">
+                        <label for="input-confirmar-senha" class="field-label">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M12.6667 7.33331H3.33333C2.59695 7.33331 2 7.93027 2 8.66665V13.3333C2 14.0697 2.59695 14.6666 3.33333 14.6666H12.6667C13.403 14.6666 14 14.0697 14 13.3333V8.66665C14 7.93027 13.403 7.33331 12.6667 7.33331Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4.66675 7.33331V4.66665C4.66675 3.78259 5.01794 2.93475 5.64306 2.30962C6.26818 1.6845 7.11603 1.33331 8.00008 1.33331C8.88414 1.33331 9.73198 1.6845 10.3571 2.30962C10.9822 2.93475 11.3334 3.78259 11.3334 4.66665V7.33331" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Confirmar Senha
+                        </label>
+
+                        <div class="input-password-wrapper">
+                            <input
+                            id="input-confirmar-senha"
+                            type="password"
+                            class="field-input"
+                            placeholder="Confirme sua senha"
+                            autocomplete="new-password"
+                            aria-describedby="error-confirmar-senha"
+                            />
+
+                            <button
+                            type="button"
+                            class="icon-btn"
+                            data-target="input-confirmar-senha"
+                            aria-label="Mostrar confirmação de senha"
+                            >
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1.71835 9.71C1.6489 9.89709 1.6489 10.1029 1.71835 10.29C2.39476 11.9301 3.54294 13.3325 5.01732 14.3192C6.4917 15.306 8.22588 15.8328 10 15.8328C11.7741 15.8328 13.5083 15.306 14.9827 14.3192C16.4571 13.3325 17.6053 11.9301 18.2817 10.29C18.3511 10.1029 18.3511 9.89709 18.2817 9.71C17.6053 8.06987 16.4571 6.66753 14.9827 5.68074C13.5083 4.69396 11.7741 4.16718 10 4.16718C8.22588 4.16718 6.4917 4.69396 5.01732 5.68074C3.54294 6.66753 2.39476 8.06987 1.71835 9.71Z" stroke="#717182" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z" stroke="#717182" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            </button>
+                        </div>
+
+                        <span id="error-confirmar-senha" class="field-error" role="alert" aria-live="polite"></span>
+                    </div>
+                </div>
+            <button type="button" id="btn-criar-conta" class="btn-primary">
+                CRIAR CONTA
+            </button>
+            </div>
+        </div>
+
+        <!-- RODAPÉ -->
+        <footer class="page-footer">
+            <span>Já possui uma conta?</span>
+            <a href="#" id="link-entrar" class="link-entrar">Entrar</a>
+        </footer>
+
+    </div>
+</main>
+
 <script src="/frontend/js/criar-conta.js"></script>
 </body>
 </html>
