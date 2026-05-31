@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Montserrat:wght@400;500;600&display=swap');
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --pink-primary: #E0456A;
+    --pink-light: #E98CA4;
+    --pink-danger: #D4183D;
+    --dark: #110E29;
+    --gray-text: #717182;
+    --gray-border: #F3F4F6;
+    --bg-input: #FAFAFA;
+    --white: #FFFFFF;
+    --shadow-card: 0 20px 60px 0 rgba(0,0,0,0.08);
+    --shadow-icon: 0 8px 24px 0 rgba(224,69,106,0.25);
+    --radius-card: 1.5rem;
+    --radius-input: 1rem;
+    --radius-btn: 1rem;
+    --radius-icon: 50%;
+    --gradient-primary: linear-gradient(135deg, #E0456A 0%, #E98CA4 100%);
+    --gradient-bg: linear-gradient(135deg, #FFFFFF 0%, #FFF5F7 50%, #FFFFFF 100%);
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--gradient-bg);
+    min-height: 100vh;
+    color: var(--dark);
+}
+
+/* ===== PÁGINA PRINCIPAL ===== */
+.page-body {
+    min-height: 100vh;
+    padding: 4rem clamp(1rem, 5vw, 20.3125rem);
+    background: linear-gradient(135deg, #FFFFFF 0%, rgba(253,242,248,0.2) 50%, #FFFFFF 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-container {
+    width: 100%;
+    max-width: 42rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
