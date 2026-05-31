@@ -34,3 +34,49 @@ body {
     align-items: center;
     gap: 0;
 }
+
+/* ============================================================
+CABEÇALHO
+============================================================ */
+.page-header {
+    width: 512px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.header-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E0456A 0%, #E98CA4 100%);
+    box-shadow: 0px 8px 24px 0px #E0456A40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.page-header h1 {
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 48px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    color: #110E29;
+    margin-top: 24px;
+}
+
+.page-header p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    text-align: center;
+    color: #717182;
+    margin-top: 4px;
+    width: max-content;
+}
