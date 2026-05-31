@@ -35,9 +35,7 @@ body {
     gap: 0;
 }
 
-/* ============================================================
-CABEÇALHO
-============================================================ */
+/* CABEÇALHO */
 .page-header {
     width: 512px;
     height: 180px;
@@ -81,9 +79,7 @@ CABEÇALHO
     width: max-content;
 }
 
-/* ============================================================
-CARD
-============================================================ */
+/* CARD */
 .card {
     width: 512px;
     background: #FFFFFF;
@@ -100,9 +96,7 @@ CARD
     gap: 32px;
 }
 
-/* ============================================================
-FIELDS
-============================================================ */
+/* FIELDS */
 .fields {
     display: flex;
     flex-direction: column;
@@ -135,7 +129,6 @@ FIELDS
     flex-shrink: 0;
 }
 
-/* Input wrapper para campos com olhinho */
 .input-password-wrapper {
     position: relative;
     display: flex;
@@ -147,7 +140,6 @@ FIELDS
     padding-right: 52px;
 }
 
-/* Input base */
 .field-input {
     width: 432px;
     height: 60px;
@@ -245,9 +237,7 @@ FIELDS
     opacity: 1;
 }
 
-/* ============================================================
-BOTÃO PRIMÁRIO
-============================================================ */
+/* BOTÃO PRIMÁRIO */
 .btn-primary {
     width: 100%;
     height: 64px;
@@ -277,9 +267,7 @@ BOTÃO PRIMÁRIO
     outline-offset: 3px;
 }
 
-/* ============================================================
-RODAPÉ
-============================================================ */
+/* RODAPÉ */
 .page-footer {
     width: 512px;
     display: flex;
@@ -309,9 +297,7 @@ RODAPÉ
     opacity: 0.75;
 }
 
-/* ============================================================
-MODAL OVERLAY
-============================================================ */
+/* MODAL OVERLAY */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -393,9 +379,7 @@ MODAL OVERLAY
     height: 56px;
 }
 
-/* ============================================================
-RESPONSIVIDADE
-============================================================ */
+/* RESPONSIVIDADE */
 @media (max-width: 1024px) {
     .page {
         padding: 64px 40px;
