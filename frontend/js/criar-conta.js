@@ -113,12 +113,17 @@ inputEmail.addEventListener('blur', () => {
 // VALIDAÇÕES INDIVIDUAIS
 // ============================================================
 
-/* Nome: não pode ser vazio nem somente espaços; mínimo 3 letras. */
+/* Nome: não pode ser vazio nem somente espaços; não pode conter números; mínimo 3 letras. */
 function validateNome(value) {
     const trimmed = value.trim();
 
     if (!trimmed) {
         showError(errorNome, 'O nome não pode ficar em branco.');
+        return false;
+    }
+
+    if (/\d/.test(trimmed)) {
+        showError(errorNome, 'O nome não pode conter números.');
         return false;
     }
 
