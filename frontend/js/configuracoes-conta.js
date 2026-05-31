@@ -410,3 +410,50 @@ function validateConfirmarSenha() {
   clearError(errorConfirmarSenha);
   return true;
 }
+
+document.getElementById('btn-confirmar-senha').addEventListener('click', () => {
+  let valid = true;
+
+  // Senha atual obrigatória
+  if (!inputSenhaAtual.value) {
+    showError(errorSenhaAtual, 'Informe a senha atual.');
+    valid = false;
+  } else {
+    clearError(errorSenhaAtual);
+  }
+
+  // Nova senha
+  if (!inputNovaSenha.value) {
+    showError(errorNovaSenha, 'Informe a nova senha.');
+    valid = false;
+  } else if (!validateNovaSenha()) {
+    valid = false;
+  }
+
+  // Nova senha não pode ser igual à atual
+  if (inputNovaSenha.value && inputSenhaAtual.value && inputNovaSenha.value === inputSenhaAtual.value) {
+    showError(errorNovaSenha, 'A nova senha não pode ser igual à senha atual.');
+    valid = false;
+  }
+
+  // Confirmar senha
+  if (!inputConfirmarSenha.value) {
+    showError(errorConfirmarSenha, 'Confirme a nova senha.');
+    valid = false;
+  } else if (!validateConfirmarSenha()) {
+    valid = false;
+  }
+
+  if (!valid) return;
+
+  // Simula verificação com backend
+  closeModal(modals.alterarSenha);
+
+  setTimeout(() => {
+    openModal(modals.sucessoSenha);
+  }, 200);
+});
+
+document.getElementById('btn-ok-senha').addEventListener('click', () => {
+  closeModal(modals.sucessoSenha);
+});
