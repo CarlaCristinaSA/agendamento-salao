@@ -89,3 +89,47 @@ document.addEventListener('keydown', (e) => {
     Object.values(modals).forEach(m => closeModal(m));
   }
 });
+
+// MÁSCARA DE TELEFONE
+function applyPhoneMask(value) {
+  const digits = value.replace(/\D/g, '').slice(0, 11);
+  if (digits.length === 0) return '';
+  if (digits.length <= 2)  return `(${digits}`;
+  if (digits.length <= 6)  return `(${digits.slice(0,2)}) ${digits.slice(2)}`;
+  if (digits.length <= 10) return `(${digits.slice(0,2)}) ${digits.slice(2,6)}-${digits.slice(6)}`;
+  return `(${digits.slice(0,2)}) ${digits.slice(2,7)}-${digits.slice(7)}`;
+}
+
+inputTelefone.addEventListener('input', (e) => {
+  const raw = e.target.value;
+  const cursor = e.target.selectionStart;
+  const masked = applyPhoneMask(raw);
+  e.target.value = masked;
+  const diff = masked.length - raw.length;
+  e.target.setSelectionRange(cursor + diff, cursor + diff);
+  onFieldChange();
+});
+
+// Notar Alterações
+function onFieldChange() {
+  const nome     = inputNome.value.trim();
+  const telefone = inputTelefone.value.trim();
+  const email    = inputEmail.value.trim().toLowerCase();
+
+  const changed =
+    nome     !== originalData.nome     ||
+    telefone !== originalData.telefone ||
+    email    !== originalData.email;
+
+  hasUnsavedChanges = changed;
+  btnSave.disabled = !changed;
+  btnSave.setAttribute('aria-disabled', String(!changed));
+}
+
+inputNome.addEventListener('input', onFieldChange);
+inputEmail.addEventListener('input', onFieldChange);
+
+// Higienização: do email
+inputEmail.addEventListener('blur', () => {
+  inputEmail.value = inputEmail.value.toLowerCase();
+});
