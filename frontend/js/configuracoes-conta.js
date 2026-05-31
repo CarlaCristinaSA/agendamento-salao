@@ -203,3 +203,103 @@ function validateAllFields() {
   const vEmail    = validateEmail(inputEmail.value);
   return vNome && vTelefone && vEmail;
 }
+
+// FLUXO: SALVAR
+btnSave.addEventListener('click', () => {
+  if (!validateAllFields()) return;
+  openModal(modals.confirmarSalvar);
+});
+
+document.getElementById('btn-cancelar-salvar').addEventListener('click', () => {
+  closeModal(modals.confirmarSalvar);
+});
+
+document.getElementById('btn-sim-salvar').addEventListener('click', () => {
+  closeModal(modals.confirmarSalvar);
+  persistData();
+});
+
+function persistData() {
+  const nome     = inputNome.value.trim();
+  const telefone = inputTelefone.value.trim();
+  const email    = inputEmail.value.trim().toLowerCase();
+
+  // Simula latência de rede
+  btnSave.disabled = true;
+  btnSave.textContent = 'Salvando…';
+
+  setTimeout(() => {
+    const success = true;
+
+    btnSave.textContent = 'Salvar';
+
+    if (success) {
+      originalData.nome     = nome;
+      originalData.telefone = telefone;
+      originalData.email    = email;
+      inputNome.value     = nome;
+      inputEmail.value    = email;
+
+      [inputNome, inputTelefone, inputEmail].forEach(input => {
+        input.disabled = true;
+      });
+      document.querySelectorAll('.field-group .edit-btn').forEach(btn => {
+        btn.classList.remove('active');
+        const label = btn.getAttribute('aria-label');
+        if (label) btn.setAttribute('aria-label', label.replace('Bloqueando', 'Editar'));
+      });
+
+      hasUnsavedChanges = false;
+      btnSave.disabled  = true;
+      btnSave.setAttribute('aria-disabled', 'true');
+
+      openModal(modals.sucessoDados);
+    } else {
+      openModal(modals.erro);
+    }
+  }, 800);
+}
+
+document.getElementById('btn-ok-dados').addEventListener('click', () => {
+  closeModal(modals.sucessoDados);
+});
+
+document.getElementById('btn-tentar-novamente').addEventListener('click', () => {
+  closeModal(modals.erro);
+  persistData();
+});
+
+// FLUXO: DESCARTAR
+btnDiscard.addEventListener('click', () => {
+  if (!hasUnsavedChanges) return;
+  openModal(modals.confirmarDescartar);
+});
+
+document.getElementById('btn-cancelar-descartar').addEventListener('click', () => {
+  closeModal(modals.confirmarDescartar);
+});
+
+document.getElementById('btn-sim-descartar').addEventListener('click', () => {
+  closeModal(modals.confirmarDescartar);
+  discardChanges();
+});
+
+function discardChanges() {
+  inputNome.value     = originalData.nome;
+  inputTelefone.value = originalData.telefone;
+  inputEmail.value    = originalData.email;
+
+  [inputNome, inputTelefone, inputEmail].forEach(input => {
+    input.disabled = true;
+  });
+  document.querySelectorAll('.field-group .edit-btn').forEach(btn => {
+    btn.classList.remove('active');
+    const label = btn.getAttribute('aria-label');
+    if (label) btn.setAttribute('aria-label', label.replace('Bloqueando', 'Editar'));
+  });
+
+  clearAllMainErrors();
+  hasUnsavedChanges = false;
+  btnSave.disabled  = true;
+  btnSave.setAttribute('aria-disabled', 'true');
+}
