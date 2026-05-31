@@ -384,7 +384,7 @@ function validateNovaSenha() {
     { re: /[A-Z]/,         msg: 'A senha deve conter pelo menos uma letra maiúscula.' },
     { re: /[a-z]/,         msg: 'A senha deve conter pelo menos uma letra minúscula.' },
     { re: /[0-9]/,         msg: 'A senha deve conter pelo menos um número.' },
-    { re: /[@#$%!&*^()\-_+=<>?]/,msg: 'A senha deve conter pelo menos um caractere especial (@, #, $, %, etc.).' },
+    { re: /[@#$%!&*^()\-_+=<>?.]/,msg: 'A senha deve conter pelo menos um caractere especial (@, #, $, %, etc.).' },
   ];
 
   for (const rule of rules) {
