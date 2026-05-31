@@ -154,81 +154,33 @@
 
   </main>
 </div>
-<div class="modal-overlay" id="modal-alterar-senha" role="dialog" aria-modal="true" aria-labelledby="modal-senha-title">
-  <div class="modal-box modal-senha">
-    <div class="modal-senha-inner">
 
-      <h2 class="modal-senha-title" id="modal-senha-title">Alterar Senha</h2>
-
-      <div class="modal-senha-fields">
-
-        <div class="modal-senha-field-group">
-          <label class="modal-senha-label" for="input-senha-atual">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M12.6667 7.33337H3.33333C2.59695 7.33337 2 7.93033 2 8.66671V13.3334C2 14.0698 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0698 14 13.3334V8.66671C14 7.93033 13.403 7.33337 12.6667 7.33337Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M4.66675 7.33337V4.66671C4.66675 3.78265 5.01794 2.93481 5.64306 2.30968C6.26818 1.68456 7.11603 1.33337 8.00008 1.33337C8.88414 1.33337 9.73198 1.68456 10.3571 2.30968C10.9822 2.93481 11.3334 3.78265 11.3334 4.66671V7.33337" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span>Senha Atual</span>
-          </label>
-          <div class="modal-senha-input-wrapper">
-            <input class="modal-senha-input" type="password" id="input-senha-atual" placeholder="Digite sua senha atual" autocomplete="current-password" />
-            <button class="modal-eye-btn" type="button" aria-label="Mostrar senha atual" data-target="input-senha-atual">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </button>
-          </div>
-          <span class="field-error" id="error-senha-atual" role="alert"></span>
-        </div>
-
-        <div class="modal-senha-field-group">
-          <label class="modal-senha-label" for="input-nova-senha">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M12.6667 7.33337H3.33333C2.59695 7.33337 2 7.93033 2 8.66671V13.3334C2 14.0698 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0698 14 13.3334V8.66671C14 7.93033 13.403 7.33337 12.6667 7.33337Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M4.66675 7.33337V4.66671C4.66675 3.78265 5.01794 2.93481 5.64306 2.30968C6.26818 1.68456 7.11603 1.33337 8.00008 1.33337C8.88414 1.33337 9.73198 1.68456 10.3571 2.30968C10.9822 2.93481 11.3334 3.78265 11.3334 4.66671V7.33337" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span>Nova Senha</span>
-          </label>
-          <div class="modal-senha-input-wrapper">
-            <input class="modal-senha-input" type="password" id="input-nova-senha" placeholder="Digite sua nova senha" autocomplete="new-password" />
-            <button class="modal-eye-btn" type="button" aria-label="Mostrar nova senha" data-target="input-nova-senha">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </button>
-          </div>
-          <span class="field-error" id="error-nova-senha" role="alert"></span>
-        </div>
-
-        <div class="modal-senha-field-group">
-          <label class="modal-senha-label" for="input-confirmar-senha">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M12.6667 7.33337H3.33333C2.59695 7.33337 2 7.93033 2 8.66671V13.3334C2 14.0698 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0698 14 13.3334V8.66671C14 7.93033 13.403 7.33337 12.6667 7.33337Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M4.66675 7.33337V4.66671C4.66675 3.78265 5.01794 2.93481 5.64306 2.30968C6.26818 1.68456 7.11603 1.33337 8.00008 1.33337C8.88414 1.33337 9.73198 1.68456 10.3571 2.30968C10.9822 2.93481 11.3334 3.78265 11.3334 4.66671V7.33337" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span>Confirmar Senha</span>
-          </label>
-          <div class="modal-senha-input-wrapper">
-            <input class="modal-senha-input" type="password" id="input-confirmar-senha" placeholder="Confirme sua nova senha" autocomplete="new-password" />
-            <button class="modal-eye-btn" type="button" aria-label="Mostrar confirmação de senha" data-target="input-confirmar-senha">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </button>
-          </div>
-          <span class="field-error" id="error-confirmar-senha" role="alert"></span>
-        </div>
-
+<div class="modal-overlay" id="modal-sucesso-senha" role="dialog" aria-modal="true" aria-labelledby="modal-sucesso-senha-title">
+  <div class="modal-box" style="text-align:center;">
+    <div class="modal-icon-center">
+      <div class="modal-icon-circle" style="background: #10B981; box-shadow: 0 8px 24px 0 rgba(16,185,129,0.25);">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 6L9 17L4 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
-
-      <div class="modal-senha-btn-row">
-        <button class="modal-senha-btn-cancel" type="button" id="btn-cancelar-senha">Cancelar</button>
-        <button class="modal-senha-btn-confirm" type="button" id="btn-confirmar-senha">Confirmar</button>
-      </div>
-
     </div>
+    <h2 class="modal-title" id="modal-sucesso-senha-title">Senha Alterada!</h2>
+    <p class="modal-subtitle">Sua senha foi atualizada com sucesso.</p>
+    <button class="modal-btn-full" type="button" id="btn-ok-senha">OK</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-sucesso-dados" role="dialog" aria-modal="true" aria-labelledby="modal-sucesso-dados-title">
+  <div class="modal-box" style="text-align:center;">
+    <div class="modal-icon-center">
+      <div class="modal-icon-circle" style="background: #10B981; box-shadow: 0 8px 24px 0 rgba(16,185,129,0.25);">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 6L9 17L4 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <h2 class="modal-title" id="modal-sucesso-dados-title">Dados Salvos!</h2>
+    <p class="modal-subtitle">Suas informações foram atualizadas com sucesso.</p>
+    <button class="modal-btn-full" type="button" id="btn-ok-dados">OK</button>
   </div>
 </div>
