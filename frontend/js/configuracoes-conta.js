@@ -356,3 +356,57 @@ document.querySelectorAll('.modal-eye-btn').forEach(btn => {
     }
   });
 });
+
+// VALIDAÇÕES DE SENHA
+// Senha atual: não pode estar vazia
+inputSenhaAtual.addEventListener('blur', () => {
+  if (!inputSenhaAtual.value) {
+    showError(errorSenhaAtual, 'Informe a senha atual.');
+  } else {
+    clearError(errorSenhaAtual);
+  }
+});
+
+// Nova senha: regras de complexidade
+inputNovaSenha.addEventListener('input', () => validateNovaSenha());
+
+function validateNovaSenha() {
+  const val = inputNovaSenha.value;
+  if (!val) {
+    clearError(errorNovaSenha);
+    return false;
+  }
+  const rules = [
+    { re: /.{8,}/,        msg: 'A senha deve ter pelo menos 8 caracteres.' },
+    { re: /[A-Z]/,         msg: 'A senha deve conter pelo menos uma letra maiúscula.' },
+    { re: /[a-z]/,         msg: 'A senha deve conter pelo menos uma letra minúscula.' },
+    { re: /[0-9]/,         msg: 'A senha deve conter pelo menos um número.' },
+    { re: /[@#$%!&*^()\-_+=<>?]/,msg: 'A senha deve conter pelo menos um caractere especial (@, #, $, %, etc.).' },
+  ];
+
+  for (const rule of rules) {
+    if (!rule.re.test(val)) {
+      showError(errorNovaSenha, rule.msg);
+      return false;
+    }
+  }
+  clearError(errorNovaSenha);
+  return true;
+}
+
+// Confirmar senha: deve ser idêntica à nova
+inputConfirmarSenha.addEventListener('input', () => validateConfirmarSenha());
+
+function validateConfirmarSenha() {
+  const val = inputConfirmarSenha.value;
+  if (!val) {
+    clearError(errorConfirmarSenha);
+    return false;
+  }
+  if (val !== inputNovaSenha.value) {
+    showError(errorConfirmarSenha, 'As senhas não coincidem.');
+    return false;
+  }
+  clearError(errorConfirmarSenha);
+  return true;
+}
