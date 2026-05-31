@@ -114,3 +114,111 @@ FIELDS
     flex-direction: column;
     gap: 8px;
 }
+
+/* Label */
+.field-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: #110E29;
+    padding-left: 4px;
+    cursor: default;
+}
+
+.field-label svg {
+    flex-shrink: 0;
+}
+
+/* Input wrapper para campos com olhinho */
+.input-password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-password-wrapper .field-input {
+    width: 100%;
+    padding-right: 52px;
+}
+
+/* Input base */
+.field-input {
+    width: 432px;
+    height: 60px;
+    background: #FAFAFA;
+    border: 2px solid #F3F4F6;
+    border-radius: 16px;
+    padding: 16px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 0px;
+    color: #110E29;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+}
+
+.field-input::placeholder {
+    color: rgba(17, 14, 41, 0.50);
+}
+
+.field-input:focus {
+    border-color: #E0456A;
+    box-shadow: 0 0 0 3px rgba(224, 69, 106, 0.10);
+}
+
+.field-input.error {
+    border-color: #E0456A;
+    background: #FFF5F7;
+}
+
+/* Ícone de olhinho */
+.icon-btn {
+    position: absolute;
+    right: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: opacity 0.15s ease;
+}
+
+.icon-btn:hover {
+    opacity: 0.7;
+}
+
+.icon-btn:focus-visible {
+    outline: 2px solid #E0456A;
+    outline-offset: 2px;
+}
+
+/* Mensagem de erro */
+.field-error {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    color: #E0456A;
+    padding-left: 4px;
+    min-height: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.2s ease, opacity 0.2s ease;
+}
+
+.field-error.visible {
+    max-height: 40px;
+    opacity: 1;
+}
