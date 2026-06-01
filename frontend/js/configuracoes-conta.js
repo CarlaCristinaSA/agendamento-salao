@@ -1,7 +1,5 @@
 'use strict';
 
-const URL_API = 'http://localhost:3000/api';
-
 // ==========================================
 // ESTADO DA APLICAÇÃO
 // ==========================================
@@ -79,10 +77,6 @@ function setAuthToken(token) {
   localStorage.setItem('tokenGlobal', token);
 }
 
-/**
- * Wrapper centralizado para todas as chamadas à API.
- * Lança um Error enriquecido com .status e .payload em caso de falha.
- */
 async function apiRequest(path, { method = 'GET', body = null } = {}) {
   if (!tokenGlobal) {
     tokenGlobal = getAuthToken();
