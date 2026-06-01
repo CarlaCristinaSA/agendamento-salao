@@ -32,7 +32,6 @@ const btnDiscard     = document.getElementById('btn-discard');
 const btnSignout     = document.getElementById('btn-signout');
 const btnOpenSenha   = document.getElementById('btn-open-alterar-senha');
 
-// Modais
 const modals = {
   alterarSenha:       document.getElementById('modal-alterar-senha'),
   sucessoSenha:       document.getElementById('modal-sucesso-senha'),
@@ -43,7 +42,6 @@ const modals = {
   erro:               document.getElementById('modal-erro'),
 };
 
-// Campos senha
 const inputSenhaAtual      = document.getElementById('input-senha-atual');
 const inputNovaSenha       = document.getElementById('input-nova-senha');
 const inputConfirmarSenha  = document.getElementById('input-confirmar-senha');
@@ -66,7 +64,6 @@ function closeModal(modal) {
 }
 
 function getAuthToken() {
-  // Padrão mais comum: localStorage/tokenGlobal (pode variar no seu sistema)
   return (
     localStorage.getItem('tokenGlobal') ||
     localStorage.getItem('token') ||
@@ -134,7 +131,7 @@ function clearAllMainErrors() {
 }
 
 // ==========================================
-// MODAIS (close overlay / ESC)
+// MODAIS
 // ==========================================
 Object.values(modals).forEach(modal => {
   modal.addEventListener('click', (e) => {
@@ -149,7 +146,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ==========================================
-// MÁSCARA + VALIDAÇÕES (HU-012)
+// MÁSCARA + VALIDAÇÕES
 // ==========================================
 function applyPhoneMask(value) {
   const digits = String(value).replace(/\D/g, '').slice(0, 11);
@@ -162,7 +159,6 @@ function applyPhoneMask(value) {
 
 function validatePhoneDigits(phoneMasked) {
   const digits = String(phoneMasked).replace(/\D/g, '');
-  // HU-012: 10 ou 11 dígitos (considerando DDD)
   return digits.length === 10 || digits.length === 11;
 }
 
@@ -233,9 +229,6 @@ function getProfileChangedFlags(draft) {
 function validateDraftForChangedFields(draft) {
   const flags = getProfileChangedFlags(draft);
 
-  // HU-012: impedir salvamento caso Nome inválido, Telefone incompleto, Email inválido.
-  // Aplicamos isso apenas nos campos modificados, mas como regras são essenciais do perfil,
-  // na prática o usuário precisa ter todos válidos se mexer em algo.
   if (flags.nomeChanged) {
     if (!validateNome(draft.nome)) return false;
   }
@@ -246,7 +239,6 @@ function validateDraftForChangedFields(draft) {
     if (!validateEmail(draft.email)) return false;
   }
 
-  // Se não alterou nenhum, não deve salvar.
   return flags.nomeChanged || flags.telefoneChanged || flags.emailChanged;
 }
 
@@ -255,7 +247,6 @@ function updateSaveEnabledState() {
   const changed = getProfileChangedFlags(draft);
   const anyChanged = changed.nomeChanged || changed.telefoneChanged || changed.emailChanged;
 
-  // Habilitar salvar somente se há alteração real e os campos alterados estão válidos.
   const valid = validateDraftForChangedFields(draft);
 
   btnSave.disabled = !(anyChanged && valid);
@@ -265,7 +256,6 @@ function updateSaveEnabledState() {
 
 inputNome.addEventListener('input', onProfileInputChange);
 inputEmail.addEventListener('input', () => {
-  // Higieniza durante edição: minúsculo antes do envio
   inputEmail.value = inputEmail.value.toLowerCase();
   onProfileInputChange();
 });
@@ -275,7 +265,6 @@ inputTelefone.addEventListener('blur', () => validateTelefone(inputTelefone.valu
 inputEmail.addEventListener('blur', () => validateEmail(inputEmail.value));
 
 function onProfileInputChange() {
-  // Recalcula estado do botão sem forçar mensagens agressivas.
   updateSaveEnabledState();
 }
 
@@ -302,7 +291,6 @@ document.querySelectorAll('.field-group').forEach(group => {
       editBtn.classList.remove('active');
       const aria = editBtn.getAttribute('aria-label') || 'Bloqueando';
       editBtn.setAttribute('aria-label', aria.replace('Bloqueando', 'Editar'));
-      // Ao desabilitar, não reverte valor automaticamente (HU-012 só exige Cancelar/Descartar).
     }
     onProfileInputChange();
   });
@@ -318,13 +306,11 @@ btnSave.addEventListener('click', () => {
 
   if (!anyChanged) return;
 
-  // valida e exibe erros específicos abaixo dos campos
   if (!validateDraftForChangedFields(draft)) return;
 
   openModal(modals.confirmarSalvar);
 });
 
-// Sempre protege contra salvar com estado inválido por mudança de UI
 btnSave.disabled = true;
 btnSave.setAttribute('aria-disabled', 'true');
 
@@ -358,7 +344,6 @@ async function persistProfile() {
 
     const data = result.data;
 
-    // Atualiza sessão do usuário na tela
     originalData.nome = data.name;
     originalData.email = data.email;
     originalData.telefone = data.phone;
@@ -377,7 +362,6 @@ async function persistProfile() {
     hasUnsavedChanges = false;
     btnSave.textContent = originalText;
 
-    // recalcula status
     updateSaveEnabledState();
 
     openModal(modals.sucessoDados);
@@ -451,7 +435,6 @@ document.getElementById('btn-cancelar-sair').addEventListener('click', () => {
 document.getElementById('btn-sim-sair').addEventListener('click', async () => {
   closeModal(modals.confirmarSair);
 
-  // tenta logout no backend, mas não trava fluxo se falhar.
   try {
     if (!tokenGlobal) tokenGlobal = getAuthToken();
     if (tokenGlobal) {
@@ -464,7 +447,6 @@ document.getElementById('btn-sim-sair').addEventListener('click', async () => {
 
   localStorage.removeItem('tokenGlobal');
   sessionStorage.removeItem('tokenGlobal');
-  // Redirecionamento pode variar no seu app; fallback:
   window.location.href = '/';
 });
 
@@ -496,7 +478,6 @@ btnOpenSenha.addEventListener('click', () => {
 
 document.getElementById('btn-cancelar-senha').addEventListener('click', () => {
   closeModal(modals.alterarSenha);
-  // HU-012: cancelar limpa modificações não salvas no fluxo de senha
   inputSenhaAtual.value = '';
   inputNovaSenha.value = '';
   inputConfirmarSenha.value = '';
@@ -566,7 +547,6 @@ inputSenhaAtual.addEventListener('blur', () => {
 document.getElementById('btn-confirmar-senha').addEventListener('click', async () => {
   let valid = true;
 
-  // Obrigatórios (HU-012)
   if (!inputSenhaAtual.value) {
     showError(errorSenhaAtual, 'Informe a senha atual.');
     valid = false;
@@ -591,7 +571,6 @@ document.getElementById('btn-confirmar-senha').addEventListener('click', async (
     valid = false;
   } else clearError(errorConfirmarSenha);
 
-  // Nova != senha atual
   if (valid && inputNovaSenha.value === inputSenhaAtual.value) {
     showError(errorNovaSenha, 'A nova senha não pode ser igual à senha atual.');
     valid = false;
@@ -617,10 +596,8 @@ document.getElementById('btn-confirmar-senha').addEventListener('click', async (
     openModal(modals.sucessoSenha);
   } catch (err) {
     closeModal(modals.alterarSenha);
-    // Erro genérico amigável (HU-012)
     openModal(modals.erro);
     pendingRetry = async () => {
-      // reexecuta com os valores atuais (ainda no DOM)
       await apiRequest('/auth/me/password', { method: 'PUT', body: {
         currentPassword: inputSenhaAtual.value,
         newPassword: inputNovaSenha.value,
@@ -659,7 +636,6 @@ async function carregarPerfil() {
 
     currentData = { ...originalData };
 
-    // Travar inicialmente (como no design)
     [inputNome, inputTelefone, inputEmail].forEach(i => { i.disabled = true; });
     document.querySelectorAll('.field-group .edit-btn').forEach(btn => btn.classList.remove('active'));
 
@@ -667,7 +643,6 @@ async function carregarPerfil() {
     hasUnsavedChanges = false;
     updateSaveEnabledState();
   } catch (err) {
-    // Sem token / sessão expirada / etc.
     openModal(modals.erro);
     pendingRetry = carregarPerfil;
   }
