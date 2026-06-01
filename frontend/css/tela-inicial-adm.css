@@ -240,3 +240,101 @@ NAVBAR
     border-radius: var(--radius-full);
     transition: transform .3s, opacity .3s;
 }
+
+/* ================================================================
+SECTION 1
+================================================================ */
+.hero {
+    background: linear-gradient(180deg, #FFFFFF 0%, #FDF2F4 100%);
+    padding-block: clamp(4rem, 10vw, 8rem);
+}
+
+.hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    max-width: 56rem;
+    margin-inline: auto;
+    text-align: center;
+}
+
+.hero__title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    line-height: 1.2;
+    letter-spacing: 0.03em;
+    color: var(--dark);
+}
+
+.hero__subtitle {
+    margin-top: clamp(1rem, 3vw, 2rem);
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 43.75rem;
+}
+
+.hero__content .btn {
+    margin-top: clamp(1rem, 3vw, 2rem);
+}
+
+/* ================================================================
+SECTION 2 
+================================================================ */
+.quick-access {
+    background: var(--white);
+    padding-block: clamp(3rem, 8vw, 6rem);
+}
+
+.quick-access__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: 1.5rem;
+    margin-top: clamp(2rem, 5vw, 4rem);
+}
+
+.qa-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    border-top: 0.125rem solid var(--border-light);
+    box-shadow: var(--shadow-card);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.qa-card:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0 0.5rem 2rem 0 rgba(224, 69, 106, 0.15);
+    border-color: var(--pink-light);
+}
+
+.qa-card__icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: var(--gradient-pink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.qa-card__title {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+}
+
+.qa-card__desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.5;
+}
