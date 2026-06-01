@@ -50,3 +50,44 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+(function initScrollReveal() {
+    const revealTargets = [
+        { selector: '.hero__content',          delay: 0 },
+        { selector: '.quick-access .section-title', delay: 0 },
+        { selector: '.qa-card',                delay: true },
+        { selector: '.features .section-header',   delay: 0 },
+        { selector: '.feature-card',           delay: true },
+        { selector: '.how-it-works .section-header', delay: 0 },
+        { selector: '.step',                   delay: true },
+        { selector: '.why-us__visual',         delay: 0 },
+        { selector: '.why-us__content',        delay: 0 },
+        { selector: '.cta-card',              delay: 0 },
+    ];
+
+    revealTargets.forEach(({ selector, delay }) => {
+        document.querySelectorAll(selector).forEach((el, i) => {
+            el.classList.add('reveal');
+            if (delay === true) {
+                el.classList.add(`reveal-delay-${(i % 6) + 1}`);
+        }
+        });
+    });
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    document.querySelectorAll('.reveal').forEach((el) => {
+        observer.observe(el);
+    });
+
+    console.log('✓ ScrollReveal ativado para elementos da tela');
+})();
