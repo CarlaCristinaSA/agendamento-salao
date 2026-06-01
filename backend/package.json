@@ -1,7 +1,7 @@
 {
   "name": "salon-agendamento-backend",
-  "version": "1.0.0",
-  "description": "Backend para sistema de agendamento de salão de beleza - UFC Quixadá",
+  "version": "2.0.0",
+  "description": "Backend para sistema de agendamento de salão de beleza (V4) - UFC Quixadá",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
