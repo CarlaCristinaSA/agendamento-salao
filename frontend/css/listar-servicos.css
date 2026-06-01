@@ -981,9 +981,6 @@ NAVBAR
 .navbar__toggle.is-open span:nth-child(3) { transform: translateY(-0.4125rem) rotate(-45deg); }
 
 @media (max-width: 48rem) {
-    .navbar {
-    }
-
     .navbar__toggle { display: flex; }
 
     .navbar__nav {
