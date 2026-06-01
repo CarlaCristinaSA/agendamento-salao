@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Espaço da Beleza — Tela Inicial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600;700&family=Montserrat:wght@300;400;500;600&family=Lato:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/frontend/css/tela-inicial-adm.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════ NAVBAR ═══════════════════════════ -->
+  <header class="navbar">
+    <div class="navbar__inner">
+      <a href="#" class="navbar__brand">
+        <span class="navbar__brand-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 7.5C6.38071 7.5 7.5 6.38071 7.5 5C7.5 3.61929 6.38071 2.5 5 2.5C3.61929 2.5 2.5 3.61929 2.5 5C2.5 6.38071 3.61929 7.5 5 7.5Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6.76666 6.76672L10 10.0001" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16.6667 3.33337L6.76666 13.2334" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5 17.5C6.38071 17.5 7.5 16.3807 7.5 15C7.5 13.6193 6.38071 12.5 5 12.5C3.61929 12.5 2.5 13.6193 2.5 15C2.5 16.3807 3.61929 17.5 5 17.5Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12.3333 12.3334L16.6667 16.6667" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="navbar__title">Espaço da Beleza</span>
+      </a>
+
+      <!-- Menu de navegação -->
+      <nav class="navbar__nav" id="navbar-nav" aria-label="Navegação principal">
+        <a href="../admin/listar-serviço.html" class="nav-link">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.5 6.75C5.74264 6.75 6.75 5.74264 6.75 4.5C6.75 3.25736 5.74264 2.25 4.5 2.25C3.25736 2.25 2.25 3.25736 2.25 4.5C2.25 5.74264 3.25736 6.75 4.5 6.75Z" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6.09003 6.08997L9.00003 8.99997" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15 3L6.09003 11.91" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4.5 15.75C5.74264 15.75 6.75 14.7426 6.75 13.5C6.75 12.2574 5.74264 11.25 4.5 11.25C3.25736 11.25 2.25 12.2574 2.25 13.5C2.25 14.7426 3.25736 15.75 4.5 15.75Z" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11.1 11.1L15 15" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Serviços
+        </a>
+        <a href="../admin/horarios.html" class="nav-link">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_nav_1)">
+              <path d="M9 16.5C13.1421 16.5 16.5 13.1421 16.5 9C16.5 4.85786 13.1421 1.5 9 1.5C4.85786 1.5 1.5 4.85786 1.5 9C1.5 13.1421 4.85786 16.5 9 16.5Z" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 4.5V9L12 10.5" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <defs><clipPath id="clip0_nav_1"><rect width="18" height="18" fill="white"/></clipPath></defs>
+          </svg>
+          Horários
+        </a>
+        <a href="../admin/agendamento-administrativo.html" class="nav-link">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 1.5V4.5" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 1.5V4.5" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14.25 3H3.75C2.92157 3 2.25 3.67157 2.25 4.5V15C2.25 15.8284 2.92157 16.5 3.75 16.5H14.25C15.0784 16.5 15.75 15.8284 15.75 15V4.5C15.75 3.67157 15.0784 3 14.25 3Z" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2.25 7.5H15.75" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6.75 12L8.25 13.5L11.25 10.5" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Agendamentos
+        </a>
+        <a href="../admin/consultar-agendamentos.html" class="nav-link">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.165 1.5H8.835C8.43718 1.5 8.05565 1.65804 7.77434 1.93934C7.49304 2.22064 7.335 2.60218 7.335 3V3.135C7.33473 3.39804 7.26529 3.65639 7.13366 3.88413C7.00202 4.11186 6.8128 4.30098 6.585 4.4325L6.2625 4.62C6.03447 4.75165 5.77581 4.82096 5.5125 4.82096C5.2492 4.82096 4.99053 4.75165 4.7625 4.62L4.65 4.56C4.3058 4.36145 3.89688 4.30758 3.513 4.41023C3.12913 4.51288 2.80166 4.76365 2.6025 5.1075L2.4375 5.3925C2.23895 5.7367 2.18508 6.14562 2.28773 6.5295C2.39038 6.91338 2.64115 7.24084 2.985 7.44L3.0975 7.515C3.32421 7.64588 3.51272 7.83382 3.64429 8.06012C3.77586 8.28643 3.84592 8.54323 3.8475 8.805V9.1875C3.84855 9.45182 3.77974 9.71171 3.64803 9.94088C3.51633 10.17 3.32641 10.3603 3.0975 10.4925L2.985 10.56C2.64115 10.7592 2.39038 11.0866 2.28773 11.4705C2.18508 11.8544 2.23895 12.2633 2.4375 12.6075L2.6025 12.8925C2.80166 13.2363 3.12913 13.4871 3.513 13.5898C3.89688 13.6924 4.3058 13.6386 4.65 13.44L4.7625 13.38C4.99053 13.2483 5.2492 13.179 5.5125 13.179C5.77581 13.179 6.03447 13.2483 6.2625 13.38L6.585 13.5675C6.8128 13.699 7.00202 13.8881 7.13366 14.1159C7.26529 14.3436 7.33473 14.602 7.335 14.865V15C7.335 15.3978 7.49304 15.7794 7.77434 16.0607C8.05565 16.342 8.43718 16.5 8.835 16.5H9.165C9.56283 16.5 9.94436 16.342 10.2257 16.0607C10.507 15.7794 10.665 15.3978 10.665 15V14.865C10.6653 14.602 10.7347 14.3436 10.8663 14.1159C10.998 13.8881 11.1872 13.699 11.415 13.5675L11.7375 13.38C11.9655 13.2483 12.2242 13.179 12.4875 13.179C12.7508 13.179 13.0095 13.2483 13.2375 13.38L13.35 13.44C13.6942 13.6386 14.1031 13.6924 14.487 13.5898C14.8709 13.4871 15.1983 13.2363 15.3975 12.8925L15.5625 12.6C15.7611 12.2558 15.8149 11.8469 15.7123 11.463C15.6096 11.0791 15.3588 10.7517 15.015 10.5525L14.9025 10.4925C14.6736 10.3603 14.4837 10.17 14.352 9.94088C14.2203 9.71171 14.1515 9.45182 14.1525 9.1875V8.8125C14.1515 8.54818 14.2203 8.28829 14.352 8.05912C14.4837 7.82995 14.6736 7.63966 14.9025 7.5075L15.015 7.44C15.3588 7.24084 15.6096 6.91338 15.7123 6.5295C15.8149 6.14562 15.7611 5.7367 15.5625 5.3925L15.3975 5.1075C15.1983 4.76365 14.8709 4.51288 14.487 4.41023C14.1031 4.30758 13.6942 4.36145 13.35 4.56L13.2375 4.62C13.0095 4.75165 12.7508 4.82096 12.4875 4.82096C12.2242 4.82096 11.9655 4.75165 11.7375 4.62L11.415 4.4325C11.1872 4.30098 10.998 4.11186 10.8663 3.88413C10.7347 3.65639 10.6653 3.39804 10.665 3.135V3C10.665 2.60218 10.507 2.22064 10.2257 1.93934C9.94436 1.65804 9.56283 1.5 9.165 1.5Z" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 11.25C10.2426 11.25 11.25 10.2426 11.25 9C11.25 7.75736 10.2426 6.75 9 6.75C7.75736 6.75 6.75 7.75736 6.75 9C6.75 10.2426 7.75736 11.25 9 11.25Z" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Configurações
+        </a>
+      </nav>
+
+      <!-- Botão hamburger para mobile -->
+      <button class="navbar__toggle" id="navbar-toggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ═══════════════════════ SECTION 1 — HERO ═══════════════════════ -->
+    <section class="hero">
+      <div class="container hero__content">
+        <h1 class="hero__title">Gerencie seu salão com eficiência</h1>
+        <p class="hero__subtitle">Sistema completo para administrar serviços, horários e agendamentos do seu estabelecimento.</p>
+        <a href="../admin/consultar-agendamentos.html" class="btn btn--primary btn--lg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 2V6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 2V6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3 10H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 16L11 18L15 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          GERENCIAR AGENDAMENTOS
+        </a>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ SECTION 2 — QUICK ACCESS ══════════════ -->
+    <section class="quick-access">
+      <div class="container">
+        <h2 class="section-title">Como podemos te ajudar hoje?</h2>
+        <div class="quick-access__grid">
+
+          <a href="../admin/listar-serviço.html" class="qa-card">
+            <span class="qa-card__icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.2493 20.6666C13.1303 20.2052 12.8898 19.7841 12.5528 19.4471C12.2159 19.1101 11.7948 18.8696 11.3333 18.7506L3.15333 16.6413C3.01378 16.6016 2.89095 16.5176 2.80348 16.4019C2.71602 16.2861 2.6687 16.145 2.6687 15.9999C2.6687 15.8549 2.71602 15.7137 2.80348 15.598C2.89095 15.4823 3.01378 15.3982 3.15333 15.3586L11.3333 13.2479C11.7946 13.129 12.2156 12.8887 12.5525 12.552C12.8895 12.2153 13.1301 11.7944 13.2493 11.3333L15.3587 3.15326C15.3979 3.01315 15.4818 2.88971 15.5978 2.80178C15.7137 2.71386 15.8552 2.66626 16.0007 2.66626C16.1462 2.66626 16.2877 2.71386 16.4036 2.80178C16.5195 2.88971 16.6035 3.01315 16.6427 3.15326L18.7507 11.3333C18.8697 11.7947 19.1102 12.2158 19.4472 12.5527C19.7841 12.8897 20.2052 13.1302 20.6667 13.2493L28.8467 15.3573C28.9873 15.3961 29.1114 15.4799 29.1998 15.596C29.2882 15.7121 29.3361 15.854 29.3361 15.9999C29.3361 16.1458 29.2882 16.2877 29.1998 16.4038C29.1114 16.5199 28.9873 16.6038 28.8467 16.6426L20.6667 18.7506C20.2052 18.8696 19.7841 19.1101 19.4472 19.4471C19.1102 19.7841 18.8697 20.2052 18.7507 20.6666L16.6413 28.8466C16.6021 28.9867 16.5182 29.1101 16.4022 29.1981C16.2863 29.286 16.1448 29.3336 15.9993 29.3336C15.8538 29.3336 15.7123 29.286 15.5964 29.1981C15.4805 29.1101 15.3965 28.9867 15.3573 28.8466L13.2493 20.6666Z" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M26.6667 4V9.33333" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M29.3333 6.66675H24" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5.33333 22.6667V25.3334" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6.66667 24H4" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <h3 class="qa-card__title">Gerenciar Serviços</h3>
+            <p class="qa-card__desc">Cadastre, edite e organize seu catálogo</p>
+          </a>
+
+          <a href="../admin/consultar-agendamentos.html" class="qa-card">
+            <span class="qa-card__icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.6667 2.66675V8.00008" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M21.3333 2.66675V8.00008" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M25.3333 5.33325H6.66667C5.19391 5.33325 4 6.52716 4 7.99992V26.6666C4 28.1393 5.19391 29.3333 6.66667 29.3333H25.3333C26.8061 29.3333 28 28.1393 28 26.6666V7.99992C28 6.52716 26.8061 5.33325 25.3333 5.33325Z" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 13.3333H28" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 21.3334L14.6667 24.0001L20 18.6667" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <h3 class="qa-card__title">Gerenciar Agendamentos</h3>
+            <p class="qa-card__desc">Visualize e gerencie todos os horários marcados</p>
+          </a>
+
+          <a href="../admin/horarios.html" class="qa-card">
+            <span class="qa-card__icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 29.3334C23.3638 29.3334 29.3334 23.3639 29.3334 16.0001C29.3334 8.63628 23.3638 2.66675 16 2.66675C8.63622 2.66675 2.66669 8.63628 2.66669 16.0001C2.66669 23.3639 8.63622 29.3334 16 29.3334Z" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 8V16L21.3333 18.6667" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <h3 class="qa-card__title">Gerenciar Horários</h3>
+            <p class="qa-card__desc">Configure dias e horários de funcionamento</p>
+          </a>
+
+          <a href="/frontend/pages/shared/configuracoes-conta.html" class="qa-card">
+            <span class="qa-card__icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.2933 2.66675H15.7067C14.9994 2.66675 14.3211 2.9477 13.8211 3.4478C13.321 3.94789 13.04 4.62617 13.04 5.33341V5.57341C13.0395 6.04105 12.9161 6.50033 12.6821 6.9052C12.448 7.31006 12.1117 7.64626 11.7067 7.88008L11.1333 8.21341C10.728 8.44746 10.2681 8.57068 9.8 8.57068C9.3319 8.57068 8.87205 8.44746 8.46667 8.21341L8.26667 8.10675C7.65476 7.75377 6.92779 7.65801 6.24534 7.84049C5.56289 8.02298 4.98074 8.4688 4.62667 9.08008L4.33334 9.58675C3.98035 10.1987 3.88459 10.9256 4.06708 11.6081C4.24957 12.2905 4.69538 12.8727 5.30667 13.2267L5.50667 13.3601C5.9097 13.5928 6.24483 13.9269 6.47874 14.3292C6.71265 14.7315 6.83719 15.188 6.84 15.6534V16.3334C6.84187 16.8033 6.71954 17.2654 6.48539 17.6728C6.25125 18.0802 5.91361 18.4185 5.50667 18.6534L5.30667 18.7734C4.69538 19.1275 4.24957 19.7096 4.06708 20.3921C3.88459 21.0745 3.98035 21.8015 4.33334 22.4134L4.62667 22.9201C4.98074 23.5314 5.56289 23.9772 6.24534 24.1597C6.92779 24.3422 7.65476 24.2464 8.26667 23.8934L8.46667 23.7867C8.87205 23.5527 9.3319 23.4295 9.8 23.4295C10.2681 23.4295 10.728 23.5527 11.1333 23.7867L11.7067 24.1201C12.1117 24.3539 12.448 24.6901 12.6821 25.095C12.9161 25.4998 13.0395 25.9591 13.04 26.4267V26.6667C13.04 27.374 13.321 28.0523 13.8211 28.5524C14.3211 29.0525 14.9994 29.3334 15.7067 29.3334H16.2933C17.0006 29.3334 17.6789 29.0525 18.179 28.5524C18.6791 28.0523 18.96 27.374 18.96 26.6667V26.4267C18.9605 25.9591 19.0839 25.4998 19.318 25.095C19.552 24.6901 19.8884 24.3539 20.2933 24.1201L20.8667 23.7867C21.2721 23.5527 21.7319 23.4295 22.2 23.4295C22.6681 23.4295 23.128 23.5527 23.5333 23.7867L23.7333 23.8934C24.3452 24.2464 25.0722 24.3422 25.7547 24.1597C26.4371 23.9772 27.0193 23.5314 27.3733 22.9201L27.6667 22.4001C28.0197 21.7882 28.1154 21.0612 27.9329 20.3788C27.7504 19.6963 27.3046 19.1141 26.6933 18.7601L26.4933 18.6534C26.0864 18.4185 25.7488 18.0802 25.5146 17.6728C25.2805 17.2654 25.1581 16.8033 25.16 16.3334V15.6667C25.1581 15.1969 25.2805 14.7348 25.5146 14.3274C25.7488 13.92 26.0864 13.5817 26.4933 13.3467L26.6933 13.2267C27.3046 12.8727 27.7504 12.2905 27.9329 11.6081C28.1154 10.9256 28.0197 10.1987 27.6667 9.58675L27.3733 9.08008C27.0193 8.4688 26.4371 8.02298 25.7547 7.84049C25.0722 7.65801 24.3452 7.75377 23.7333 8.10675L23.5333 8.21341C23.128 8.44746 22.6681 8.57068 22.2 8.57068C21.7319 8.57068 21.2721 8.44746 20.8667 8.21341L20.2933 7.88008C19.8884 7.64626 19.552 7.31006 19.318 6.9052C19.0839 6.50033 18.9605 6.04105 18.96 5.57341V5.33341C18.96 4.62617 18.6791 3.94789 18.179 3.4478C17.6789 2.9477 17.0006 2.66675 16.2933 2.66675Z" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 20C18.2091 20 20 18.2091 20 16C20 13.7909 18.2091 12 16 12C13.7909 12 12 13.7909 12 16C12 18.2091 13.7909 20 16 20Z" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <h3 class="qa-card__title">Configurações</h3>
+            <p class="qa-card__desc">Ajustes gerais do sistema</p>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ SECTION 3 — FEATURES ══════════════════ -->
+    <section class="features">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Funcionalidades do Sistema</h2>
+          <p class="section-subtitle">Tudo o que você precisa em um só lugar</p>
+        </div>
+        <div class="features__grid">
+
+          <div class="feature-card">
+            <span class="feature-card__icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11.5932 18.0833C11.489 17.6795 11.2786 17.3111 10.9837 17.0162C10.6889 16.7214 10.3204 16.511 9.91667 16.4068L2.75917 14.5611C2.63705 14.5265 2.52958 14.4529 2.45305 14.3517C2.37652 14.2504 2.33511 14.1269 2.33511 14C2.33511 13.873 2.37652 13.7496 2.45305 13.6483C2.52958 13.547 2.63705 13.4735 2.75917 13.4388L9.91667 11.592C10.3203 11.4879 10.6886 11.2776 10.9835 10.983C11.2783 10.6884 11.4888 10.3202 11.5932 9.91663L13.4388 2.75913C13.4731 2.63654 13.5466 2.52853 13.648 2.45159C13.7495 2.37465 13.8733 2.33301 14.0006 2.33301C14.1279 2.33301 14.2517 2.37465 14.3531 2.45159C14.4546 2.52853 14.528 2.63654 14.5623 2.75913L16.4068 9.91663C16.511 10.3204 16.7214 10.6888 17.0163 10.9837C17.3111 11.2785 17.6796 11.489 18.0833 11.5931L25.2408 13.4376C25.3639 13.4716 25.4725 13.545 25.5498 13.6466C25.6272 13.7481 25.6691 13.8723 25.6691 14C25.6691 14.1276 25.6272 14.2518 25.5498 14.3534C25.4725 14.455 25.3639 14.5283 25.2408 14.5623L18.0833 16.4068C17.6796 16.511 17.3111 16.7214 17.0163 17.0162C16.7214 17.3111 16.511 17.6795 16.4068 18.0833L14.5612 25.2408C14.5269 25.3634 14.4534 25.4714 14.352 25.5483C14.2505 25.6253 14.1267 25.6669 13.9994 25.6669C13.8721 25.6669 13.7483 25.6253 13.6469 25.5483C13.5454 25.4714 13.472 25.3634 13.4377 25.2408L11.5932 18.0833Z" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M23.3333 3.5V8.16667" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M25.6667 5.83325H21" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.66667 19.8333V22.1666" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5.83333 21H3.5" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <h3>Gestão de Serviços</h3>
+            <p>Cadastre, edite e organize todos os serviços oferecidos com informações detalhadas.</p>
+          </div>
+
+          <div class="feature-card">
+            <span class="feature-card__icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.33331 2.33325V6.99992" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M18.6667 2.33325V6.99992" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22.1667 4.66675H5.83333C4.54467 4.66675 3.5 5.71142 3.5 7.00008V23.3334C3.5 24.6221 4.54467 25.6667 5.83333 25.6667H22.1667C23.4553 25.6667 24.5 24.6221 24.5 23.3334V7.00008C24.5 5.71142 23.4553 4.66675 22.1667 4.66675Z" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3.5 11.6667H24.5" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.5 18.6666L12.8333 20.9999L17.5 16.3333" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <h3>Controle de Agendamentos</h3>
+            <p>Visualize, filtre e gerencie todos os agendamentos realizados pelos clientes.</p>
+          </div>
+
+          <div class="feature-card">
+            <span class="feature-card__icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 25.6666C20.4433 25.6666 25.6666 20.4432 25.6666 13.9999C25.6666 7.5566 20.4433 2.33325 14 2.33325C7.55666 2.33325 2.33331 7.5566 2.33331 13.9999C2.33331 20.4432 7.55666 25.6666 14 25.6666Z" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14 7V14L18.6667 16.3333" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <h3>Configuração de Horários</h3>
+            <p>Defina dias da semana e horários de atendimento de forma flexível.</p>
+          </div>
+
+          <div class="feature-card">
+            <span class="feature-card__icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11.9793 24.5C12.1841 24.8547 12.4787 25.1492 12.8334 25.354C13.1881 25.5588 13.5904 25.6666 14 25.6666C14.4096 25.6666 14.8119 25.5588 15.1666 25.354C15.5213 25.1492 15.8159 24.8547 16.0207 24.5" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3.80567 17.8803C3.65326 18.0473 3.55268 18.255 3.51617 18.4782C3.47965 18.7013 3.50877 18.9303 3.59999 19.1372C3.69121 19.3441 3.84059 19.5201 4.02997 19.6436C4.21934 19.7672 4.44054 19.8331 4.66667 19.8333H23.3333C23.5594 19.8333 23.7807 19.7677 23.9702 19.6444C24.1597 19.521 24.3092 19.3453 24.4007 19.1385C24.4922 18.9317 24.5216 18.7028 24.4853 18.4797C24.4491 18.2565 24.3488 18.0486 24.1967 17.8814C22.645 16.2819 21 14.5821 21 9.33325C21 7.47674 20.2625 5.69626 18.9498 4.3835C17.637 3.07075 15.8565 2.33325 14 2.33325C12.1435 2.33325 10.363 3.07075 9.05025 4.3835C7.7375 5.69626 7 7.47674 7 9.33325C7 14.5821 5.35384 16.2819 3.80567 17.8803Z" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <h3>Acompanhamento em Tempo Real</h3>
+            <p>Monitore agendamentos e alterações conforme acontecem no sistema.</p>
+          </div>
+
+          <div class="feature-card">
+            <span class="feature-card__icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.66668 16.3334C4.4459 16.3341 4.22945 16.2722 4.04246 16.1548C3.85547 16.0375 3.70562 15.8694 3.61032 15.6703C3.51502 15.4711 3.47819 15.249 3.50409 15.0298C3.53 14.8105 3.61759 14.6031 3.75668 14.4317L15.3067 2.53169C15.3933 2.43169 15.5114 2.36411 15.6415 2.34005C15.7716 2.31599 15.906 2.33688 16.0227 2.39928C16.1394 2.46169 16.2314 2.56191 16.2836 2.68349C16.3358 2.80507 16.3451 2.94078 16.31 3.06836L14.07 10.0917C14.004 10.2685 13.9818 10.4586 14.0054 10.6459C14.029 10.8331 14.0976 11.0118 14.2054 11.1667C14.3133 11.3216 14.4571 11.448 14.6245 11.535C14.7919 11.6221 14.978 11.6673 15.1667 11.6667H23.3333C23.5541 11.6659 23.7706 11.7278 23.9576 11.8452C24.1446 11.9626 24.2944 12.1306 24.3897 12.3298C24.485 12.5289 24.5218 12.751 24.4959 12.9703C24.47 13.1895 24.3824 13.3969 24.2433 13.5684L12.6933 25.4684C12.6067 25.5684 12.4886 25.6359 12.3585 25.66C12.2284 25.6841 12.094 25.6632 11.9773 25.6008C11.8607 25.5384 11.7687 25.4381 11.7165 25.3166C11.6642 25.195 11.6549 25.0593 11.69 24.9317L13.93 17.9084C13.9961 17.7316 14.0182 17.5414 13.9947 17.3542C13.9711 17.167 13.9024 16.9882 13.7946 16.8334C13.6867 16.6785 13.5429 16.5521 13.3755 16.465C13.2081 16.3779 13.0221 16.3327 12.8333 16.3334H4.66668Z" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <h3>Interface Rápida</h3>
+            <p>Sistema otimizado para agilizar a gestão diária do estabelecimento.</p>
+          </div>
+
+          <div class="feature-card">
+            <span class="feature-card__icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M23.3334 15.1666C23.3334 21 19.25 23.9166 14.3967 25.6083C14.1425 25.6944 13.8665 25.6903 13.615 25.5966C8.75002 23.9166 4.66669 21 4.66669 15.1666V6.99995C4.66669 6.69054 4.7896 6.39379 5.0084 6.175C5.22719 5.9562 5.52393 5.83329 5.83335 5.83329C8.16669 5.83329 11.0834 4.43329 13.1134 2.65995C13.3605 2.44879 13.6749 2.33276 14 2.33276C14.3251 2.33276 14.6395 2.44879 14.8867 2.65995C16.9284 4.44495 19.8334 5.83329 22.1667 5.83329C22.4761 5.83329 22.7729 5.9562 22.9916 6.175C23.2104 6.39379 23.3334 6.69054 23.3334 6.99995V15.1666Z" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <h3>Dados Seguros</h3>
+            <p>Todas as informações são armazenadas com segurança e proteção.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ SECTION 4 — HOW IT WORKS ══════════════ -->
+    <section class="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Como Funciona</h2>
+          <p class="section-subtitle">Processo simples e intuitivo em poucos passos</p>
+        </div>
+        <div class="steps">
+
+          <div class="step">
+            <span class="step__number">1</span>
+            <h3 class="step__title">Configure seus Serviços</h3>
+            <p class="step__desc">Cadastre e organize todos os serviços oferecidos</p>
+          </div>
+
+          <div class="step">
+            <span class="step__number">2</span>
+            <h3 class="step__title">Defina os Horários</h3>
+            <p class="step__desc">Estabeleça dias e horários de funcionamento</p>
+          </div>
+
+          <div class="step">
+            <span class="step__number">3</span>
+            <h3 class="step__title">Gerencie os Agendamentos</h3>
+            <p class="step__desc">Acompanhe e administre todos os horários marcados</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ SECTION 5 — WHY US ════════════════════ -->
+    <section class="why-us">
+      <div class="container">
+        <div class="why-us__inner">
+          <div class="why-us__visual" aria-hidden="true">
+            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M49.685 77.4998C49.2386 75.7694 48.3367 74.1903 47.0731 72.9267C45.8095 71.6631 44.2304 70.7612 42.5 70.3148L11.825 62.4048C11.3017 62.2562 10.8411 61.941 10.5131 61.507C10.1851 61.073 10.0076 60.5438 10.0076 59.9998C10.0076 59.4558 10.1851 58.9266 10.5131 58.4926C10.8411 58.0585 11.3017 57.7433 11.825 57.5948L42.5 49.6798C44.2298 49.2338 45.8085 48.3326 47.072 47.07C48.3356 45.8073 49.2378 44.2292 49.685 42.4998L57.595 11.8248C57.742 11.2994 58.0569 10.8365 58.4916 10.5068C58.9263 10.177 59.4569 9.99854 60.0025 9.99854C60.5481 9.99854 61.0787 10.177 61.5134 10.5068C61.9481 10.8365 62.263 11.2994 62.41 11.8248L70.315 42.4998C70.7614 44.2301 71.6633 45.8093 72.9269 47.0729C74.1905 48.3365 75.7696 49.2384 77.5 49.6848L108.175 57.5898C108.703 57.7353 109.168 58.0498 109.499 58.4852C109.831 58.9205 110.01 59.4526 110.01 59.9998C110.01 60.547 109.831 61.0791 109.499 61.5144C109.168 61.9497 108.703 62.2643 108.175 62.4098L77.5 70.3148C75.7696 70.7612 74.1905 71.6631 72.9269 72.9267C71.6633 74.1903 70.7614 75.7694 70.315 77.4998L62.405 108.175C62.258 108.7 61.9431 109.163 61.5084 109.493C61.0737 109.823 60.5431 110.001 59.9975 110.001C59.4519 110.001 58.9213 109.823 58.4866 109.493C58.0519 109.163 57.737 108.7 57.59 108.175L49.685 77.4998Z" stroke="white" stroke-opacity="0.3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M100 15V35" stroke="white" stroke-opacity="0.3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M110 25H90" stroke="white" stroke-opacity="0.3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 85V95" stroke="white" stroke-opacity="0.3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M25 90H15" stroke="white" stroke-opacity="0.3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          
+          <div class="why-us__content">
+            <h2 class="section-title why-us__heading">Por que usar nosso sistema?</h2>
+
+            <div class="why-item">
+              <span class="why-item__icon">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M25.4345 11.6669C25.9673 14.2817 25.5876 17.0002 24.3587 19.369C23.1297 21.7378 21.1259 23.6136 18.6813 24.6838C16.2367 25.7539 13.4991 25.9536 10.925 25.2497C8.35096 24.5457 6.09605 22.9805 4.53632 20.8152C2.97658 18.6499 2.2063 16.0153 2.35394 13.3508C2.50157 10.6864 3.55819 8.153 5.34759 6.17326C7.13699 4.19353 9.551 2.88707 12.1871 2.47176C14.8231 2.05645 17.5219 2.5574 19.8333 3.89107" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.5 12.8332L14 16.3332L25.6667 4.6665" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div>
+                <h3>Controle Centralizado</h3>
+                <p>Tenha todas as informações do seu negócio em um só lugar</p>
+              </div>
+            </div>
+
+            <div class="why-item">
+              <span class="why-item__icon">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18.6666 24.5V22.1667C18.6666 20.929 18.175 19.742 17.2998 18.8668C16.4246 17.9917 15.2377 17.5 14 17.5H6.99998C5.7623 17.5 4.57532 17.9917 3.70015 18.8668C2.82498 19.742 2.33331 20.929 2.33331 22.1667V24.5" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.5 12.8333C13.0773 12.8333 15.1666 10.744 15.1666 8.16667C15.1666 5.58934 13.0773 3.5 10.5 3.5C7.92265 3.5 5.83331 5.58934 5.83331 8.16667C5.83331 10.744 7.92265 12.8333 10.5 12.8333Z" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M25.6667 24.5002V22.1669C25.6659 21.1329 25.3218 20.1284 24.6883 19.3112C24.0548 18.494 23.1678 17.9104 22.1667 17.6519" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M18.6667 3.65186C19.6705 3.90887 20.5602 4.49267 21.1956 5.31122C21.831 6.12976 22.1758 7.13649 22.1758 8.17269C22.1758 9.20889 21.831 10.2156 21.1956 11.0342C20.5602 11.8527 19.6705 12.4365 18.6667 12.6935" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div>
+                <h3>Gestão Eficiente</h3>
+                <p>Administre serviços, horários e agendamentos de forma integrada</p>
+              </div>
+            </div>
+
+            <div class="why-item">
+              <span class="why-item__icon">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18.0565 15.0386L19.824 24.9856C19.8438 25.1027 19.8274 25.2231 19.7769 25.3306C19.7264 25.4382 19.6443 25.5277 19.5416 25.5873C19.4389 25.647 19.3204 25.6738 19.202 25.6642C19.0835 25.6547 18.9709 25.6092 18.879 25.5339L14.7023 22.3991C14.5007 22.2484 14.2558 22.167 14.0041 22.167C13.7524 22.167 13.5075 22.2484 13.3058 22.3991L9.12218 25.5327C9.03039 25.6079 8.91785 25.6533 8.79959 25.6629C8.68133 25.6724 8.56297 25.6457 8.46029 25.5863C8.35761 25.5268 8.2755 25.4375 8.22492 25.3301C8.17434 25.2228 8.15768 25.1026 8.17718 24.9856L9.94351 15.0386" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14 16.3335C17.866 16.3335 21 13.1995 21 9.3335C21 5.4675 17.866 2.3335 14 2.3335C10.134 2.3335 7 5.4675 7 9.3335C7 13.1995 10.134 16.3335 14 16.3335Z" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div>
+                <h3>Organização Profissional</h3>
+                <p>Mantenha seu estabelecimento organizado e produtivo</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ SECTION 6 — CTA ═══════════════════════ -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-card">
+          <h2 class="cta-card__title">Organize seu estabelecimento agora</h2>
+          <p class="cta-card__subtitle">Comece a gerenciar serviços, horários e agendamentos de forma profissional</p>
+          <a href="../admin/listar-serviço.html" class="btn btn--white btn--lg">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.937 15.4998C9.84772 15.1537 9.66734 14.8379 9.41462 14.5851C9.1619 14.3324 8.84607 14.152 8.5 14.0628L2.365 12.4808C2.26033 12.4511 2.16821 12.388 2.10261 12.3012C2.03702 12.2144 2.00153 12.1086 2.00153 11.9998C2.00153 11.891 2.03702 11.7851 2.10261 11.6983C2.16821 11.6115 2.26033 11.5485 2.365 11.5188L8.5 9.93576C8.84595 9.84657 9.16169 9.66633 9.4144 9.4138C9.66711 9.16127 9.84757 8.84565 9.937 8.49976L11.519 2.36476C11.5484 2.25968 11.6114 2.1671 11.6983 2.10116C11.7853 2.03521 11.8914 1.99951 12.0005 1.99951C12.1096 1.99951 12.2157 2.03521 12.3027 2.10116C12.3896 2.1671 12.4526 2.25968 12.482 2.36476L14.063 8.49976C14.1523 8.84583 14.3327 9.16166 14.5854 9.41438C14.8381 9.6671 15.1539 9.84748 15.5 9.93676L21.635 11.5178C21.7405 11.5469 21.8335 11.6098 21.8998 11.6968C21.9661 11.7839 22.0021 11.8903 22.0021 11.9998C22.0021 12.1092 21.9661 12.2156 21.8998 12.3027C21.8335 12.3898 21.7405 12.4527 21.635 12.4818L15.5 14.0628C15.1539 14.152 14.8381 14.3324 14.5854 14.5851C14.3327 14.8379 14.1523 15.1537 14.063 15.4998L12.481 21.6348C12.4516 21.7398 12.3886 21.8324 12.3017 21.8984C12.2147 21.9643 12.1086 22 11.9995 22C11.8904 22 11.7843 21.9643 11.6973 21.8984C11.6104 21.8324 11.5474 21.7398 11.518 21.6348L9.937 15.4998Z" stroke="#E0456A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 3V7" stroke="#E0456A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M22 5H18" stroke="#E0456A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 17V19" stroke="#E0456A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M5 18H3" stroke="#E0456A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            GERENCIAR SERVIÇOS
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════ FOOTER ═══════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__cols">
+
+        <!-- Col 1 — Brand -->
+        <div class="footer__col footer__col--brand">
+          <div class="footer__brand">
+            <span class="footer__brand-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.28083 12.9167C8.20644 12.6283 8.05612 12.3651 7.84552 12.1545C7.63491 11.9439 7.37173 11.7936 7.08333 11.7192L1.97083 10.4009C1.88361 10.3761 1.80684 10.3236 1.75218 10.2512C1.69751 10.1789 1.66794 10.0907 1.66794 10C1.66794 9.90937 1.69751 9.82118 1.75218 9.74884C1.80684 9.6765 1.88361 9.62397 1.97083 9.59921L7.08333 8.28004C7.37162 8.20572 7.63474 8.05552 7.84534 7.84508C8.05593 7.63463 8.20631 7.37162 8.28083 7.08338L9.59917 1.97088C9.62367 1.88331 9.67615 1.80616 9.7486 1.75121C9.82105 1.69625 9.90948 1.6665 10.0004 1.6665C10.0913 1.6665 10.1798 1.69625 10.2522 1.75121C10.3247 1.80616 10.3772 1.88331 10.4017 1.97088L11.7192 7.08338C11.7936 7.37177 11.9439 7.63496 12.1545 7.84556C12.3651 8.05616 12.6283 8.20648 12.9167 8.28088L18.0292 9.59838C18.1171 9.62263 18.1946 9.67505 18.2499 9.74761C18.3051 9.82016 18.335 9.90884 18.335 10C18.335 10.0912 18.3051 10.1799 18.2499 10.2525C18.1946 10.325 18.1171 10.3775 18.0292 10.4017L12.9167 11.7192C12.6283 11.7936 12.3651 11.9439 12.1545 12.1545C11.9439 12.3651 11.7936 12.6283 11.7192 12.9167L10.4008 18.0292C10.3763 18.1168 10.3238 18.1939 10.2514 18.2489C10.179 18.3038 10.0905 18.3336 9.99958 18.3336C9.90865 18.3336 9.82022 18.3038 9.74777 18.2489C9.67532 18.1939 9.62284 18.1168 9.59833 18.0292L8.28083 12.9167Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16.6667 2.5V5.83333" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M18.3333 4.1665H15" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3.33333 14.1665V15.8332" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.16667 15H2.5" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="footer__brand-name">Espaço da Beleza</span>
+          </div>
+          <p class="footer__tagline">Transformando sonhos em realidade. Seu bem-estar é nossa prioridade.</p>
+        </div>
+
+        <!-- Col 2 — Links -->
+        <div class="footer__col">
+          <h4 class="footer__col-title">Links Rápidos</h4>
+          <nav class="footer__links">
+            <a href="../admin/listar-serviço.html">Nossos Serviços</a>
+            <a href="../admin/agendamento-administrativo.html">Fazer Agendamento</a>
+            <a href="../admin/horarios.html">Horário de Funcionamento</a>
+            <a href="../shared/configuracoes-conta.html">Minha Conta</a>
+          </nav>
+        </div>
+
+        <!-- Col 3 — Contact -->
+        <div class="footer__col">
+          <h4 class="footer__col-title">Contato</h4>
+          <address class="footer__contact">
+            <p>📍 Rua Joaquim Ananias Machado, 193, Centro, Senador Pompeu</p>
+            <p>📞 (88) 99672-0004</p>
+            <p>✉️ antonietat2801@gmail.com</p>
+          </address>
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <p>© 2026 Espaço da Beleza — Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/frontend/js/tela-inicial-adm.js"></script>
+</body>
+</html>
