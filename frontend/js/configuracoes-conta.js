@@ -11,7 +11,6 @@ const originalData = {
   email: '',
 };
 
-let currentData = { ...originalData };
 let hasUnsavedChanges = false;
 let tokenGlobal = null;
 let pendingRetry = null;
@@ -19,18 +18,18 @@ let pendingRetry = null;
 // ==========================================
 // REFERÊNCIAS DOM
 // ==========================================
-const inputNome      = document.getElementById('input-nome');
-const inputTelefone  = document.getElementById('input-telefone');
-const inputEmail     = document.getElementById('input-email');
+const inputNome     = document.getElementById('input-nome');
+const inputTelefone = document.getElementById('input-telefone');
+const inputEmail    = document.getElementById('input-email');
 
-const errorNome      = document.getElementById('error-nome');
-const errorTelefone  = document.getElementById('error-telefone');
-const errorEmail     = document.getElementById('error-email');
+const errorNome     = document.getElementById('error-nome');
+const errorTelefone = document.getElementById('error-telefone');
+const errorEmail    = document.getElementById('error-email');
 
-const btnSave        = document.getElementById('btn-save');
-const btnDiscard     = document.getElementById('btn-discard');
-const btnSignout     = document.getElementById('btn-signout');
-const btnOpenSenha   = document.getElementById('btn-open-alterar-senha');
+const btnSave    = document.getElementById('btn-save');
+const btnDiscard = document.getElementById('btn-discard');
+const btnSignout = document.getElementById('btn-signout');
+const btnOpenSenha = document.getElementById('btn-open-alterar-senha');
 
 const modals = {
   alterarSenha:       document.getElementById('modal-alterar-senha'),
@@ -42,24 +41,26 @@ const modals = {
   erro:               document.getElementById('modal-erro'),
 };
 
-const inputSenhaAtual      = document.getElementById('input-senha-atual');
-const inputNovaSenha       = document.getElementById('input-nova-senha');
-const inputConfirmarSenha  = document.getElementById('input-confirmar-senha');
+const inputSenhaAtual     = document.getElementById('input-senha-atual');
+const inputNovaSenha      = document.getElementById('input-nova-senha');
+const inputConfirmarSenha = document.getElementById('input-confirmar-senha');
 
-const errorSenhaAtual      = document.getElementById('error-senha-atual');
-const errorNovaSenha       = document.getElementById('error-nova-senha');
-const errorConfirmarSenha  = document.getElementById('error-confirmar-senha');
+const errorSenhaAtual     = document.getElementById('error-senha-atual');
+const errorNovaSenha      = document.getElementById('error-nova-senha');
+const errorConfirmarSenha = document.getElementById('error-confirmar-senha');
 
 // ==========================================
 // UTILITÁRIOS
 // ==========================================
 function openModal(modal) {
+  if (!modal) return;
   modal.classList.add('active');
   const focusable = modal.querySelector('button, input');
   if (focusable) setTimeout(() => focusable.focus(), 50);
 }
 
 function closeModal(modal) {
+  if (!modal) return;
   modal.classList.remove('active');
 }
 
@@ -78,7 +79,11 @@ function setAuthToken(token) {
   localStorage.setItem('tokenGlobal', token);
 }
 
-async function apiRequest(path, { method = 'GET', body = null, extraHeaders = {} } = {}) {
+/**
+ * Wrapper centralizado para todas as chamadas à API.
+ * Lança um Error enriquecido com .status e .payload em caso de falha.
+ */
+async function apiRequest(path, { method = 'GET', body = null } = {}) {
   if (!tokenGlobal) {
     tokenGlobal = getAuthToken();
   }
@@ -92,7 +97,6 @@ async function apiRequest(path, { method = 'GET', body = null, extraHeaders = {}
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${tokenGlobal}`,
-      ...extraHeaders,
     },
     body: body ? JSON.stringify(body) : null,
   });
@@ -100,7 +104,7 @@ async function apiRequest(path, { method = 'GET', body = null, extraHeaders = {}
   const json = await res.json().catch(() => ({}));
 
   if (!res.ok || json.success === false) {
-    const errMsg = json.error || `Erro ${res.status}`;
+    const errMsg = json.error || json.message || `Erro ${res.status}`;
     const error = new Error(errMsg);
     error.status = res.status;
     error.payload = json;
@@ -110,7 +114,11 @@ async function apiRequest(path, { method = 'GET', body = null, extraHeaders = {}
   return json;
 }
 
+// ==========================================
+// FEEDBACKS DE ERRO / SUCESSO NOS CAMPOS
+// ==========================================
 function showError(el, msg) {
+  if (!el) return;
   el.textContent = msg;
   el.classList.add('visible');
   const input = document.getElementById(el.id.replace('error-', 'input-'));
@@ -118,6 +126,7 @@ function showError(el, msg) {
 }
 
 function clearError(el) {
+  if (!el) return;
   el.textContent = '';
   el.classList.remove('visible');
   const input = document.getElementById(el.id.replace('error-', 'input-'));
@@ -134,6 +143,7 @@ function clearAllMainErrors() {
 // MODAIS
 // ==========================================
 Object.values(modals).forEach(modal => {
+  if (!modal) return;
   modal.addEventListener('click', (e) => {
     if (e.target === modal) closeModal(modal);
   });
@@ -146,15 +156,15 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ==========================================
-// MÁSCARA + VALIDAÇÕES
+// MÁSCARA DE TELEFONE
 // ==========================================
 function applyPhoneMask(value) {
   const digits = String(value).replace(/\D/g, '').slice(0, 11);
-  if (digits.length === 0) return '';
-  if (digits.length <= 2) return `(${digits}`;
-  if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
-  if (digits.length <= 10) return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
-  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+  if (digits.length === 0)  return '';
+  if (digits.length <= 2)   return `(${digits}`;
+  if (digits.length <= 6)   return `(${digits.slice(0,2)}) ${digits.slice(2)}`;
+  if (digits.length <= 10)  return `(${digits.slice(0,2)}) ${digits.slice(2,6)}-${digits.slice(6)}`;
+  return `(${digits.slice(0,2)}) ${digits.slice(2,7)}-${digits.slice(7)}`;
 }
 
 function validatePhoneDigits(phoneMasked) {
@@ -163,18 +173,23 @@ function validatePhoneDigits(phoneMasked) {
 }
 
 inputTelefone.addEventListener('input', (e) => {
-  const raw = e.target.value;
-  const cursor = e.target.selectionStart;
+  const raw    = e.target.value;
+  const start  = e.target.selectionStart;
   const masked = applyPhoneMask(raw);
   e.target.value = masked;
+
   const diff = masked.length - raw.length;
+  const newPos = Math.max(0, start + diff);
   try {
-    e.target.setSelectionRange(cursor + diff, cursor + diff);
+    e.target.setSelectionRange(newPos, newPos);
   } catch (_) {}
 
   onProfileInputChange();
 });
 
+// ==========================================
+// VALIDAÇÕES DOS CAMPOS DE PERFIL
+// ==========================================
 function validateNome(value) {
   const trimmed = String(value).trim();
   if (!trimmed) {
@@ -210,70 +225,71 @@ function validateEmail(value) {
   return true;
 }
 
+// ==========================================
+// LÓGICA DE ESTADO DOS CAMPOS
+// ==========================================
+
 function getNormalizedProfileDraft() {
   return {
-    nome: inputNome.value.trim(),
+    nome:     inputNome.value.trim(),
     telefone: inputTelefone.value.trim(),
-    email: inputEmail.value.trim().toLowerCase(),
+    email:    inputEmail.value.trim().toLowerCase(),
   };
 }
 
 function getProfileChangedFlags(draft) {
   return {
-    nomeChanged: draft.nome !== originalData.nome,
+    nomeChanged:     draft.nome     !== originalData.nome,
     telefoneChanged: draft.telefone !== originalData.telefone,
-    emailChanged: draft.email !== originalData.email,
+    emailChanged:    draft.email    !== originalData.email,
   };
 }
 
-function validateDraftForChangedFields(draft) {
+function getChangedAndValid(draft) {
   const flags = getProfileChangedFlags(draft);
+  const anyChanged = flags.nomeChanged || flags.telefoneChanged || flags.emailChanged;
 
-  if (flags.nomeChanged) {
-    if (!validateNome(draft.nome)) return false;
-  }
-  if (flags.telefoneChanged) {
-    if (!validateTelefone(draft.telefone)) return false;
-  }
-  if (flags.emailChanged) {
-    if (!validateEmail(draft.email)) return false;
-  }
+  if (!anyChanged) return { anyChanged: false, isValid: false };
 
-  return flags.nomeChanged || flags.telefoneChanged || flags.emailChanged;
+  let isValid = true;
+  if (flags.nomeChanged     && !validateNome(draft.nome))         isValid = false;
+  if (flags.telefoneChanged && !validateTelefone(draft.telefone)) isValid = false;
+  if (flags.emailChanged    && !validateEmail(draft.email))       isValid = false;
+
+  return { anyChanged, isValid };
 }
 
 function updateSaveEnabledState() {
   const draft = getNormalizedProfileDraft();
-  const changed = getProfileChangedFlags(draft);
-  const anyChanged = changed.nomeChanged || changed.telefoneChanged || changed.emailChanged;
+  const { anyChanged, isValid } = getChangedAndValid(draft);
 
-  const valid = validateDraftForChangedFields(draft);
-
-  btnSave.disabled = !(anyChanged && valid);
-  btnSave.setAttribute('aria-disabled', String(btnSave.disabled));
+  const shouldEnable = anyChanged && isValid;
+  btnSave.disabled = !shouldEnable;
+  btnSave.setAttribute('aria-disabled', String(!shouldEnable));
   hasUnsavedChanges = anyChanged;
 }
 
 inputNome.addEventListener('input', onProfileInputChange);
+
 inputEmail.addEventListener('input', () => {
   inputEmail.value = inputEmail.value.toLowerCase();
   onProfileInputChange();
 });
 
-inputNome.addEventListener('blur', () => validateNome(inputNome.value));
+inputNome.addEventListener('blur', ()     => validateNome(inputNome.value));
 inputTelefone.addEventListener('blur', () => validateTelefone(inputTelefone.value));
-inputEmail.addEventListener('blur', () => validateEmail(inputEmail.value));
+inputEmail.addEventListener('blur', ()    => validateEmail(inputEmail.value));
 
 function onProfileInputChange() {
   updateSaveEnabledState();
 }
 
 // ==========================================
-// EDITAR CAMPOS
+// BOTÕES DE EDITAR CAMPO 
 // ==========================================
 document.querySelectorAll('.field-group').forEach(group => {
   const editBtn = group.querySelector('.edit-btn');
-  const input = group.querySelector('.field-input');
+  const input   = group.querySelector('.field-input');
   if (!editBtn || !input) return;
 
   editBtn.addEventListener('click', () => {
@@ -281,8 +297,7 @@ document.querySelectorAll('.field-group').forEach(group => {
     if (isLocked) {
       input.disabled = false;
       input.focus();
-      const len = input.value.length;
-      try { input.setSelectionRange(len, len); } catch (_) {}
+      try { input.setSelectionRange(input.value.length, input.value.length); } catch (_) {}
       editBtn.classList.add('active');
       const aria = editBtn.getAttribute('aria-label') || 'Editar';
       editBtn.setAttribute('aria-label', aria.replace('Editar', 'Bloqueando'));
@@ -297,22 +312,17 @@ document.querySelectorAll('.field-group').forEach(group => {
 });
 
 // ==========================================
-// SALVAR / DESCARTAR (HU-012)
+// SALVAR DADOS DE PERFIL
 // ==========================================
-btnSave.addEventListener('click', () => {
-  const draft = getNormalizedProfileDraft();
-  const flags = getProfileChangedFlags(draft);
-  const anyChanged = flags.nomeChanged || flags.telefoneChanged || flags.emailChanged;
-
-  if (!anyChanged) return;
-
-  if (!validateDraftForChangedFields(draft)) return;
-
-  openModal(modals.confirmarSalvar);
-});
-
 btnSave.disabled = true;
 btnSave.setAttribute('aria-disabled', 'true');
+
+btnSave.addEventListener('click', () => {
+  const draft = getNormalizedProfileDraft();
+  const { anyChanged, isValid } = getChangedAndValid(draft);
+  if (!anyChanged || !isValid) return;
+  openModal(modals.confirmarSalvar);
+});
 
 document.getElementById('btn-cancelar-salvar').addEventListener('click', () => {
   closeModal(modals.confirmarSalvar);
@@ -326,53 +336,42 @@ document.getElementById('btn-sim-salvar').addEventListener('click', async () => 
 async function persistProfile() {
   const draft = getNormalizedProfileDraft();
   const flags = getProfileChangedFlags(draft);
-
   if (!(flags.nomeChanged || flags.telefoneChanged || flags.emailChanged)) return;
 
   btnSave.disabled = true;
+  btnSave.setAttribute('aria-disabled', 'true');
   const originalText = btnSave.textContent;
   btnSave.textContent = 'Salvando…';
 
   try {
     const payload = {
-      name: draft.nome,
+      name:  draft.nome,
       email: draft.email,
       phone: draft.telefone,
     };
 
     const result = await apiRequest('/auth/me', { method: 'PUT', body: payload });
-
     const data = result.data;
 
-    originalData.nome = data.name;
-    originalData.email = data.email;
-    originalData.telefone = data.phone;
+    originalData.nome     = data.name  || draft.nome;
+    originalData.email    = (data.email || draft.email).toLowerCase();
+    originalData.telefone = data.phone || draft.telefone;
 
-    inputNome.value = originalData.nome;
+    inputNome.value     = originalData.nome;
     inputTelefone.value = originalData.telefone;
-    inputEmail.value = originalData.email;
+    inputEmail.value    = originalData.email;
 
-    [inputNome, inputTelefone, inputEmail].forEach(i => { i.disabled = true; });
-    document.querySelectorAll('.field-group .edit-btn').forEach(btn => {
-      btn.classList.remove('active');
-      const label = btn.getAttribute('aria-label');
-      if (label) btn.setAttribute('aria-label', label.replace('Bloqueando', 'Editar'));
-    });
+    lockAllProfileFields();
 
     hasUnsavedChanges = false;
-    btnSave.textContent = originalText;
-
-    updateSaveEnabledState();
-
     openModal(modals.sucessoDados);
   } catch (err) {
-    btnSave.textContent = originalText;
+    const retryDraft = { ...draft };
+    pendingRetry = () => persistProfile();
 
     openModal(modals.erro);
-    pendingRetry = persistProfile;
   } finally {
     btnSave.textContent = originalText;
-    btnSave.disabled = false;
     updateSaveEnabledState();
   }
 }
@@ -390,6 +389,9 @@ document.getElementById('btn-tentar-novamente').addEventListener('click', async 
   }
 });
 
+// ==========================================
+// DESCARTAR ALTERAÇÕES
+// ==========================================
 btnDiscard.addEventListener('click', () => {
   if (!hasUnsavedChanges) return;
   openModal(modals.confirmarDescartar);
@@ -405,24 +407,29 @@ document.getElementById('btn-sim-descartar').addEventListener('click', () => {
 });
 
 function discardChanges() {
-  inputNome.value = originalData.nome;
+  inputNome.value     = originalData.nome;
   inputTelefone.value = originalData.telefone;
-  inputEmail.value = originalData.email;
+  inputEmail.value    = originalData.email;
 
-  [inputNome, inputTelefone, inputEmail].forEach(input => { input.disabled = true; });
-  document.querySelectorAll('.field-group .edit-btn').forEach(btn => {
-    btn.classList.remove('active');
-    const label = btn.getAttribute('aria-label');
-    if (label) btn.setAttribute('aria-label', label.replace('Bloqueando', 'Editar'));
-  });
-
+  lockAllProfileFields();
   clearAllMainErrors();
   hasUnsavedChanges = false;
   updateSaveEnabledState();
 }
 
+function lockAllProfileFields() {
+  [inputNome, inputTelefone, inputEmail].forEach(input => {
+    input.disabled = true;
+  });
+  document.querySelectorAll('.field-group .edit-btn').forEach(btn => {
+    btn.classList.remove('active');
+    const label = btn.getAttribute('aria-label') || '';
+    btn.setAttribute('aria-label', label.replace('Bloqueando', 'Editar'));
+  });
+}
+
 // ==========================================
-// SAIR DA CONTA (best-effort)
+// SAIR DA CONTA
 // ==========================================
 btnSignout.addEventListener('click', () => {
   openModal(modals.confirmarSair);
@@ -443,10 +450,13 @@ document.getElementById('btn-sim-sair').addEventListener('click', async () => {
         headers: { 'Authorization': `Bearer ${tokenGlobal}` },
       });
     }
-  } catch (_) {}
+  } catch (_) {
+  }
 
   localStorage.removeItem('tokenGlobal');
+  localStorage.removeItem('token');
   sessionStorage.removeItem('tokenGlobal');
+  sessionStorage.removeItem('token');
   window.location.href = '/';
 });
 
@@ -465,21 +475,19 @@ window.addEventListener('beforeunload', (e) => {
 // ==========================================
 btnOpenSenha.addEventListener('click', () => {
   inputSenhaAtual.value = '';
-  inputNovaSenha.value = '';
+  inputNovaSenha.value  = '';
   inputConfirmarSenha.value = '';
-
   clearError(errorSenhaAtual);
   clearError(errorNovaSenha);
   clearError(errorConfirmarSenha);
 
-  closeModal(modals.sucessoSenha);
   openModal(modals.alterarSenha);
 });
 
 document.getElementById('btn-cancelar-senha').addEventListener('click', () => {
   closeModal(modals.alterarSenha);
   inputSenhaAtual.value = '';
-  inputNovaSenha.value = '';
+  inputNovaSenha.value  = '';
   inputConfirmarSenha.value = '';
   clearError(errorSenhaAtual);
   clearError(errorNovaSenha);
@@ -495,24 +503,26 @@ document.querySelectorAll('.icon-btn').forEach(btn => {
     const isHidden = input.type === 'password';
     input.type = isHidden ? 'text' : 'password';
     btn.classList.toggle('active', isHidden);
+
     const aria = btn.getAttribute('aria-label') || '';
-    btn.setAttribute('aria-label', isHidden ? aria.replace('Mostrar', 'Ocultar') : aria.replace('Ocultar', 'Mostrar'));
+    btn.setAttribute(
+      'aria-label',
+      isHidden ? aria.replace('Mostrar', 'Ocultar') : aria.replace('Ocultar', 'Mostrar')
+    );
   });
 });
 
 function passwordStrongRules(value) {
   const rules = [
-    { re: /^(?=.{8,})/, msg: 'A senha deve conter pelo menos 8 caracteres.' },
-    { re: /[A-Z]/, msg: 'A senha deve conter pelo menos uma letra maiúscula.' },
-    { re: /[a-z]/, msg: 'A senha deve conter pelo menos uma letra minúscula.' },
-    { re: /\d/, msg: 'A senha deve conter pelo menos um número.' },
+    { re: /.{8,}/,                  msg: 'A senha deve conter pelo menos 8 caracteres.' },
+    { re: /[A-Z]/,                  msg: 'A senha deve conter pelo menos uma letra maiúscula.' },
+    { re: /[a-z]/,                  msg: 'A senha deve conter pelo menos uma letra minúscula.' },
+    { re: /\d/,                     msg: 'A senha deve conter pelo menos um número.' },
     { re: /[@#$%!&*^()\-_+=<>?.]/, msg: 'A senha deve conter pelo menos um caractere especial (@, #, $, %, etc.).' },
   ];
 
-  for (const r of rules) {
-    if (!r.re.test(value)) {
-      return r.msg;
-    }
+  for (const rule of rules) {
+    if (!rule.re.test(value)) return rule.msg;
   }
   return null;
 }
@@ -550,7 +560,9 @@ document.getElementById('btn-confirmar-senha').addEventListener('click', async (
   if (!inputSenhaAtual.value) {
     showError(errorSenhaAtual, 'Informe a senha atual.');
     valid = false;
-  } else clearError(errorSenhaAtual);
+  } else {
+    clearError(errorSenhaAtual);
+  }
 
   if (!inputNovaSenha.value) {
     showError(errorNovaSenha, 'Informe a nova senha.');
@@ -560,7 +572,9 @@ document.getElementById('btn-confirmar-senha').addEventListener('click', async (
     if (msg) {
       showError(errorNovaSenha, msg);
       valid = false;
-    } else clearError(errorNovaSenha);
+    } else {
+      clearError(errorNovaSenha);
+    }
   }
 
   if (!inputConfirmarSenha.value) {
@@ -569,7 +583,9 @@ document.getElementById('btn-confirmar-senha').addEventListener('click', async (
   } else if (inputConfirmarSenha.value !== inputNovaSenha.value) {
     showError(errorConfirmarSenha, 'As senhas não coincidem.');
     valid = false;
-  } else clearError(errorConfirmarSenha);
+  } else {
+    clearError(errorConfirmarSenha);
+  }
 
   if (valid && inputNovaSenha.value === inputSenhaAtual.value) {
     showError(errorNovaSenha, 'A nova senha não pode ser igual à senha atual.');
@@ -578,32 +594,35 @@ document.getElementById('btn-confirmar-senha').addEventListener('click', async (
 
   if (!valid) return;
 
+  const senhaPayload = {
+    currentPassword:    inputSenhaAtual.value,
+    newPassword:        inputNovaSenha.value,
+    confirmNewPassword: inputConfirmarSenha.value,
+  };
+
   const btn = document.getElementById('btn-confirmar-senha');
   const originalText = btn.textContent;
   btn.disabled = true;
   btn.textContent = 'Salvando…';
 
   try {
-    const payload = {
-      currentPassword: inputSenhaAtual.value,
-      newPassword: inputNovaSenha.value,
-      confirmNewPassword: inputConfirmarSenha.value,
-    };
+    await apiRequest('/auth/me/password', { method: 'PUT', body: senhaPayload });
 
-    await apiRequest('/auth/me/password', { method: 'PUT', body: payload });
+    inputSenhaAtual.value     = '';
+    inputNovaSenha.value      = '';
+    inputConfirmarSenha.value = '';
 
     closeModal(modals.alterarSenha);
     openModal(modals.sucessoSenha);
   } catch (err) {
+    pendingRetry = async () => {
+      await apiRequest('/auth/me/password', { method: 'PUT', body: senhaPayload });
+      closeModal(modals.alterarSenha);
+      openModal(modals.sucessoSenha);
+    };
+
     closeModal(modals.alterarSenha);
     openModal(modals.erro);
-    pendingRetry = async () => {
-      await apiRequest('/auth/me/password', { method: 'PUT', body: {
-        currentPassword: inputSenhaAtual.value,
-        newPassword: inputNovaSenha.value,
-        confirmNewPassword: inputConfirmarSenha.value,
-      }});
-    };
   } finally {
     btn.disabled = false;
     btn.textContent = originalText;
@@ -615,40 +634,40 @@ document.getElementById('btn-ok-senha').addEventListener('click', () => {
 });
 
 // ==========================================
-// INICIALIZAÇÃO: carregar dados do usuário
+// INICIALIZAÇÃO — carregar dados do usuário via API
 // ==========================================
 async function carregarPerfil() {
+  inputNome.value     = '';
+  inputTelefone.value = '';
+  inputEmail.value    = '';
+  inputNome.disabled     = true;
+  inputTelefone.disabled = true;
+  inputEmail.disabled    = true;
+
   const existing = getAuthToken();
   if (existing) setAuthToken(existing);
 
   try {
-    if (!tokenGlobal) tokenGlobal = getAuthToken();
     const result = await apiRequest('/auth/me', { method: 'GET' });
     const data = result.data;
 
-    originalData.nome = data.name || '';
+    originalData.nome     = data.name  || '';
     originalData.telefone = data.phone || '';
-    originalData.email = (data.email || '').toLowerCase();
-
-    inputNome.value = originalData.nome;
+    originalData.email    = (data.email || '').toLowerCase();
+    inputNome.value     = originalData.nome;
     inputTelefone.value = originalData.telefone;
-    inputEmail.value = originalData.email;
+    inputEmail.value    = originalData.email;
 
-    currentData = { ...originalData };
-
-    [inputNome, inputTelefone, inputEmail].forEach(i => { i.disabled = true; });
-    document.querySelectorAll('.field-group .edit-btn').forEach(btn => btn.classList.remove('active'));
-
+    lockAllProfileFields();
     clearAllMainErrors();
     hasUnsavedChanges = false;
     updateSaveEnabledState();
   } catch (err) {
-    openModal(modals.erro);
     pendingRetry = carregarPerfil;
+    openModal(modals.erro);
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   carregarPerfil();
 });
-
