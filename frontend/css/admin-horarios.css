@@ -486,3 +486,278 @@ h2 span {
     font-weight: 600;
     word-spacing: 0.8px;
 }
+
+/* ─── RESPONSIVIDADE MOBILE - HORÁRIOS ─────────────────────────────────── */
+
+@media (max-width: 768px) {
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        padding: 0 1rem 2rem;
+    }
+
+    header {
+        margin-top: 2rem;
+    }
+
+    header img {
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+
+    h1 {
+        font-size: clamp(2rem, 10vw, 2.7rem);
+        line-height: 1;
+        text-align: center;
+    }
+
+    header p {
+        max-width: 20rem;
+        margin: 0.75rem auto 0;
+        font-size: 0.95rem;
+        line-height: 1.45;
+    }
+
+    .horario-dia-atual {
+        height: auto;
+        min-height: 13rem;
+        padding: 1.5rem 1rem;
+        margin-top: 2rem;
+        border-radius: 1.375rem;
+    }
+
+    .horario-dia-atual p {
+        margin-top: 0;
+        font-size: 0.8125rem;
+    }
+
+    h2 {
+        font-size: clamp(1.35rem, 7vw, 1.9rem);
+        line-height: 1.25;
+    }
+
+    #alterar-horario-padrao,
+    #horarios-semana {
+        width: 100%;
+        max-width: 23rem;
+        height: 3.5rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .dias-semana {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .card-dia {
+        min-width: 0;
+    }
+
+    .dia {
+        height: auto;
+        min-height: 7.5rem;
+        padding: 1rem;
+        border-radius: 1.25rem;
+        line-height: normal;
+    }
+
+    .dia:hover {
+        transform: none;
+    }
+
+    .numero-dia {
+        font-size: 2rem;
+        line-height: 2.25rem;
+    }
+
+    .intervalo {
+        height: auto;
+        min-height: 2.75rem;
+        line-height: 1.2;
+        padding: 0.75rem 0.5rem;
+        border-radius: 1rem;
+    }
+
+    #horarios-semana {
+        margin-top: 2rem;
+    }
+
+    .modal {
+        padding: 1rem 0.75rem;
+        align-items: flex-start;
+        overflow-y: auto;
+    }
+
+    .conteudo-modal,
+    .conteudo-modal-dia,
+    .conteudo-modal-semana {
+        width: 100%;
+        max-width: 35rem;
+        max-height: calc(100vh - 2rem);
+        overflow-y: auto;
+        padding: 1.75rem 1.25rem;
+        border-radius: 1.375rem;
+        margin: auto;
+    }
+
+    .conteudo-modal > img:first-of-type,
+    .fechar-modal {
+        top: 1.5rem;
+        right: 1.5rem;
+    }
+
+    .conteudo-modal h1,
+    .cabecalho-modal-semana h1,
+    .cabecalho-modal-dia h1 {
+        font-size: 1.75rem;
+        line-height: 2rem;
+        padding-right: 2.5rem;
+    }
+
+    .cabecalho-modal-semana,
+    .cabecalho-modal-dia {
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .cabecalho-modal-semana #icone-calendario,
+    .cabecalho-modal-dia .icone-dia-dinamico {
+        width: 3.5rem;
+        height: 3.5rem;
+        flex-shrink: 0;
+    }
+
+    .textos-cabecalho p {
+        font-size: 0.875rem;
+        line-height: 1.35;
+    }
+
+    .formulario-horario-padrao {
+        margin-top: 1.5rem;
+    }
+
+    .input-time,
+    .caixa-hora-dia {
+        gap: 0.75rem;
+    }
+
+    .input-intervalo {
+        width: 100%;
+        min-width: 0;
+        height: 3.5rem;
+        border-radius: 1rem;
+    }
+
+    .input-time {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto;
+        margin-bottom: 1.5rem;
+    }
+
+    .caixa-hora-dia {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto;
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+
+    .grupo-input {
+        min-width: 0;
+    }
+
+    .add-btn {
+        margin-left: 0;
+        margin-bottom: 1.5rem;
+    }
+
+    #confirmar-horario-padrao,
+    #confirmar-horarios-semana,
+    #confirmar-horarios-dia {
+        width: 100%;
+        height: 3.75rem;
+        border-radius: 1rem;
+    }
+
+    .lista-dias {
+        max-height: 60vh;
+        gap: 1rem;
+        padding-right: 0.25rem;
+    }
+
+    .dia-modal {
+        padding: 1.25rem;
+        border-radius: 1rem;
+    }
+
+    .cabecalho-dia-modal {
+        margin-bottom: 1.25rem;
+    }
+
+    .dia-modal .input-time {
+        margin-bottom: 1.5rem;
+    }
+
+    .salao-aberto {
+        margin-bottom: 1.5rem;
+        gap: 1rem;
+    }
+
+    .salao-aberto p {
+        font-size: 0.875rem;
+        line-height: 1.35;
+    }
+
+    .aviso-modal {
+        margin: 0.5rem 0 1.5rem;
+        font-size: 0.8125rem;
+        line-height: 1.35;
+        align-items: flex-start;
+    }
+
+    .aviso-modal img {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 420px) {
+    body {
+        padding-inline: 0.75rem;
+    }
+
+    .dias-semana {
+        grid-template-columns: 1fr;
+    }
+
+    .conteudo-modal,
+    .conteudo-modal-dia,
+    .conteudo-modal-semana {
+        padding: 1.5rem 1rem;
+    }
+
+    .input-time,
+    .caixa-hora-dia {
+        grid-template-columns: 1fr;
+        justify-items: stretch;
+    }
+
+    .input-time > img,
+    .caixa-hora-dia > img {
+        justify-self: center;
+        transform: rotate(90deg);
+    }
+
+    .limpar {
+        justify-self: center;
+    }
+
+    .cabecalho-modal-semana,
+    .cabecalho-modal-dia {
+        padding-right: 2rem;
+    }
+}

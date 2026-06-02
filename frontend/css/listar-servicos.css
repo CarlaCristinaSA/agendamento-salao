@@ -822,6 +822,7 @@ body {
 .modal-confirm-btn:active { 
     transform: scale(0.98); 
 }
+
 /* ================================================================
 NAVBAR
 ================================================================ */
@@ -1007,4 +1008,227 @@ NAVBAR
         border-bottom: 0.0625rem solid #F3F4F6;
     }
     .nav-link:last-child { border-bottom: none; }
+
+/* ─── RESPONSIVIDADE MOBILE EXTRA ───────────────────────────────────────── */
+
+@media (max-width: 600px) {
+    body {
+        padding: 32px 14px;
+        align-items: flex-start;
+    }
+
+    .container {
+        gap: 32px;
+    }
+
+    .header {
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .texto-header {
+        align-items: center;
+        width: 100%;
+    }
+
+    .header h1 {
+    font-size: clamp(1.8rem, 9vw, 2.4rem);
+    line-height: 1.05;
+    }
+
+    .header p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        max-width: 20rem;
+    }
+
+    .botoes-header {
+        width: 100%;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    #btn-criar-servico,
+    #btn-filtrar-servico {
+        width: 100%;
+        height: 52px;
+        flex: unset;
+        font-size: 0.9rem;
+    }
+
+    .filter-menu-wrapper {
+        width: 100%;
+    }
+
+    .filter-menu {
+        width: 100%;
+        right: 0;
+        left: 0;
+    }
+
+    .filter-menu::before {
+        right: 50%;
+        transform: translateX(50%) rotate(45deg);
+    }
+
+    .filter-menu-panel {
+        border-radius: 20px;
+        padding: 22px 12px 14px;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .service-card {
+        height: auto;
+        min-height: 380px;
+        padding: 24px;
+        gap: 16px;
+    }
+
+    .topo-card {
+        gap: 12px;
+    }
+
+    .service-card h3 {
+        font-size: 1.5rem;
+        line-height: 1.25;
+    }
+
+    .ativar-servico {
+        min-width: auto;
+        height: 30px;
+        padding: 0 10px;
+        font-size: 0.7rem;
+        flex-shrink: 0;
+    }
+
+    .info-row {
+        height: auto;
+        min-height: 68px;
+        padding: 14px;
+        border-radius: 16px;
+    }
+
+    .info-value.valor {
+        font-size: 1.1rem;
+        line-height: 1.4;
+    }
+
+    .select-btn {
+        height: 52px;
+        font-size: 0.9rem;
+    }
+
+    .modal-container {
+        width: calc(100vw - 28px);
+        max-width: none;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 28px 20px;
+        border-radius: 22px;
+    }
+
+    .modal-close-btn {
+        top: 18px;
+        right: 18px;
+    }
+
+    .modal-title {
+        font-size: 2rem;
+        line-height: 1;
+        padding-right: 44px;
+        margin-bottom: 20px;
+    }
+
+    .modal-form {
+        gap: 16px;
+    }
+
+    .input-container input,
+    .status-row-container {
+        height: 50px;
+    }
+
+    .modal-actions {
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+    .btn-cancelar,
+    .btn-salvar {
+        width: 100%;
+        height: 50px;
+    }
+
+    .modal-confirmado {
+        width: calc(100vw - 28px);
+        height: auto;
+        min-height: 500px;
+        padding: 28px 20px;
+        border-radius: 22px;
+    }
+
+    .confirmado-body {
+        height: auto;
+        min-height: 440px;
+    }
+
+    .confirmado-subtitle {
+        line-height: 1.45;
+    }
+
+    .detail-row {
+        height: auto;
+        min-height: 54px;
+        padding: 12px 14px;
+        gap: 12px;
+    }
+
+    .detail-row .detail-value {
+        text-align: right;
+        overflow-wrap: anywhere;
+    }
+
+    .modal-confirm-btn {
+        height: 56px;
+    }
+}
+
+@media (max-width: 360px) {
+    body {
+        padding-inline: 10px;
+    }
+
+    .service-card {
+        padding: 20px;
+    }
+
+    .topo-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .ativar-servico {
+        align-self: flex-start;
+    }
+
+    .info-row {
+        gap: 12px;
+    }
+
+    .icon-circle {
+        width: 36px;
+        height: 36px;
+    }
+
+    .modal-container,
+    .modal-confirmado {
+        width: calc(100vw - 20px);
+    }
+    }
 }

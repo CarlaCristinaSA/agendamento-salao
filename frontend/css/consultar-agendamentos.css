@@ -243,3 +243,125 @@ body {
     .info div { gap: 0.15rem; }
     .rotulo { font-size: 0.65rem; }
 }
+
+/* ─── RESPONSIVIDADE MOBILE EXTRA - CONSULTAR AGENDAMENTOS ─────────────── */
+
+@media (max-width: 600px) {
+    body {
+        padding: 2rem 0.875rem;
+    }
+
+    .pagina {
+        gap: 2rem;
+    }
+
+    .topo {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.25rem;
+    }
+
+    .topo h1 {
+        font-size: clamp(2rem, 11vw, 2.65rem);
+        line-height: 1;
+    }
+
+    .topo p {
+        max-width: 20rem;
+        font-size: 0.95rem;
+        line-height: 1.45;
+        margin-inline: auto;
+    }
+
+    .acoes-topo {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+    }
+
+    .acoes-topo .btn-contorno,
+    .acoes-topo .btn-primario {
+        width: 100%;
+        min-height: 3.25rem;
+        padding: 0.875rem 0.75rem;
+        font-size: 0.8125rem;
+        letter-spacing: 0.03rem;
+    }
+
+    .acoes-topo .btn-primario {
+        grid-column: 1 / -1;
+    }
+
+    .grade-cards {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .card {
+        padding: 1.25rem;
+        border-radius: 1.375rem;
+        gap: 1rem;
+    }
+
+    .card h3 {
+        font-size: 1.5rem;
+        line-height: 1.25;
+        text-align: left;
+    }
+
+    .infos-card {
+        gap: 0.75rem;
+    }
+
+    .info {
+        min-height: 4.25rem;
+        padding: 0.875rem;
+        border-radius: 1rem;
+        gap: 0.875rem;
+    }
+
+    .circulo-info {
+        width: 2.25rem;
+        height: 2.25rem;
+    }
+
+    .circulo-info svg {
+        width: 1rem !important;
+        height: 1rem !important;
+    }
+
+    .info strong {
+        font-size: 0.95rem;
+        line-height: 1.35;
+    }
+
+    .rotulo {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 360px) {
+    body {
+        padding-inline: 0.625rem;
+    }
+
+    .acoes-topo {
+        grid-template-columns: 1fr;
+    }
+
+    .acoes-topo .btn-primario {
+        grid-column: auto;
+    }
+
+    .card {
+        padding: 1rem;
+    }
+
+    .info {
+        gap: 0.75rem;
+        padding: 0.75rem;
+    }
+}
