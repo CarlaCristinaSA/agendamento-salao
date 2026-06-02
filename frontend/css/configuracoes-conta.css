@@ -35,8 +35,8 @@ body {
 
 /* ===== PÁGINA PRINCIPAL ===== */
 .page-body {
-    min-height: 100vh;
-    padding: 4rem clamp(1rem, 5vw, 20.3125rem);
+    min-height: calc(100vh - 5rem);
+    padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 5vw, 20.3125rem);
     background: linear-gradient(135deg, #FFFFFF 0%, rgba(253,242,248,0.2) 50%, #FFFFFF 100%);
     display: flex;
     flex-direction: column;
@@ -201,7 +201,7 @@ body {
 .edit-btn svg { width: 1.125rem; height: 1.125rem; }
 .edit-btn.active svg path { stroke: var(--pink-primary); }
 
-/* Botão olho na senha*/
+/* Botão olho na senha */
 .icon-btn {
     position: absolute;
     right: 0.75rem;
@@ -226,26 +226,11 @@ body {
     color: var(--pink-primary);
 }
 
-.icon-btn .material-icons {
-    font-size: 20px;
-    display: none;
-}
-
-.icon-btn .icon-open {
-    display: block;
-}
-
-.icon-btn .icon-closed {
-    display: none;
-}
-
-.icon-btn.active .icon-open {
-    display: none;
-}
-
-.icon-btn.active .icon-closed {
-    display: block;
-}
+.icon-btn .material-icons { font-size: 20px; display: none; }
+.icon-btn .icon-open { display: block; }
+.icon-btn .icon-closed { display: none; }
+.icon-btn.active .icon-open { display: none; }
+.icon-btn.active .icon-closed { display: block; }
 
 .field-error {
     display: none;
@@ -477,7 +462,6 @@ body {
     flex-wrap: wrap;
 }
 
-/* Base compartilhada para todos os botões de modal */
 .modal-btn-cancel,
 .modal-btn-confirm,
 .modal-btn-full {
@@ -538,7 +522,6 @@ body {
 }
 
 .modal-box--form .modal-btn-cancel:hover { background: rgba(113,113,130,0.06); }
-
 .modal-box--form .modal-btn-confirm:hover { transform: translateY(-1px); }
 .modal-box--form .modal-btn-confirm:active { transform: translateY(0); }
 
