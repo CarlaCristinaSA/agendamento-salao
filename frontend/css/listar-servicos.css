@@ -27,14 +27,6 @@ body {
     padding: 0;
 }
 
-/* ─── CONTAINER ──────────────────────────────────────────────────────────── */
-/*
- * Proporções baseadas em 1322 × 1216 (navbar 80px + conteúdo 1136px):
- *   max-width    → 1322px  (espelha a largura de referência do navbar)
- *   padding-top  → 64px    (gap navbar→header: 64/1216 ≈ 5.26% da altura útil)
- *   padding-inline → fluido mantendo ~2.4% da largura (32/1322)
- *   gap interno  → clamp(2rem, 4.2vh, 3rem) ≈ 48px em telas de referência
- */
 .container {
     width: 100%;
     max-width: 1322px;

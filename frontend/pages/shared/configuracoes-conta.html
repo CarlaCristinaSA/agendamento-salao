@@ -428,5 +428,16 @@
 </div>
 
 <script src="/frontend/js/configuracoes-conta.js"></script>
+<script>
+    const navToggle = document.getElementById('navbar-toggle');
+    const navMenu = document.getElementById('navbar-nav');
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            const isOpen = navMenu.classList.toggle('is-open');
+            navToggle.classList.toggle('is-open', isOpen);
+            navToggle.setAttribute('aria-expanded', isOpen);
+        });
+    }
+</script>
 </body>
 </html>
