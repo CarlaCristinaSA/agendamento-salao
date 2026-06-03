@@ -212,7 +212,6 @@ input:focus {
     text-decoration: underline;
 }
 
-/* Remove os olhos nativos duplicados do navegador */
 input::-ms-reveal { display: none !important; }
 input::-webkit-contacts-auto-fill-button,
 input::-webkit-credentials-auto-fill-button { display: none !important; }

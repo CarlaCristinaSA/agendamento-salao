@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById(idErro).textContent = mensagem;
     }
 
-    // 3. Submissão e validação (Funciona com clique ou tecla Enter)
+    // 3. Submissão e validação
     if (formLogin) {
         formLogin.addEventListener('submit', async (evento) => {
             evento.preventDefault();
@@ -70,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!formularioValido) return;
 
-            // Ativa o estado de carregamento visual e desabilita o botão
             btnEntrar.disabled = true;
             btnSpinner.style.display = 'inline-block';
             textBotao.textContent = 'ENTRANDO...';
@@ -87,23 +86,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 const json = await resposta.json();
-
-                // Só cria sessão e redireciona se as credenciais forem 100% corretas
                 if (resposta.ok && json.success && json.data?.token) {
                     sessionStorage.setItem('salao_token', json.data.token);
                     sessionStorage.setItem('salao_admin_nome', json.data.admin?.name || 'Administrador');
                     
                     window.location.href = URL_DASHBOARD;
                 } else {
-                    // Mensagem de erro genérica sem especificar qual campo falhou
-                    sessionStorage.removeItem('salao_token'); // Garante que não gere sessão ativa
+                    sessionStorage.removeItem('salao_token');
                     msgErroGeral.textContent = 'E-mail ou senha incorretos.';
                 }
             } catch (erro) {
                 console.error("Falha no servidor:", erro);
                 msgErroGeral.textContent = 'Não foi possível conectar ao servidor.';
             } finally {
-                // Desativa o estado de carregamento se falhar
                 btnEntrar.disabled = false;
                 btnSpinner.style.display = 'none';
                 textBotao.textContent = 'ENTRAR';
