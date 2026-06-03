@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configurações da Conta</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="/frontend/css/configuracoes-conta-cliente.css" />
+  <link rel="stylesheet" href="/frontend/css/navbar.css" />
+
+</head>
+<body>
+
+  <!-- ═══════════════════════════ NAVBAR ═══════════════════════════ -->
+<header class="navbar">
+    <div class="navbar__inner">
+    <a href="/frontend/pages/cliente/tela-inicial-cliente.html" class="navbar__brand">
+        <span class="navbar__brand-icon navbar__brand-icon--outline">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 7.5C6.38071 7.5 7.5 6.38071 7.5 5C7.5 3.61929 6.38071 2.5 5 2.5C3.61929 2.5 2.5 3.61929 2.5 5C2.5 6.38071 3.61929 7.5 5 7.5Z" stroke="#E0456A" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6.76666 6.76672L10 10.0001" stroke="#E0456A" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16.6667 3.33337L6.76666 13.2334" stroke="#E0456A" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5 17.5C6.38071 17.5 7.5 16.3807 7.5 15C7.5 13.6193 6.38071 12.5 5 12.5C3.61929 12.5 2.5 13.6193 2.5 15C2.5 16.3807 3.61929 17.5 5 17.5Z" stroke="#E0456A" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12.3333 12.3334L16.6667 16.6667" stroke="#E0456A" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        </span>
+        <span class="navbar__title">Espaço da Beleza</span>
+    </a>
+
+    <a href="/frontend/pages/cliente/agendamentoCliente.html" class="nav-link">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 1.5V4.5" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 1.5V4.5" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M14.25 3H3.75C2.92157 3 2.25 3.67157 2.25 4.5V15C2.25 15.8284 2.92157 16.5 3.75 16.5H14.25C15.0784 16.5 15.75 15.8284 15.75 15V4.5C15.75 3.67157 15.0784 3 14.25 3Z" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2.25 7.5H15.75" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6.75 12L8.25 13.5L11.25 10.5" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Agendar
+    </a>      
+    <a href="/frontend/pages/cliente/historico.html" class="nav-link">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2.25 9C2.25 10.335 2.64588 11.6401 3.38758 12.7501C4.12928 13.8601 5.18349 14.7253 6.41689 15.2362C7.65029 15.7471 9.00749 15.8808 10.3169 15.6203C11.6262 15.3599 12.829 14.717 13.773 13.773C14.717 12.829 15.3599 11.6262 15.6203 10.3169C15.8808 9.00749 15.7471 7.65029 15.2362 6.41689C14.7253 5.18349 13.8601 4.12928 12.7501 3.38758C11.6401 2.64588 10.335 2.25 9 2.25C7.11296 2.2571 5.30173 2.99342 3.945 4.305L2.25 6" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M2.25 2.25V6H6" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M9 5.25V9L12 10.5" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Histórico
+    </a>
+        <a href="/frontend/pages/cliente/configuracoes-conta-cliente.html" class="nav-link nav-link--active">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.165 1.5H8.835C8.43718 1.5 8.05565 1.65804 7.77434 1.93934C7.49304 2.22064 7.335 2.60218 7.335 3V3.135C7.33473 3.39804 7.26529 3.65639 7.13366 3.88413C7.00202 4.11186 6.8128 4.30098 6.585 4.4325L6.2625 4.62C6.03447 4.75165 5.77581 4.82096 5.5125 4.82096C5.2492 4.82096 4.99053 4.75165 4.7625 4.62L4.65 4.56C4.3058 4.36145 3.89688 4.30758 3.513 4.41023C3.12913 4.51288 2.80166 4.76365 2.6025 5.1075L2.4375 5.3925C2.23895 5.7367 2.18508 6.14562 2.28773 6.5295C2.39038 6.91338 2.64115 7.24084 2.985 7.44L3.0975 7.515C3.32421 7.64588 3.51272 7.83382 3.64429 8.06012C3.77586 8.28643 3.84592 8.54323 3.8475 8.805V9.1875C3.84855 9.45182 3.77974 9.71171 3.64803 9.94088C3.51633 10.17 3.32641 10.3603 3.0975 10.4925L2.985 10.56C2.64115 10.7592 2.39038 11.0866 2.28773 11.4705C2.18508 11.8544 2.23895 12.2633 2.4375 12.6075L2.6025 12.8925C2.80166 13.2363 3.12913 13.4871 3.513 13.5898C3.89688 13.6924 4.3058 13.6386 4.65 13.44L4.7625 13.38C4.99053 13.2483 5.2492 13.179 5.5125 13.179C5.77581 13.179 6.03447 13.2483 6.2625 13.38L6.585 13.5675C6.8128 13.699 7.00202 13.8881 7.13366 14.1159C7.26529 14.3436 7.33473 14.602 7.335 14.865V15C7.335 15.3978 7.49304 15.7794 7.77434 16.0607C8.05565 16.342 8.43718 16.5 8.835 16.5H9.165C9.56283 16.5 9.94436 16.342 10.2257 16.0607C10.507 15.7794 10.665 15.3978 10.665 15V14.865C10.6653 14.602 10.7347 14.3436 10.8663 14.1159C10.998 13.8881 11.1872 13.699 11.415 13.5675L11.7375 13.38C11.9655 13.2483 12.2242 13.179 12.4875 13.179C12.7508 13.179 13.0095 13.2483 13.2375 13.38L13.35 13.44C13.6942 13.6386 14.1031 13.6924 14.487 13.5898C14.8709 13.4871 15.1983 13.2363 15.3975 12.8925L15.5625 12.6C15.7611 12.2558 15.8149 11.8469 15.7123 11.463C15.6096 11.0791 15.3588 10.7517 15.015 10.5525L14.9025 10.4925C14.6736 10.3603 14.4837 10.17 14.352 9.94088C14.2203 9.71171 14.1515 9.45182 14.1525 9.1875V8.8125C14.1515 8.54818 14.2203 8.28829 14.352 8.05912C14.4837 7.82995 14.6736 7.63966 14.9025 7.5075L15.015 7.44C15.3588 7.24084 15.6096 6.91338 15.7123 6.5295C15.8149 6.14562 15.7611 5.7367 15.5625 5.3925L15.3975 5.1075C15.1983 4.76365 14.8709 4.51288 14.487 4.41023C14.1031 4.30758 13.6942 4.36145 13.35 4.56L13.2375 4.62C13.0095 4.75165 12.7508 4.82096 12.4875 4.82096C12.2242 4.82096 11.9655 4.75165 11.7375 4.62L11.415 4.4325C11.1872 4.30098 10.998 4.11186 10.8663 3.88413C10.7347 3.65639 10.6653 3.39804 10.665 3.135V3C10.665 2.60218 10.507 2.22064 10.2257 1.93934C9.94436 1.65804 9.56283 1.5 9.165 1.5Z" stroke="#E0456A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 11.25C10.2426 11.25 11.25 10.2426 11.25 9C11.25 7.75736 10.2426 6.75 9 6.75C7.75736 6.75 6.75 7.75736 6.75 9C6.75 10.2426 7.75736 11.25 9 11.25Z" stroke="#E0456A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Configurações
+        </a>
+      </nav>
+
+      <button class="navbar__toggle" id="navbar-toggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════ CONTEÚDO ═══════════════════════════ -->
+
+<div class="page-body">
+  <main class="main-container" role="main">
+
+    <!-- CABEÇALHO -->
+    <header class="page-header">
+      <div class="header-icon-wrapper" aria-hidden="true">
+        <!-- Ícone de configurações -->
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.258 9.77251 19.9887C9.5799 19.7194 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1 class="page-title">Configurações da Conta</h1>
+      <p class="page-subtitle">Gerencie as informações da sua conta</p>
+    </header>
+
+    <!-- CARD DE DADOS -->
+    <section class="data-card" aria-label="Dados da conta">
+      <div class="fields-group">
+        <!-- NOME -->
+        <div class="field-group">
+          <label class="field-label" for="input-nome">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12.6667 14V12.6667C12.6667 11.9594 12.3858 11.2811 11.8857 10.781C11.3856 10.281 10.7073 10 10 10H6.00004C5.2928 10 4.61452 10.281 4.11442 10.781C3.61433 11.2811 3.33337 11.9594 3.33337 12.6667V14" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8.00004 7.33333C9.4728 7.33333 10.6667 6.13943 10.6667 4.66667C10.6667 3.19391 9.4728 2 8.00004 2C6.52728 2 5.33337 3.19391 5.33337 4.66667C5.33337 6.13943 6.52728 7.33333 8.00004 7.33333Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Nome</span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              class="field-input"
+              type="text"
+              id="input-nome"
+              name="nome"
+              autocomplete="name"
+              placeholder="Seu nome completo"
+              value="Maria Silva Santos"
+              disabled
+            />
+            <button class="edit-btn" type="button" aria-label="Editar nome">
+              <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M15.8805 5.10904C16.277 4.71261 16.4998 4.17489 16.4999 3.61418C16.4999 3.05347 16.2773 2.5157 15.8808 2.11917C15.4844 1.72263 14.9467 1.49983 14.386 1.49976C13.8253 1.49969 13.2875 1.72236 12.891 2.11879L2.88145 12.1305C2.70732 12.3042 2.57854 12.5179 2.50645 12.753L1.5157 16.017C1.49632 16.0819 1.49485 16.1508 1.51146 16.2164C1.52807 16.2821 1.56214 16.342 1.61005 16.3898C1.65796 16.4376 1.71792 16.4716 1.78357 16.4881C1.84922 16.5046 1.91812 16.503 1.98295 16.4835L5.2477 15.4935C5.48258 15.4221 5.69633 15.2941 5.8702 15.1208L15.8805 5.10904Z" stroke="#717182" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          <span class="field-error" id="error-nome" role="alert"></span>
+        </div>
+
+        <!-- TELEFONE -->
+        <div class="field-group">
+          <label class="field-label" for="input-telefone">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g clip-path="url(#clip0_t)">
+                <path d="M14.6667 11.28V13.28C14.6675 13.4657 14.6294 13.6494 14.555 13.8195C14.4807 13.9897 14.3716 14.1424 14.2348 14.2679C14.0979 14.3934 13.9364 14.489 13.7605 14.5485C13.5847 14.6079 13.3983 14.63 13.2134 14.6133C11.1619 14.3904 9.19137 13.6894 7.46004 12.5667C5.84926 11.5431 4.48359 10.1774 3.46004 8.56665C2.33336 6.82745 1.6322 4.84731 1.41337 2.78665C1.39671 2.60229 1.41862 2.41649 1.4777 2.24107C1.53679 2.06564 1.63175 1.90444 1.75655 1.76773C1.88134 1.63102 2.03324 1.52179 2.20256 1.447C2.37189 1.37221 2.55493 1.33349 2.74004 1.33332H4.74004C5.06357 1.33013 5.37723 1.4447 5.62254 1.65567C5.86786 1.86664 6.02809 2.15961 6.07337 2.47998C6.15779 3.12003 6.31434 3.74847 6.54004 4.35332C6.62973 4.59193 6.64915 4.85126 6.59597 5.10057C6.5428 5.34988 6.41928 5.57872 6.24004 5.75998L5.39337 6.60665C6.34241 8.27568 7.72434 9.65761 9.39337 10.6067L10.24 9.75998C10.4213 9.58074 10.6501 9.45722 10.8994 9.40405C11.1488 9.35088 11.4081 9.37029 11.6467 9.45998C12.2516 9.68568 12.88 9.84224 13.52 9.92665C13.8439 9.97234 14.1396 10.1355 14.3511 10.385C14.5625 10.6345 14.6748 10.953 14.6667 11.28Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              <defs><clipPath id="clip0_t"><rect width="16" height="16" fill="white"/></clipPath></defs>
+            </svg>
+            <span>Telefone</span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              class="field-input"
+              type="tel"
+              id="input-telefone"
+              name="telefone"
+              autocomplete="tel"
+              placeholder="(XX) 9XXXX-XXXX"
+              value="(11) 98765-4321"
+              maxlength="16"
+              inputmode="numeric"
+              disabled
+            />
+            <button class="edit-btn" type="button" aria-label="Editar telefone">
+              <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M15.8805 5.10904C16.277 4.71261 16.4998 4.17489 16.4999 3.61418C16.4999 3.05347 16.2773 2.5157 15.8808 2.11917C15.4844 1.72263 14.9467 1.49983 14.386 1.49976C13.8253 1.49969 13.2875 1.72236 12.891 2.11879L2.88145 12.1305C2.70732 12.3042 2.57854 12.5179 2.50645 12.753L1.5157 16.017C1.49632 16.0819 1.49485 16.1508 1.51146 16.2164C1.52807 16.2821 1.56214 16.342 1.61005 16.3898C1.65796 16.4376 1.71792 16.4716 1.78357 16.4881C1.84922 16.5046 1.91812 16.503 1.98295 16.4835L5.2477 15.4935C5.48258 15.4221 5.69633 15.2941 5.8702 15.1208L15.8805 5.10904Z" stroke="#717182" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          <span class="field-error" id="error-telefone" role="alert"></span>
+        </div>
+
+        <!-- E-MAIL -->
+        <div class="field-group">
+          <label class="field-label" for="input-email">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M13.3334 2.66675H2.66671C1.93033 2.66675 1.33337 3.2637 1.33337 4.00008V12.0001C1.33337 12.7365 1.93033 13.3334 2.66671 13.3334H13.3334C14.0698 13.3334 14.6667 12.7365 14.6667 12.0001V4.00008C14.6667 3.2637 14.0698 2.66675 13.3334 2.66675Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M14.6667 4.66675L8.68671 8.46675C8.48089 8.5957 8.24292 8.66409 8.00004 8.66409C7.75716 8.66409 7.51919 8.5957 7.31337 8.46675L1.33337 4.66675" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>E-mail</span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              class="field-input"
+              type="email"
+              id="input-email"
+              name="email"
+              autocomplete="email"
+              placeholder="seu@email.com"
+              value="maria.santos@email.com"
+              inputmode="email"
+              disabled
+            />
+            <button class="edit-btn" type="button" aria-label="Editar e-mail">
+              <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M15.8805 5.10904C16.277 4.71261 16.4998 4.17489 16.4999 3.61418C16.4999 3.05347 16.2773 2.5157 15.8808 2.11917C15.4844 1.72263 14.9467 1.49983 14.386 1.49976C13.8253 1.49969 13.2875 1.72236 12.891 2.11879L2.88145 12.1305C2.70732 12.3042 2.57854 12.5179 2.50645 12.753L1.5157 16.017C1.49632 16.0819 1.49485 16.1508 1.51146 16.2164C1.52807 16.2821 1.56214 16.342 1.61005 16.3898C1.65796 16.4376 1.71792 16.4716 1.78357 16.4881C1.84922 16.5046 1.91812 16.503 1.98295 16.4835L5.2477 15.4935C5.48258 15.4221 5.69633 15.2941 5.8702 15.1208L15.8805 5.10904Z" stroke="#717182" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          <span class="field-error" id="error-email" role="alert"></span>
+        </div>
+
+      </div>
+
+      <!-- SEÇÃO SENHA -->
+      <div class="password-row">
+        <div class="icon-label">
+          <div class="icon-circle" aria-hidden="true">
+              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.8333 9.16675H4.16667C3.24619 9.16675 2.5 9.91294 2.5 10.8334V16.6667C2.5 17.5872 3.24619 18.3334 4.16667 18.3334H15.8333C16.7538 18.3334 17.5 17.5872 17.5 16.6667V10.8334C17.5 9.91294 16.7538 9.16675 15.8333 9.16675Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5.83337 9.16675V5.83341C5.83337 4.72835 6.27236 3.66854 7.05376 2.88714C7.83516 2.10573 8.89497 1.66675 10 1.66675C11.1051 1.66675 12.1649 2.10573 12.9463 2.88714C13.7277 3.66854 14.1667 4.72835 14.1667 5.83341V9.16675" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="password-label">Senha</span>
+          </div>
+          <button class="btn-change-password" type="button" id="btn-open-alterar-senha">
+            Alterar Senha
+          </button>
+        </div>
+
+      <!-- BOTÕES DE AÇÃO -->
+      <div class="action-buttons">
+        <button class="btn-discard" type="button" id="btn-discard">
+          Descartar Alterações
+        </button>
+        <button class="btn-save" type="button" id="btn-save" disabled aria-disabled="true">
+          Salvar
+        </button>
+      </div>
+    </section>
+
+    <!-- BOTÃO SAIR DA CONTA -->
+    <div class="signout-wrapper">
+      <button class="btn-signout" type="button" id="btn-signout" aria-label="Sair da conta">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M7.5 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V4.16667C2.5 3.72464 2.67559 3.30072 2.98816 2.98816C3.30072 2.67559 3.72464 2.5 4.16667 2.5H7.5" stroke="#D4183D" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13.3334 14.1666L17.5 9.99992L13.3334 5.83325" stroke="#D4183D" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17.5 10H7.5" stroke="#D4183D" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Sair da Conta</span>
+      </button>
+    </div>
+
+  </main>
+</div>
+
+
+<!-- ===== MODAL: ALTERAR SENHA ===== -->
+<div class="modal-overlay" id="modal-alterar-senha" role="dialog" aria-modal="true" aria-labelledby="modal-senha-title">
+  <div class="modal-box modal-box--form">
+    <div>
+      <h2 class="modal-title" id="modal-senha-title">Alterar Senha</h2>
+      <div class="modal-senha-fields">
+        <!-- SENHA ATUAL -->
+        <div class="field-group">
+          <label class="field-label" for="input-senha-atual">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12.6667 7.33337H3.33333C2.59695 7.33337 2 7.93033 2 8.66671V13.3334C2 14.0698 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0698 14 13.3334V8.66671C14 7.93033 13.403 7.33337 12.6667 7.33337Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.66675 7.33337V4.66671C4.66675 3.78265 5.01794 2.93481 5.64306 2.30968C6.26818 1.68456 7.11603 1.33337 8.00008 1.33337C8.88414 1.33337 9.73198 1.68456 10.3571 2.30968C10.9822 2.93481 11.3334 3.78265 11.3334 4.66671V7.33337" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Senha Atual</span>
+          </label>
+          <div class="input-wrapper">
+            <input class="field-input" type="password" id="input-senha-atual" placeholder="Digite sua senha atual" autocomplete="current-password" />
+            <button class="icon-btn" type="button" aria-label="Mostrar senha atual" data-target="input-senha-atual">
+              <span class="icon-open material-icons">visibility</span>
+              <span class="icon-closed material-icons">visibility_off</span>
+            </button>
+          </div>
+          <span class="field-error" id="error-senha-atual" role="alert"></span>
+        </div>
+
+        <!-- NOVA SENHA -->
+        <div class="field-group">
+          <label class="field-label" for="input-nova-senha">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12.6667 7.33337H3.33333C2.59695 7.33337 2 7.93033 2 8.66671V13.3334C2 14.0698 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0698 14 13.3334V8.66671C14 7.93033 13.403 7.33337 12.6667 7.33337Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.66675 7.33337V4.66671C4.66675 3.78265 5.01794 2.93481 5.64306 2.30968C6.26818 1.68456 7.11603 1.33337 8.00008 1.33337C8.88414 1.33337 9.73198 1.68456 10.3571 2.30968C10.9822 2.93481 11.3334 3.78265 11.3334 4.66671V7.33337" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Nova Senha</span>
+          </label>
+          <div class="input-wrapper">
+            <input class="field-input" type="password" id="input-nova-senha" placeholder="Digite sua nova senha" autocomplete="new-password" />
+            <button class="icon-btn" type="button" aria-label="Mostrar nova senha" data-target="input-nova-senha">
+              <span class="icon-open material-icons">visibility</span>
+              <span class="icon-closed material-icons">visibility_off</span>
+            </button>
+          </div>
+          <span class="field-error" id="error-nova-senha" role="alert"></span>
+        </div>
+
+        <!-- CONFIRMAR SENHA -->
+        <div class="field-group">
+          <label class="field-label" for="input-confirmar-senha">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12.6667 7.33337H3.33333C2.59695 7.33337 2 7.93033 2 8.66671V13.3334C2 14.0698 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0698 14 13.3334V8.66671C14 7.93033 13.403 7.33337 12.6667 7.33337Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.66675 7.33337V4.66671C4.66675 3.78265 5.01794 2.93481 5.64306 2.30968C6.26818 1.68456 7.11603 1.33337 8.00008 1.33337C8.88414 1.33337 9.73198 1.68456 10.3571 2.30968C10.9822 2.93481 11.3334 3.78265 11.3334 4.66671V7.33337" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Confirmar Senha</span>
+          </label>
+          <div class="input-wrapper">
+            <input class="field-input" type="password" id="input-confirmar-senha" placeholder="Confirme sua nova senha" autocomplete="new-password" />
+            <button class="icon-btn" type="button" aria-label="Mostrar confirmação de senha" data-target="input-confirmar-senha">
+              <span class="icon-open material-icons">visibility</span>
+              <span class="icon-closed material-icons">visibility_off</span>
+            </button>
+          </div>
+          <span class="field-error" id="error-confirmar-senha" role="alert"></span>
+        </div>
+
+      </div>
+
+      <!-- BOTÕES -->
+      <div class="modal-btn-row">
+        <button class="modal-btn-cancel" type="button" id="btn-cancelar-senha">Cancelar</button>
+        <button class="modal-btn-confirm" type="button" id="btn-confirmar-senha">Confirmar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== MODAL: CONFIRMADO — SENHA ===== -->
+<div class="modal-overlay" id="modal-sucesso-senha" role="dialog" aria-modal="true" aria-labelledby="modal-sucesso-senha-title">
+  <div class="modal-box modal-box--centered">
+    <div class="icon-center">
+      <div class="icon-circle icon-circle--lg">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="22 4 12 14.01 9 11.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <h2 class="modal-title" id="modal-sucesso-senha-title">Confirmado!</h2>
+    <p class="modal-subtitle">Senha alterada com sucesso</p>
+    <button class="modal-btn-full" type="button" id="btn-ok-senha">OK</button>
+  </div>
+</div>
+
+
+<!-- ===== MODAL: CONFIRMADO — DADOS ===== -->
+<div class="modal-overlay" id="modal-sucesso-dados" role="dialog" aria-modal="true" aria-labelledby="modal-sucesso-dados-title">
+  <div class="modal-box modal-box--centered">
+    <div class="icon-center">
+      <div class="icon-circle icon-circle--lg">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="22 4 12 14.01 9 11.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <h2 class="modal-title" id="modal-sucesso-dados-title">Confirmado!</h2>
+    <p class="modal-subtitle">Dados atualizados com sucesso</p>
+    <button class="modal-btn-full" type="button" id="btn-ok-dados">OK</button>
+  </div>
+</div>
+
+
+<!-- ===== MODAL: CONFIRMAR SALVAR ===== -->
+<div class="modal-overlay" id="modal-confirmar-salvar" role="dialog" aria-modal="true" aria-labelledby="modal-confirmar-salvar-title">
+  <div class="modal-box modal-box--centered">
+    <div class="icon-center">
+      <div class="icon-circle icon-circle--lg">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
+          <line x1="12" y1="8" x2="12" y2="12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <line x1="12" y1="16" x2="12.01" y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+    <h2 class="modal-title" id="modal-confirmar-salvar-title">Tem certeza?</h2>
+    <p class="modal-subtitle">Deseja salvar as alterações realizadas?</p>
+    <div class="modal-btn-row">
+      <button class="modal-btn-cancel" type="button" id="btn-cancelar-salvar">Cancelar</button>
+      <button class="modal-btn-confirm" type="button" id="btn-sim-salvar">Sim</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== MODAL: CONFIRMAR DESCARTAR ===== -->
+<div class="modal-overlay" id="modal-confirmar-descartar" role="dialog" aria-modal="true" aria-labelledby="modal-confirmar-descartar-title">
+  <div class="modal-box modal-box--centered">
+    <div class="icon-center">
+      <div class="icon-circle icon-circle--lg">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
+          <line x1="12" y1="8" x2="12" y2="12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <line x1="12" y1="16" x2="12.01" y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+    <h2 class="modal-title" id="modal-confirmar-descartar-title">Tem certeza?</h2>
+    <p class="modal-subtitle">Há alterações não salvas</p>
+    <div class="modal-btn-row">
+      <button class="modal-btn-cancel" type="button" id="btn-cancelar-descartar">Cancelar</button>
+      <button class="modal-btn-confirm" type="button" id="btn-sim-descartar">Sim</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== MODAL: CONFIRMAR SAIR DA CONTA ===== -->
+<div class="modal-overlay" id="modal-confirmar-sair" role="dialog" aria-modal="true" aria-labelledby="modal-confirmar-sair-title">
+  <div class="modal-box modal-box--centered">
+    <div class="icon-center">
+      <div class="icon-circle icon-circle--lg">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
+          <line x1="12" y1="8" x2="12" y2="12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <line x1="12" y1="16" x2="12.01" y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+    <h2 class="modal-title" id="modal-confirmar-sair-title">Tem certeza?</h2>
+    <p class="modal-subtitle">Você precisará entrar novamente</p>
+    <div class="modal-btn-row">
+      <button class="modal-btn-cancel" type="button" id="btn-cancelar-sair">Cancelar</button>
+      <button class="modal-btn-confirm" type="button" id="btn-sim-sair">Sim</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== MODAL: ERRO ===== -->
+<div class="modal-overlay" id="modal-erro" role="dialog" aria-modal="true" aria-labelledby="modal-erro-title">
+  <div class="modal-box modal-box--centered">
+    <div class="icon-center">
+      <div class="icon-circle icon-circle--lg">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <line x1="1" y1="1" x2="23" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 12.55a10.94 10.94 0 0 1 5.17-2.39M10.71 5.05A16 16 0 0 1 22.56 9M1.42 9a15.91 15.91 0 0 1 4.7-2.88M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <h2 class="modal-title" id="modal-erro-title">Ops!</h2>
+    <p class="modal-subtitle">Não foi possível salvar as alterações no momento. Verifique sua conexão e tente novamente.</p>
+    <button class="modal-btn-full" type="button" id="btn-tentar-novamente">Tentar Novamente</button>
+  </div>
+</div>
+
+<script src="/frontend/js/configuracoes-conta.js"></script>
+<script>
+    const navToggle = document.getElementById('navbar-toggle');
+    const navMenu = document.getElementById('navbar-nav');
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            const isOpen = navMenu.classList.toggle('is-open');
+            navToggle.classList.toggle('is-open', isOpen);
+            navToggle.setAttribute('aria-expanded', isOpen);
+        });
+    }
+</script>
+</body>
+</html>
