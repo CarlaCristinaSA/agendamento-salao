@@ -1,9 +1,3 @@
-/**
- * Retorna um middleware que verifica se o usuário autenticado possui
- * um dos papéis permitidos.
- *
- * @param {...string} roles - Papéis permitidos, ex: 'admin'
- */
 function authorize(...roles) {
   return (req, res, next) => {
     if (!req.user) {

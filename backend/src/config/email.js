@@ -1,8 +1,3 @@
-/**
- * src/config/email.js
- * Configuração do transporter Nodemailer (SMTP).
- */
-
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
