@@ -382,3 +382,168 @@ input.error {
 .modal-confirm-btn:active { 
     transform: scale(0.98); 
 }
+
+/* ─── RESPONSIVIDADE MOBILE - CADASTRAR SERVIÇO ─────────────────────────── */
+
+@media (max-width: 600px) {
+    body {
+        min-height: 100vh;
+        height: auto;
+        align-items: flex-start;
+        padding: 2rem 0.875rem;
+        overflow-y: auto;
+    }
+
+    .container {
+        max-width: 100%;
+    }
+
+    .header {
+        margin-bottom: 2rem;
+        gap: 0.75rem;
+    }
+
+    .header-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+
+    .header-icon i {
+        font-size: 1.5rem;
+    }
+
+    .header h1 {
+        font-size: clamp(2rem, 11vw, 2.65rem);
+        line-height: 1;
+    }
+
+    .header p {
+        max-width: 20rem;
+        font-size: 0.95rem;
+        line-height: 1.45;
+    }
+
+    .card {
+        padding: 1.5rem;
+        border-radius: 1.375rem;
+        margin-bottom: 1.5rem;
+    }
+
+    form {
+        gap: 1.25rem;
+    }
+
+    label {
+        font-size: 0.8125rem;
+        line-height: 1.2;
+    }
+
+    input {
+        height: 3.625rem;
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+        border-radius: 0.875rem;
+    }
+
+    input::placeholder {
+        font-size: 0.95rem;
+    }
+
+    .confirm-btn {
+        height: 3.5rem;
+        font-size: 0.875rem;
+    }
+
+    small {
+        font-size: 0.8125rem;
+        margin-bottom: 1rem;
+    }
+
+    .modal-overlay {
+        padding: 1rem 0.875rem;
+        align-items: center;
+    }
+
+    .modal-confirmado {
+        width: min(100%, 24rem);
+        height: auto;
+        min-height: auto;
+        padding: 1.5rem 1.25rem;
+        border-radius: 1.375rem;
+    }
+
+    .confirmado-body {
+        width: 100%;
+        height: auto;
+        min-height: auto;
+    }
+
+    .confirmado-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .confirmado-title {
+        font-size: 1.75rem;
+        line-height: 2rem;
+    }
+
+    .confirmado-subtitle {
+        margin-bottom: 1.5rem;
+        font-size: 0.8125rem;
+        line-height: 1.25rem;
+    }
+
+    .confirmado-details {
+        gap: 0.625rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .detail-row {
+        height: auto;
+        min-height: 3.375rem;
+        padding: 0.875rem;
+        border-radius: 1rem;
+        gap: 0.75rem;
+    }
+
+    .detail-row .detail-label {
+        font-size: 0.8125rem;
+    }
+
+    .detail-row .detail-value {
+        font-size: 0.875rem;
+        text-align: right;
+        overflow-wrap: anywhere;
+    }
+
+    .detail-row.highlight .detail-label,
+    .detail-row.highlight .detail-value {
+        font-size: 1rem;
+    }
+
+    .modal-confirm-btn {
+        height: 3.5rem;
+        margin-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+    }
+}
+
+@media (max-width: 360px) {
+    body {
+        padding-inline: 0.625rem;
+    }
+
+    .card {
+        padding: 1.25rem;
+    }
+
+    .modal-overlay {
+        padding-inline: 0.5rem;
+    }
+
+    .modal-confirmado {
+        width: calc(100vw - 1rem);
+        padding-inline: 1rem;
+    }
+}
