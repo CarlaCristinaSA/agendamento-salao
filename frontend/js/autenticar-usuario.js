@@ -1,10 +1,14 @@
 const URL_API = 'http://localhost:3000/api';
-const URL_DASHBOARD = './admin/consultar-agendamentos.html';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Se o usuário já tiver uma sessão ativa, manda direto para o Dashboard
+    // Se já houver token, redireciona o usuário para o seu respectivo painel
     if (sessionStorage.getItem('salao_token')) {
-        window.location.href = URL_DASHBOARD;
+        const savedRole = sessionStorage.getItem('salao_user_role');
+        if (savedRole === 'admin') {
+            window.location.href = '../admin/consultar-agendamentos.html';
+        } else {
+            window.location.href = '../cliente/tela-inicial-cliente.html'; 
+        }
         return;
     }
 
@@ -18,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnSpinner = document.getElementById('btn-spinner');
     const textBotao = document.getElementById('text-botao');
 
-    // 1. Alternar visualização da Senha (Ícone do Olho)
     if (btnOlho && inputSenha) {
         btnOlho.addEventListener('click', () => {
             const isPassword = inputSenha.type === 'password';
@@ -32,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 2. Limpar os destaques vermelhos de erro conforme o usuário digita
     inputEmail.addEventListener('input', () => limparErroCampo('grupo-email', 'erro-email'));
     inputSenha.addEventListener('input', () => limparErroCampo('grupo-senha', 'erro-senha'));
 
@@ -47,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById(idErro).textContent = mensagem;
     }
 
-    // 3. Submissão e validação
     if (formLogin) {
         formLogin.addEventListener('submit', async (evento) => {
             evento.preventDefault();
@@ -58,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Impedir acesso se o e-mail/login estiver vazio
             if (!emailValue) {
-                destacarErroCampo('grupo-email', 'erro-email', 'O campo de login é obrigatório.');
+                destacarErroCampo('grupo-email', 'erro-email', 'O campo de e-mail é obrigatório.');
                 formularioValido = false;
             }
 
@@ -86,18 +87,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 const json = await resposta.json();
+                
                 if (resposta.ok && json.success && json.data?.token) {
-                    sessionStorage.setItem('salao_token', json.data.token);
-                    sessionStorage.setItem('salao_admin_nome', json.data.admin?.name || 'Administrador');
+                    const userRole = json.data.user?.role;
                     
-                    window.location.href = URL_DASHBOARD;
+                    // Armazenar os dados na sessão
+                    sessionStorage.setItem('salao_token', json.data.token);
+                    sessionStorage.setItem('salao_admin_nome', json.data.user?.name || 'Usuário');
+                    sessionStorage.setItem('salao_user_role', userRole);
+                    
+                    // Redirecionamento dinâmico baseado no papel
+                    if (userRole === 'admin') {
+                        window.location.href = '../admin/tela-inicial-adm.html';
+                    } else {
+                        window.location.href = '../cliente/agendamentoCliente.html'; 
+                    }
                 } else {
                     sessionStorage.removeItem('salao_token');
-                    msgErroGeral.textContent = 'E-mail ou senha incorretos.';
+                    sessionStorage.removeItem('salao_admin_nome');
+                    sessionStorage.removeItem('salao_user_role');
+                    msgErroGeral.textContent = json.error || 'E-mail ou senha incorretos.';
                 }
             } catch (erro) {
                 console.error("Falha no servidor:", erro);
-                msgErroGeral.textContent = 'Não foi possível conectar ao servidor.';
+                msgErroGeral.textContent = 'Não foi possível conectar ao servidor. Verifique sua internet.';
             } finally {
                 btnEntrar.disabled = false;
                 btnSpinner.style.display = 'none';

@@ -1,8 +1,3 @@
-/**
- * src/middlewares/authenticate.js
- * Middleware de autenticação via JWT (HU-009, HU-010, HU-011).
- */
-
 const jwt  = require('jsonwebtoken');
 const { query } = require('../config/database');
 
@@ -20,7 +15,6 @@ async function authenticate(req, res, next) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Verifica se o token está na blacklist (logout)
     const blacklisted = await query(
       'SELECT id FROM token_blacklist WHERE token_jti = $1',
       [decoded.jti]
@@ -32,19 +26,28 @@ async function authenticate(req, res, next) {
       });
     }
 
-    // Verifica se o admin ainda está ativo
-    const adminResult = await query(
-      'SELECT id, name, email FROM admins WHERE id = $1 AND is_active = TRUE',
+    const userResult = await query(
+      'SELECT id, name, email, phone, role FROM users WHERE id = $1 AND is_active = TRUE',
       [decoded.id]
     );
-    if (adminResult.rowCount === 0) {
+    if (userResult.rowCount === 0) {
       return res.status(401).json({
         success: false,
         error: 'Usuário não encontrado ou inativo.',
       });
     }
 
-    req.user = { ...decoded, ...adminResult.rows[0] };
+    const user = userResult.rows[0];
+
+    req.user = {
+      id:    user.id,
+      name:  user.name,
+      email: user.email,
+      phone: user.phone,
+      role:  user.role,
+      jti:   decoded.jti,
+      exp:   decoded.exp,
+    };
     req.token = token;
     next();
   } catch (err) {
