@@ -69,18 +69,12 @@ function closeModal(modal) {
 }
 
 function getAuthToken() {
-  return (
-    localStorage.getItem('tokenGlobal') ||
-    localStorage.getItem('token') ||
-    sessionStorage.getItem('tokenGlobal') ||
-    sessionStorage.getItem('token') ||
-    null
-  );
+  return sessionStorage.getItem('salao_token') || null;
 }
 
 function setAuthToken(token) {
   tokenGlobal = token;
-  localStorage.setItem('tokenGlobal', token);
+  sessionStorage.setItem('salao_token', token);
 }
 
 async function apiRequest(path, { method = 'GET', body = null } = {}) {
@@ -459,11 +453,9 @@ document.getElementById('btn-sim-sair').addEventListener('click', async () => {
   } catch (_) {
   }
 
-  localStorage.removeItem('tokenGlobal');
-  localStorage.removeItem('token');
-  sessionStorage.removeItem('tokenGlobal');
-  sessionStorage.removeItem('token');
-  window.location.href = '/';
+  sessionStorage.removeItem('salao_token');
+  sessionStorage.removeItem('salao_admin_nome');
+  window.location.href = "./autenticar-usuario.html"; 
 });
 
 // ==========================================

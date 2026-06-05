@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const json = await resposta.json();
                 if (resposta.ok && json.success && json.data?.token) {
                     sessionStorage.setItem('salao_token', json.data.token);
-                    sessionStorage.setItem('salao_admin_nome', json.data.admin?.name || 'Administrador');
+                    sessionStorage.setItem('salao_admin_nome', json.data.user?.name || 'Administrador');
                     
                     window.location.href = URL_DASHBOARD;
                 } else {
