@@ -147,3 +147,68 @@ window.abrirConfirmacaoCancelamento = function(id) {
     openOverlay('overlay-confirmar');
   }
 };
+
+// ── Modal: botão "Voltar" (cancelamento) ──────────────────────────────────
+  document.getElementById('btn-fechar-confirmar').addEventListener('click', () => {
+    closeOverlay('overlay-confirmar');
+    state.cancelId = null;
+  });
+
+  // ── Modal: botão "Sim, cancelar" (submissão backend simulada) ──────────────
+  document.getElementById('btn-sim-cancelar').addEventListener('click', async function () {
+    if (!state.cancelId) return;
+
+    const btn = this;
+    const originalText = btn.textContent;
+    
+    btn.disabled    = true;
+    btn.textContent = 'Cancelando...';
+
+    try {
+      // Simulação da chamada DELETE /api/client/appointments/:id
+      // const response = await fetch(`${API_BASE_URL}/client/appointments/${state.cancelId}`, { method: 'DELETE', ... });
+      
+      const res = { success: true }; // Simulação de sucesso da API
+
+      closeOverlay('overlay-confirmar');
+
+      if (res.success) {
+        openOverlay('overlay-sucesso');
+        state.cancelId = null;
+        await carregarAgendamentos();
+      } else {
+        alert(res.message || 'Não foi possível cancelar o agendamento. Tente novamente.');
+        state.cancelId = null;
+      }
+    } finally {
+      btn.disabled    = false;
+      btn.textContent = originalText;
+    }
+  });
+
+  // ── Modal: botão "OK" (sucesso) ───────────────────────────────────────────
+  document.getElementById('btn-ok-sucesso').addEventListener('click', () => {
+    closeOverlay('overlay-sucesso');
+  });
+
+  // ── Modal: botão "ENTENDI" (atenção) ─────────────────────────────────────
+  document.getElementById('btn-entendi').addEventListener('click', () => {
+    closeOverlay('overlay-atencao');
+  });
+
+  // ── Fechar overlay ao clicar no backdrop ──────────────────────────────────
+  ['overlay-confirmar', 'overlay-sucesso', 'overlay-atencao'].forEach(id => {
+    const overlay = document.getElementById(id);
+    if (overlay) {
+      overlay.addEventListener('click', function (e) {
+        if (e.target === this) closeOverlay(id);
+      });
+    }
+  });
+
+  // ── Fechar overlays com ESC ───────────────────────────────────────────────
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      ['overlay-confirmar', 'overlay-sucesso', 'overlay-atencao'].forEach(closeOverlay);
+    }
+  });
