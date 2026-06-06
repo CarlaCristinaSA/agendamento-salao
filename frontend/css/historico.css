@@ -51,3 +51,157 @@ body {
   color: var(--gray);
   font-size: 1.125rem;
 }
+
+/* ─── SECTIONS & GRID ───────────────────────────────────────────────────── */
+.section-embreve {
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-family: 'Cormorant', serif;
+  font-size: 2rem;
+  color: var(--dark);
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -0.25rem;
+  left: 0;
+  width: 50%;
+  height: 0.125rem;
+  background: var(--pink-main);
+  border-radius: 0.125rem;
+}
+
+.cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.empty-state {
+  width: 100%;
+  text-align: center;
+  padding: 3rem;
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: 1rem;
+  color: var(--gray-muted);
+  font-size: 1rem;
+}
+
+/* ─── CARD DE AGENDAMENTO ───────────────────────────────────────────────── */
+.card {
+  flex: 1 1 calc(33.333% - 1rem);
+  min-width: 20rem;
+  background: var(--white);
+  border-radius: 1.5rem;
+  padding: 1.75rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.75rem 2rem rgba(224, 69, 106, 0.12);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.service-name {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--dark);
+  margin-bottom: 0.25rem;
+}
+
+.service-pro {
+  font-size: 0.875rem;
+  color: var(--gray);
+}
+
+.card-status {
+  padding: 0.375rem 0.75rem;
+  border-radius: 2rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status--confirmado {
+  background: #DEF7EC;
+  color: #059669;
+}
+
+.status--concluido {
+  background: var(--gray-light);
+  color: var(--gray-muted);
+}
+
+.status--cancelado {
+  background: #FDE8E8;
+  color: #E02424;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-block: 1rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--dark);
+  font-size: 0.9375rem;
+}
+
+.info-row svg {
+  flex-shrink: 0;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.service-price {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--pink-main);
+}
+
+.btn-cancel {
+  background: transparent;
+  border: 1px solid #E02424;
+  color: #E02424;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background: #E02424;
+  color: var(--white);
+}
