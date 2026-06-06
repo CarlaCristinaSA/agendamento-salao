@@ -483,7 +483,11 @@ body {
     flex: 1;
     min-width: 8rem;
     height: 3.5rem;
-    border-radius: 1.25rem;
+    border-radius: 1.25rem;    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
 }
 
 .modal-btn-full {
