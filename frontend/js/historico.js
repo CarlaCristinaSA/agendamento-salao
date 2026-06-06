@@ -120,3 +120,30 @@ async function carregarAgendamentos() {
 
 // Iniciar carregamento assim que o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', carregarAgendamentos);
+
+// ─── CONTROLADORES DE MODAL ──────────────────────────────────────────────────
+function openOverlay(id) {
+  const overlay = document.getElementById(id);
+  if (overlay) overlay.classList.add('open');
+}
+
+function closeOverlay(id) {
+  const overlay = document.getElementById(id);
+  if (overlay) overlay.classList.remove('open');
+}
+
+window.abrirConfirmacaoCancelamento = function(id) {
+  const item = state.upcoming.find(x => x.id === id);
+  if (!item) return;
+
+  const agora = new Date();
+  const dataAgendada = new Date(item.data);
+  const diferencaHoras = (dataAgendada - agora) / (1000 * 60 * 60);
+
+  if (diferencaHoras < 24) {
+    openOverlay('overlay-atencao');
+  } else {
+    state.cancelId = id;
+    openOverlay('overlay-confirmar');
+  }
+};
