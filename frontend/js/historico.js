@@ -38,3 +38,85 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// ─── FUNÇÕES DE RENDERIZAÇÃO ─────────────────────────────────────────────────
+function renderizarCards(agendamentos, containerId, isUpcoming) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  container.innerHTML = ''; // Limpar loading
+
+  if (!agendamentos || agendamentos.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <p>Nenhum agendamento encontrado.</p>
+      </div>`;
+    return;
+  }
+
+  agendamentos.forEach(item => {
+    // Formatação de datas e status simulada (integração backend futura)
+    const dataObj = new Date(item.data);
+    const dataFormatada = dataObj.toLocaleDateString('pt-BR');
+    const statusClass = `status--${item.status.toLowerCase()}`;
+    
+    // Construção do HTML do card
+    const card = document.createElement('div');
+    card.className = 'card';
+    
+    let cancelBtnHTML = '';
+    if (isUpcoming && item.status === 'Confirmado') {
+      cancelBtnHTML = `<button class="btn-cancel" onclick="abrirConfirmacaoCancelamento(${item.id})">Cancelar</button>`;
+    }
+
+    card.innerHTML = `
+      <div class="card-header">
+        <div>
+          <h3 class="service-name">${item.servico}</h3>
+          <p class="service-pro">com ${item.profissional}</p>
+        </div>
+        <span class="card-status ${statusClass}">${item.status}</span>
+      </div>
+      <div class="card-body">
+        <div class="info-row">
+          ${SVG.calendar}
+          <span>${dataFormatada}</span>
+        </div>
+        <div class="info-row">
+          ${SVG.clock}
+          <span>${item.horario}</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="service-price">R$ ${item.valor.toFixed(2)}</span>
+        ${cancelBtnHTML}
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+async function carregarAgendamentos() {
+  // Simulando requisição à API para renderizar os dados
+  try {
+    // Dados mocados temporários para validar o frontend
+    state.upcoming = [
+      { id: 1, servico: 'Corte Feminino', profissional: 'Maria', status: 'Confirmado', data: '2026-06-15T09:00:00Z', horario: '09:00', valor: 80.00 }
+    ];
+    state.history = [
+      { id: 2, servico: 'Manicure', profissional: 'Cláudia', status: 'Concluido', data: '2026-05-10T14:00:00Z', horario: '14:00', valor: 45.00 },
+      { id: 3, servico: 'Limpeza de Pele', profissional: 'Ana', status: 'Cancelado', data: '2026-04-22T10:00:00Z', horario: '10:00', valor: 120.00 }
+    ];
+
+    renderizarCards(state.upcoming, 'grid-upcoming', true);
+    renderizarCards(state.history, 'grid-history', false);
+
+  } catch (error) {
+    console.error('Erro ao carregar agendamentos:', error);
+    document.getElementById('grid-upcoming').innerHTML = '<div class="empty-state"><p>Erro ao carregar os dados.</p></div>';
+    document.getElementById('grid-history').innerHTML = '<div class="empty-state"><p>Erro ao carregar os dados.</p></div>';
+  }
+}
+
+// Iniciar carregamento assim que o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', carregarAgendamentos);
