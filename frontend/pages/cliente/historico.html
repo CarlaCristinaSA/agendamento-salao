@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Histórico</title>
+  <title>Histórico | Espaço da Beleza</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;600&family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
@@ -13,104 +13,154 @@
 
 <body>
 
+  <!-- ═══════════════════════════ NAVBAR ═══════════════════════════ -->
   <header class="navbar">
     <div class="navbar__inner">
       <a href="/frontend/pages/cliente/tela-inicial-cliente.html" class="navbar__brand">
         <span class="navbar__brand-icon navbar__brand-icon--outline">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 7.5C6.38071 7.5 7.5 6.38071 7.5 5C7.5 3.61929 6.38071 2.5 5 2.5C3.61929 2.5 2.5 3.61929 2.5 5C2.5 6.38071 3.61929 7.5 5 7.5Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M6.76666 6.76672L10 10.0001" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M16.6667 3.33337L6.76666 13.2334" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5 17.5C6.38071 17.5 7.5 16.3807 7.5 15C7.5 13.6193 6.38071 12.5 5 12.5C3.61929 12.5 2.5 13.6193 2.5 15C2.5 16.3807 3.61929 17.5 5 17.5Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12.3333 12.3334L16.6667 16.6667" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5 7.5C6.38071 7.5 7.5 6.38071 7.5 5C7.5 3.61929 6.38071 2.5 5 2.5C3.61929 2.5 2.5 3.61929 2.5 5C2.5 6.38071 3.61929 7.5 5 7.5Z" stroke="#E0456A" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6.76666 6.76672L10 10.0001" stroke="#E0456A" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16.6667 3.33337L6.76666 13.2334" stroke="#E0456A" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5 17.5C6.38071 17.5 7.5 16.3807 7.5 15C7.5 13.6193 6.38071 12.5 5 12.5C3.61929 12.5 2.5 13.6193 2.5 15C2.5 16.3807 3.61929 17.5 5 17.5Z" stroke="#E0456A" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12.3333 12.3334L16.6667 16.6667" stroke="#E0456A" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </span>
         <span class="navbar__title">Espaço da Beleza</span>
       </a>
+
       <nav class="navbar__nav" id="navbar-nav">
-        <a href="/frontend/pages/cliente/tela-inicial-cliente.html" class="nav-link">Início</a>
-        <a href="/frontend/pages/cliente/agendamento-cliente.html" class="nav-link">Agendar</a>
-        <a href="#" class="nav-link active">Histórico</a>
-        <a href="/frontend/pages/shared/configuracoes-conta.html" class="nav-link">Configurações</a>
+        <a href="/frontend/pages/cliente/agendamentoCliente.html" class="nav-link">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 1.5V4.5" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 1.5V4.5" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14.25 3H3.75C2.92157 3 2.25 3.67157 2.25 4.5V15C2.25 15.8284 2.92157 16.5 3.75 16.5H14.25C15.0784 16.5 15.75 15.8284 15.75 15V4.5C15.75 3.67157 15.0784 3 14.25 3Z" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2.25 7.5H15.75" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6.75 12L8.25 13.5L11.25 10.5" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Agendar
+        </a>
+
+        <a href="/frontend/pages/cliente/historico.html" class="nav-link nav-link--active">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.25 9C2.25 10.335 2.64588 11.6401 3.38758 12.7501C4.12928 13.8601 5.18349 14.7253 6.41689 15.2362C7.65029 15.7471 9.00749 15.8808 10.3169 15.6203C11.6262 15.3599 12.829 14.717 13.773 13.773C14.717 12.829 15.3599 11.6262 15.6203 10.3169C15.8808 9.00749 15.7471 7.65029 15.2362 6.41689C14.7253 5.18349 13.8601 4.12928 12.7501 3.38758C11.6401 2.64588 10.335 2.25 9 2.25C7.11296 2.2571 5.30173 2.99342 3.945 4.305L2.25 6" stroke="#E0456A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2.25 2.25V6H6" stroke="#E0456A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 5.25V9L12 10.5" stroke="#E0456A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Histórico
+        </a>
+
+        <a href="/frontend/pages/cliente/configuracoes-conta-cliente.html" class="nav-link">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.165 1.5H8.835C8.43718 1.5 8.05565 1.65804 7.77434 1.93934C7.49304 2.22064 7.335 2.60218 7.335 3V3.135C7.33473 3.39804 7.26529 3.65639 7.13366 3.88413C7.00202 4.11186 6.8128 4.30098 6.585 4.4325L6.2625 4.62C6.03447 4.75165 5.77581 4.82096 5.5125 4.82096C5.2492 4.82096 4.99053 4.75165 4.7625 4.62L4.65 4.56C4.3058 4.36145 3.89688 4.30758 3.513 4.41023C3.12913 4.51288 2.80166 4.76365 2.6025 5.1075L2.4375 5.3925C2.23895 5.7367 2.18508 6.14562 2.28773 6.5295C2.39038 6.91338 2.64115 7.24084 2.985 7.44L3.0975 7.515C3.32421 7.64588 3.51272 7.83382 3.64429 8.06012C3.77586 8.28643 3.84592 8.54323 3.8475 8.805V9.1875C3.84855 9.45182 3.77974 9.71171 3.64803 9.94088C3.51633 10.17 3.32641 10.3603 3.0975 10.4925L2.985 10.56C2.64115 10.7592 2.39038 11.0866 2.28773 11.4705C2.18508 11.8544 2.23895 12.2633 2.4375 12.6075L2.6025 12.8925C2.80166 13.2363 3.12913 13.4871 3.513 13.5898C3.89688 13.6924 4.3058 13.6386 4.65 13.44L4.7625 13.38C4.99053 13.2483 5.2492 13.179 5.5125 13.179C5.77581 13.179 6.03447 13.2483 6.2625 13.38L6.585 13.5675C6.8128 13.699 7.00202 13.8881 7.13366 14.1159C7.26529 14.3436 7.33473 14.602 7.335 14.865V15C7.335 15.3978 7.49304 15.7794 7.77434 16.0607C8.05565 16.342 8.43718 16.5 8.835 16.5H9.165C9.56283 16.5 9.94436 16.342 10.2257 16.0607C10.507 15.7794 10.665 15.3978 10.665 15V14.865C10.6653 14.602 10.7347 14.3436 10.8663 14.1159C10.998 13.8881 11.1872 13.699 11.415 13.5675L11.7375 13.38C11.9655 13.2483 12.2242 13.179 12.4875 13.179C12.7508 13.179 13.0095 13.2483 13.2375 13.38L13.35 13.44C13.6942 13.6386 14.1031 13.6924 14.487 13.5898C14.8709 13.4871 15.1983 13.2363 15.3975 12.8925L15.5625 12.6C15.7611 12.2558 15.8149 11.8469 15.7123 11.463C15.6096 11.0791 15.3588 10.7517 15.015 10.5525L14.9025 10.4925C14.6736 10.3603 14.4837 10.17 14.352 9.94088C14.2203 9.71171 14.1515 9.45182 14.1525 9.1875V8.8125C14.1515 8.54818 14.2203 8.28829 14.352 8.05912C14.4837 7.82995 14.6736 7.63966 14.9025 7.5075L15.015 7.44C15.3588 7.24084 15.6096 6.91338 15.7123 6.5295C15.8149 6.14562 15.7611 5.7367 15.5625 5.3925L15.3975 5.1075C15.1983 4.76365 14.8709 4.51288 14.487 4.41023C14.1031 4.30758 13.6942 4.36145 13.35 4.56L13.2375 4.62C13.0095 4.75165 12.7508 4.82096 12.4875 4.82096C12.2242 4.82096 11.9655 4.75165 11.7375 4.62L11.415 4.4325C11.1872 4.30098 10.998 4.11186 10.8663 3.88413C10.7347 3.65639 10.6653 3.39804 10.665 3.135V3C10.665 2.60218 10.507 2.22064 10.2257 1.93934C9.94436 1.65804 9.56283 1.5 9.165 1.5Z" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 11.25C10.2426 11.25 11.25 10.2426 11.25 9C11.25 7.75736 10.2426 6.75 9 6.75C7.75736 6.75 6.75 7.75736 6.75 9C6.75 10.2426 7.75736 11.25 9 11.25Z" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Configurações
+        </a>
       </nav>
-      <button class="navbar__toggle" id="navbar-toggle" aria-label="Abrir menu">
+
+      <button class="navbar__toggle" id="navbar-toggle" aria-label="Abrir menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
+  <!-- ═══════════════════════════ PÁGINA PRINCIPAL ═══════════════════════════ -->
   <main class="agendamentos">
     <div class="container">
-      <header class="page-header">
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="header-icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.3335 2.33325V6.99992" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18.6665 2.33325V6.99992" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M22.1667 4.66675H5.83333C4.54467 4.66675 3.5 5.71142 3.5 7.00008V23.3334C3.5 24.6221 4.54467 25.6667 5.83333 25.6667H22.1667C23.4553 25.6667 24.5 24.6221 24.5 23.3334V7.00008C24.5 5.71142 23.4553 4.66675 22.1667 4.66675Z" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3.5 11.6667H24.5" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
         <h1>Meus Agendamentos</h1>
-        <p>Acompanhe seus próximos serviços e o seu histórico no salão.</p>
-      </header>
+        <p>Visualize e gerencie seus agendamentos</p>
+      </div>
 
+      <!-- EM BREVE -->
       <section class="section-embreve">
-        <h2 class="section-title">Em Breve</h2>
-        <div class="cards-grid" id="grid-upcoming">
-          <div class="empty-state">
-            <p>Carregando seus próximos agendamentos...</p>
-          </div>
+        <div class="section-divider">
+          <span class="divider-line divider-line--pink"></span>
+          <h2 class="pink">Em Breve</h2>
+          <span class="divider-line divider-line--pink"></span>
         </div>
+        <div class="cards-grid" id="cards-embreve"></div>
       </section>
 
+      <!-- HISTÓRICO -->
       <section class="section-historico">
-        <h2 class="section-title">Histórico</h2>
-        <div class="cards-grid" id="grid-history">
-          <div class="empty-state">
-            <p>Carregando histórico...</p>
-          </div>
+        <div class="section-divider">
+          <span class="divider-line divider-line--gray"></span>
+          <h2 class="gray">Histórico</h2>
+          <span class="divider-line divider-line--gray"></span>
         </div>
+        <div class="cards-grid" id="cards-historico"></div>
       </section>
+
     </div>
   </main>
+
+  <!-- ═══════════════════ MODAL: CONFIRMAÇÃO DE CANCELAMENTO ═══════════════════ -->
   <div class="overlay" id="overlay-confirmar" role="dialog" aria-modal="true" aria-labelledby="modal-confirmar-title">
     <div class="modal">
       <div class="modal-icon">
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M16 10V16" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M16 22H16.0133" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M24 8L8 24" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 8L24 24" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <h2 class="modal-title" id="modal-confirmar-title">Cancelar Agendamento?</h2>
-      <p class="modal-subtitle">Tem certeza que deseja cancelar este agendamento? Esta ação não pode ser desfeita.</p>
-      <div class="modal-actions">
-        <button class="btn-secondary" id="btn-fechar-confirmar">Voltar</button>
-        <button class="btn-danger" id="btn-sim-cancelar">Sim, cancelar</button>
+      <h2 id="modal-confirmar-title">Cancelar Agendamento?</h2>
+      <p id="modal-confirmar-desc">Tem certeza que deseja cancelar o agendamento de "<span id="modal-servico-nome"></span>"?</p>
+      <div class="modal-btn-row">
+        <button class="btn-secondary" id="btn-nao">NÃO</button>
+        <button class="btn-primary"   id="btn-sim-cancelar">SIM, CANCELAR</button>
       </div>
     </div>
   </div>
 
+  <!-- ═══════════════════ MODAL: CANCELAMENTO CONFIRMADO ═══════════════════ -->
   <div class="overlay" id="overlay-sucesso" role="dialog" aria-modal="true" aria-labelledby="modal-sucesso-title">
     <div class="modal">
-      <div class="modal-icon modal-icon--success">
+      <div class="modal-icon">
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M26.6666 8L12 22.6667L5.33331 16" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <g clip-path="url(#cs1)">
+            <path d="M29.0681 13.3333C29.6771 16.3217 29.2431 19.4286 27.8386 22.1357C26.4341 24.8429 24.144 26.9867 21.3502 28.2097C18.5563 29.4328 15.4276 29.661 12.4859 28.8565C9.5441 28.0519 6.96705 26.2632 5.1845 23.7885C3.40195 21.3139 2.52163 18.303 2.69035 15.2578C2.85907 12.2127 4.06664 9.31744 6.11167 7.05488C8.1567 4.79232 10.9156 3.29923 13.9282 2.82459C16.9409 2.34995 20.0252 2.92247 22.6668 4.44665" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 14.6666L16 18.6666L29.3333 5.33325" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <defs><clipPath id="cs1"><rect width="32" height="32" fill="white"/></clipPath></defs>
         </svg>
       </div>
-      <h2 class="modal-title" id="modal-sucesso-title">Cancelado com Sucesso!</h2>
-      <p class="modal-subtitle">O agendamento foi removido da sua lista e o horário foi liberado.</p>
+      <h2 id="modal-sucesso-title">Cancelamento Confirmado!</h2>
+      <p>Seu agendamento foi cancelado com sucesso</p>
       <button class="btn-full" id="btn-ok-sucesso">OK</button>
     </div>
   </div>
 
+  <!-- ═══════════════════ MODAL: ATENÇÃO (menos de 24h) ═══════════════════ -->
   <div class="overlay" id="overlay-atencao" role="dialog" aria-modal="true" aria-labelledby="modal-atencao-title">
     <div class="modal">
-      <div class="modal-icon modal-icon--warning">
+      <div class="modal-icon">
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M16 10V16" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M16 22H16.0133" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10.6665 2.66675V8.00008" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M21.3335 2.66675V8.00008" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M25.3333 5.33325H6.66667C5.19391 5.33325 4 6.52716 4 7.99992V26.6666C4 28.1393 5.19391 29.3333 6.66667 29.3333H25.3333C26.8061 29.3333 28 28.1393 28 26.6666V7.99992C28 6.52716 26.8061 5.33325 25.3333 5.33325Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 13.3333H28" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <h2 class="modal-title" id="modal-atencao-title">Aviso Importante</h2>
-      <p class="modal-subtitle">Faltam menos de 24 horas para o seu atendimento. Entre em contato diretamente com o salão por telefone para solicitar o cancelamento.</p>
-      <button class="btn-full" id="btn-entendi">Entendi</button>
+      <h2 id="modal-atencao-title">Atenção!</h2>
+      <p class="large">Cancelamentos com menos de 24h de antecedência devem ser feitos exclusivamente por telefone/WhatsApp do salão.</p>
+      <button class="btn-full" id="btn-entendi">ENTENDI</button>
     </div>
   </div>
 
+  <!-- Script -->
   <script src="/frontend/js/historico.js"></script>
+
 </body>
 </html>
