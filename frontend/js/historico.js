@@ -165,9 +165,6 @@ window.abrirConfirmacaoCancelamento = function(id) {
     btn.textContent = 'Cancelando...';
 
     try {
-      // Simulação da chamada DELETE /api/client/appointments/:id
-      // const response = await fetch(`${API_BASE_URL}/client/appointments/${state.cancelId}`, { method: 'DELETE', ... });
-      
       const res = { success: true }; // Simulação de sucesso da API
 
       closeOverlay('overlay-confirmar');

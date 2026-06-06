@@ -312,3 +312,51 @@ body {
 .modal-actions button:active, .btn-full:active {
   transform: scale(0.98);
 }
+
+/* ─── RESPONSIVIDADE ────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .navbar__nav {
+    display: none;
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    flex-direction: column;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 0.5rem 1.5rem #0000001A;
+    gap: 1.25rem;
+  }
+
+  .navbar__nav.open { display: flex; }
+  .navbar__toggle   { display: flex; }
+
+  .section-embreve   { margin-bottom: 2rem; }
+  .section-historico { margin-top: 3rem; }
+}
+
+@media (max-width: 600px) {
+  .navbar__inner { padding: 0 1rem; }
+  .agendamentos  { padding: 2rem 0.875rem; }
+
+  .page-header h1 { font-size: clamp(2rem, 11vw, 2.65rem); line-height: 1; }
+  .page-header p  { font-size: 0.95rem; line-height: 1.45; }
+
+  .cards-grid { flex-direction: column; gap: 1.25rem; }
+
+  .card {
+    flex: none;
+    width: 100%;
+    padding: 1.5rem;
+    border-radius: 1.375rem;
+  }
+
+  .modal {
+    padding: 2rem 1.5rem;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+  }
+}
