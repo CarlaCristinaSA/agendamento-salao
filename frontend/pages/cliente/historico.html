@@ -65,3 +65,52 @@
       </section>
     </div>
   </main>
+  <div class="overlay" id="overlay-confirmar" role="dialog" aria-modal="true" aria-labelledby="modal-confirmar-title">
+    <div class="modal">
+      <div class="modal-icon">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 10V16" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 22H16.0133" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 class="modal-title" id="modal-confirmar-title">Cancelar Agendamento?</h2>
+      <p class="modal-subtitle">Tem certeza que deseja cancelar este agendamento? Esta ação não pode ser desfeita.</p>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="btn-fechar-confirmar">Voltar</button>
+        <button class="btn-danger" id="btn-sim-cancelar">Sim, cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay-sucesso" role="dialog" aria-modal="true" aria-labelledby="modal-sucesso-title">
+    <div class="modal">
+      <div class="modal-icon modal-icon--success">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M26.6666 8L12 22.6667L5.33331 16" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 class="modal-title" id="modal-sucesso-title">Cancelado com Sucesso!</h2>
+      <p class="modal-subtitle">O agendamento foi removido da sua lista e o horário foi liberado.</p>
+      <button class="btn-full" id="btn-ok-sucesso">OK</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay-atencao" role="dialog" aria-modal="true" aria-labelledby="modal-atencao-title">
+    <div class="modal">
+      <div class="modal-icon modal-icon--warning">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 10V16" stroke="white" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 22H16.0133" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 class="modal-title" id="modal-atencao-title">Aviso Importante</h2>
+      <p class="modal-subtitle">Faltam menos de 24 horas para o seu atendimento. Entre em contato diretamente com o salão por telefone para solicitar o cancelamento.</p>
+      <button class="btn-full" id="btn-entendi">Entendi</button>
+    </div>
+  </div>
+
+  <script src="/frontend/js/historico.js"></script>
+</body>
+</html>
