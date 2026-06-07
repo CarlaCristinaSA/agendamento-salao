@@ -222,3 +222,84 @@ body {
     .header h1 { font-size: 2rem; line-height: 2.2rem; }
     .services-grid { grid-template-columns: 1fr; }
 }
+
+/* ─── RESPONSIVIDADE MOBILE EXTRA - AGENDAMENTO CLIENTE ─────────────────── */
+
+@media (max-width: 600px) {
+    body {
+        padding: 2rem 0.875rem;
+        align-items: flex-start;
+    }
+
+    .container {
+        gap: 2rem;
+    }
+
+    .header {
+        gap: 0.75rem;
+    }
+
+    .header-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+
+    .header-icon i {
+        font-size: 1.5rem;
+    }
+
+    .header h1 {
+        font-size: clamp(2rem, 11vw, 2.65rem);
+        line-height: 1;
+    }
+
+    .header p {
+        max-width: 20rem;
+        font-size: 0.95rem;
+        line-height: 1.45;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .service-card {
+        padding: 1.5rem;
+        border-radius: 1.375rem;
+        gap: 1rem;
+    }
+
+    .service-card h3 {
+        font-size: 1.5rem;
+        line-height: 1.25;
+    }
+
+    .info-row {
+        height: auto;
+        min-height: 4.25rem;
+        padding: 0.875rem;
+        border-radius: 1rem;
+    }
+
+    .info-value,
+    .info-value.valor {
+        font-size: 1rem;
+        line-height: 1.35;
+    }
+
+    .select-btn {
+        height: 3.25rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 360px) {
+    body {
+        padding-inline: 0.625rem;
+    }
+
+    .service-card {
+        padding: 1.25rem;
+    }
+}

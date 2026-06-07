@@ -1,13 +1,18 @@
-CREATE TABLE IF NOT EXISTS admins (
-  id         SERIAL PRIMARY KEY,
-  name       VARCHAR(255)  NOT NULL,
-  email      VARCHAR(255)  NOT NULL UNIQUE,
-  phone      VARCHAR(30),
-  password_hash VARCHAR(255) NOT NULL,
-  is_active  BOOLEAN       NOT NULL DEFAULT TRUE,
-  created_at TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ   NOT NULL DEFAULT NOW()
+CREATE TABLE IF NOT EXISTS users (
+  id            SERIAL PRIMARY KEY,
+  name          VARCHAR(255)  NOT NULL,
+  email         VARCHAR(255)  NOT NULL UNIQUE,
+  phone         VARCHAR(30),
+  password_hash VARCHAR(255)  NOT NULL,
+  role          VARCHAR(10)   NOT NULL DEFAULT 'client'
+                  CHECK (role IN ('admin', 'client')),
+  is_active     BOOLEAN       NOT NULL DEFAULT TRUE,
+  created_at    TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
+  updated_at    TIMESTAMPTZ   NOT NULL DEFAULT NOW()
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email_lower ON users (LOWER(email));
+CREATE INDEX        IF NOT EXISTS idx_users_role        ON users (role);
 
 CREATE TABLE IF NOT EXISTS services (
   id                SERIAL PRIMARY KEY,
@@ -23,7 +28,7 @@ CREATE TABLE IF NOT EXISTS services (
 CREATE TABLE IF NOT EXISTS business_hours (
   id            SERIAL PRIMARY KEY,
   type          VARCHAR(20)  NOT NULL CHECK (type IN ('day_of_week', 'specific_date')),
-  day_of_week   SMALLINT     CHECK (day_of_week BETWEEN 0 AND 6), -- 0=Domingo, 6=Sábado
+  day_of_week   SMALLINT     CHECK (day_of_week BETWEEN 0 AND 6),
   specific_date DATE,
   start_time    TIME         NOT NULL,
   end_time      TIME         NOT NULL,
@@ -45,6 +50,7 @@ CREATE INDEX IF NOT EXISTS idx_business_hours_date ON business_hours(specific_da
 
 CREATE TABLE IF NOT EXISTS appointments (
   id                 SERIAL PRIMARY KEY,
+  client_id          INTEGER        REFERENCES users(id) ON DELETE SET NULL,
   client_name        VARCHAR(255)   NOT NULL,
   client_email       VARCHAR(255),
   client_phone       VARCHAR(30)    NOT NULL,
@@ -61,6 +67,7 @@ CREATE TABLE IF NOT EXISTS appointments (
 CREATE INDEX IF NOT EXISTS idx_appointments_date        ON appointments(appointment_date);
 CREATE INDEX IF NOT EXISTS idx_appointments_status      ON appointments(status);
 CREATE INDEX IF NOT EXISTS idx_appointments_service_id  ON appointments(service_id);
+CREATE INDEX IF NOT EXISTS idx_appointments_client_id   ON appointments(client_id);
 CREATE INDEX IF NOT EXISTS idx_appointments_date_status ON appointments(appointment_date, status);
 
 CREATE TABLE IF NOT EXISTS token_blacklist (
@@ -72,6 +79,19 @@ CREATE TABLE IF NOT EXISTS token_blacklist (
 
 CREATE INDEX IF NOT EXISTS idx_token_blacklist_jti ON token_blacklist(token_jti);
 
+CREATE TABLE IF NOT EXISTS password_reset_codes (
+  id         SERIAL PRIMARY KEY,
+  user_id    INTEGER      NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  code_hash  VARCHAR(255) NOT NULL,
+  expires_at TIMESTAMPTZ  NOT NULL,
+  attempts   SMALLINT     NOT NULL DEFAULT 0,
+  used       BOOLEAN      NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_prc_user    ON password_reset_codes(user_id);
+CREATE INDEX IF NOT EXISTS idx_prc_expires ON password_reset_codes(expires_at);
+
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -80,13 +100,13 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
-DROP TRIGGER IF EXISTS set_updated_at_admins      ON admins;
-DROP TRIGGER IF EXISTS set_updated_at_services    ON services;
-DROP TRIGGER IF EXISTS set_updated_at_business    ON business_hours;
+DROP TRIGGER IF EXISTS set_updated_at_users        ON users;
+DROP TRIGGER IF EXISTS set_updated_at_services     ON services;
+DROP TRIGGER IF EXISTS set_updated_at_business     ON business_hours;
 DROP TRIGGER IF EXISTS set_updated_at_appointments ON appointments;
 
-CREATE TRIGGER set_updated_at_admins
-  BEFORE UPDATE ON admins
+CREATE TRIGGER set_updated_at_users
+  BEFORE UPDATE ON users
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER set_updated_at_services

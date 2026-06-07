@@ -12,7 +12,7 @@ function criarCard(servico, index) {
         <h3>${servico.nome}</h3>
         <div class="info-row">
             <div class="icon-circle"><i class="fa-regular fa-clock"></i></div>
-            <div class="info-text">
+            <div class="info-text
                 <span class="info-label">Duração</span>
                 <span class="info-value">${servico.duracao}</span>
             </div>

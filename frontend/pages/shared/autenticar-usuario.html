@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/autenticar-usuario.css">
+    <title>Login Administrativo</title>
+</head>
+<body>
+    <main class="caixa-login">
+        <header class="cabecalho-login">
+            <div class="icone-login">
+                <i class="fa-solid fa-arrow-right-to-bracket" style="font-size: 20px"></i>
+            </div>
+            <h1>Entrar</h1>
+            <p>Bem-vinda(o) de volta!</p>
+        </header>
+
+        <section class="card-login">
+            <form id="form-login">
+                <div class="grupo-input" id="grupo-email">
+                    <label for="email">
+                        <i class="fa-regular fa-envelope"></i> E-MAIL
+                    </label>
+                    <input id="email" type="text" placeholder="seu@email.com">
+                    <small class="msg-validacao" id="erro-email"></small>
+                </div>
+
+                <div class="grupo-input" id="grupo-senha">
+                    <label for="password">
+                        <i class="fa-solid fa-lock"></i> SENHA
+                    </label>
+                    <div class="wrapper-senha">
+                        <input id="password" type="password" placeholder="Digite sua senha">
+                        <button id="btn-olho" type="button">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                    <small class="msg-validacao" id="erro-senha"></small>
+                </div>
+
+                <a href="./recuperar-senha.html" class="link-esqueci">Esqueci minha senha</a>
+
+                <p id="mensagem-erro" class="erro-autenticacao"></p>
+
+                <button id="btn-entrar" type="submit">
+                    <span class="spinner" id="btn-spinner"></span>
+                    <span id="text-botao">ENTRAR</span>
+                </button>
+            </form>
+        </section>
+
+        <p class="auth-footer">
+            Novo no sistema? <a href="./criar-conta.html">Criar conta</a>
+        </p>
+    </main>
+
+    <script src="../../js/autenticar-usuario.js"></script>
+</body>
+</html>

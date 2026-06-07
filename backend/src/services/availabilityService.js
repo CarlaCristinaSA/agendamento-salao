@@ -1,5 +1,7 @@
 const { query } = require('../config/database');
 
+const SLOT_INTERVAL = 30;
+
 function timeToMinutes(timeStr) {
   const [h, m] = timeStr.split(':').map(Number);
   return h * 60 + m;
@@ -11,18 +13,6 @@ function minutesToTime(minutes) {
   return `${h}:${m}`;
 }
 
-/**
- * Obtém os intervalos de funcionamento aplicáveis para uma data.
- *
- * Regra de prioridade:
- *   Se existirem registros do tipo 'specific_date' para a data informada,
- *   eles têm prioridade e substituem os do tipo 'day_of_week'.
- *   Caso contrário, usa os registros do dia da semana correspondente.
- *
- * @param {string} dateStr - Data no formato "YYYY-MM-DD"
- * @param {object} [dbClient] - Client de transação (opcional)
- * @returns {Array<{start_time: string, end_time: string}>}
- */
 async function getIntervalsForDate(dateStr, dbClient = null) {
   const exec = dbClient ? dbClient.query.bind(dbClient) : query;
 
@@ -50,13 +40,6 @@ async function getIntervalsForDate(dateStr, dbClient = null) {
   return weekResult.rows;
 }
 
-/**
- * Busca agendamentos confirmados de uma data para checagem de conflito.
- *
- * @param {string} dateStr   - "YYYY-MM-DD"
- * @param {object} [dbClient]
- * @returns {Array<{appointment_time: string, duration_minutes: number}>}
- */
 async function getConfirmedAppointmentsForDate(dateStr, dbClient = null) {
   const exec = dbClient ? dbClient.query.bind(dbClient) : query;
 
@@ -72,16 +55,6 @@ async function getConfirmedAppointmentsForDate(dateStr, dbClient = null) {
   return result.rows;
 }
 
-/**
- * Verifica se um novo agendamento conflita com os existentes (RN-002).
- *
- * Um conflito ocorre quando os intervalos [T, T+D) e [T', T'+D') se sobrepõem.
- *
- * @param {string} newTime         - "HH:MM" - horário do novo agendamento
- * @param {number} newDuration     - Duração em minutos do novo agendamento
- * @param {Array}  existingAppts   - Agendamentos confirmados do dia
- * @returns {boolean} true se houver conflito
- */
 function hasConflict(newTime, newDuration, existingAppts) {
   const newStart = timeToMinutes(newTime);
   const newEnd   = newStart + newDuration;
@@ -98,14 +71,6 @@ function hasConflict(newTime, newDuration, existingAppts) {
   return false;
 }
 
-/**
- * Verifica se um horário e duração cabem dentro de algum intervalo de funcionamento.
- *
- * @param {string} time       - "HH:MM"
- * @param {number} duration   - Duração em minutos
- * @param {Array}  intervals  - Intervalos de funcionamento
- * @returns {boolean}
- */
 function fitsInBusinessHours(time, duration, intervals) {
   const start = timeToMinutes(time);
   const end   = start + duration;
@@ -120,22 +85,34 @@ function fitsInBusinessHours(time, duration, intervals) {
   return false;
 }
 
-/**
- * Gera os horários disponíveis para uma data e serviço (EP-002, EP-003).
- *
- * Algoritmo:
- *  1. Obtém intervalos de funcionamento para a data.
- *  2. Para cada intervalo, gera slots de `duration_minutes` em `duration_minutes`.
- *  3. Filtra slots que conflitam com agendamentos existentes.
- *
- * @param {string} dateStr    - "YYYY-MM-DD"
- * @param {number} duration   - Duração do serviço em minutos
- * @param {object} [dbClient]
- * @returns {string[]} Lista de horários disponíveis "HH:MM"
- */
-async function getAvailableSlots(dateStr, duration, dbClient = null) {
-  const SLOT_INTERVAL = 30;
+function buildGridStartTimes(intervals, duration) {
+  if (!Number.isInteger(duration) || duration <= 0) return [];
 
+  const slots = [];
+
+  for (const interval of intervals) {
+    const iStart   = timeToMinutes(interval.start_time.substring(0, 5));
+    const iEnd     = timeToMinutes(interval.end_time.substring(0, 5));
+    const turnSize = iEnd - iStart;
+
+    if (duration > turnSize) continue;
+
+    if (duration * 2 === turnSize) {
+
+      slots.push(minutesToTime(iStart));
+      slots.push(minutesToTime(iEnd - duration));
+    } else {
+
+      for (let s = iStart; s + duration <= iEnd; s += SLOT_INTERVAL) {
+        slots.push(minutesToTime(s));
+      }
+    }
+  }
+
+  return [...new Set(slots)].sort();
+}
+
+async function getAvailableSlots(dateStr, duration, dbClient = null) {
   const [intervals, existingAppts] = await Promise.all([
     getIntervalsForDate(dateStr, dbClient),
     getConfirmedAppointmentsForDate(dateStr, dbClient),
@@ -143,64 +120,12 @@ async function getAvailableSlots(dateStr, duration, dbClient = null) {
 
   if (intervals.length === 0) return [];
 
-  const totalWorkMinutes = intervals.reduce((acc, interval) => {
-    const iStart = timeToMinutes(interval.start_time.substring(0, 5));
-    const iEnd   = timeToMinutes(interval.end_time.substring(0, 5));
-    return acc + (iEnd - iStart);
-  }, 0);
-
-  const isLongService = duration > totalWorkMinutes / 2;
-
-  const available = [];
-
-  for (const interval of intervals) {
-    const iStart = timeToMinutes(interval.start_time.substring(0, 5));
-    const iEnd   = timeToMinutes(interval.end_time.substring(0, 5));
-
-    if (isLongService) {
-      const firstSlot = minutesToTime(iStart);
-      if (!hasConflict(firstSlot, duration, existingAppts)) {
-        available.push(firstSlot);
-      }
-
-      const lastSlotStart = iEnd - duration;
-      if (lastSlotStart > iStart) {
-        const lastSlotRounded = Math.floor(lastSlotStart / SLOT_INTERVAL) * SLOT_INTERVAL;
-        const lastSlot = minutesToTime(lastSlotRounded);
-
-        if (lastSlotRounded !== iStart && lastSlotRounded + duration <= iEnd) {
-          if (!hasConflict(lastSlot, duration, existingAppts)) {
-            available.push(lastSlot);
-          }
-        }
-      }
-    } else {
-      for (let slot = iStart; slot + duration <= iEnd; slot += SLOT_INTERVAL) {
-        const slotTime = minutesToTime(slot);
-        if (!hasConflict(slotTime, duration, existingAppts)) {
-          available.push(slotTime);
-        }
-      }
-    }
-  }
-
-  return available;
+  return buildGridStartTimes(intervals, duration)
+    .filter((slot) => !hasConflict(slot, duration, existingAppts));
 }
 
-/**
- * Valida se um horário específico está disponível para agendamento.
- * Usado no momento da confirmação para evitar race conditions (RNF-009).
- * Deve ser chamado dentro de uma transação com lock.
- *
- * @param {string} dateStr   - "YYYY-MM-DD"
- * @param {string} timeStr   - "HH:MM"
- * @param {number} duration  - Duração em minutos
- * @param {object} dbClient  - Client da transação
- * @returns {{ available: boolean, reason?: string }}
- */
 async function validateSlotAvailability(dateStr, timeStr, duration, dbClient) {
-  const intervals    = await getIntervalsForDate(dateStr, dbClient);
-  const existingAppts = await getConfirmedAppointmentsForDate(dateStr, dbClient);
+  const intervals = await getIntervalsForDate(dateStr, dbClient);
 
   if (intervals.length === 0) {
     return { available: false, reason: 'O salão não tem horário de funcionamento nesta data.' };
@@ -215,6 +140,15 @@ async function validateSlotAvailability(dateStr, timeStr, duration, dbClient) {
     };
   }
 
+  const gridSlots = buildGridStartTimes(intervals, duration);
+  if (!gridSlots.includes(normalizedTime)) {
+    return {
+      available: false,
+      reason: 'O horário selecionado não é válido para este serviço. Escolha um dos horários disponíveis.',
+    };
+  }
+
+  const existingAppts = await getConfirmedAppointmentsForDate(dateStr, dbClient);
   if (hasConflict(normalizedTime, duration, existingAppts)) {
     return {
       available: false,
@@ -225,14 +159,6 @@ async function validateSlotAvailability(dateStr, timeStr, duration, dbClient) {
   return { available: true };
 }
 
-/**
- * Verifica se há sobreposição entre intervalos de um mesmo dia (HU-005).
- *
- * @param {Array}  existingIntervals - Intervalos já cadastrados
- * @param {string} newStart          - "HH:MM"
- * @param {string} newEnd            - "HH:MM"
- * @returns {boolean}
- */
 function hasIntervalOverlap(existingIntervals, newStart, newEnd) {
   const ns = timeToMinutes(newStart);
   const ne = timeToMinutes(newEnd);
@@ -249,7 +175,10 @@ module.exports = {
   getAvailableSlots,
   validateSlotAvailability,
   getIntervalsForDate,
+  buildGridStartTimes,
   hasIntervalOverlap,
+  hasConflict,
+  fitsInBusinessHours,
   timeToMinutes,
   minutesToTime,
 };
