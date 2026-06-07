@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recuperar Senha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="/frontend/css/recuperar-senha.css" />
+</head>
+<body>
+
+  <!-- ===== TELA 1 — ESQUECI MINHA SENHA ===== -->
+  <div class="screen active" id="tela-1">
+    <div class="container">
+      <div class="card-wrapper">
+
+        <header class="card-header">
+          <div class="icon-circle">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M23.3335 4.66663H4.66683C3.37816 4.66663 2.3335 5.71129 2.3335 6.99996V21C2.3335 22.2886 3.37816 23.3333 4.66683 23.3333H23.3335C24.6222 23.3333 25.6668 22.2886 25.6668 21V6.99996C25.6668 5.71129 24.6222 4.66663 23.3335 4.66663Z" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M25.6668 8.16663L15.2018 14.8166C14.8416 15.0423 14.4252 15.162 14.0002 15.162C13.5751 15.162 13.1587 15.0423 12.7985 14.8166L2.3335 8.16663" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h1>Esqueci minha senha</h1>
+          <p>Digite o e-mail associado à sua conta para receber um código de recuperação.</p>
+        </header>
+
+        <div class="card">
+          <div class="field-group">
+            <label class="field-label" for="email-input">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.3333 2.66675H2.66659C1.93021 2.66675 1.33325 3.2637 1.33325 4.00008V12.0001C1.33325 12.7365 1.93021 13.3334 2.66659 13.3334H13.3333C14.0696 13.3334 14.6666 12.7365 14.6666 12.0001V4.00008C14.6666 3.2637 14.0696 2.66675 13.3333 2.66675Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14.6666 4.66675L8.68659 8.46675C8.48077 8.5957 8.2428 8.66409 7.99992 8.66409C7.75704 8.66409 7.51907 8.5957 7.31325 8.46675L1.33325 4.66675" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              E-MAIL
+            </label>
+            <input
+              id="email-input"
+              class="field-input"
+              type="email"
+              placeholder="seu@email.com"
+              autocomplete="email"
+            />
+            <span class="field-error" id="error-email-t1"></span>
+          </div>
+
+          <button class="btn-primary" id="btn-continuar" type="button">CONTINUAR</button>
+        </div>
+
+        <div class="bottom-link">
+          <span>Lembrou da senha?</span>
+            <a href="/frontend/pages/shared/autenticar-usuario.html">
+                <button class="link-btn" type="button">Fazer Login</button>
+            </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TELA 2 — VERIFICAR E-MAIL ===== -->
+  <div class="screen" id="tela-2">
+    <div class="container">
+      <div class="card-wrapper">
+
+        <header class="card-header">
+          <div class="icon-circle">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M23.3335 4.66663H4.66683C3.37816 4.66663 2.3335 5.71129 2.3335 6.99996V21C2.3335 22.2886 3.37816 23.3333 4.66683 23.3333H23.3335C24.6222 23.3333 25.6668 22.2886 25.6668 21V6.99996C25.6668 5.71129 24.6222 4.66663 23.3335 4.66663Z" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M25.6668 8.16663L15.2018 14.8166C14.8416 15.0423 14.4252 15.162 14.0002 15.162C13.5751 15.162 13.1587 15.0423 12.7985 14.8166L2.3335 8.16663" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h1>Verificar E-mail</h1>
+          <p>Insira o código de 6 dígitos enviado para o seu e-mail.</p>
+        </header>
+
+        <div class="card">
+          <div class="field-group">
+            <label class="field-label field-label--center">CÓDIGO DE VERIFICAÇÃO</label>
+            <div class="otp-row" id="otp-row">
+              <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
+              <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
+              <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
+              <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
+              <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
+              <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
+            </div>
+            <span class="field-error field-error--center" id="error-otp"></span>
+            <div class="resend-row">
+              <button class="link-btn link-btn--small" type="button" id="btn-reenviar">Reenviar código</button>
+            </div>
+          </div>
+
+          <button class="btn-primary" id="btn-verificar" type="button">VERIFICAR CÓDIGO</button>
+        </div>
+
+        <div class="bottom-link">
+          <span>Não recebeu o código?</span>
+          <button class="link-btn" type="button" id="btn-tentar-novamente">Tentar novamente</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TELA 3 — NOVA SENHA ===== -->
+  <div class="screen" id="tela-3">
+    <div class="container">
+      <div class="card-wrapper">
+
+        <header class="card-header">
+          <div class="icon-circle">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22.1667 12.8334H5.83333C4.54467 12.8334 3.5 13.878 3.5 15.1667V23.3334C3.5 24.622 4.54467 25.6667 5.83333 25.6667H22.1667C23.4553 25.6667 24.5 24.622 24.5 23.3334V15.1667C24.5 13.878 23.4553 12.8334 22.1667 12.8334Z" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8.1665 12.8334V8.16671C8.1665 6.61961 8.78109 5.13588 9.87505 4.04192C10.969 2.94796 12.4527 2.33337 13.9998 2.33337C15.5469 2.33337 17.0307 2.94796 18.1246 4.04192C19.2186 5.13588 19.8332 6.61961 19.8332 8.16671V12.8334" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h1>Nova Senha</h1>
+          <p>Crie uma nova senha segura para acessar sua conta.</p>
+        </header>
+
+        <div class="card">
+          <!-- Nova Senha -->
+          <div class="field-group">
+            <label class="field-label" for="nova-senha">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.6667 7.33325H3.33333C2.59695 7.33325 2 7.93021 2 8.66659V13.3333C2 14.0696 2.59695 14.6666 3.33333 14.6666H12.6667C13.403 14.6666 14 14.0696 14 13.3333V8.66659C14 7.93021 13.403 7.33325 12.6667 7.33325Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.6665 7.33325V4.66659C4.6665 3.78253 5.01769 2.93468 5.64281 2.30956C6.26794 1.68444 7.11578 1.33325 7.99984 1.33325C8.88389 1.33325 9.73174 1.68444 10.3569 2.30956C10.982 2.93468 11.3332 3.78253 11.3332 4.66659V7.33325" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              NOVA SENHA
+            </label>
+            <div class="input-wrapper">
+              <input id="nova-senha" class="field-input field-input--password" type="password" placeholder="Digite sua nova senha" autocomplete="new-password" />
+              <button class="icon-btn" type="button" data-target="nova-senha" aria-label="Mostrar senha">
+                <span class="material-icons icon-open">visibility</span>
+                <span class="material-icons icon-closed">visibility_off</span>
+              </button>
+            </div>
+            <span class="field-error" id="error-nova-senha"></span>
+          </div>
+
+          <!-- Confirmar Senha -->
+          <div class="field-group field-group--mt">
+            <label class="field-label" for="confirmar-senha">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.6667 7.33325H3.33333C2.59695 7.33325 2 7.93021 2 8.66659V13.3333C2 14.0696 2.59695 14.6666 3.33333 14.6666H12.6667C13.403 14.6666 14 14.0696 14 13.3333V8.66659C14 7.93021 13.403 7.33325 12.6667 7.33325Z" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.6665 7.33325V4.66659C4.6665 3.78253 5.01769 2.93468 5.64281 2.30956C6.26794 1.68444 7.11578 1.33325 7.99984 1.33325C8.88389 1.33325 9.73174 1.68444 10.3569 2.30956C10.982 2.93468 11.3332 3.78253 11.3332 4.66659V7.33325" stroke="#E0456A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              CONFIRMAR SENHA
+            </label>
+            <div class="input-wrapper">
+              <input id="confirmar-senha" class="field-input field-input--password" type="password" placeholder="Confirme sua nova senha" autocomplete="new-password" />
+              <button class="icon-btn" type="button" data-target="confirmar-senha" aria-label="Mostrar confirmação de senha">
+                <span class="material-icons icon-open">visibility</span>
+                <span class="material-icons icon-closed">visibility_off</span>
+              </button>
+            </div>
+            <span class="field-error" id="error-confirmar-senha"></span>
+          </div>
+
+          <button class="btn-primary btn-primary--mt" id="btn-concluir" type="button">CONCLUIR</button>
+        </div>
+
+        <div class="bottom-link">
+          <span>Lembrou da senha?</span>
+            <a href="/frontend/pages/shared/autenticar-usuario.html">
+                <button class="link-btn" type="button">Fazer Login</button>
+            </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL — SENHA ALTERADA ===== -->
+  <div class="modal-overlay" id="modal-sucesso" role="dialog" aria-modal="true" aria-labelledby="modal-sucesso-title">
+    <div class="modal-box modal-box--centered">
+      <div class="icon-center">
+        <div class="icon-circle icon-circle--lg">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="22 4 12 14.01 9 11.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <h2 class="modal-title" id="modal-sucesso-title">Senha Alterada!</h2>
+      <p class="modal-subtitle">Sua senha foi redefinida com sucesso</p>
+      <a href="/frontend/pages/shared/autenticar-usuario.html">
+          <button class="modal-btn-full" type="button" id="btn-fazer-login">FAZER LOGIN</button>
+      </a>
+    </div>
+  </div>
+
+  <script src="/frontend/js/recuperar-senha.js"></script>
+</body>
+</html>
