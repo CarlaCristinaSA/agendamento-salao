@@ -26,6 +26,12 @@ const state = {
     weekStart:    null,
 };
 
+function redirecionarParaLogin() {
+    sessionStorage.removeItem('salao_token');
+    sessionStorage.removeItem('salao_user_role');
+    window.location.href = '../shared/autenticar-usuario.html';
+}
+
 /* ══════════════════════════════════════════════════════════════════════════
     MODAIS
    ══════════════════════════════════════════════════════════════════════════ */
@@ -127,7 +133,21 @@ async function _loadAndRenderTimes(dateIso) {
     grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #717182;">Buscando horários disponíveis...</p>';
 
     try {
-        const response = await fetch(`http://localhost:3000/api/public/availability?date=${dateIso}&service_id=${state.service.id}`);
+        const token = sessionStorage.getItem('salao_token');
+        if (!token) {
+            redirecionarParaLogin();
+            return;
+        }
+
+        const response = await fetch(`${URL_API}/client/availability?date=${dateIso}&service_id=${state.service.id}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (response.status === 401 || response.status === 403) {
+            redirecionarParaLogin();
+            return;
+        }
+
         const result = await response.json();
 
         if (result.success) {
@@ -293,11 +313,22 @@ async function _onConfirmarDados() {
         btn.textContent = 'AGENDANDO...';
         btn.disabled = true;
 
-        const response = await fetch('http://localhost:3000/api/public/appointments', {
+        const token = sessionStorage.getItem('salao_token');
+        if (!token) {
+            redirecionarParaLogin();
+            return;
+        }
+
+        const response = await fetch(`${URL_API}/client/appointments`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify(payload)
         });
+
+        if (response.status === 401 || response.status === 403) {
+            redirecionarParaLogin();
+            return;
+        }
         
         const result = await response.json();
 

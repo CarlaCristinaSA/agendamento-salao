@@ -279,7 +279,12 @@ async function carregarHorariosDisponiveis() {
 
   try {
     const response = await fetch(
-      `${URL_API}/public/availability?service_id=${servicoSelecionado.id}&date=${dataSelecionada}`,
+      `${URL_API}/admin/availability/slots?service_id=${servicoSelecionado.id}&date=${dataSelecionada}`,
+      {
+        headers: {
+          Authorization: `Bearer ${tokenGlobal}`,
+        },
+      }
     );
 
     const data = await response.json();
