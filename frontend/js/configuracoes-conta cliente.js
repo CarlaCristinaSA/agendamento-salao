@@ -1,6 +1,12 @@
 'use strict';
 
 // ==========================================
+// CONFIGURAÇÕES GLOBAIS
+// ==========================================
+// Ajuste a porta/URL conforme o seu ambiente local
+const URL_API = 'http://localhost:3000/api';
+
+// ==========================================
 // ESTADO DA APLICAÇÃO
 // ==========================================
 const originalData = {
@@ -63,18 +69,12 @@ function closeModal(modal) {
 }
 
 function getAuthToken() {
-  return (
-    localStorage.getItem('tokenGlobal') ||
-    localStorage.getItem('token') ||
-    sessionStorage.getItem('tokenGlobal') ||
-    sessionStorage.getItem('token') ||
-    null
-  );
+  return sessionStorage.getItem('salao_token') || null;
 }
 
 function setAuthToken(token) {
   tokenGlobal = token;
-  localStorage.setItem('tokenGlobal', token);
+  sessionStorage.setItem('salao_token', token);
 }
 
 async function apiRequest(path, { method = 'GET', body = null } = {}) {
@@ -363,6 +363,12 @@ async function persistProfile() {
     const retryDraft = { ...draft };
     pendingRetry = () => persistProfile();
 
+    // Atualiza o subtítulo do modal com o erro retornado pelo backend
+    const modalErrorSubtitle = document.querySelector('#modal-erro .modal-subtitle');
+    if (modalErrorSubtitle) {
+      modalErrorSubtitle.textContent = err.message || 'Não foi possível salvar as alterações no momento. Verifique sua conexão e tente novamente.';
+    }
+
     openModal(modals.erro);
   } finally {
     btnSave.textContent = originalText;
@@ -447,11 +453,9 @@ document.getElementById('btn-sim-sair').addEventListener('click', async () => {
   } catch (_) {
   }
 
-  localStorage.removeItem('tokenGlobal');
-  localStorage.removeItem('token');
-  sessionStorage.removeItem('tokenGlobal');
-  sessionStorage.removeItem('token');
-  window.location.href = '/';
+  sessionStorage.removeItem('salao_token');
+  sessionStorage.removeItem('salao_admin_nome');
+  window.location.href = "./autenticar-usuario.html"; 
 });
 
 // ==========================================
@@ -615,6 +619,12 @@ document.getElementById('btn-confirmar-senha').addEventListener('click', async (
       openModal(modals.sucessoSenha);
     };
 
+    // Atualiza o subtítulo do modal com o erro retornado pelo backend (ex: senha atual incorreta)
+    const modalErrorSubtitle = document.querySelector('#modal-erro .modal-subtitle');
+    if (modalErrorSubtitle) {
+      modalErrorSubtitle.textContent = err.message || 'Não foi possível alterar a senha. Verifique sua conexão e tente novamente.';
+    }
+
     closeModal(modals.alterarSenha);
     openModal(modals.erro);
   } finally {
@@ -658,6 +668,13 @@ async function carregarPerfil() {
     updateSaveEnabledState();
   } catch (err) {
     pendingRetry = carregarPerfil;
+    
+    // Mostra erro caso o token seja inválido ou o servidor esteja fora
+    const modalErrorSubtitle = document.querySelector('#modal-erro .modal-subtitle');
+    if (modalErrorSubtitle) {
+      modalErrorSubtitle.textContent = err.message || 'Não foi possível carregar os dados. Verifique sua conexão e tente novamente.';
+    }
+    
     openModal(modals.erro);
   }
 }
