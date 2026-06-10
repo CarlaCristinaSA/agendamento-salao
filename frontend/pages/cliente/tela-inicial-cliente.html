@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Espaço da Beleza — Início</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600;700&family=Montserrat:wght@300;400;500;600&family=Lato:wght@400&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../../css/tela-inicial-cliente.css" />
+  <link rel="stylesheet" href="../../css/navbar.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="navbar__inner">
+      <a href="#" class="navbar__brand">
+        <span class="navbar__brand-icon">
+          <span class="material-symbols-outlined">content_cut</span>
+        </span>
+        <span class="navbar__title navbar__title--home">Espaço da Beleza</span>
+      </a>
+
+      <nav class="navbar__nav" id="navbar-nav" aria-label="Navegação principal">
+        <a href="agendamentoCliente.html" class="nav-link">
+          <i class="fa-regular fa-calendar-plus"></i>
+          Agendar
+        </a>
+
+        <a href="#" class="nav-link">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          Histórico
+        </a>
+
+        <a href="../shared/configuracoes-conta.html" class="nav-link">
+          <i class="fa-solid fa-gear"></i>
+          Configurações
+        </a>
+      </nav>
+
+      <button class="navbar__toggle" id="navbar-toggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero__content">
+        <h1 class="hero__title">Sua beleza, nossa prioridade</h1>
+
+        <p class="hero__subtitle">
+          Agende um serviços de beleza de forma rápida e prática. Esperamos por você.
+        </p>
+
+        <a href="agendamentoCliente.html" class="btn btn--primary btn--lg">
+          <i class="fa-regular fa-calendar-plus"></i>
+          AGENDAR AGORA
+        </a>
+      </div>
+    </section>
+
+    <section class="quick-access" id="servicos">
+      <div class="container">
+        <h2 class="section-title">O que você gostaria de fazer?</h2>
+
+        <div class="quick-access__grid">
+          <a href="agendamentoCliente.html" class="qa-card">
+            <span class="qa-card__icon">
+              <i class="fa-regular fa-calendar-plus"></i>
+            </span>
+            <h3 class="qa-card__title">Agendar Serviço</h3>
+            <p class="qa-card__desc">Escolha o serviço e marque seu horário</p>
+          </a>
+
+          <a href="#" class="qa-card">
+            <span class="qa-card__icon">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+            </span>
+            <h3 class="qa-card__title">Meu Histórico</h3>
+            <p class="qa-card__desc">Visualize todos os seus agendamentos</p>
+          </a>
+
+          <a href="../shared/configuracoes-conta.html" class="qa-card">
+            <span class="qa-card__icon">
+              <i class="fa-solid fa-gear"></i>
+            </span>
+            <h3 class="qa-card__title">Configurações</h3>
+            <p class="qa-card__desc">Gerencie sua conta e preferências</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Por que agendar conosco?</h2>
+          <p class="section-subtitle">Tudo o que você precisa para cuidar da sua beleza</p>
+        </div>
+
+        <div class="features__grid">
+          <article class="feature-card">
+            <span class="feature-card__icon">
+              <i class="fa-regular fa-calendar-plus"></i>
+            </span>
+            <h3>Agendamento Fácil</h3>
+            <p>Marque seus horários de forma rápida e prática, escolhendo os melhores horários disponíveis.</p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-card__icon">
+              <i class="fa-regular fa-bell"></i>
+            </span>
+            <h3>Notificações em Tempo Real</h3>
+            <p>Receba confirmações dos seus agendamentos para nunca perder um compromisso.</p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-card__icon">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+            </span>
+            <h3>Histórico Completo</h3>
+            <p>Acompanhe todos os serviços realizados e planeje seus próximos cuidados com beleza.</p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-card__icon">
+              <i class="fa-regular fa-clock"></i>
+            </span>
+            <h3>Horários Flexíveis</h3>
+            <p>Encontre horários que se encaixam perfeitamente na sua rotina, com disponibilidade atualizada.</p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-card__icon">
+              <i class="fa-solid fa-bolt"></i>
+            </span>
+            <h3>Processo Rápido</h3>
+            <p>Agende em poucos cliques, sem complicação. Sua beleza não pode esperar.</p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-card__icon">
+              <i class="fa-regular fa-shield"></i>
+            </span>
+            <h3>Seus Dados Protegidos</h3>
+            <p>Todas as suas informações pessoais são mantidas em total segurança e privacidade.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="how-it-works" id="como-funciona">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Como Funciona</h2>
+          <p class="section-subtitle">Processo simples e intuitivo em poucos passos</p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <span class="step__number">1</span>
+            <h3 class="step__title">Escolha o Serviço</h3>
+            <p class="step__desc">Navegue por nosso catálogo completo de serviços</p>
+          </div>
+
+          <div class="step">
+            <span class="step__number">2</span>
+            <h3 class="step__title">Selecione o Horário</h3>
+            <p class="step__desc">Escolha o dia e horário que melhor se encaixa na sua agenda</p>
+          </div>
+
+          <div class="step">
+            <span class="step__number">3</span>
+            <h3 class="step__title">Confirme e Pronto</h3>
+            <p class="step__desc">Receba a confirmação e aproveite seu momento de beleza</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="why-us">
+      <div class="container why-us__inner">
+        <div class="why-us__visual">
+          <svg class="why-us__sparkle" viewBox="0 0 100 100" aria-hidden="true">
+            <path d="M50 8L61 39L92 50L61 61L50 92L39 61L8 50L39 39L50 8Z" />
+            <path d="M78 12L82 24L94 28L82 32L78 44L74 32L62 28L74 24L78 12Z" />
+            <path d="M20 62L23 71L32 74L23 77L20 86L17 77L8 74L17 71L20 62Z" />
+          </svg>
+        </div>
+
+        <div class="why-us__content">
+          <h2 class="section-title why-us__heading">
+            Por que escolher o Espaço da Beleza?
+          </h2>
+
+          <div class="why-item">
+            <span class="why-item__icon">
+              <i class="fa-solid fa-check"></i>
+            </span>
+            <div>
+              <h3>Agendamento Simplificado</h3>
+              <p>Reserve seu horário em minutos, sem precisar ligar ou esperar</p>
+            </div>
+          </div>
+
+          <div class="why-item">
+            <span class="why-item__icon">
+              <i class="fa-regular fa-heart"></i>
+            </span>
+            <div>
+              <h3>Cuidado Personalizado</h3>
+              <p>Tenha acesso a uma profissional qualificada e serviços de qualidade</p>
+            </div>
+          </div>
+
+          <div class="why-item">
+            <span class="why-item__icon">
+              <i class="fa-solid fa-award"></i>
+            </span>
+            <div>
+              <h3>Experiência Premium</h3>
+              <p>Desfrute de uma experiência completa de beleza e bem-estar</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-card">
+          <h2 class="cta-card__title">Pronta para se sentir incrível?</h2>
+          <p class="cta-card__subtitle">
+            Agende seu horário agora e descubra a melhor versão de você
+          </p>
+
+          <a href="agendamentoCliente.html" class="cta-button">
+            <i class="fa-regular fa-calendar-plus"></i>
+            AGENDAR MEU HORÁRIO
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__cols">
+        <div class="footer__col">
+          <div class="footer__brand">
+            <span class="footer__brand-icon">
+              <span class="material-symbols-outlined">auto_awesome</span>
+            </span>
+            <span class="footer__brand-name">Espaço da Beleza</span>
+          </div>
+          <p class="footer__tagline">Transformando sonhos em realidade. Seu bem-estar é nossa prioridade.</p>
+        </div>
+
+        <div class="footer__col">
+          <h4 class="footer__col-title">Links Rápidos</h4>
+          <nav class="footer__links">
+            <a href="agendamentoCliente.html">Agendar Serviço</a>
+            <a href="agendamentoCliente.html">Meu Histórico</a>
+            <a href="../shared/configuracoes-conta.html">Configurações da Conta</a>
+          </nav>
+        </div>
+
+        <div class="footer__col">
+          <h4 class="footer__col-title">Contato</h4>
+          <address class="footer__contact">
+            <p>📍 Rua Joaquim Ananias Machado, 193, Centro, Senador Pompeu</p>
+            <p>📞 (88) 99672-0004</p>
+            <p>✉️ antonietat2801@gmail.com</p>
+          </address>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>© 2026 Espaço da Beleza — Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/tela-inicial-cliente.js"></script>
+</body>
+
+</html>
