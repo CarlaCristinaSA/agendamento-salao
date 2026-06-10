@@ -1,3 +1,11 @@
+const URL_API = 'http://localhost:3000/api';
+
+function redirecionarParaLogin() {
+    sessionStorage.removeItem('salao_token');
+    sessionStorage.removeItem('salao_user_role');
+    window.location.href = '../shared/autenticar-usuario.html';
+}
+
 function formatarValor(valor) {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
@@ -42,10 +50,31 @@ function renderizarCards(servicos) {
 
 async function carregarServicosDoBackend() {
     try {
-        const response = await fetch('http://localhost:3000/api/public/services');
+        const token = sessionStorage.getItem('salao_token');
+        const userRole = sessionStorage.getItem('salao_user_role');
+
+        if (!token) {
+            redirecionarParaLogin();
+            return;
+        }
+
+        if (userRole !== 'client') {
+            redirecionarParaLogin();
+            return;
+        }
+
+        const response = await fetch(`${URL_API}/client/services`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (response.status === 401 || response.status === 403) {
+            redirecionarParaLogin();
+            return;
+        }
+
         const result = await response.json();
 
-        console.debug('[cliente] GET /api/public/services status=', response.status, 'ok=', response.ok);
+        console.debug('[cliente] GET /api/client/services status=', response.status, 'ok=', response.ok);
         console.debug('[cliente] payload:', result);
 
         if (result.success) {
@@ -64,7 +93,7 @@ async function carregarServicosDoBackend() {
     } catch (error) {
         console.error("Erro ao carregar serviços:", error);
         const container = document.getElementById('services-container');
-        container.innerHTML = '<p class="empty-message">Nenhum serviço disponível no momento.</p>';
+        container.innerHTML = '<p class="empty-message">Não foi possível carregar os serviços no momento.</p>';
     }
 }
 

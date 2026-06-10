@@ -30,7 +30,11 @@ async function fazerLoginAutomático() {
 
 async function carregarDuracaoServicos() {
     try {
-        const response = await fetch(`${URL_API}/public/services`);
+        if (!tokenGlobal) await fazerLoginAutomático();
+
+        const response = await fetch(`${URL_API}/admin/services`, {
+            headers: { 'Authorization': `Bearer ${tokenGlobal}` }
+        });
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
             result.data.forEach(s => {
