@@ -431,3 +431,76 @@
         width: 100%;
     }
 }
+
+.modal#modalConfirmarCancelamento,
+.modal#modalCancelamentoSucesso {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(448px, 95vw);
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.detalhes-acoes {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.detalhes-acoes .btn-secundario,
+.detalhes-acoes .btn-primario {
+    flex: 1;
+    border-radius: 1.25rem;
+    padding: 0.75rem 1rem;
+}
+
+#btnCancelarAgendamento {
+    width: 182px;
+    height: 64px;
+
+    border: 2px solid #E0456A;
+    border-radius: 16px;
+
+    background: #FFFFFF;
+    color: #E0456A;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0.8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#btnCancelarAgendamento:hover {
+    background: #FDF2F4;
+}
+
+.icone-cancelamento,
+.icone-sucesso-cancelamento {
+    color: #FFFFFF;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+@media (max-width: 600px) {
+    .modal#modalConfirmarCancelamento,
+    .modal#modalCancelamentoSucesso {
+        width: calc(100vw - 1.5rem);
+        max-width: 24rem;
+    }
+
+    .detalhes-acoes {
+    display: flex;
+    gap: 0.75rem;
+    }
+
+    .detalhes-acoes .btn-primario,
+    .detalhes-acoes .btn-secundario {
+        width: 100%;
+    }
+}

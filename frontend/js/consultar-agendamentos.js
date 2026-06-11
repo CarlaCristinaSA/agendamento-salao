@@ -1,211 +1,228 @@
-const URL_API = 'http://localhost:3000/api';
+const URL_API = "http://localhost:3000/api";
 let tokenGlobal = null;
 let agendamentosGlobais = [];
-let ordenacaoAtual = 'recente';
-let duracaoServicos = {}; 
+let ordenacaoAtual = "recente";
+let duracaoServicos = {};
 
 // COMUNICAÇÃO COM O BACKEND
 async function fazerLoginAutomático() {
-    try {
-        const response = await fetch(`${URL_API}/auth/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: 'admin@salao.com',
-                password: 'Admin@123'
-            })
-        });
-        const data = await response.json();
-        if (data.success) {
-            tokenGlobal = data.data.token;
-            return;
-        }
-        throw new Error(data.error || 'Erro ao autenticar');
-    } catch (erro) {
-        console.error('Erro no login automático:', erro);
-        document.getElementById('containerAgendamentos').innerHTML =
-            '<p style="grid-column: 1/-1; text-align: center; color: #999;">Erro ao autenticar para carregar os agendamentos.</p>';
+  try {
+    const response = await fetch(`${URL_API}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: "admin@salao.com",
+        password: "Admin@123",
+      }),
+    });
+    const data = await response.json();
+    if (data.success) {
+      tokenGlobal = data.data.token;
+      return;
     }
+    throw new Error(data.error || "Erro ao autenticar");
+  } catch (erro) {
+    console.error("Erro no login automático:", erro);
+    document.getElementById("containerAgendamentos").innerHTML =
+      '<p style="grid-column: 1/-1; text-align: center; color: #999;">Erro ao autenticar para carregar os agendamentos.</p>';
+  }
 }
 
 async function carregarDuracaoServicos() {
-    try {
-        if (!tokenGlobal) await fazerLoginAutomático();
+  try {
+    if (!tokenGlobal) await fazerLoginAutomático();
 
-        const response = await fetch(`${URL_API}/admin/services`, {
-            headers: { 'Authorization': `Bearer ${tokenGlobal}` }
-        });
-        const result = await response.json();
-        if (result.success && Array.isArray(result.data)) {
-            result.data.forEach(s => {
-                duracaoServicos[s.name] = Number(s.duration_minutes) || 0;
-            });
-        }
-    } catch (erro) {
-        console.warn('Não foi possível carregar duração dos serviços:', erro);
+    const response = await fetch(`${URL_API}/admin/services`, {
+      headers: { Authorization: `Bearer ${tokenGlobal}` },
+    });
+    const result = await response.json();
+    if (result.success && Array.isArray(result.data)) {
+      result.data.forEach((s) => {
+        duracaoServicos[s.name] = Number(s.duration_minutes) || 0;
+      });
     }
+  } catch (erro) {
+    console.warn("Não foi possível carregar duração dos serviços:", erro);
+  }
 }
 
 async function carregarAgendamentos() {
-    if (!tokenGlobal) return;
-    try {
-        const response = await fetch(`${URL_API}/admin/appointments`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${tokenGlobal}`
-            }
-        });
-        const result = await response.json();
-        if (!response.ok || !result.success) {
-            throw new Error(result.error || 'Erro ao buscar agendamentos');
-        }
-        const agendamentos = Array.isArray(result.data) ? result.data : [];
-        agendamentosGlobais = agendamentos;
-        preencherCards(agendamentos);
-    } catch (erro) {
-        console.error('Erro:', erro);
-        document.getElementById('containerAgendamentos').innerHTML =
-            '<p style="grid-column: 1/-1; text-align: center; color: #999;">Erro ao carregar agendamentos</p>';
+  if (!tokenGlobal) return;
+  try {
+    const response = await fetch(`${URL_API}/admin/appointments`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${tokenGlobal}`,
+      },
+    });
+    const result = await response.json();
+    if (!response.ok || !result.success) {
+      throw new Error(result.error || "Erro ao buscar agendamentos");
     }
+    const agendamentos = Array.isArray(result.data) ? result.data : [];
+    agendamentosGlobais = agendamentos;
+    preencherCards(agendamentos);
+  } catch (erro) {
+    console.error("Erro:", erro);
+    document.getElementById("containerAgendamentos").innerHTML =
+      '<p style="grid-column: 1/-1; text-align: center; color: #999;">Erro ao carregar agendamentos</p>';
+  }
 }
 
 function mapearAgendamento(appt) {
-    return {
-        nome: appt.client_name,
-        telefone: appt.client_phone,
-        email: appt.client_email,
-        servico: appt.service_name,
-        data: appt.appointment_date,
-        hora: appt.appointment_time,
-        valor: appt.price,
-    };
+  return {
+    id: appt.id,
+    nome: appt.client_name,
+    telefone: appt.client_phone,
+    email: appt.client_email,
+    servico: appt.service_name,
+    data: appt.appointment_date,
+    hora: appt.appointment_time,
+    valor: appt.price,
+    status: appt.status,
+  };
 }
 
 function _formatarDataHora(data, hora) {
-    if (!data || !hora) return 'N/A';
-    const [ano, mes, dia] = String(data).split('-');
-    if (!ano || !mes || !dia) return 'N/A';
-    return `${dia}/${mes}/${ano} - ${String(hora).substring(0, 5)}`;
+  if (!data || !hora) return "N/A";
+  const [ano, mes, dia] = String(data).split("-");
+  if (!ano || !mes || !dia) return "N/A";
+  return `${dia}/${mes}/${ano} - ${String(hora).substring(0, 5)}`;
 }
 
 function _formatarValor(valor) {
-    if (valor === null || valor === undefined || valor === '') return 'N/A';
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(valor));
+  if (valor === null || valor === undefined || valor === "") return "N/A";
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(Number(valor));
 }
 
 function _escapeHtml(texto) {
-    return String(texto)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
+  return String(texto)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function preencherCards(agendamentos) {
-    const container = document.getElementById('containerAgendamentos');
-    
-    // Aplicar ordenação
-    const agendamentosOrdenados = _ordenarAgendamentos([...agendamentos]);
-    if (agendamentosOrdenados.length === 0) {
-        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999;">Nenhum agendamento encontrado</p>';
-        return;
-    }
+  const container = document.getElementById("containerAgendamentos");
 
-    container.innerHTML = agendamentosOrdenados.map(appt => {
-        const dados = mapearAgendamento(appt);
-        const dataHora = _formatarDataHora(dados.data, dados.hora);
-        const valorFormatado = _formatarValor(dados.valor);
+  // Aplicar ordenação
+  const agendamentosOrdenados = _ordenarAgendamentos([...agendamentos]);
+  if (agendamentosOrdenados.length === 0) {
+    container.innerHTML =
+      '<p style="grid-column: 1/-1; text-align: center; color: #999;">Nenhum agendamento encontrado</p>';
+    return;
+  }
 
-        return `
-            <article class="card" onclick="abrirDetalhamento('${_escapeHtml(dados.nome || '')}','${_escapeHtml(dados.telefone || '')}','${_escapeHtml(dados.email || '')}','${_escapeHtml(dados.servico || '')}','${_escapeHtml(dataHora)}','${_escapeHtml(valorFormatado)}')">
-                <h3>${_escapeHtml(dados.nome || 'N/A')}</h3>
+  container.innerHTML = agendamentosOrdenados
+    .map((appt) => {
+      const dados = mapearAgendamento(appt);
+      const dataHora = _formatarDataHora(dados.data, dados.hora);
+      const valorFormatado = _formatarValor(dados.valor);
+
+      return `
+            <article class="card" onclick="abrirDetalhamento('${_escapeHtml(dados.id || "")}','${_escapeHtml(dados.nome || "")}','${_escapeHtml(dados.telefone || "")}','${_escapeHtml(dados.email || "")}','${_escapeHtml(dados.servico || "")}','${_escapeHtml(dataHora)}','${_escapeHtml(valorFormatado)}','${_escapeHtml(dados.status || "")}')">
+                <h3>${_escapeHtml(dados.nome || "N/A")}</h3>
                 <div class="infos-card">
                     <div class="info"><div class="circulo-info"><svg width="18" height="18"><use href="#icone-calendario"/></svg></div><div><span class="rotulo">Data e Hora</span><strong>${_escapeHtml(dataHora)}</strong></div></div>
-                    <div class="info"><div class="circulo-info"><svg width="18" height="18"><use href="#icone-relogio"/></svg></div><div><span class="rotulo">Serviço</span><strong>${_escapeHtml(dados.servico || 'N/A')}</strong></div></div>
+                    <div class="info"><div class="circulo-info"><svg width="18" height="18"><use href="#icone-relogio"/></svg></div><div><span class="rotulo">Serviço</span><strong>${_escapeHtml(dados.servico || "N/A")}</strong></div></div>
                     <div class="info"><div class="circulo-info"><svg width="18" height="18"><use href="#icone-cifrao"/></svg></div><div><span class="rotulo">Valor</span><strong>${_escapeHtml(valorFormatado)}</strong></div></div>
                 </div>
             </article>
         `;
-    }).join('');
+    })
+    .join("");
 }
 
 // Filtro funcional
 function _atualizarEstadoBotaoFiltro() {
-    const dataEspecifica = document.getElementById('filtroDataEspecifica').value;
-    const dataInicio = document.getElementById('filtroDataInicio').value;
-    const dataFim = document.getElementById('filtroDataFim').value;
-    const temFiltro = dataEspecifica || dataInicio || dataFim;
-    
-    const botaoFiltro = document.querySelector('button[onclick="abrirFiltro()"]');
-    if (temFiltro) {
-        botaoFiltro.classList.add('ativo');
-    } else {
-        botaoFiltro.classList.remove('ativo');
-    }
+  const dataEspecifica = document.getElementById("filtroDataEspecifica").value;
+  const dataInicio = document.getElementById("filtroDataInicio").value;
+  const dataFim = document.getElementById("filtroDataFim").value;
+  const temFiltro = dataEspecifica || dataInicio || dataFim;
+
+  const botaoFiltro = document.querySelector('button[onclick="abrirFiltro()"]');
+  if (temFiltro) {
+    botaoFiltro.classList.add("ativo");
+  } else {
+    botaoFiltro.classList.remove("ativo");
+  }
 }
 
 function _aplicarFiltro() {
-    const dataEspecifica = document.getElementById('filtroDataEspecifica').value;
-    const dataInicio = document.getElementById('filtroDataInicio').value;
-    const dataFim = document.getElementById('filtroDataFim').value;
+  const dataEspecifica = document.getElementById("filtroDataEspecifica").value;
+  const dataInicio = document.getElementById("filtroDataInicio").value;
+  const dataFim = document.getElementById("filtroDataFim").value;
 
-    if (!dataEspecifica && !dataInicio && !dataFim) {
-        preencherCards(agendamentosGlobais);
-        _atualizarEstadoBotaoFiltro();
-        return;
-    }
-
-    const agendamentosFiltrados = agendamentosGlobais.filter(appt => {
-        const dataAgendamento = appt.appointment_date;
-
-        // Filtro por data específica
-        if (dataEspecifica) {
-            return dataAgendamento === dataEspecifica;
-        }
-        // Filtro por intervalo de datas
-        if (dataInicio && dataFim) {
-            return dataAgendamento >= dataInicio && dataAgendamento <= dataFim;
-        }
-        if (dataInicio) {
-            return dataAgendamento >= dataInicio;
-        }
-        if (dataFim) {
-            return dataAgendamento <= dataFim;
-        }
-        return true;
-    });
-
-    preencherCards(agendamentosFiltrados);
+  if (!dataEspecifica && !dataInicio && !dataFim) {
+    preencherCards(agendamentosGlobais);
     _atualizarEstadoBotaoFiltro();
+    return;
+  }
+
+  const agendamentosFiltrados = agendamentosGlobais.filter((appt) => {
+    const dataAgendamento = appt.appointment_date;
+
+    // Filtro por data específica
+    if (dataEspecifica) {
+      return dataAgendamento === dataEspecifica;
+    }
+    // Filtro por intervalo de datas
+    if (dataInicio && dataFim) {
+      return dataAgendamento >= dataInicio && dataAgendamento <= dataFim;
+    }
+    if (dataInicio) {
+      return dataAgendamento >= dataInicio;
+    }
+    if (dataFim) {
+      return dataAgendamento <= dataFim;
+    }
+    return true;
+  });
+
+  preencherCards(agendamentosFiltrados);
+  _atualizarEstadoBotaoFiltro();
 }
 
 function aplicarFiltro() {
-    _aplicarFiltro();
-    _fecharModais();
+  _aplicarFiltro();
+  _fecharModais();
 }
 
 function _limparFiltros() {
-    ['filtroDataEspecifica','filtroDataInicio','filtroDataFim']
-        .forEach(id => document.getElementById(id).value = '');
-    preencherCards(agendamentosGlobais);
-    _atualizarEstadoBotaoFiltro();
+  ["filtroDataEspecifica", "filtroDataInicio", "filtroDataFim"].forEach(
+    (id) => (document.getElementById(id).value = ""),
+  );
+  preencherCards(agendamentosGlobais);
+  _atualizarEstadoBotaoFiltro();
 }
 
 function _ordenarAgendamentos(agendamentos) {
     const agora = new Date();
-    const agendamentosFuturos = agendamentos.filter(appt => {
+
+    const agendamentosFuturos = agendamentos.filter((appt) => {
+        const status = String(appt.status || '').toLowerCase();
+
+        if (status === 'cancelled' || status === 'cancelado') {
+            return false;
+        }
+
         const hora = String(appt.appointment_time).substring(0, 5);
         const inicio = new Date(`${appt.appointment_date}T${hora}:00`);
         const duracaoMin = Number(appt.duration_minutes) || duracaoServicos[appt.service_name] || 0;
         const fim = new Date(inicio.getTime() + duracaoMin * 60 * 1000);
+
         return fim > agora;
     });
-    
+
     return agendamentosFuturos.sort((a, b) => {
         const dataA = new Date(`${a.appointment_date}T${a.appointment_time}`);
         const dataB = new Date(`${b.appointment_date}T${b.appointment_time}`);
-        
+
         if (ordenacaoAtual === 'recente') {
             return dataA - dataB;
         } else {
@@ -215,41 +232,78 @@ function _ordenarAgendamentos(agendamentos) {
 }
 
 function limparFiltros() {
-    _limparFiltros();
-    _fecharModais();
+  _limparFiltros();
+  _fecharModais();
 }
 
 function _atualizarEstadoBotaoOrdenacao() {
-    const botaoOrdenacao = document.querySelector('button[onclick="abrirOrdenacao()"]');
-    botaoOrdenacao.classList.add('ativo');
+  const botaoOrdenacao = document.querySelector(
+    'button[onclick="abrirOrdenacao()"]',
+  );
+  botaoOrdenacao.classList.add("ativo");
 }
 
 function _selecionarOrdem(tipo) {
-    ordenacaoAtual = tipo;
-    
-    const ativo   = document.getElementById(tipo === 'recente' ? 'ordRecente' : 'ordAntigo');
-    const inativo = document.getElementById(tipo === 'recente' ? 'ordAntigo'  : 'ordRecente');
+  ordenacaoAtual = tipo;
 
-    [ativo, inativo].forEach((el, i) => {
-        el.classList.toggle('ativo', i === 0);
-        el.querySelector('.icone-ordem').classList.toggle('ativo', i === 0);
-        el.querySelector('.check').classList.toggle('oculto', i !== 0);
-    });
+  const ativo = document.getElementById(
+    tipo === "recente" ? "ordRecente" : "ordAntigo",
+  );
+  const inativo = document.getElementById(
+    tipo === "recente" ? "ordAntigo" : "ordRecente",
+  );
 
-    // Reaplicar a ordenação
-    preencherCards(agendamentosGlobais);
-    
-    setTimeout(_fecharModais, 300);
+  [ativo, inativo].forEach((el, i) => {
+    el.classList.toggle("ativo", i === 0);
+    el.querySelector(".icone-ordem").classList.toggle("ativo", i === 0);
+    el.querySelector(".check").classList.toggle("oculto", i !== 0);
+  });
+
+  // Reaplicar a ordenação
+  preencherCards(agendamentosGlobais);
+
+  setTimeout(_fecharModais, 300);
 }
 
 function selecionarOrdem(tipo) {
-    _selecionarOrdem(tipo);
+  _selecionarOrdem(tipo);
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-    await fazerLoginAutomático();
-    await carregarDuracaoServicos();
+async function cancelarAgendamentoAdmin(idAgendamento) {
+  if (!idAgendamento || !tokenGlobal) return;
+
+  try {
+    const response = await fetch(
+      `${URL_API}/admin/appointments/${idAgendamento}/cancel`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${tokenGlobal}`,
+        },
+      },
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.error || result.message || "Erro ao cancelar agendamento.",
+      );
+    }
+
     await carregarAgendamentos();
-    _atualizarEstadoBotaoFiltro();
-    _atualizarEstadoBotaoOrdenacao();
+    fecharModais();
+    abrirCancelamentoSucesso();
+  } catch (erro) {
+    console.error("Erro ao cancelar agendamento:", erro);
+    alert("Não foi possível cancelar o agendamento.");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await fazerLoginAutomático();
+  await carregarDuracaoServicos();
+  await carregarAgendamentos();
+  _atualizarEstadoBotaoFiltro();
+  _atualizarEstadoBotaoOrdenacao();
 });
