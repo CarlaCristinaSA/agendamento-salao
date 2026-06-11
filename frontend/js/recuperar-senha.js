@@ -4,6 +4,7 @@
 (function () {
   // Constante da API
   const URL_API = 'http://localhost:3000/api';
+  const LOGIN_URL = '/frontend/pages/shared/autenticar-usuario.html';
   
   let emailUsuario = '';
 
@@ -390,7 +391,7 @@
   /* Modal — Fazer Login */
   document.getElementById('btn-fazer-login')?.addEventListener('click', () => {
     closeModal('modal-sucesso');
-    window.location.href = '../pages/shared/autenticar-usuario.html'; 
+    window.location.href = LOGIN_URL;
   });
 
 })();

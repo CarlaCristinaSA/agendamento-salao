@@ -1,5 +1,9 @@
 ﻿'use strict';
 
+// URL da sua API
+const URL_API = 'http://localhost:3000/api';
+const LOGIN_URL = '/frontend/pages/shared/autenticar-usuario.html';
+
 // ============================================================
 // REFERÊNCIAS DOM
 // ============================================================
@@ -225,10 +229,10 @@ function validateConfirmarSenha(value) {
 // ============================================================
 // VALIDAÇÃO AO SAIR DO CAMPO (blur)
 // ============================================================
-inputNome.addEventListener('blur',                     () => validateNome(inputNome.value));
-inputEmail.addEventListener('blur',                    () => validateEmail(inputEmail.value));
-inputTelefone.addEventListener('blur',             () => validateTelefone(inputTelefone.value));
-inputSenha.addEventListener('blur',                    () => validateSenha(inputSenha.value));
+inputNome.addEventListener('blur',         () => validateNome(inputNome.value));
+inputEmail.addEventListener('blur',        () => validateEmail(inputEmail.value));
+inputTelefone.addEventListener('blur',     () => validateTelefone(inputTelefone.value));
+inputSenha.addEventListener('blur',        () => validateSenha(inputSenha.value));
 inputConfirmarSenha.addEventListener('blur', () => validateConfirmarSenha(inputConfirmarSenha.value));
 
 // Revalida "confirmar senha" em tempo real sempre que "senha" muda
@@ -258,16 +262,16 @@ inputSenha.addEventListener('input', () => {
 // VALIDAÇÃO COMPLETA DO FORMULÁRIO
 // ============================================================
 function validateAllFields() {
-    const vNome                     = validateNome(inputNome.value);
-    const vEmail                    = validateEmail(inputEmail.value);
-    const vTelefone             = validateTelefone(inputTelefone.value);
-    const vSenha                    = validateSenha(inputSenha.value);
+    const vNome           = validateNome(inputNome.value);
+    const vEmail          = validateEmail(inputEmail.value);
+    const vTelefone       = validateTelefone(inputTelefone.value);
+    const vSenha          = validateSenha(inputSenha.value);
     const vConfirmarSenha = validateConfirmarSenha(inputConfirmarSenha.value);
     return vNome && vEmail && vTelefone && vSenha && vConfirmarSenha;
 }
 
 // ============================================================
-// FLUXO: CRIAR CONTA
+// FLUXO: CRIAR CONTA (Integrado com a API)
 // ============================================================
 btnCriarConta.addEventListener('click', () => {
     if (!validateAllFields()) {
@@ -280,24 +284,57 @@ btnCriarConta.addEventListener('click', () => {
     submitForm();
 });
 
-function submitForm() {
-    btnCriarConta.disabled        = true;
+async function submitForm() {
+    btnCriarConta.disabled    = true;
     btnCriarConta.textContent = 'Criando…';
 
-    // Simula latência de rede / persistência no backend
-    setTimeout(() => {
-        const success = true; // substituir pela resposta real da API
+    // Prepara os dados extraindo os valores dos inputs
+    const name = inputNome.value.trim();
+    const email = inputEmail.value.trim();
+    // Pega apenas os números do telefone para salvar no banco
+    const phone = inputTelefone.value.replace(/\D/g, ''); 
+    const password = inputSenha.value;
+    
+    // Captura a confirmação da senha
+    const confirmPassword = inputConfirmarSenha.value;
 
-        btnCriarConta.disabled        = false;
-        btnCriarConta.textContent = 'CRIAR CONTA';
+    try {
+        const resposta = await fetch(`${URL_API}/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, phone, password, confirmPassword })
+        });
 
-        if (success) {
+        const json = await resposta.json();
+
+        if (resposta.ok && json.success) {
             openModal(modalSucesso);
         } else {
-            // Exibir modal de erro genérico caso necessário
-            alert('Não foi possível criar a conta no momento. Verifique sua conexão e tente novamente.');
+            const erroApi = json.error || 'Não foi possível criar a conta.';
+            const erroLower = erroApi.toLowerCase();
+
+            // Mapeamento de erros do backend direto no input correspondente
+            if (erroLower.includes('email') || erroLower.includes('e-mail') || erroLower.includes('cadastrado')) {
+                showError(errorEmail, erroApi);
+                inputEmail.focus();
+            } else if (erroLower.includes('telefone') || erroLower.includes('phone')) {
+                showError(errorTelefone, erroApi);
+                inputTelefone.focus();
+            } else if (erroLower.includes('senha') || erroLower.includes('password') || erroLower.includes('confirmação')) {
+                // Feedback visual se o erro for na senha
+                showError(errorConfirmarSenha, erroApi);
+                inputConfirmarSenha.focus();
+            } else {
+                alert(erroApi); // Feedback visual genérico se a API retornar algo inesperado
+            }
         }
-    }, 800);
+    } catch (erro) {
+        console.error("Falha na conexão:", erro);
+        alert('Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
+    } finally {
+        btnCriarConta.disabled    = false;
+        btnCriarConta.textContent = 'CRIAR CONTA';
+    }
 }
 
 // ============================================================
@@ -305,9 +342,7 @@ function submitForm() {
 // ============================================================
 btnOkSucesso.addEventListener('click', () => {
     closeModal(modalSucesso);
-    // Redirecionar para a tela de login
-    // window.location.href = '/login';
-    alert('Redirecionando para a tela de Login…');
+    window.location.href = LOGIN_URL;
 });
 
 // ============================================================
@@ -315,6 +350,5 @@ btnOkSucesso.addEventListener('click', () => {
 // ============================================================
 linkEntrar.addEventListener('click', (e) => {
     e.preventDefault();
-    // window.location.href = '/login';
-    alert('Redirecionando para a tela de Login…');
+    window.location.href = LOGIN_URL;
 });
