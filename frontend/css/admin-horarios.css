@@ -166,6 +166,7 @@ h2 span {
     display: none;
     justify-content: center;
     align-items: center;
+    z-index: 200;
 }
 .modal.aberto {
     display: flex; 
