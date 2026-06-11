@@ -463,6 +463,45 @@
     display: block;
 }
 
+.modal-dados-footer {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.modal-dados-footer .modal-confirm-btn {
+    flex: 1;
+    margin-top: 0;
+}
+
+.btn-outline {
+    background: transparent !important;
+    border: 2px solid #D1D5DB !important;
+    color: #110E29 !important;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+.btn-outline:hover {
+    border-color: #E0456A !important;
+    color: #E0456A !important;
+    opacity: 1 !important;
+}
+
+.field-input--readonly {
+    background-color: #F5F5F7 !important;
+    color: rgba(17, 14, 41, 0.80) !important;
+    cursor: default;
+    border-color: #EBEBED !important;
+}
+
+.field-input--readonly:focus {
+    border-color: #EBEBED !important;
+    background-color: #F5F5F7 !important;
+    box-shadow: none !important;
+}
+
 #modal-dados-confirm-btn {
     margin-top: auto;
 }
@@ -757,10 +796,14 @@
         border-radius: 0.875rem;
     }
 
-    #modal-dados-confirm-btn {
-        height: 3.75rem;
+    #modal-dados-confirm-btn,
+    .modal-dados-footer {
         margin-top: 0.5rem;
         margin-bottom: calc(1rem + env(safe-area-inset-bottom));
+    }
+
+    .modal-dados-footer {
+        gap: 0.625rem;
     }
 
     .modal-confirmado {

@@ -1,0 +1,45 @@
+/* ─── BOTÃO VOLTAR ──────────────────────────────────────────────
+   Uso: adicione a classe .btn-voltar em um <a> ou <button>
+   Coloque dentro de .btn-voltar-wrapper logo após a <navbar>
+   e antes do .container da página.
+────────────────────────────────────────────────────────────────── */
+
+.btn-voltar-wrapper {
+    width: 100%;
+    max-width: var(--nav-max-w, 1322px);
+    margin-inline: auto;
+    padding-inline: var(--nav-px, clamp(1rem, 4vw, 2rem));
+    padding-top: 1.5rem;
+}
+
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    color: #E0456A;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.2s, gap 0.2s;
+}
+
+.btn-voltar:hover {
+    opacity: 0.75;
+    gap: 0.125rem;
+}
+
+.btn-voltar svg {
+    flex-shrink: 0;
+    transition: transform 0.2s;
+}
+
+.btn-voltar:hover svg {
+    transform: translateX(-0.2rem);
+}

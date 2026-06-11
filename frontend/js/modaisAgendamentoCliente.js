@@ -192,19 +192,103 @@ function _updateConfirmBtn() {
 /* ══════════════════════════════════════════════════════════════════════════
     MODAL 2 · DADOS DE CONTATO
    ══════════════════════════════════════════════════════════════════════════ */
-function openDadosModal() {
-    // Limpa o formulário antes de abrir
-    FIELD_RULES.forEach(({ inputId, errorId }) => {
-        document.getElementById(inputId).value = '';
-        _clearFieldError(inputId, errorId);
+
+/* Estado local do modal de dados */
+const dadosState = { editando: false };
+
+function _setModoLeitura() {
+    dadosState.editando = false;
+
+    const inputs = ['input-nome', 'input-email', 'input-telefone'];
+    inputs.forEach(id => {
+        const el = document.getElementById(id);
+        el.readOnly = true;
+        el.classList.add('field-input--readonly');
     });
 
-    Modal.open('modal-dados-overlay');
+    const editBtn    = document.getElementById('modal-dados-edit-btn');
+    const confirmBtn = document.getElementById('modal-dados-confirm-btn');
+    editBtn.textContent    = 'Editar Dados';
+    editBtn.classList.add('btn-outline');
+    confirmBtn.textContent = 'CONFIRMAR DADOS';
+    confirmBtn.disabled    = false;
+
+    document.getElementById('modal-dados-subtitle').textContent = 'Confirme seus dados cadastrados';
+}
+
+function _setModoEdicao() {
+    dadosState.editando = true;
+
+    const inputs = ['input-nome', 'input-email', 'input-telefone'];
+    inputs.forEach(id => {
+        const el = document.getElementById(id);
+        el.readOnly = false;
+        el.classList.remove('field-input--readonly');
+    });
+
+    const editBtn = document.getElementById('modal-dados-edit-btn');
+    editBtn.textContent = 'Cancelar Edição';
+    editBtn.classList.add('btn-outline');
+
+    document.getElementById('modal-dados-confirm-btn').textContent = 'CONFIRMAR DADOS';
+    document.getElementById('modal-dados-subtitle').textContent    = 'Edite seus dados abaixo';
     document.getElementById('input-nome').focus();
+}
+
+async function openDadosModal() {
+    // Limpa erros de validação
+    FIELD_RULES.forEach(({ inputId, errorId }) => _clearFieldError(inputId, errorId));
+
+    // Começa sempre em modo leitura
+    _setModoLeitura();
+
+    Modal.open('modal-dados-overlay');
+
+    // Busca dados do perfil
+    try {
+        const token = sessionStorage.getItem('salao_token');
+        if (!token) { redirecionarParaLogin(); return; }
+
+        const response = await fetch(`${URL_API}/auth/me`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (response.status === 401 || response.status === 403) {
+            redirecionarParaLogin();
+            return;
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+            const d = result.data;
+            document.getElementById('input-nome').value     = d.name  || d.full_name  || '';
+            document.getElementById('input-email').value    = d.email || '';
+            const rawPhone = (d.phone || d.phone_number || '').replace(/\D/g, '').slice(0, 11);
+            let masked = rawPhone;
+            if      (rawPhone.length > 6) masked = `(${rawPhone.slice(0,2)}) ${rawPhone.slice(2,7)}-${rawPhone.slice(7)}`;
+            else if (rawPhone.length > 2) masked = `(${rawPhone.slice(0,2)}) ${rawPhone.slice(2)}`;
+            else if (rawPhone.length > 0) masked = `(${rawPhone}`;
+            document.getElementById('input-telefone').value = masked;
+        } else {
+            _setModoEdicao();
+        }
+    } catch (error) {
+        console.error('Erro ao carregar perfil:', error);
+        _setModoEdicao();
+    }
 }
 
 function closeDadosModal() {
     Modal.close('modal-dados-overlay');
+}
+
+function _onToggleEdicao() {
+    if (dadosState.editando) {
+        openDadosModal();
+    } else {
+        _setModoEdicao();
+    }
 }
 
 /* ─── MÁSCARA DE TELEFONE ───────────────────────────────────────────────── */
@@ -289,7 +373,8 @@ function _bindRealtimeValidation() {
 
 /* ─── CONFIRMAR DADOS ───────────────────────────────────────────────────── */
 async function _onConfirmarDados() {
-    if (!_validarDados()) return;
+    // Valida apenas se estiver em modo edição
+    if (dadosState.editando && !_validarDados()) return;
 
     // Extrai e formata a data para o padrão YYYY-MM-DD
     const dataAgendamentoIso = new Date(state.selectedDate.getTime() - (state.selectedDate.getTimezoneOffset() * 60000))
@@ -401,6 +486,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .addEventListener('click', closeDadosModal);
     Modal.bindOverlayClose('modal-dados-overlay');
 
+    document.getElementById('modal-dados-edit-btn')
+        .addEventListener('click', _onToggleEdicao);
     document.getElementById('modal-dados-confirm-btn')
         .addEventListener('click', _onConfirmarDados);
     document.getElementById('input-telefone')

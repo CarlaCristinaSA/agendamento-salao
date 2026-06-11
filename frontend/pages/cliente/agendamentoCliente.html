@@ -132,7 +132,7 @@
             <div class="modal-header">
                 <div class="modal-header-text">
                     <h2 id="modal-dados-title">Dados de Contato</h2>
-                    <span>Complete seu agendamento</span>
+                    <span id="modal-dados-subtitle">Confirme seus dados cadastrados</span>
                 </div>
                 <button class="modal-close" id="modal-dados-close-btn" aria-label="Fechar">
                     <i class="fa-solid fa-xmark"></i>
@@ -145,7 +145,7 @@
                         <i class="fa-regular fa-user"></i>
                         NOME COMPLETO
                     </label>
-                    <input class="field-input" id="input-nome" type="text" placeholder="Digite seu nome completo" autocomplete="name" />
+                    <input class="field-input field-input--readonly" id="input-nome" type="text" placeholder="Digite seu nome completo" autocomplete="name" readonly />
                     <span class="error-msg" id="error-nome"></span>
                 </div>
                 <!-- Campo E-mail -->
@@ -154,7 +154,7 @@
                         <i class="fa-regular fa-envelope"></i>
                         E-MAIL
                     </label>
-                    <input class="field-input" id="input-email" type="email" placeholder="seu@email.com" autocomplete="email" />
+                    <input class="field-input field-input--readonly" id="input-email" type="email" placeholder="seu@email.com" autocomplete="email" readonly />
                     <span class="error-msg" id="error-email"></span>
                 </div>
                 <!-- Campo Telefone -->
@@ -163,11 +163,14 @@
                         <i class="fa-solid fa-phone"></i>
                         TELEFONE
                     </label>
-                    <input class="field-input" id="input-telefone" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" maxlength="15" />
+                    <input class="field-input field-input--readonly" id="input-telefone" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" maxlength="15" readonly />
                     <span class="error-msg" id="error-telefone"></span>
                 </div>
             </div>
-            <button class="modal-confirm-btn" id="modal-dados-confirm-btn">CONFIRMAR AGENDAMENTO</button>
+            <div class="modal-dados-footer">
+                <button class="modal-confirm-btn btn-outline" id="modal-dados-edit-btn">Editar Dados</button>
+                <button class="modal-confirm-btn" id="modal-dados-confirm-btn">Confirmar Dados</button>
+            </div>
         </div>
     </div>
 
