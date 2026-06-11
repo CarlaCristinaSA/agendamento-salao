@@ -509,6 +509,9 @@ body {
     background: var(--gradient-primary);
     border: none;
     color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-btn-confirm:hover { opacity: 0.9; }
