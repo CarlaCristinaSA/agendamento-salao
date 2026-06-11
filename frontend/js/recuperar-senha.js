@@ -1,7 +1,11 @@
-/* ─── RECUPERAR SENHA — JavaScript ──────────────────────────────────────── */
+/* ─── RECUPERAR SENHA ────────────────── */
 'use strict';
 
 (function () {
+  // Constante da API
+  const URL_API = 'http://localhost:3000/api';
+  
+  let emailUsuario = '';
 
   /* ── Utilitários DOM ── */
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
@@ -33,7 +37,7 @@
     if (e.key === 'Escape') closeModal('modal-sucesso');
   });
 
-  /* ── Funções de erro (mesmo padrão do projeto) ── */
+  /* ── Funções de erro ── */
   function showError(errorEl, inputEl, msg) {
     if (!errorEl) return;
     errorEl.textContent = msg;
@@ -54,7 +58,7 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lower);
   }
 
-  /* ── Validação de senha forte (igual ao projeto de referência) ── */
+  /* ── Validação de senha forte ── */
   function passwordStrongRules(value) {
     const rules = [
       { re: /.{8,}/,                   msg: 'A senha deve conter pelo menos 8 caracteres.' },
@@ -70,17 +74,16 @@
   }
 
   /* ════════════════════════════════════════════════════════
-     TELA 1 — ESQUECI MINHA SENHA
+     TELA 1
   ════════════════════════════════════════════════════════ */
   const emailInput   = document.getElementById('email-input');
   const errorEmailT1 = document.getElementById('error-email-t1');
+  const btnContinuar = document.getElementById('btn-continuar');
 
-  // Limpa erro ao digitar
   emailInput?.addEventListener('input', () => {
     clearError(errorEmailT1, emailInput);
   });
 
-  // Valida ao sair do campo
   emailInput?.addEventListener('blur', () => {
     const val = emailInput.value.trim();
     if (!val) {
@@ -92,7 +95,7 @@
     }
   });
 
-  document.getElementById('btn-continuar')?.addEventListener('click', () => {
+  btnContinuar?.addEventListener('click', async () => {
     const val = emailInput.value.trim();
     if (!val) {
       showError(errorEmailT1, emailInput, 'Informe o seu e-mail.');
@@ -104,26 +107,56 @@
       emailInput.focus();
       return;
     }
+    
     clearError(errorEmailT1, emailInput);
-    goToScreen('tela-2');
-    setTimeout(() => {
-      document.querySelector('#otp-row .otp-input')?.focus();
-    }, 100);
+
+    // Efeito de Carregamento
+    const textoOriginal = btnContinuar.textContent;
+    btnContinuar.disabled = true;
+    btnContinuar.textContent = 'Enviando...';
+
+    try {
+      const resposta = await fetch(`${URL_API}/auth/forgot-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: val })
+      });
+
+      const json = await resposta.json();
+
+      if (resposta.ok && json.success) {
+        // Salva o e-mail validado para usar no último passo
+        emailUsuario = val;
+        
+        // Avança para a tela do código OTP
+        goToScreen('tela-2');
+        setTimeout(() => {
+          document.querySelector('#otp-row .otp-input')?.focus();
+        }, 100);
+      } else {
+        showError(errorEmailT1, emailInput, json.error || 'Não foi possível solicitar a recuperação.');
+      }
+    } catch (erro) {
+      console.error("Erro na requisição:", erro);
+      showError(errorEmailT1, emailInput, 'Falha ao conectar com o servidor.');
+    } finally {
+      btnContinuar.disabled = false;
+      btnContinuar.textContent = textoOriginal;
+    }
   });
 
   /* ════════════════════════════════════════════════════════
-     TELA 2 — VERIFICAR E-MAIL (OTP)
+     TELA 2
   ════════════════════════════════════════════════════════ */
   const otpInputs = [...document.querySelectorAll('.otp-input')];
   const errorOtp  = document.getElementById('error-otp');
+  const btnVerificar = document.getElementById('btn-verificar');
 
   otpInputs.forEach((input, index) => {
     input.addEventListener('input', e => {
-      // Só dígito
       const val = e.target.value.replace(/\D/g, '');
       e.target.value = val ? val[val.length - 1] : '';
 
-      // Limpa estado de erro ao digitar
       e.target.classList.remove('error');
       clearError(errorOtp, null);
 
@@ -162,7 +195,7 @@
     });
   });
 
-  document.getElementById('btn-verificar')?.addEventListener('click', () => {
+  btnVerificar?.addEventListener('click', () => {
     const code = otpInputs.map(i => i.value).join('');
     if (code.length < 6) {
       otpInputs.forEach(i => {
@@ -178,10 +211,23 @@
 
   /* Reenviar com timer */
   const btnReenviar = document.getElementById('btn-reenviar');
-  btnReenviar?.addEventListener('click', () => {
+  btnReenviar?.addEventListener('click', async () => {
     otpInputs.forEach(i => { i.value = ''; i.classList.remove('filled', 'error'); });
     clearError(errorOtp, null);
     otpInputs[0]?.focus();
+    
+    if (emailUsuario) {
+      try {
+        // Dispara uma nova requisição em segundo plano para reenviar o e-mail
+        await fetch(`${URL_API}/auth/forgot-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: emailUsuario })
+        });
+      } catch (err) {
+        console.error("Erro ao reenviar:", err);
+      }
+    }
     startReenviarTimer(btnReenviar);
   });
 
@@ -204,7 +250,6 @@
     }, 1000);
   }
 
-  /* Tentar novamente — volta para tela 1 */
   document.getElementById('btn-tentar-novamente')?.addEventListener('click', () => {
     otpInputs.forEach(i => { i.value = ''; i.classList.remove('filled', 'error'); });
     clearError(errorOtp, null);
@@ -212,12 +257,13 @@
   });
 
   /* ════════════════════════════════════════════════════════
-     TELA 3 — NOVA SENHA
+     TELA 3
   ════════════════════════════════════════════════════════ */
   const inputNovaSenha      = document.getElementById('nova-senha');
   const inputConfirmarSenha = document.getElementById('confirmar-senha');
   const errorNovaSenha      = document.getElementById('error-nova-senha');
   const errorConfirmarSenha = document.getElementById('error-confirmar-senha');
+  const btnConcluir         = document.getElementById('btn-concluir');
 
   /* Olhinho */
   document.querySelectorAll('.icon-btn').forEach(btn => {
@@ -232,10 +278,9 @@
     });
   });
 
-  /* Validação em tempo real — nova senha */
+  /* Validação em tempo real */
   inputNovaSenha?.addEventListener('input', () => {
     clearError(errorNovaSenha, inputNovaSenha);
-    // Se confirmar já tem valor, revalida a correspondência também
     if (inputConfirmarSenha.value) {
       if (inputConfirmarSenha.value !== inputNovaSenha.value) {
         showError(errorConfirmarSenha, inputConfirmarSenha, 'As senhas não coincidem.');
@@ -255,7 +300,6 @@
     else clearError(errorNovaSenha, inputNovaSenha);
   });
 
-  /* Validação em tempo real — confirmar senha */
   inputConfirmarSenha?.addEventListener('input', () => {
     if (!inputConfirmarSenha.value) {
       clearError(errorConfirmarSenha, inputConfirmarSenha);
@@ -278,11 +322,10 @@
     }
   });
 
-  /* Concluir */
-  document.getElementById('btn-concluir')?.addEventListener('click', () => {
+  /* Concluir — Envio Final para o Backend */
+  btnConcluir?.addEventListener('click', async () => {
     let valid = true;
 
-    // Valida nova senha
     if (!inputNovaSenha.value) {
       showError(errorNovaSenha, inputNovaSenha, 'Informe a nova senha.');
       valid = false;
@@ -296,7 +339,6 @@
       }
     }
 
-    // Valida confirmar senha
     if (!inputConfirmarSenha.value) {
       showError(errorConfirmarSenha, inputConfirmarSenha, 'Confirme a nova senha.');
       valid = false;
@@ -308,16 +350,47 @@
     }
 
     if (!valid) return;
-    openModal('modal-sucesso');
+
+    // Captura o código digitado na tela 2
+    const codigoOtp = otpInputs.map(i => i.value).join('');
+
+    // Feedback visual de carregamento
+    const textoOriginal = btnConcluir.textContent;
+    btnConcluir.disabled = true;
+    btnConcluir.textContent = 'Processando...';
+
+    try {
+      const resposta = await fetch(`${URL_API}/auth/reset-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: emailUsuario,
+          code: codigoOtp,
+          newPassword: inputNovaSenha.value
+        })
+      });
+
+      const json = await resposta.json();
+
+      if (resposta.ok && json.success) {
+        openModal('modal-sucesso');
+      } else {
+        // Se o erro for do token/OTP inválido, exibe o erro na tela de nova senha
+        showError(errorNovaSenha, inputNovaSenha, json.error || 'Código inválido ou expirado.');
+      }
+    } catch (erro) {
+      console.error("Erro na requisição final:", erro);
+      showError(errorNovaSenha, inputNovaSenha, 'Erro ao conectar ao servidor. Tente novamente.');
+    } finally {
+      btnConcluir.disabled = false;
+      btnConcluir.textContent = textoOriginal;
+    }
   });
 
   /* Modal — Fazer Login */
   document.getElementById('btn-fazer-login')?.addEventListener('click', () => {
     closeModal('modal-sucesso');
-    // Em produção: window.location.href = '/login';
-    goToScreen('tela-1');
-    emailInput.value = '';
-    clearError(errorEmailT1, emailInput);
+    window.location.href = '../pages/shared/autenticar-usuario.html'; 
   });
 
 })();
