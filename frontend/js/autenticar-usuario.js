@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sessionStorage.getItem('salao_token')) {
         const savedRole = sessionStorage.getItem('salao_user_role');
         if (savedRole === 'admin') {
-            window.location.href = '../admin/consultar-agendamentos.html';
+            window.location.href = '../admin/tela-inicial-adm.html';
         } else {
             window.location.href = '../cliente/tela-inicial-cliente.html'; 
         }
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (userRole === 'admin') {
                         window.location.href = '../admin/tela-inicial-adm.html';
                     } else {
-                        window.location.href = '../cliente/agendamentoCliente.html'; 
+                        window.location.href = '../cliente/tela-inicial-cliente.html'; 
                     }
                 } else {
                     sessionStorage.removeItem('salao_token');
