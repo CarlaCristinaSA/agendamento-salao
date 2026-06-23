@@ -257,6 +257,29 @@ body {
     line-height: 1.75rem;
 }
 
+.circulo-info,
+.circulo-icone {
+    border-radius: 50%;
+    background: var(--gradiente);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.circulo-info {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.rotulo {
+    font-size: clamp(0.625rem, 0.9vw, 0.75rem);
+    font-weight: 400;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--cinza);
+}
+
 /* Cancel button */
 .btn-cancel {
     margin-top: 1rem;
