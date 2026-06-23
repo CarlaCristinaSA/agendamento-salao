@@ -35,7 +35,7 @@ const SVG = {
 function obterTokenCliente() {
     tokenGlobal = sessionStorage.getItem("salao_token");
     if (!tokenGlobal) {
-        window.location.href = "../shared/autenticar-usuario.html";
+        window.location.href = "/frontend/pages/shared/autenticar-usuario.html";
         return false;
     }
     return true;
