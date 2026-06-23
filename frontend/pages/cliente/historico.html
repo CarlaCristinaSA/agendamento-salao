@@ -73,56 +73,20 @@
       <div class="page-header">
         <div class="header-icon-wrap">
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9.3335 2.33325V6.99992" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M18.6665 2.33325V6.99992" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M22.1667 4.66675H5.83333C4.54467 4.66675 3.5 5.71142 3.5 7.00008V23.3334C3.5 24.6221 4.54467 25.6667 5.83333 25.6667H22.1667C23.4553 25.6667 24.5 24.6221 24.5 23.3334V7.00008C24.5 5.71142 23.4553 4.66675 22.1667 4.66675Z" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M3.5 11.6667H24.5" stroke="white" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3.5 11.6667C3.5 9.87917 4.20982 8.16468 5.47258 6.90192C6.73535 5.63916 8.44983 4.92933 10.2373 4.92933C11.6943 4.9364 13.1097 5.41367 14.2777 6.28867L19.8327 1.16667C20.0567 0.959 20.349 0.849 20.6483 0.862C20.9477 0.875 21.2293 1.009 21.4343 1.235C21.6393 1.461 21.7493 1.759 21.7387 2.06467C21.728 2.37033 21.5973 2.659 21.3753 2.87167L15.8203 8.00533C16.4683 8.96967 16.8747 10.0757 16.9983 11.2337L23.3333 8.16667C23.6153 8.03133 23.94 8.00967 24.237 8.10633C24.534 8.203 24.779 8.40967 24.9217 8.68233C25.0643 8.955 25.0937 9.27067 25.0037 9.564C24.9137 9.85733 24.712 10.1063 24.4393 10.2617L16.9167 14.1383C16.593 15.3447 15.9447 16.4417 15.0403 17.3103L20.1667 22.4367C20.391 22.6467 20.5247 22.934 20.5393 23.239C20.554 23.544 20.449 23.8427 20.2467 24.073C20.0443 24.3033 19.761 24.4473 19.4567 24.474C19.1523 24.5007 18.849 24.4077 18.6117 24.2133L12.971 18.5727C12.1023 18.8787 11.1793 19.0333 10.2373 19.0333C8.44983 19.0333 6.73535 18.3235 5.47258 17.0607C4.20982 15.798 3.5 14.0835 3.5 12.2967V11.6667Z" fill="white"/>
           </svg>
         </div>
-        <h1>Meus Agendamentos</h1>
-        <p>Visualize e gerencie seus agendamentos</p>
+        <h1>Histórico</h1>
+        <p>Seus agendamentos concluídos e cancelados</p>
       </div>
 
-      <!-- EM BREVE -->
-      <section class="section-embreve">
-        <div class="section-divider">
-          <span class="divider-line divider-line--pink"></span>
-          <h2 class="pink">Em Breve</h2>
-          <span class="divider-line divider-line--pink"></span>
-        </div>
-        <div class="cards-grid" id="cards-embreve"></div>
-      </section>
-
       <!-- HISTÓRICO -->
-      <section class="section-historico">
-        <div class="section-divider">
-          <span class="divider-line divider-line--gray"></span>
-          <h2 class="gray">Histórico</h2>
-          <span class="divider-line divider-line--gray"></span>
-        </div>
+      <section class="section-historico" style="padding-top: 0;">
         <div class="cards-grid" id="cards-historico"></div>
       </section>
 
     </div>
   </main>
-
-  <!-- ═══════════════════ MODAL: CONFIRMAÇÃO DE CANCELAMENTO ═══════════════════ -->
-  <div class="overlay" id="overlay-confirmar" role="dialog" aria-modal="true" aria-labelledby="modal-confirmar-title">
-    <div class="modal">
-      <div class="modal-icon">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M24 8L8 24" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M8 8L24 24" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <h2 id="modal-confirmar-title">Cancelar Agendamento?</h2>
-      <p id="modal-confirmar-desc">Tem certeza que deseja cancelar o agendamento de "<span id="modal-servico-nome"></span>"?</p>
-      <div class="modal-btn-row">
-        <button class="btn-secondary" id="btn-nao">NÃO</button>
-        <button class="btn-primary"   id="btn-sim-cancelar">SIM, CANCELAR</button>
-      </div>
-    </div>
-  </div>
 
   <!-- ═══════════════════ MODAL: CANCELAMENTO CONFIRMADO ═══════════════════ -->
   <div class="overlay" id="overlay-sucesso" role="dialog" aria-modal="true" aria-labelledby="modal-sucesso-title">
@@ -136,30 +100,12 @@
           <defs><clipPath id="cs1"><rect width="32" height="32" fill="white"/></clipPath></defs>
         </svg>
       </div>
-      <h2 id="modal-sucesso-title">Cancelamento Confirmado!</h2>
-      <p>Seu agendamento foi cancelado com sucesso</p>
+      <h2 id="modal-sucesso-title">Pronto!</h2>
+      <p>Os dados foram atualizados.</p>
       <button class="btn-full" id="btn-ok-sucesso">OK</button>
     </div>
   </div>
 
-  <!-- ═══════════════════ MODAL: ATENÇÃO (menos de 24h) ═══════════════════ -->
-  <div class="overlay" id="overlay-atencao" role="dialog" aria-modal="true" aria-labelledby="modal-atencao-title">
-    <div class="modal">
-      <div class="modal-icon">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10.6665 2.66675V8.00008" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M21.3335 2.66675V8.00008" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M25.3333 5.33325H6.66667C5.19391 5.33325 4 6.52716 4 7.99992V26.6666C4 28.1393 5.19391 29.3333 6.66667 29.3333H25.3333C26.8061 29.3333 28 28.1393 28 26.6666V7.99992C28 6.52716 26.8061 5.33325 25.3333 5.33325Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M4 13.3333H28" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <h2 id="modal-atencao-title">Atenção!</h2>
-      <p class="large">Cancelamentos com menos de 24h de antecedência devem ser feitos exclusivamente por telefone/WhatsApp do salão.</p>
-      <button class="btn-full" id="btn-entendi">ENTENDI</button>
-    </div>
-  </div>
-
-  <!-- Script -->
   <script src="/frontend/js/historico.js"></script>
 
 </body>

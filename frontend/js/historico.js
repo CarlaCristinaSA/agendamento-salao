@@ -2,16 +2,14 @@
 
 const API_BASE_URL = 'http://localhost:3000/api';
 
-// ─── ESTADO ──────────────────────────────────────────────────────────────────
+// ─── ESTADO ───────────────────────────────────────────────────────────────────
 let tokenGlobal = null;
 
 const state = {
-  upcoming: [],
-  history:  [],
-  cancelId: null,
+  history: [], 
 };
 
-// ─── SVGs ────────────────────────────────────────────────────────────────────
+// ─── SVGs ─────────────────────────────────────────────────────────────────────
 const SVG = {
   calendar: `
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -44,20 +42,16 @@ const SVG = {
 };
 
 // ─── AUTENTICAÇÃO ─────────────────────────────────────────────────────────────
-
 function getAuthToken() {
   return sessionStorage.getItem('salao_token') || null;
 }
 
 function redirectToLogin() {
   sessionStorage.removeItem('salao_token');
-  sessionStorage.removeItem('salao_admin_nome');
-  sessionStorage.removeItem('salao_user_role');
   window.location.href = '/frontend/pages/shared/autenticar-usuario.html';
 }
 
 // ─── API ──────────────────────────────────────────────────────────────────────
-
 async function apiRequest(path, { method = 'GET', body = null } = {}) {
   if (!tokenGlobal) tokenGlobal = getAuthToken();
 
@@ -84,13 +78,11 @@ async function apiRequest(path, { method = 'GET', body = null } = {}) {
   return json;
 }
 
-// ─── UTILITÁRIOS ──────────────────────────────────────────────────────────────
-
 function formatarData(dataISO) {
   if (!dataISO) return '';
-  const partes = dataISO.split('-');
-  if (partes.length !== 3) return dataISO;
-  const [ano, mes, dia] = partes;
+  const data = String(dataISO).split('T')[0];
+  const [ano, mes, dia] = data.split('-');
+  if (!ano || !mes || !dia) return dataISO;
   return `${dia}/${mes}/${ano}`;
 }
 
@@ -100,46 +92,53 @@ function formatarValor(valor) {
   return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
+function _ehHistorico(ag) {
+  const status = String(ag.status || '').toLowerCase();
+  if (status === 'cancelled' || status === 'cancelado') return true;
+
+  const agora = new Date();
+  const dataLimpa = String(ag.appointment_date).split('T')[0];
+  const horaLimpa = String(ag.appointment_time).substring(0, 5);
+  const inicio    = new Date(`${dataLimpa}T${horaLimpa}:00`);
+  const duracao   = Number(ag.duration_minutes) || 0;
+  const fim = duracao > 0
+    ? new Date(inicio.getTime() + duracao * 60 * 1000)
+    : inicio;
+
+  return fim <= agora;
+}
+
 // ─── BADGE ────────────────────────────────────────────────────────────────────
-function badgeHTML(displayStatus) {
-  switch (displayStatus) {
-    case 'Pendente':
-      return `<span class="badge badge--pendente">${SVG.check} PENDENTE</span>`;
-    case 'Concluído':
-      return `<span class="badge badge--concluido">${SVG.check} CONCLUÍDO</span>`;
-    case 'Cancelado':
-      return `<span class="badge badge--cancelado">${SVG.x} CANCELADO</span>`;
-    default:
-      return `<span class="badge badge--cancelado">${SVG.x} ${displayStatus.toUpperCase()}</span>`;
+function badgeHTML(ag) {
+  const status = String(ag.display_status || ag.status || '').toLowerCase();
+
+  if (status === 'cancelado' || status === 'cancelled') {
+    return `<span class="badge badge--cancelado">${SVG.x} CANCELADO</span>`;
   }
+  if (status === 'concluído' || status === 'concluido' || status === 'completed') {
+    return `<span class="badge badge--concluido">${SVG.check} CONCLUÍDO</span>`;
+  }
+  return `<span class="badge badge--concluido">${SVG.check} CONCLUÍDO</span>`;
 }
 
 // ─── CARD ─────────────────────────────────────────────────────────────────────
-function cardHTML(ag, isFuture) {
+function cardHTML(ag) {
   const dataFormatada  = formatarData(ag.appointment_date);
+  const horaFormatada  = String(ag.appointment_time || '').substring(0, 5);
   const valorFormatado = formatarValor(ag.price);
 
-  // Botão de cancelar: só aparece em futuros com permissão do backend
-  const cancelBtn = (isFuture && ag.can_cancel)
-    ? `<button class="btn-cancel"
-              data-id="${ag.id}"
-              data-servico="${ag.service_name.replace(/"/g, '&quot;')}">
-        CANCELAR AGENDAMENTO
-      </button>`
-    : '';
-
   return `
-    <div class="card${isFuture ? '' : ' card--history'}">
+    <div class="card card--history">
       <div class="card__header">
-        <h3 class="card__title">${ag.service_name}</h3>
-        ${badgeHTML(ag.display_status)}
+        <h3 class="card__title">${ag.service_name || 'Serviço'}</h3>
+        ${badgeHTML(ag)}
       </div>
       <div class="card__body">
         <div class="info-row">
           <div class="info-icon">${SVG.calendar}</div>
           <div class="info-text">
             <span class="info-label">Data e Hora</span>
-            <span class="info-value">${dataFormatada} — ${ag.appointment_time}</span>
+            <span class="info-value">${dataFormatada} — ${horaFormatada}</span>
           </div>
         </div>
         <div class="info-row">
@@ -150,38 +149,31 @@ function cardHTML(ag, isFuture) {
           </div>
         </div>
       </div>
-      ${cancelBtn}
     </div>`;
 }
 
-// ─── LOADING STATE ────────────────────────────────────────────────────────────
+// ─── LOADING ──────────────────────────────────────────────────────────────────
 function showLoading() {
-  const placeholder = `
-    <div class="empty-message" style="opacity:0.5;">Carregando...</div>`;
-  document.getElementById('cards-embreve').innerHTML   = placeholder;
-  document.getElementById('cards-historico').innerHTML = placeholder;
+  document.getElementById('cards-historico').innerHTML =
+    '<div class="empty-message" style="opacity:0.5;">Carregando...</div>';
 }
 
 // ─── RENDERIZAÇÃO ─────────────────────────────────────────────────────────────
 function renderCards() {
-  const containerEmBreve   = document.getElementById('cards-embreve');
-  const containerHistorico = document.getElementById('cards-historico');
+  const container = document.getElementById('cards-historico');
 
-  // "Em Breve"
-  containerEmBreve.innerHTML = state.upcoming.length === 0
-    ? '<p class="empty-message">Você não possui agendamentos futuros.</p>'
-    : state.upcoming.map(a => cardHTML(a, true)).join('');
+  if (state.history.length === 0) {
+    container.innerHTML = '<p class="empty-message">Seu histórico está vazio.</p>';
+    return;
+  }
 
-  // "Histórico"
-  containerHistorico.innerHTML = state.history.length === 0
-    ? '<p class="empty-message">Seu histórico está vazio.</p>'
-    : state.history.map(a => cardHTML(a, false)).join('');
-
-  containerEmBreve.querySelectorAll('.btn-cancel').forEach(btn => {
-    btn.addEventListener('click', () =>
-      handleCancelClick(Number(btn.dataset.id), btn.dataset.servico)
-    );
+  const ordenados = [...state.history].sort((a, b) => {
+    const dtA = new Date(`${String(a.appointment_date).split('T')[0]}T${String(a.appointment_time).substring(0, 5)}:00`);
+    const dtB = new Date(`${String(b.appointment_date).split('T')[0]}T${String(b.appointment_time).substring(0, 5)}:00`);
+    return dtB - dtA;
   });
+
+  container.innerHTML = ordenados.map(cardHTML).join('');
 }
 
 // ─── CARREGAR AGENDAMENTOS ────────────────────────────────────────────────────
@@ -190,23 +182,26 @@ async function carregarAgendamentos() {
 
   try {
     const result = await apiRequest('/client/appointments');
+    let todos = [];
 
-    // Validação da estrutura de resposta
-    if (!result.success || !result.data || !Array.isArray(result.data.upcoming) || !Array.isArray(result.data.history)) {
-      throw new Error('Formato de resposta inesperado da API.');
+    if (result.data) {
+      if (Array.isArray(result.data)) {
+        todos = result.data;
+      } else if (typeof result.data === 'object') {
+        const upcoming = Array.isArray(result.data.upcoming) ? result.data.upcoming : [];
+        const history  = Array.isArray(result.data.history)  ? result.data.history  : [];
+        const past     = Array.isArray(result.data.past)     ? result.data.past     : [];
+        todos = [...upcoming, ...history, ...past];
+      }
     }
 
-    state.upcoming = result.data.upcoming;
-    state.history  = result.data.history;
+    state.history = todos.filter(_ehHistorico);
 
-    console.log('✅ Agendamentos carregados:', {
-      upcoming: state.upcoming.length,
-      history:  state.history.length,
-    });
+    console.log('✅ Histórico carregado:', state.history.length, 'registros');
 
     renderCards();
   } catch (err) {
-    console.error('❌ Erro ao carregar agendamentos:', err);
+    console.error('❌ Erro ao carregar histórico:', err);
 
     if (err.status === 401 || err.status === 403) {
       alert('Sessão expirada. Por favor, faça login novamente.');
@@ -214,13 +209,11 @@ async function carregarAgendamentos() {
       return;
     }
 
-    const msg = '<p class="empty-message">Erro ao carregar agendamentos. Tente novamente mais tarde.</p>';
-    document.getElementById('cards-embreve').innerHTML   = msg;
-    document.getElementById('cards-historico').innerHTML = msg;
+    document.getElementById('cards-historico').innerHTML =
+      '<p class="empty-message">Erro ao carregar histórico. Tente novamente mais tarde.</p>';
   }
 }
 
-// ─── OVERLAY / MODAL ──────────────────────────────────────────────────────────
 function openOverlay(id) {
   const el = document.getElementById(id);
   if (el) el.classList.add('active');
@@ -231,72 +224,18 @@ function closeOverlay(id) {
   if (el) el.classList.remove('active');
 }
 
-// ─── CANCELAMENTO ─────────────────────────────────────────────────────────────
-function handleCancelClick(id, servico) {
-  const ag = state.upcoming.find(a => a.id === id);
-
-  if (!ag) {
-    console.error('Agendamento não encontrado no estado local:', id);
-    return;
-  }
-
-  if (!ag.can_cancel) {
-    openOverlay('overlay-atencao');
-    return;
-  }
-
-  state.cancelId = id;
-  document.getElementById('modal-servico-nome').textContent = servico;
-  openOverlay('overlay-confirmar');
-}
-
-async function cancelarAgendamento(id) {
-  try {
-    const result = await apiRequest(`/client/appointments/${id}/cancel`, { method: 'PATCH' });
-
-    if (result.success) {
-      console.log('✅ Agendamento cancelado:', id);
-      return { ok: true };
-    }
-
-    throw new Error(result.error || 'Erro ao cancelar agendamento.');
-  } catch (err) {
-    console.error('❌ Erro ao cancelar agendamento:', err);
-
-    if (err.status === 422) {
-      return { ok: false, reason: 'less_than_24h' };
-    }
-
-    if (err.status === 401 || err.status === 403) {
-      return { ok: false, reason: 'auth' };
-    }
-
-    if (err.status === 409) {
-      return { ok: false, reason: 'already_cancelled' };
-    }
-
-    return { ok: false, reason: 'generic', message: err.message };
-  }
-}
-
-// ─── EVENT LISTENERS DOS MODAIS ───────────────────────────────────────────────
-
 document.addEventListener('DOMContentLoaded', async () => {
 
-  // ── Autenticação ──────────────────────────────────────────────────────────
   tokenGlobal = getAuthToken();
 
   if (!tokenGlobal) {
-    console.warn('⚠️ Token não encontrado. Redirecionando para login...');
     alert('Você precisa estar logado para acessar esta página.');
     redirectToLogin();
     return;
   }
 
-  // ── Navbar toggle (mobile) ────────────────────────────────────────────────
   const navToggle = document.getElementById('navbar-toggle');
   const navMenu   = document.getElementById('navbar-nav');
-
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', () => {
       const isOpen = navMenu.classList.toggle('open');
@@ -304,66 +243,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // ── Modal: botão "NÃO" ────────────────────────────────────────────────────
-  document.getElementById('btn-nao').addEventListener('click', () => {
-    closeOverlay('overlay-confirmar');
-    state.cancelId = null;
-  });
+  const btnOkSucesso = document.getElementById('btn-ok-sucesso');
+  if (btnOkSucesso) {
+    btnOkSucesso.addEventListener('click', () => closeOverlay('overlay-sucesso'));
+  }
 
-  // ── Modal: botão "SIM, CANCELAR" ──────────────────────────────────────────
-  document.getElementById('btn-sim-cancelar').addEventListener('click', async () => {
-    if (state.cancelId === null) return;
-
-    const btn = document.getElementById('btn-sim-cancelar');
-    const originalText = btn.textContent;
-    btn.disabled    = true;
-    btn.textContent = 'CANCELANDO...';
-
-    try {
-      const res = await cancelarAgendamento(state.cancelId);
-
-      if (res.ok) {
-        closeOverlay('overlay-confirmar');
-        state.cancelId = null;
-        await carregarAgendamentos();
-        openOverlay('overlay-sucesso');
-        return;
-      }
-
-      // Tratamento por tipo de falha
-      closeOverlay('overlay-confirmar');
-
-      if (res.reason === 'less_than_24h') {
-        openOverlay('overlay-atencao');
-      } else if (res.reason === 'auth') {
-        alert('Sessão expirada. Por favor, faça login novamente.');
-        redirectToLogin();
-      } else if (res.reason === 'already_cancelled') {
-        alert('Este agendamento já foi cancelado.');
-        state.cancelId = null;
-        await carregarAgendamentos();
-      } else {
-        alert(res.message || 'Não foi possível cancelar o agendamento. Tente novamente.');
-        state.cancelId = null;
-      }
-    } finally {
-      btn.disabled    = false;
-      btn.textContent = originalText;
-    }
-  });
-
-  // ── Modal: botão "OK" (sucesso) ───────────────────────────────────────────
-  document.getElementById('btn-ok-sucesso').addEventListener('click', () => {
-    closeOverlay('overlay-sucesso');
-  });
-
-  // ── Modal: botão "ENTENDI" (atenção) ─────────────────────────────────────
-  document.getElementById('btn-entendi').addEventListener('click', () => {
-    closeOverlay('overlay-atencao');
-  });
-
-  // ── Fechar overlay ao clicar no backdrop ──────────────────────────────────
-  ['overlay-confirmar', 'overlay-sucesso', 'overlay-atencao'].forEach(id => {
+  ['overlay-sucesso'].forEach(id => {
     const overlay = document.getElementById(id);
     if (overlay) {
       overlay.addEventListener('click', function (e) {
@@ -372,14 +257,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // ── Fechar overlays com ESC ───────────────────────────────────────────────
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      ['overlay-confirmar', 'overlay-sucesso', 'overlay-atencao'].forEach(closeOverlay);
-    }
+    if (e.key === 'Escape') closeOverlay('overlay-sucesso');
   });
 
-  // ── Carrega os agendamentos ───────────────────────────────────────────────
-  console.log('🔄 Carregando agendamentos...');
   await carregarAgendamentos();
 });

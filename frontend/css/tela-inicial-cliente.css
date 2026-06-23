@@ -151,7 +151,7 @@ svg {
   padding-block: 0;
   display: flex;
   align-items: center;
-  background: linear-gradient(180deg, #FFFFFF 0%, #FFF5F7 100%);
+  background: linear-gradient(180deg, #FFFFFF 0%, #FDF2F4 100%);
 }
 
 .hero__content {
@@ -272,7 +272,7 @@ svg {
 
 .features {
   padding: 6rem 0;
-  background: #fafafa;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FDF2F4 100%);
 }
 
 .features .section-header {
@@ -370,7 +370,7 @@ svg {
 ========================= */
 
 .why-us {
-  background: #f8eef1;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FDF2F4 100%);
   padding: 5rem 0;
 }
 
