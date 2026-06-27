@@ -455,7 +455,7 @@ document.getElementById('btn-sim-sair').addEventListener('click', async () => {
 
   sessionStorage.removeItem('salao_token');
   sessionStorage.removeItem('salao_admin_nome');
-  window.location.href = "./autenticar-usuario.html"; 
+  window.location.href = "/frontend/pages/shared/autenticar-usuario.html"; 
 });
 
 // ==========================================
