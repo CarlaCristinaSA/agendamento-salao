@@ -95,7 +95,7 @@ function atualizarHorarioPadrao() {
         const partes = turnos.map(t =>
             `<span>${t.start_time.substring(0,5)}</span>–<span>${t.end_time.substring(0,5)}</span>`
         ).join(' &nbsp;|&nbsp; ');
-        h2.innerHTML = `Turnos: ${partes}`;
+        h2.innerHTML = `${partes}`;
     }
 }
 
