@@ -7,31 +7,44 @@ const diasSemana = ["DOMINGO", "SEGUNDA", "TERÇA", "QUARTA", "QUINTA", "SEXTA",
 // 1. COMUNICAÇÃO COM O BACKEND
 // ==========================================
 
-async function carregarHorariosDoBanco() {
+async function autenticar() {
+    if (tokenGlobal) return true;
     try {
         const resLogin = await fetch(`${URL_API}/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: 'admin@salao.com', password: 'Admin@123' }) 
+            body: JSON.stringify({ email: 'admin@salao.com', password: 'Admin@123' })
         });
         const jsonLogin = await resLogin.json();
-
         if (jsonLogin.success) {
             tokenGlobal = jsonLogin.data.token;
-            const resHorarios = await fetch(`${URL_API}/admin/availability`, {
-                method: 'GET',
-                headers: { 'Authorization': `Bearer ${tokenGlobal}` }
-            });
-            const jsonHorarios = await resHorarios.json();
-
-            if (jsonHorarios.success) {
-                horariosGlobais = jsonHorarios.data;
-            }
+            return true;
         }
     } catch (erro) {
-        console.error("Erro na integração:", erro);
+        console.error("Erro na autenticação:", erro);
+    }
+    return false;
+}
+
+async function carregarHorariosDoBanco() {
+    try {
+        const autenticado = await autenticar();
+        if (!autenticado) return;
+
+        const resHorarios = await fetch(`${URL_API}/admin/availability`, {
+            method: 'GET',
+            headers: { 'Authorization': `Bearer ${tokenGlobal}` }
+        });
+        const jsonHorarios = await resHorarios.json();
+
+        if (jsonHorarios.success) {
+            horariosGlobais = jsonHorarios.data;
+        }
+    } catch (erro) {
+        console.error("Erro ao carregar horários:", erro);
     } finally {
-        renderizarDiasDaSemana(); 
+        renderizarDiasDaSemana();
+        atualizarHorarioPadrao();
     }
 }
 
@@ -58,6 +71,33 @@ async function salvarIntervaloNoBanco(diaDaSemana, startTime, endTime) {
 // ==========================================
 // 2. DESENHO DA TELA E DOS MODAIS
 // ==========================================
+
+function getTurnosPadrao() {
+    return horariosGlobais
+        .filter(h => h.type === 'day_of_week' && h.day_of_week === 1)
+        .sort((a, b) => a.start_time.localeCompare(b.start_time));
+}
+
+function atualizarHorarioPadrao() {
+    const turnos = getTurnosPadrao();
+    const h2 = document.getElementById('horario-padrao-texto');
+    if (!h2) return;
+
+    if (turnos.length === 0) {
+        h2.innerHTML = 'Sem horário padrão cadastrado';
+        return;
+    }
+
+    if (turnos.length === 1) {
+        const t = turnos[0];
+        h2.innerHTML = `Abre às <span>${t.start_time.substring(0,5)}</span> e fecha às <span>${t.end_time.substring(0,5)}</span>`;
+    } else {
+        const partes = turnos.map(t =>
+            `<span>${t.start_time.substring(0,5)}</span>–<span>${t.end_time.substring(0,5)}</span>`
+        ).join(' &nbsp;|&nbsp; ');
+        h2.innerHTML = `Turnos: ${partes}`;
+    }
+}
 
 function renderizarDiasDaSemana() {
     const containerDias = document.getElementById('container-dias-semana');
@@ -97,12 +137,14 @@ function renderizarDiasDaSemana() {
 }
 
 function prepararModalPadrao() {
-    const turnos = horariosGlobais.filter(h => h.type === 'day_of_week' && h.day_of_week === 1); 
+    const turnos = horariosGlobais
+        .filter(h => h.type === 'day_of_week' && h.day_of_week === 1)
+        .sort((a, b) => a.start_time.localeCompare(b.start_time));
+
     const container = document.getElementById('lista-horarios');
     let html = "";
 
     if (turnos.length > 0) {
-        turnos.sort((a, b) => a.start_time.localeCompare(b.start_time));
         turnos.forEach(t => {
             html += `
                 <div class="input-time">
@@ -145,14 +187,6 @@ function prepararModalSemana() {
                         <button type="button" class="limpar">X</button>
                     </div>`;
             });
-        } else {
-            inputsHTML = `
-                <div class="input-time">
-                    <input type="time" class="input-intervalo">
-                    <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
-                    <input type="time" class="input-intervalo">
-                    <button type="button" class="limpar">X</button>
-                </div>`;
         }
 
         diasHTML += `
@@ -171,7 +205,10 @@ function prepararModalSemana() {
     container.innerHTML = diasHTML;
 }
 
+let diaIndexAtual = -1;
+
 function prepararModalDia(diaIndex, nomeDia, numeroDia) {
+    diaIndexAtual = diaIndex;
     document.getElementById('icone-dia-abrev').textContent = nomeDia.substring(0, 3);
     document.getElementById('icone-dia-num').textContent = numeroDia;
     document.getElementById('titulo-modal-dia').textContent = `Editar ${nomeDia.charAt(0) + nomeDia.slice(1).toLowerCase()}`;
@@ -195,14 +232,6 @@ function prepararModalDia(diaIndex, nomeDia, numeroDia) {
                     <button type="button" class="limpar">X</button>
                 </div>`;
         });
-    } else {
-        inputsHTML = `
-            <div class="input-time caixa-hora-dia">
-                <div class="grupo-input"><label>INÍCIO</label><input type="time" class="input-intervalo"></div>
-                <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
-                <div class="grupo-input"><label>TÉRMINO</label><input type="time" class="input-intervalo"></div>
-                <button type="button" class="limpar">X</button>
-            </div>`;
     }
     container.innerHTML = inputsHTML;
 }
@@ -242,12 +271,39 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('modal-horarios-dia').classList.add('aberto');
         }
 
-        // Limpar Linha
+        else if (el.classList.contains('toggle') && el.checked) {
+            const blocoSemana = el.closest('.dia-modal');
+            const scrollAlvo = blocoSemana
+                ? blocoSemana.querySelector('.container-scroll-horarios')
+                : document.getElementById('lista-horarios-dia');
+
+            if (scrollAlvo && scrollAlvo.querySelectorAll('.input-time').length === 0) {
+                const turnosPadrao = getTurnosPadrao();
+                const isModalDia = !!el.closest('#modal-horarios-dia');
+
+                turnosPadrao.forEach(tp => {
+                    const htmlLinha = isModalDia ? `
+                        <div class="input-time caixa-hora-dia">
+                            <div class="grupo-input"><label>INÍCIO</label><input type="time" class="input-intervalo" value="${tp.start_time.substring(0,5)}"></div>
+                            <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                            <div class="grupo-input"><label>TÉRMINO</label><input type="time" class="input-intervalo" value="${tp.end_time.substring(0,5)}"></div>
+                            <button type="button" class="limpar">X</button>
+                        </div>` : `
+                        <div class="input-time">
+                            <input type="time" class="input-intervalo" value="${tp.start_time.substring(0,5)}">
+                            <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                            <input type="time" class="input-intervalo" value="${tp.end_time.substring(0,5)}">
+                            <button type="button" class="limpar">X</button>
+                        </div>`;
+                    scrollAlvo.insertAdjacentHTML('beforeend', htmlLinha);
+                });
+            }
+        }
+
         else if (el.classList.contains('limpar')) {
             const linha = el.closest('.input-time'); if (linha) linha.remove();
         }
 
-        // Adicionar Linha
         else if (el.closest('.add-btn')) { 
             const isModalDia = el.closest('#modal-horarios-dia');
             const html = isModalDia ? `
@@ -323,26 +379,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (formDia) {
         formDia.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const titulo = document.getElementById('titulo-modal-dia').textContent.toUpperCase();
-            let diaIndex = diasSemana.findIndex(d => titulo.includes(d));
-            if (diaIndex === -1) { 
-                if (titulo.includes("TERÇA")) diaIndex = 2; 
-                if (titulo.includes("SÁBADO") || titulo.includes("SABADO")) diaIndex = 6; 
-            }
 
-            if (diaIndex !== -1) {
-                await limparDiaNoBanco(diaIndex);
-                
-                const toggle = document.querySelector('#modal-horarios-dia .salao-aberto .toggle');
-                
-                if (toggle && toggle.checked) {
-                    const linhas = formDia.querySelectorAll('.input-time');
-                    for (const linha of linhas) {
-                        const inputs = linha.querySelectorAll('.input-intervalo');
-                        if (inputs.length === 2 && inputs[0].value && inputs[1].value) {
-                            await salvarIntervaloNoBanco(diaIndex, inputs[0].value, inputs[1].value);
-                        }
+            if (diaIndexAtual === -1) return;
+
+            await limparDiaNoBanco(diaIndexAtual);
+
+            const toggle = document.querySelector('#modal-horarios-dia .salao-aberto .toggle');
+
+            if (toggle && toggle.checked) {
+                const linhas = formDia.querySelectorAll('.input-time');
+                for (const linha of linhas) {
+                    const inputs = linha.querySelectorAll('.input-intervalo');
+                    if (inputs.length === 2 && inputs[0].value && inputs[1].value) {
+                        await salvarIntervaloNoBanco(diaIndexAtual, inputs[0].value, inputs[1].value);
                     }
                 }
             }
