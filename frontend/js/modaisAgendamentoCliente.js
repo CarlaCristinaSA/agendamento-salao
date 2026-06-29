@@ -125,6 +125,20 @@ function _renderCalendar() {
 }
 
 /* ─── HORÁRIOS ──────────────────────────────────────────────────────────── */
+function _filtrarSlotsPassados(slots, dateIso) {
+    const hoje = new Date();
+    const hojeIso = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`;
+
+    if (dateIso !== hojeIso) return slots; // outra data: não filtra nada
+
+    const minutosAgora = hoje.getHours() * 60 + hoje.getMinutes();
+
+    return slots.filter(slot => {
+        const [h, m] = slot.split(':').map(Number);
+        return (h * 60 + m) > minutosAgora;
+    });
+}
+
 async function _loadAndRenderTimes(dateIso) {
     const grid = document.getElementById('times-grid');
     const section = document.getElementById('times-section');
@@ -151,7 +165,9 @@ async function _loadAndRenderTimes(dateIso) {
         const result = await response.json();
 
         if (result.success) {
-            _renderTimesGrid(result.data.available_slots); 
+            const slots = result.data.available_slots;
+            const slotsFiltrados = _filtrarSlotsPassados(slots, dateIso);
+            _renderTimesGrid(slotsFiltrados);
         } else {
             grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #E0456A;">Erro ao buscar horários.</p>';
         }
