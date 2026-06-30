@@ -59,6 +59,30 @@ function _estaAtivo(ag) {
     return fim > agora || inicio > agora;
 }
 
+// Retorna: 'sim' | 'prazo' | 'nao'
+// 'sim'   → pode cancelar (mais de 24h de antecedência)
+// 'prazo' → futuro mas dentro das 24h — cancelamento não permitido
+// 'nao'   → já passou ou está cancelado/concluído
+function _podeCancelar(ag) {
+    const status = String(ag.status || "").toLowerCase();
+    if (
+        status === "cancelled"  || status === "cancelado" ||
+        status === "completed"  || status === "concluído" || status === "concluido"
+    ) {
+        return "nao";
+    }
+
+    const agora     = new Date();
+    const dataLimpa = String(ag.appointment_date).split("T")[0];
+    const horaLimpa = String(ag.appointment_time || "00:00").substring(0, 5);
+    const inicio    = new Date(`${dataLimpa}T${horaLimpa}:00`);
+
+    if (inicio <= agora) return "nao";
+
+    const diffHoras = (inicio - agora) / (1000 * 60 * 60);
+    return diffHoras >= 24 ? "sim" : "prazo";
+}
+
 async function carregarAgendamentos() {
     if (!tokenGlobal) return;
 
@@ -144,9 +168,21 @@ function preencherCards(agendamentos) {
             const valorFormatado = _formatarValor(ag.price);
             const statusDisplay  = ag.display_status || ag.status || "Pendente";
 
-            const cancelBtn = ag.can_cancel
-                ? `<button class="btn-cancel" data-id="${ag.id}" data-servico="${String(ag.service_name || "").replace(/"/g, "&quot;")}">CANCELAR AGENDAMENTO</button>`
-                : "";
+            const estadoCancelamento = _podeCancelar(ag);
+            let cancelBtn = "";
+            if (estadoCancelamento === "sim") {
+                cancelBtn = `<button class="btn-cancel" data-id="${ag.id}" data-servico="${String(ag.service_name || "").replace(/"/g, "&quot;")}">CANCELAR AGENDAMENTO</button>`;
+            } else if (estadoCancelamento === "prazo") {
+                cancelBtn = `
+                    <div class="aviso-prazo">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M8 1.5C4.41 1.5 1.5 4.41 1.5 8C1.5 11.59 4.41 14.5 8 14.5C11.59 14.5 14.5 11.59 14.5 8C14.5 4.41 11.59 1.5 8 1.5Z" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 5.33V8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+                            <circle cx="8" cy="10.5" r="0.75" fill="currentColor"/>
+                        </svg>
+                        Cancelamento disponível apenas com 24h de antecedência
+                    </div>`;
+            }
 
             return `
             <article class="card">

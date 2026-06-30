@@ -429,3 +429,23 @@ body {
     .card { padding: 1rem; }
     .info-row { gap: 0.75rem; padding: 0.75rem; }
 }
+.aviso-prazo {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1rem;
+    border-radius: 1rem;
+    background: #FFFBEB;
+    border: 1.5px solid #FCD34D;
+    color: #92400E;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.aviso-prazo svg {
+    flex-shrink: 0;
+    color: #D97706;
+}
