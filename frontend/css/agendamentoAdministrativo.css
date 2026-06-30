@@ -254,7 +254,6 @@ body {
 #modal-agendar-overlay .modal {
     width: min(100%, 56rem);
     max-width: calc(100vw - 2rem);
-    min-height: 47.75rem;
     height: auto;
     border-radius: 1.5rem;
     padding: 2.5rem;
@@ -298,9 +297,9 @@ body {
 
 #modal-agendar-overlay .day-cell {
     width: 100%;
-    min-height: 7.875rem;
+    min-height: 5.5rem;
     border-radius: 1.05rem;
-    padding: 1.3125rem;
+    padding: 0.875rem 0.5rem;
 }
 
 #modal-agendar-overlay .day-name {
@@ -342,7 +341,6 @@ body {
 #modal-confirmado-overlay .modal-confirmado {
     width: min(100%, 28rem);
     max-width: calc(100vw - 2rem);
-    min-height: 41.75rem;
     height: auto;
     border-radius: 1.5rem;
     padding: 2rem;

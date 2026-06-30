@@ -70,8 +70,8 @@ function openAgendarModal(service) {
     document.getElementById('times-section').style.display   = 'none';
     document.getElementById('times-grid').innerHTML           = '';
     document.getElementById('modal-confirm-btn').disabled     = true;
-    _renderCalendar();
     Modal.open('modal-agendar-overlay');
+    _renderCalendar();
 }
 
 function closeAgendarModal() {
@@ -79,7 +79,7 @@ function closeAgendarModal() {
 }
 
 /* ─── CALENDÁRIO ────────────────────────────────────────────────────────── */
-function _renderCalendar() {
+async function _renderCalendar() {
     const mid = new Date(state.weekStart);
     mid.setDate(mid.getDate() + 3);
     document.getElementById('cal-month-label').textContent =
@@ -94,20 +94,60 @@ function _renderCalendar() {
 
     const grid = document.getElementById('calendar-days');
     grid.innerHTML = days.map(d => {
-        const isDisabled = d < today;
+        const isPast = d < today;
         const isSelected = state.selectedDate &&
             d.toDateString() === state.selectedDate.toDateString();
-        const classes = ['day-cell', isDisabled && 'disabled', isSelected && 'selected']
+        const classes = ['day-cell', isPast && 'disabled', isSelected && 'selected']
             .filter(Boolean).join(' ');
         return `
             <button class="${classes}"
                 data-date="${d.toISOString().split('T')[0]}"
-                ${isDisabled ? 'disabled' : ''}>
+                ${isPast ? 'disabled' : ''}>
                 <span class="day-name">${PT_DAYS[d.getDay()]}</span>
                 <span class="day-number">${d.getDate()}</span>
                 <span class="day-month">${PT_MONTHS_SHORT[d.getMonth()]}</span>
             </button>`;
     }).join('');
+
+    const token = sessionStorage.getItem('salao_token');
+    if (token && state.service) {
+        const futureDays = days.filter(d => d >= today);
+
+        const checks = futureDays.map(d => {
+            const dateIso = d.toISOString().split('T')[0];
+            return fetch(`${URL_API}/client/availability?date=${dateIso}&service_id=${state.service.id}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(r => r.json())
+            .then(result => {
+                const slots = result.success ? (result.data.available_slots || []) : [];
+                const slotsFiltrados = _filtrarSlotsPassados(slots, dateIso);
+                return { dateIso, temSlot: slotsFiltrados.length > 0 };
+            })
+            .catch(() => ({ dateIso, temSlot: false }));
+        });
+
+        const resultados = await Promise.all(checks);
+
+        resultados.forEach(({ dateIso, temSlot }) => {
+            if (temSlot) return;
+            const btn = grid.querySelector(`[data-date="${dateIso}"]`);
+            if (btn) {
+                btn.disabled = true;
+                btn.classList.add('disabled');
+                if (state.selectedDate) {
+                    const sel = state.selectedDate.toISOString().split('T')[0];
+                    if (sel === dateIso) {
+                        btn.classList.remove('selected');
+                        state.selectedDate = null;
+                        state.selectedTime = null;
+                        document.getElementById('times-section').style.display = 'none';
+                        _updateConfirmBtn();
+                    }
+                }
+            }
+        });
+    }
 
     grid.querySelectorAll('.day-cell:not([disabled])').forEach(btn => {
         btn.addEventListener('click', async () => {
@@ -125,6 +165,20 @@ function _renderCalendar() {
 }
 
 /* ─── HORÁRIOS ──────────────────────────────────────────────────────────── */
+function _filtrarSlotsPassados(slots, dateIso) {
+    const hoje = new Date();
+    const hojeIso = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`;
+
+    if (dateIso !== hojeIso) return slots;
+
+    const minutosAgora = hoje.getHours() * 60 + hoje.getMinutes();
+
+    return slots.filter(slot => {
+        const [h, m] = slot.split(':').map(Number);
+        return (h * 60 + m) > minutosAgora;
+    });
+}
+
 async function _loadAndRenderTimes(dateIso) {
     const grid = document.getElementById('times-grid');
     const section = document.getElementById('times-section');
@@ -151,7 +205,9 @@ async function _loadAndRenderTimes(dateIso) {
         const result = await response.json();
 
         if (result.success) {
-            _renderTimesGrid(result.data.available_slots); 
+            const slots = result.data.available_slots;
+            const slotsFiltrados = _filtrarSlotsPassados(slots, dateIso);
+            _renderTimesGrid(slotsFiltrados);
         } else {
             grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #E0456A;">Erro ao buscar horários.</p>';
         }
@@ -193,7 +249,6 @@ function _updateConfirmBtn() {
     MODAL 2 · DADOS DE CONTATO
    ══════════════════════════════════════════════════════════════════════════ */
 
-/* Estado local do modal de dados */
 const dadosState = { editando: false };
 
 function _setModoLeitura() {
@@ -236,15 +291,12 @@ function _setModoEdicao() {
 }
 
 async function openDadosModal() {
-    // Limpa erros de validação
     FIELD_RULES.forEach(({ inputId, errorId }) => _clearFieldError(inputId, errorId));
 
-    // Começa sempre em modo leitura
     _setModoLeitura();
 
     Modal.open('modal-dados-overlay');
 
-    // Busca dados do perfil
     try {
         const token = sessionStorage.getItem('salao_token');
         if (!token) { redirecionarParaLogin(); return; }

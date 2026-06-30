@@ -499,6 +499,18 @@ h2 span {
     word-spacing: 0.05em;
 }
 
+.horario-dia-atual h2 {
+    line-height: 1.4;
+}
+.horario-dia-atual h2 .turnos-multiplos {
+    display: block;
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
+    font-weight: 600;
+    color: #E0456A;
+    margin-top: 0.25rem;
+    letter-spacing: 0.02em;
+}
+
 /* ─── RESPONSIVIDADE MOBILE - HORÁRIOS ─────────────────────────────────── */
 
 @media (max-width: 48rem) {

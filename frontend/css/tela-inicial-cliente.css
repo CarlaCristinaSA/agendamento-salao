@@ -272,7 +272,7 @@ svg {
 
 .features {
   padding: 6rem 0;
-  background: linear-gradient(180deg, #FFFFFF 0%, #FDF2F4 100%);
+  background: var(--pink-faint);
 }
 
 .features .section-header {
@@ -366,11 +366,11 @@ svg {
 }
 
 /* =========================
-   WHY US
+  WHY US
 ========================= */
 
 .why-us {
-  background: linear-gradient(180deg, #FFFFFF 0%, #FDF2F4 100%);
+  background: var(--pink-faint);
   padding: 5rem 0;
 }
 
@@ -565,7 +565,7 @@ svg {
 }
 
 /* =========================
-   RESPONSIVO
+  RESPONSIVO
 ========================= */
 
 @media (max-width: 1024px) {

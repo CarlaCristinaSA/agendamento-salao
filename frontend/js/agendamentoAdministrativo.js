@@ -210,14 +210,11 @@ function abrirModalAgendamento() {
   abrirModal(modalAgendar);
 }
 
-function renderizarCalendario() {
+async function renderizarCalendario() {
   calendarDays.innerHTML = "";
 
   const inicioSemana = new Date(semanaAtual);
   inicioSemana.setHours(0, 0, 0, 0);
-
-  const fimSemana = new Date(inicioSemana);
-  fimSemana.setDate(inicioSemana.getDate() + 6);
 
   const mesLabel = inicioSemana.toLocaleDateString("pt-BR", {
     month: "long",
@@ -230,21 +227,20 @@ function renderizarCalendario() {
   const hoje = new Date();
   hoje.setHours(0, 0, 0, 0);
 
+  const dias = [];
   for (let i = 0; i < 7; i++) {
     const data = new Date(inicioSemana);
     data.setDate(inicioSemana.getDate() + i);
-
     const dataISO = paraISODate(data);
     const disabled = data < hoje;
 
     const button = document.createElement("button");
     button.type = "button";
     button.className = "day-cell";
+    button.dataset.date = dataISO;
     button.disabled = disabled;
 
-    if (disabled) {
-      button.classList.add("disabled");
-    }
+    if (disabled) button.classList.add("disabled");
 
     button.innerHTML = `
       <span class="day-name">${data.toLocaleDateString("pt-BR", { weekday: "short" }).replace(".", "")}</span>
@@ -253,8 +249,43 @@ function renderizarCalendario() {
     `;
 
     button.addEventListener("click", () => selecionarData(button, dataISO));
-
     calendarDays.appendChild(button);
+
+    if (!disabled) dias.push({ dataISO, button });
+  }
+
+  // Pré-verifica disponibilidade dos dias futuros em paralelo
+  if (tokenGlobal && servicoSelecionado) {
+    const checks = dias.map(({ dataISO, button }) =>
+      fetch(
+        `${URL_API}/admin/availability/slots?service_id=${servicoSelecionado.id}&date=${dataISO}`,
+        { headers: { Authorization: `Bearer ${tokenGlobal}` } }
+      )
+        .then((r) => r.json())
+        .then((data) => {
+          const slots = extrairHorarios(data);
+          const slotsFiltrados = filtrarSlotsPassados(slots, dataISO);
+          return { dataISO, button, temSlot: slotsFiltrados.length > 0 };
+        })
+        .catch(() => ({ dataISO, button, temSlot: false }))
+    );
+
+    const resultados = await Promise.all(checks);
+
+    resultados.forEach(({ dataISO, button, temSlot }) => {
+      if (temSlot) return;
+      button.disabled = true;
+      button.classList.add("disabled");
+
+      if (dataSelecionada === dataISO) {
+        dataSelecionada = null;
+        horarioSelecionado = null;
+        confirmHorarioBtn.disabled = true;
+        timesSection.style.display = "none";
+        timesGrid.innerHTML = "";
+        button.classList.remove("selected");
+      }
+    });
   }
 }
 
@@ -297,7 +328,8 @@ async function carregarHorariosDisponiveis() {
       return;
     }
 
-    const horarios = extrairHorarios(data);
+    const horariosExtraidos = extrairHorarios(data);
+    const horarios = filtrarSlotsPassados(horariosExtraidos, dataSelecionada);
 
     if (horarios.length === 0) {
       mostrarErroGeral(
@@ -333,6 +365,20 @@ async function carregarHorariosDisponiveis() {
     console.error("Erro ao carregar horários:", error);
     mostrarErroGeral("error-horario", "Erro ao conectar com o servidor.");
   }
+}
+
+function filtrarSlotsPassados(slots, dateIso) {
+  const hoje = new Date();
+  const hojeIso = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, "0")}-${String(hoje.getDate()).padStart(2, "0")}`;
+
+  if (dateIso !== hojeIso) return slots;
+
+  const minutosAgora = hoje.getHours() * 60 + hoje.getMinutes();
+
+  return slots.filter((slot) => {
+    const [h, m] = slot.split(":").map(Number);
+    return h * 60 + m > minutosAgora;
+  });
 }
 
 function extrairHorarios(data) {
@@ -578,14 +624,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (event.target === modalConfirmado) fecharModal(modalConfirmado);
   });
 
-  document.getElementById("cal-prev").addEventListener("click", () => {
-    semanaAtual.setDate(semanaAtual.getDate() - 7);
-    renderizarCalendario();
+  document.getElementById("cal-prev").addEventListener("click", async () => {
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    const inicioSemanaAtual = new Date(hoje);
+    inicioSemanaAtual.setDate(hoje.getDate() - hoje.getDay());
+
+    const prev = new Date(semanaAtual);
+    prev.setDate(semanaAtual.getDate() - 7);
+
+    if (prev >= inicioSemanaAtual) {
+      semanaAtual = prev;
+      await renderizarCalendario();
+    }
   });
 
-  document.getElementById("cal-next").addEventListener("click", () => {
+  document.getElementById("cal-next").addEventListener("click", async () => {
     semanaAtual.setDate(semanaAtual.getDate() + 7);
-    renderizarCalendario();
+    await renderizarCalendario();
   });
 
   confirmHorarioBtn.addEventListener("click", () => {
