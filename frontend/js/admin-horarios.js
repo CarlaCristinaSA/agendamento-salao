@@ -103,7 +103,7 @@ function renderizarDiasDaSemana() {
     for (let i = 0; i < 7; i++) {
         const data = new Date(domingo);
         data.setDate(domingo.getDate() + i);
-        
+
         const turnos = horariosGlobais.filter(h => h.type === 'day_of_week' && h.day_of_week === i);
         let htmlIntervalos = "";
 
@@ -204,9 +204,9 @@ function prepararModalDia(diaIndex, nomeDia, numeroDia) {
     document.getElementById('icone-dia-abrev').textContent = nomeDia.substring(0, 3);
     document.getElementById('icone-dia-num').textContent = numeroDia;
     document.getElementById('titulo-modal-dia').textContent = `Editar ${nomeDia.charAt(0) + nomeDia.slice(1).toLowerCase()}`;
-    
+
     const turnos = horariosGlobais.filter(h => h.type === 'day_of_week' && h.day_of_week === diaIndex);
-    
+
     const toggle = document.querySelector('#modal-horarios-dia .salao-aberto .toggle');
     if (toggle) toggle.checked = turnos.length > 0;
 
@@ -228,6 +228,65 @@ function prepararModalDia(diaIndex, nomeDia, numeroDia) {
     container.innerHTML = inputsHTML;
 }
 
+function inserirLinhasAoReabrir(scrollAlvo, isModalDia) {
+    const turnosPadrao = getTurnosPadrao();
+    removerAvisoPreencha(scrollAlvo);
+
+    if (turnosPadrao.length === 0) {
+        const htmlLinhaVazia = isModalDia ? `
+            <div class="input-time caixa-hora-dia">
+                <div class="grupo-input"><label>INÍCIO</label><input type="time" class="input-intervalo"></div>
+                <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                <div class="grupo-input"><label>TÉRMINO</label><input type="time" class="input-intervalo"></div>
+                <button type="button" class="limpar">X</button>
+            </div>` : `
+            <div class="input-time">
+                <input type="time" class="input-intervalo">
+                <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                <input type="time" class="input-intervalo">
+                <button type="button" class="limpar">X</button>
+            </div>`;
+        scrollAlvo.insertAdjacentHTML('beforeend', htmlLinhaVazia);
+        scrollAlvo.insertAdjacentHTML('afterend', '<p class="aviso-preencha-horario" style="color:#E0456A;font-size:0.85em;margin-top:4px;">Preencha um horário</p>');
+        return;
+    }
+
+    turnosPadrao.forEach(tp => {
+        const start = tp.start_time.substring(0, 5);
+        const end = tp.end_time.substring(0, 5);
+        const htmlLinha = isModalDia ? `
+            <div class="input-time caixa-hora-dia">
+                <div class="grupo-input"><label>INÍCIO</label><input type="time" class="input-intervalo" value="${start}"></div>
+                <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                <div class="grupo-input"><label>TÉRMINO</label><input type="time" class="input-intervalo" value="${end}"></div>
+                <button type="button" class="limpar">X</button>
+            </div>` : `
+            <div class="input-time">
+                <input type="time" class="input-intervalo" value="${start}">
+                <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
+                <input type="time" class="input-intervalo" value="${end}">
+                <button type="button" class="limpar">X</button>
+            </div>`;
+        scrollAlvo.insertAdjacentHTML('beforeend', htmlLinha);
+    });
+}
+
+function removerAvisoPreencha(scrollAlvo) {
+    const aviso = scrollAlvo.parentElement
+        ? scrollAlvo.parentElement.querySelector('.aviso-preencha-horario')
+        : null;
+    if (aviso) aviso.remove();
+}
+
+function temHorarioValido(container) {
+    const linhas = container.querySelectorAll('.input-time');
+    for (const linha of linhas) {
+        const inputs = linha.querySelectorAll('.input-intervalo');
+        if (inputs.length === 2 && inputs[0].value && inputs[1].value) return true;
+    }
+    return false;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     carregarHorariosDoBanco();
 
@@ -235,14 +294,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const el = evento.target;
 
         if (el.classList.contains('fechar-modal') || el.id === 'fechar-modal') {
-            const m = el.closest('.modal'); if (m) m.classList.remove('aberto'); 
+            const m = el.closest('.modal'); if (m) m.classList.remove('aberto');
         } else if (el.classList.contains('modal')) el.classList.remove('aberto');
 
         else if (el.id === 'alterar-horario-padrao') {
             prepararModalPadrao();
             document.getElementById('modal-horario-padrao').classList.add('aberto');
         }
-        
+
         else if (el.id === 'horarios-semana') {
             prepararModalSemana();
             document.getElementById('modal-horarios-semana').classList.add('aberto');
@@ -255,32 +314,21 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('modal-horarios-dia').classList.add('aberto');
         }
 
-        else if (el.classList.contains('toggle') && el.checked) {
+        else if (el.classList.contains('toggle')) {
             const blocoSemana = el.closest('.dia-modal');
             const scrollAlvo = blocoSemana
                 ? blocoSemana.querySelector('.container-scroll-horarios')
                 : document.getElementById('lista-horarios-dia');
 
-            if (scrollAlvo && scrollAlvo.querySelectorAll('.input-time').length === 0) {
-                const turnosPadrao = getTurnosPadrao();
-                const isModalDia = !!el.closest('#modal-horarios-dia');
-
-                turnosPadrao.forEach(tp => {
-                    const htmlLinha = isModalDia ? `
-                        <div class="input-time caixa-hora-dia">
-                            <div class="grupo-input"><label>INÍCIO</label><input type="time" class="input-intervalo" value="${tp.start_time.substring(0,5)}"></div>
-                            <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
-                            <div class="grupo-input"><label>TÉRMINO</label><input type="time" class="input-intervalo" value="${tp.end_time.substring(0,5)}"></div>
-                            <button type="button" class="limpar">X</button>
-                        </div>` : `
-                        <div class="input-time">
-                            <input type="time" class="input-intervalo" value="${tp.start_time.substring(0,5)}">
-                            <img src="../../assets/intervalo-separator-icon.svg" alt="separador">
-                            <input type="time" class="input-intervalo" value="${tp.end_time.substring(0,5)}">
-                            <button type="button" class="limpar">X</button>
-                        </div>`;
-                    scrollAlvo.insertAdjacentHTML('beforeend', htmlLinha);
-                });
+            if (!scrollAlvo) {
+            } else if (el.checked) {
+                if (scrollAlvo.querySelectorAll('.input-time').length === 0) {
+                    const isModalDia = !!el.closest('#modal-horarios-dia');
+                    inserirLinhasAoReabrir(scrollAlvo, isModalDia);
+                }
+            } else {
+                scrollAlvo.innerHTML = "";
+                removerAvisoPreencha(scrollAlvo);
             }
         }
 
@@ -288,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const linha = el.closest('.input-time'); if (linha) linha.remove();
         }
 
-        else if (el.closest('.add-btn')) { 
+        else if (el.closest('.add-btn')) {
             const isModalDia = el.closest('#modal-horarios-dia');
             const html = isModalDia ? `
                 <div class="input-time caixa-hora-dia">
@@ -303,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input type="time" class="input-intervalo">
                     <button type="button" class="limpar">X</button>
                 </div>`;
-            
+
             const scroll = el.closest('.add-btn').parentElement.querySelector('.container-scroll-horarios');
             if (scroll) scroll.insertAdjacentHTML('beforeend', html);
         }
@@ -314,8 +362,8 @@ document.addEventListener('DOMContentLoaded', () => {
         formPadrao.addEventListener('submit', async (e) => {
             e.preventDefault();
             const linhas = formPadrao.querySelectorAll('.input-time');
-            
-            for (let dia = 1; dia <= 5; dia++) { 
+
+            for (let dia = 1; dia <= 5; dia++) {
                 await limparDiaNoBanco(dia);
                 for (const linha of linhas) {
                     const inputs = linha.querySelectorAll('.input-intervalo');
@@ -334,11 +382,24 @@ document.addEventListener('DOMContentLoaded', () => {
         formSemana.addEventListener('submit', async (e) => {
             e.preventDefault();
             const blocosDeDia = formSemana.querySelectorAll('.dia-modal');
-            
+
+            let valido = true;
+            for (const bloco of blocosDeDia) {
+                const toggle = bloco.querySelector('.toggle');
+                const scrollAlvo = bloco.querySelector('.container-scroll-horarios');
+                removerAvisoPreencha(scrollAlvo);
+
+                if (toggle && toggle.checked && !temHorarioValido(bloco)) {
+                    scrollAlvo.insertAdjacentHTML('afterend', '<p class="aviso-preencha-horario" style="color:#E0456A;font-size:0.85em;margin-top:4px;">Preencha um horário</p>');
+                    valido = false;
+                }
+            }
+            if (!valido) return;
+
             for (const bloco of blocosDeDia) {
                 const i = parseInt(bloco.getAttribute('data-index'));
-                const toggle = bloco.querySelector('.toggle'); 
-                
+                const toggle = bloco.querySelector('.toggle');
+
                 await limparDiaNoBanco(i);
 
                 if (toggle && toggle.checked) {
@@ -363,9 +424,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (diaIndexAtual === -1) return;
 
-            await limparDiaNoBanco(diaIndexAtual);
-
             const toggle = document.querySelector('#modal-horarios-dia .salao-aberto .toggle');
+            const containerLista = document.getElementById('lista-horarios-dia');
+            removerAvisoPreencha(containerLista);
+
+            if (toggle && toggle.checked && !temHorarioValido(formDia)) {
+                containerLista.insertAdjacentHTML('afterend', '<p class="aviso-preencha-horario" style="color:#E0456A;font-size:0.85em;margin-top:4px;">Preencha um horário</p>');
+                return;
+            }
+
+            await limparDiaNoBanco(diaIndexAtual);
 
             if (toggle && toggle.checked) {
                 const linhas = formDia.querySelectorAll('.input-time');
