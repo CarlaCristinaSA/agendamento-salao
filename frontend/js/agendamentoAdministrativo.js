@@ -254,7 +254,6 @@ async function renderizarCalendario() {
     if (!disabled) dias.push({ dataISO, button });
   }
 
-  // Pré-verifica disponibilidade dos dias futuros em paralelo
   if (tokenGlobal && servicoSelecionado) {
     const checks = dias.map(({ dataISO, button }) =>
       fetch(
@@ -439,8 +438,6 @@ function validarDadosCliente() {
   limparErroCampo("input-telefone", "error-telefone");
   limparErroGeral("error-agendamento");
 
-  /* ─── VALIDAÇÃO NOME ───────────────────────────── */
-
   if (!nome) {
     mostrarErroCampo("input-nome", "error-nome", "Este campo é obrigatório.");
 
@@ -463,8 +460,6 @@ function validarDadosCliente() {
     valido = false;
   }
 
-  /* ─── VALIDAÇÃO EMAIL (OPCIONAL) ───────────────── */
-
   if (email && !validarEmail(email)) {
     mostrarErroCampo(
       "input-email",
@@ -474,8 +469,6 @@ function validarDadosCliente() {
 
     valido = false;
   }
-
-  /* ─── VALIDAÇÃO TELEFONE ───────────────────────── */
 
   if (!telefoneDigitos) {
     mostrarErroCampo(

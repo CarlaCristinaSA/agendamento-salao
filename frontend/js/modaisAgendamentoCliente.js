@@ -425,10 +425,8 @@ function _bindRealtimeValidation() {
 
 /* ─── CONFIRMAR DADOS ───────────────────────────────────────────────────── */
 async function _onConfirmarDados() {
-    // Valida apenas se estiver em modo edição
     if (dadosState.editando && !_validarDados()) return;
 
-    // Extrai e formata a data para o padrão YYYY-MM-DD
     const dataAgendamentoIso = new Date(state.selectedDate.getTime() - (state.selectedDate.getTimezoneOffset() * 60000))
         .toISOString()
         .split('T')[0];
@@ -446,7 +444,6 @@ async function _onConfirmarDados() {
     const textoOriginal = btn.textContent;
     
     try {
-        // Feedback visual de carregamento
         btn.textContent = 'AGENDANDO...';
         btn.disabled = true;
 
@@ -480,7 +477,6 @@ async function _onConfirmarDados() {
         console.error('Erro de conexão com o servidor:', error);
         alert('Erro de conexão. Tente novamente mais tarde.');
     } finally {
-        // Restaura o botão ao estado original caso haja erro
         btn.textContent = textoOriginal;
         btn.disabled = false;
     }
