@@ -1,17 +1,13 @@
-/* ─── RECUPERAR SENHA ────────────────── */
 'use strict';
 
 (function () {
-  // Constante da API
   const URL_API = 'http://localhost:3000/api';
   const LOGIN_URL = '/frontend/pages/shared/autenticar-usuario.html';
   
   let emailUsuario = '';
 
-  /* ── Utilitários DOM ── */
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
 
-  /* ── Navegação entre telas ── */
   function goToScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const target = document.getElementById(id);
@@ -38,7 +34,6 @@
     if (e.key === 'Escape') closeModal('modal-sucesso');
   });
 
-  /* ── Funções de erro ── */
   function showError(errorEl, inputEl, msg) {
     if (!errorEl) return;
     errorEl.textContent = msg;
@@ -53,13 +48,11 @@
     if (inputEl) inputEl.classList.remove('error');
   }
 
-  /* ── Validação de e-mail ── */
   function validateEmail(value) {
     const lower = String(value).trim().toLowerCase();
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lower);
   }
 
-  /* ── Validação de senha forte ── */
   function passwordStrongRules(value) {
     const rules = [
       { re: /.{8,}/,                   msg: 'A senha deve conter pelo menos 8 caracteres.' },
@@ -75,7 +68,7 @@
   }
 
   /* ════════════════════════════════════════════════════════
-     TELA 1
+    TELA 1
   ════════════════════════════════════════════════════════ */
   const emailInput   = document.getElementById('email-input');
   const errorEmailT1 = document.getElementById('error-email-t1');
@@ -111,7 +104,6 @@
     
     clearError(errorEmailT1, emailInput);
 
-    // Efeito de Carregamento
     const textoOriginal = btnContinuar.textContent;
     btnContinuar.disabled = true;
     btnContinuar.textContent = 'Enviando...';
@@ -126,10 +118,8 @@
       const json = await resposta.json();
 
       if (resposta.ok && json.success) {
-        // Salva o e-mail validado para usar no último passo
         emailUsuario = val;
         
-        // Avança para a tela do código OTP
         goToScreen('tela-2');
         setTimeout(() => {
           document.querySelector('#otp-row .otp-input')?.focus();
@@ -147,7 +137,7 @@
   });
 
   /* ════════════════════════════════════════════════════════
-     TELA 2
+    TELA 2
   ════════════════════════════════════════════════════════ */
   const otpInputs = [...document.querySelectorAll('.otp-input')];
   const errorOtp  = document.getElementById('error-otp');
@@ -210,7 +200,6 @@
     setTimeout(() => document.getElementById('nova-senha')?.focus(), 100);
   });
 
-  /* Reenviar com timer */
   const btnReenviar = document.getElementById('btn-reenviar');
   btnReenviar?.addEventListener('click', async () => {
     otpInputs.forEach(i => { i.value = ''; i.classList.remove('filled', 'error'); });
@@ -219,7 +208,6 @@
     
     if (emailUsuario) {
       try {
-        // Dispara uma nova requisição em segundo plano para reenviar o e-mail
         await fetch(`${URL_API}/auth/forgot-password`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -258,7 +246,7 @@
   });
 
   /* ════════════════════════════════════════════════════════
-     TELA 3
+    TELA 3
   ════════════════════════════════════════════════════════ */
   const inputNovaSenha      = document.getElementById('nova-senha');
   const inputConfirmarSenha = document.getElementById('confirmar-senha');
@@ -266,7 +254,6 @@
   const errorConfirmarSenha = document.getElementById('error-confirmar-senha');
   const btnConcluir         = document.getElementById('btn-concluir');
 
-  /* Olhinho */
   document.querySelectorAll('.icon-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const targetId = btn.dataset.target;
@@ -279,7 +266,6 @@
     });
   });
 
-  /* Validação em tempo real */
   inputNovaSenha?.addEventListener('input', () => {
     clearError(errorNovaSenha, inputNovaSenha);
     if (inputConfirmarSenha.value) {
@@ -323,7 +309,6 @@
     }
   });
 
-  /* Concluir — Envio Final para o Backend */
   btnConcluir?.addEventListener('click', async () => {
     let valid = true;
 
@@ -352,10 +337,8 @@
 
     if (!valid) return;
 
-    // Captura o código digitado na tela 2
     const codigoOtp = otpInputs.map(i => i.value).join('');
 
-    // Feedback visual de carregamento
     const textoOriginal = btnConcluir.textContent;
     btnConcluir.disabled = true;
     btnConcluir.textContent = 'Processando...';
@@ -376,7 +359,6 @@
       if (resposta.ok && json.success) {
         openModal('modal-sucesso');
       } else {
-        // Se o erro for do token/OTP inválido, exibe o erro na tela de nova senha
         showError(errorNovaSenha, inputNovaSenha, json.error || 'Código inválido ou expirado.');
       }
     } catch (erro) {

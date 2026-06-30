@@ -59,10 +59,6 @@ function _estaAtivo(ag) {
     return fim > agora || inicio > agora;
 }
 
-// Retorna: 'sim' | 'prazo' | 'nao'
-// 'sim'   → pode cancelar (mais de 24h de antecedência)
-// 'prazo' → futuro mas dentro das 24h — cancelamento não permitido
-// 'nao'   → já passou ou está cancelado/concluído
 function _podeCancelar(ag) {
     const status = String(ag.status || "").toLowerCase();
     if (

@@ -3,7 +3,6 @@
 // ==========================================
 // CONFIGURAÇÕES GLOBAIS
 // ==========================================
-// Ajuste a porta/URL conforme o seu ambiente local
 const URL_API = 'http://localhost:3000/api';
 
 // ==========================================
@@ -363,7 +362,6 @@ async function persistProfile() {
     const retryDraft = { ...draft };
     pendingRetry = () => persistProfile();
 
-    // Atualiza o subtítulo do modal com o erro retornado pelo backend
     const modalErrorSubtitle = document.querySelector('#modal-erro .modal-subtitle');
     if (modalErrorSubtitle) {
       modalErrorSubtitle.textContent = err.message || 'Não foi possível salvar as alterações no momento. Verifique sua conexão e tente novamente.';
@@ -669,7 +667,6 @@ async function carregarPerfil() {
   } catch (err) {
     pendingRetry = carregarPerfil;
     
-    // Mostra erro caso o token seja inválido ou o servidor esteja fora
     const modalErrorSubtitle = document.querySelector('#modal-erro .modal-subtitle');
     if (modalErrorSubtitle) {
       modalErrorSubtitle.textContent = err.message || 'Não foi possível carregar os dados. Verifique sua conexão e tente novamente.';

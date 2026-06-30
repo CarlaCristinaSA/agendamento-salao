@@ -103,18 +103,15 @@ function abrirEdicao(servico) {
     const inputPreco = document.getElementById('input-preco');
     const checkboxStatus = document.getElementById('input-status');
     
-    // Preenche os campos
     inputNome.value = servico.nome;
     inputDuracao.value = servico.duracaoNum;
     
-    // Formata o preço
     if (!isNaN(servico.valor)) {
         inputPreco.value = servico.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     } else {
         inputPreco.value = "0,00";
     }
     
-    // Configura e atualiza o estado do Toggle Switch
     checkboxStatus.checked = servico.ativo;
     atualizarLabelsStatus(checkboxStatus.checked);
 
@@ -329,7 +326,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (e.target.id === 'modal-confirmado-overlay') fecharModalConfirmacao();
     });
 
-    // Envio do Formulário de Edição
     document.getElementById('form-servico').addEventListener('submit', async (e) => {
         e.preventDefault();
 

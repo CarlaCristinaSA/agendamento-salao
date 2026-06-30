@@ -7,7 +7,6 @@ function formatarValor(valor) {
     return Number(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
-// LOGIN AUTOMÁTICO
 async function fazerLogin() {
     try {
         const response = await fetch(`${URL_API}/auth/login`, {
@@ -32,12 +31,10 @@ async function fazerLogin() {
     }
 }
 
-// Normalização do nome
 function normalizarNome(nome) {
     return nome.trim().replace(/\s+/g, " ").toLowerCase();
 }
 
-/* ─── VALIDAÇÃO ─────────────────────────────────────────────────────────── */
 const FIELD_RULES = [
     {
         inputId:  'nome',
@@ -111,11 +108,9 @@ function _bindRealtimeValidation() {
     });
 }
 
-// 2. SUBMIT DO FORM
 form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // Executa a validação antes de qualquer coisa
     if (!_validarDados()) {
         return; 
     }
@@ -128,13 +123,11 @@ form.addEventListener("submit", async function (e) {
     let valor = document.getElementById("valor").value;
     valor = valor.replace(",", ".");
 
-    // garante autenticação
     if (!tokenGlobal) {
         alert("Usuário não autenticado");
         return;
     }
 
-    //  CHAMADA AO BACKEND
     const btnSubmit = form.querySelector('.confirm-btn');
     const textoOriginal = btnSubmit.textContent;
 
@@ -181,7 +174,6 @@ form.addEventListener("submit", async function (e) {
     }
 });
 
-// Função para fechar o modal
 function fecharModalConfirmado() {
     document.getElementById('modal-confirmado-overlay').classList.remove('active');
     document.body.style.overflow = '';

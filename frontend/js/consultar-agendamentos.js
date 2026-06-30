@@ -259,7 +259,6 @@ function _selecionarOrdem(tipo) {
     el.querySelector(".check").classList.toggle("oculto", i !== 0);
   });
 
-  // Reaplicar a ordenação
   preencherCards(agendamentosGlobais);
 
   setTimeout(_fecharModais, 300);

@@ -3,10 +3,6 @@ let tokenGlobal = null;
 let horariosGlobais = [];
 const diasSemana = ["DOMINGO", "SEGUNDA", "TERÇA", "QUARTA", "QUINTA", "SEXTA", "SÁBADO"];
 
-// ==========================================
-// 1. COMUNICAÇÃO COM O BACKEND
-// ==========================================
-
 async function autenticar() {
     if (tokenGlobal) return true;
     try {
@@ -67,10 +63,6 @@ async function salvarIntervaloNoBanco(diaDaSemana, startTime, endTime) {
         body: JSON.stringify({ type: "day_of_week", day_of_week: diaDaSemana, start_time: startTime, end_time: endTime })
     });
 }
-
-// ==========================================
-// 2. DESENHO DA TELA E DOS MODAIS
-// ==========================================
 
 function getTurnosPadrao() {
     return horariosGlobais
@@ -236,34 +228,26 @@ function prepararModalDia(diaIndex, nomeDia, numeroDia) {
     container.innerHTML = inputsHTML;
 }
 
-// ==========================================
-// 3. EVENTOS DE CLIQUE E FORMULÁRIOS
-// ==========================================
-
 document.addEventListener('DOMContentLoaded', () => {
     carregarHorariosDoBanco();
 
     document.addEventListener('click', (evento) => {
         const el = evento.target;
 
-        // Fechar Modal
         if (el.classList.contains('fechar-modal') || el.id === 'fechar-modal') {
             const m = el.closest('.modal'); if (m) m.classList.remove('aberto'); 
         } else if (el.classList.contains('modal')) el.classList.remove('aberto');
 
-        // Abrir Modal Padrão
         else if (el.id === 'alterar-horario-padrao') {
             prepararModalPadrao();
             document.getElementById('modal-horario-padrao').classList.add('aberto');
         }
         
-        // Abrir Modal Semana
         else if (el.id === 'horarios-semana') {
             prepararModalSemana();
             document.getElementById('modal-horarios-semana').classList.add('aberto');
         }
 
-        // Abrir Modal Dia
         else if (el.closest('.card-dia')) {
             const card = el.closest('.card-dia');
             const diaIndex = parseInt(card.getAttribute('data-dia-index'));
@@ -325,7 +309,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- FORM SUBMIT: MODAL PADRÃO ---
     const formPadrao = document.querySelector('.formulario-horario-padrao form');
     if (formPadrao) {
         formPadrao.addEventListener('submit', async (e) => {
@@ -346,7 +329,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- FORM SUBMIT: MODAL SEMANA ---
     const formSemana = document.querySelector('.form-modal-semana');
     if (formSemana) {
         formSemana.addEventListener('submit', async (e) => {
@@ -374,7 +356,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- FORM SUBMIT: MODAL DIA ---
     const formDia = document.querySelector('.form-modal-dia');
     if (formDia) {
         formDia.addEventListener('submit', async (e) => {

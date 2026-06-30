@@ -1,7 +1,6 @@
 const URL_API = 'http://localhost:3000/api';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Se já houver token, redireciona o usuário para o seu respectivo painel
     if (sessionStorage.getItem('salao_token')) {
         const savedRole = sessionStorage.getItem('salao_user_role');
         if (savedRole === 'admin') {
@@ -57,13 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const passwordValue = inputSenha.value;
             let formularioValido = true;
 
-            // Impedir acesso se o e-mail/login estiver vazio
             if (!emailValue) {
                 destacarErroCampo('grupo-email', 'erro-email', 'O campo de e-mail é obrigatório.');
                 formularioValido = false;
             }
 
-            // Impedir acesso se a senha estiver vazia
             if (!passwordValue) {
                 destacarErroCampo('grupo-senha', 'erro-senha', 'O campo de senha é obrigatório.');
                 formularioValido = false;
@@ -91,12 +88,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (resposta.ok && json.success && json.data?.token) {
                     const userRole = json.data.user?.role;
                     
-                    // Armazenar os dados na sessão
                     sessionStorage.setItem('salao_token', json.data.token);
                     sessionStorage.setItem('salao_admin_nome', json.data.user?.name || 'Usuário');
                     sessionStorage.setItem('salao_user_role', userRole);
                     
-                    // Redirecionamento dinâmico baseado no papel
                     if (userRole === 'admin') {
                         window.location.href = '../admin/tela-inicial-adm.html';
                     } else {

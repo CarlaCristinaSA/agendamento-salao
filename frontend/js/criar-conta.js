@@ -1,6 +1,4 @@
 ﻿'use strict';
-
-// URL da sua API
 const URL_API = 'http://localhost:3000/api';
 const LOGIN_URL = '/frontend/pages/shared/autenticar-usuario.html';
 
@@ -37,12 +35,10 @@ function closeModal(modal) {
     modal.classList.remove('active');
 }
 
-// Fecha modal ao clicar no overlay
 modalSucesso.addEventListener('click', (e) => {
     if (e.target === modalSucesso) closeModal(modalSucesso);
 });
 
-// Fecha modal com ESC
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal(modalSucesso);
 });
@@ -119,7 +115,6 @@ inputEmail.addEventListener('blur', () => {
 // VALIDAÇÕES INDIVIDUAIS
 // ============================================================
 
-/* Nome: não pode ser vazio nem somente espaços; não pode conter números; mínimo 3 letras. */
 function validateNome(value) {
     const trimmed = value.trim();
 
@@ -143,7 +138,6 @@ function validateNome(value) {
     return true;
 }
 
-/* E-mail: formato válido (com @ e domínio). */
 function validateEmail(value) {
     const lower            = value.trim().toLowerCase();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -162,7 +156,6 @@ function validateEmail(value) {
     return true;
 }
 
-/* Telefone: 10 ou 11 dígitos numéricos (considerando DDD). */
 function validateTelefone(value) {
     const digits = value.replace(/\D/g, '');
 
@@ -180,11 +173,6 @@ function validateTelefone(value) {
     return true;
 }
 
-/*
- * Senha: mínimo 8 caracteres, ao menos uma maiúscula, uma minúscula,
- * um número e um caractere especial.
- * (Regras herdadas de HU-012 / configuracoes-conta.js)
- */
 function validateSenha(value) {
     if (!value) {
         showError(errorSenha, 'Informe uma senha.');
@@ -210,7 +198,6 @@ function validateSenha(value) {
     return true;
 }
 
-/* Confirmar senha: deve ser idêntica à senha. */
 function validateConfirmarSenha(value) {
     if (!value) {
         showError(errorConfirmarSenha, 'Confirme sua senha.');
@@ -226,30 +213,24 @@ function validateConfirmarSenha(value) {
     return true;
 }
 
-// ============================================================
-// VALIDAÇÃO AO SAIR DO CAMPO (blur)
-// ============================================================
 inputNome.addEventListener('blur',         () => validateNome(inputNome.value));
 inputEmail.addEventListener('blur',        () => validateEmail(inputEmail.value));
 inputTelefone.addEventListener('blur',     () => validateTelefone(inputTelefone.value));
 inputSenha.addEventListener('blur',        () => validateSenha(inputSenha.value));
 inputConfirmarSenha.addEventListener('blur', () => validateConfirmarSenha(inputConfirmarSenha.value));
 
-// Revalida "confirmar senha" em tempo real sempre que "senha" muda
 inputSenha.addEventListener('input', () => {
     if (inputConfirmarSenha.value) {
         validateConfirmarSenha(inputConfirmarSenha.value);
     }
 });
 
-// Revalida "confirmar senha" enquanto digita
 inputConfirmarSenha.addEventListener('input', () => {
     if (inputConfirmarSenha.value) {
         validateConfirmarSenha(inputConfirmarSenha.value);
     }
 });
 
-// Exibe feedback de senha enquanto digita (após primeira interação)
 inputSenha.addEventListener('input', () => {
     if (inputSenha.value) {
         validateSenha(inputSenha.value);
@@ -271,11 +252,10 @@ function validateAllFields() {
 }
 
 // ============================================================
-// FLUXO: CRIAR CONTA (Integrado com a API)
+// FLUXO: CRIAR CONTA 
 // ============================================================
 btnCriarConta.addEventListener('click', () => {
     if (!validateAllFields()) {
-        // Foca o primeiro campo com erro
         const firstError = document.querySelector('.field-input.error');
         if (firstError) firstError.focus();
         return;
@@ -288,14 +268,10 @@ async function submitForm() {
     btnCriarConta.disabled    = true;
     btnCriarConta.textContent = 'Criando…';
 
-    // Prepara os dados extraindo os valores dos inputs
     const name = inputNome.value.trim();
     const email = inputEmail.value.trim();
-    // Pega apenas os números do telefone para salvar no banco
     const phone = inputTelefone.value.replace(/\D/g, ''); 
-    const password = inputSenha.value;
-    
-    // Captura a confirmação da senha
+    const password = inputSenha.value;    
     const confirmPassword = inputConfirmarSenha.value;
 
     try {
@@ -313,7 +289,6 @@ async function submitForm() {
             const erroApi = json.error || 'Não foi possível criar a conta.';
             const erroLower = erroApi.toLowerCase();
 
-            // Mapeamento de erros do backend direto no input correspondente
             if (erroLower.includes('email') || erroLower.includes('e-mail') || erroLower.includes('cadastrado')) {
                 showError(errorEmail, erroApi);
                 inputEmail.focus();
@@ -321,11 +296,10 @@ async function submitForm() {
                 showError(errorTelefone, erroApi);
                 inputTelefone.focus();
             } else if (erroLower.includes('senha') || erroLower.includes('password') || erroLower.includes('confirmação')) {
-                // Feedback visual se o erro for na senha
                 showError(errorConfirmarSenha, erroApi);
                 inputConfirmarSenha.focus();
             } else {
-                alert(erroApi); // Feedback visual genérico se a API retornar algo inesperado
+                alert(erroApi);
             }
         }
     } catch (erro) {

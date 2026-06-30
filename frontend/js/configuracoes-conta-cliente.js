@@ -1,14 +1,7 @@
 'use strict';
 
-// ==========================================
-// CONFIGURAÇÕES GLOBAIS
-// ==========================================
-// Ajuste a porta/URL conforme o seu ambiente local
 const URL_API = 'http://localhost:3000/api';
 
-// ==========================================
-// ESTADO DA APLICAÇÃO
-// ==========================================
 const originalData = {
   nome: '',
   telefone: '',
@@ -19,9 +12,6 @@ let hasUnsavedChanges = false;
 let tokenGlobal = null;
 let pendingRetry = null;
 
-// ==========================================
-// REFERÊNCIAS DOM
-// ==========================================
 const inputNome     = document.getElementById('input-nome');
 const inputTelefone = document.getElementById('input-telefone');
 const inputEmail    = document.getElementById('input-email');
@@ -53,9 +43,6 @@ const errorSenhaAtual     = document.getElementById('error-senha-atual');
 const errorNovaSenha      = document.getElementById('error-nova-senha');
 const errorConfirmarSenha = document.getElementById('error-confirmar-senha');
 
-// ==========================================
-// UTILITÁRIOS
-// ==========================================
 function openModal(modal) {
   if (!modal) return;
   modal.classList.add('active');
@@ -108,9 +95,6 @@ async function apiRequest(path, { method = 'GET', body = null } = {}) {
   return json;
 }
 
-// ==========================================
-// FEEDBACKS DE ERRO / SUCESSO NOS CAMPOS
-// ==========================================
 function showError(el, msg) {
   if (!el) return;
   el.textContent = msg;
@@ -133,9 +117,6 @@ function clearAllMainErrors() {
   clearError(errorEmail);
 }
 
-// ==========================================
-// MODAIS
-// ==========================================
 Object.values(modals).forEach(modal => {
   if (!modal) return;
   modal.addEventListener('click', (e) => {
@@ -149,9 +130,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// ==========================================
-// MÁSCARA DE TELEFONE
-// ==========================================
 function applyPhoneMask(value) {
   const digits = String(value).replace(/\D/g, '').slice(0, 11);
   if (digits.length === 0)  return '';
@@ -181,9 +159,6 @@ inputTelefone.addEventListener('input', (e) => {
   onProfileInputChange();
 });
 
-// ==========================================
-// VALIDAÇÕES DOS CAMPOS DE PERFIL
-// ==========================================
 function validateNome(value) {
   const trimmed = String(value).trim();
   if (!trimmed) {
@@ -218,10 +193,6 @@ function validateEmail(value) {
   clearError(errorEmail);
   return true;
 }
-
-// ==========================================
-// LÓGICA DE ESTADO DOS CAMPOS
-// ==========================================
 
 function getNormalizedProfileDraft() {
   return {
@@ -278,9 +249,6 @@ function onProfileInputChange() {
   updateSaveEnabledState();
 }
 
-// ==========================================
-// BOTÕES DE EDITAR CAMPO 
-// ==========================================
 document.querySelectorAll('.field-group').forEach(group => {
   const editBtn = group.querySelector('.edit-btn');
   const input   = group.querySelector('.field-input');
@@ -305,9 +273,6 @@ document.querySelectorAll('.field-group').forEach(group => {
   });
 });
 
-// ==========================================
-// SALVAR DADOS DE PERFIL
-// ==========================================
 btnSave.disabled = true;
 btnSave.setAttribute('aria-disabled', 'true');
 
@@ -363,7 +328,6 @@ async function persistProfile() {
     const retryDraft = { ...draft };
     pendingRetry = () => persistProfile();
 
-    // Atualiza o subtítulo do modal com o erro retornado pelo backend
     const modalErrorSubtitle = document.querySelector('#modal-erro .modal-subtitle');
     if (modalErrorSubtitle) {
       modalErrorSubtitle.textContent = err.message || 'Não foi possível salvar as alterações no momento. Verifique sua conexão e tente novamente.';
@@ -389,9 +353,6 @@ document.getElementById('btn-tentar-novamente').addEventListener('click', async 
   }
 });
 
-// ==========================================
-// DESCARTAR ALTERAÇÕES
-// ==========================================
 btnDiscard.addEventListener('click', () => {
   if (!hasUnsavedChanges) return;
   openModal(modals.confirmarDescartar);
@@ -428,9 +389,6 @@ function lockAllProfileFields() {
   });
 }
 
-// ==========================================
-// SAIR DA CONTA
-// ==========================================
 btnSignout.addEventListener('click', () => {
   openModal(modals.confirmarSair);
 });
@@ -458,9 +416,6 @@ document.getElementById('btn-sim-sair').addEventListener('click', async () => {
   window.location.href = "/frontend/pages/shared/autenticar-usuario.html"; 
 });
 
-// ==========================================
-// AVISO AO SAIR COM ALTERAÇÕES PENDENTES
-// ==========================================
 window.addEventListener('beforeunload', (e) => {
   if (hasUnsavedChanges) {
     e.preventDefault();
@@ -468,9 +423,6 @@ window.addEventListener('beforeunload', (e) => {
   }
 });
 
-// ==========================================
-// FLUXO ALTERAR SENHA
-// ==========================================
 btnOpenSenha.addEventListener('click', () => {
   inputSenhaAtual.value = '';
   inputNovaSenha.value  = '';
@@ -619,7 +571,6 @@ document.getElementById('btn-confirmar-senha').addEventListener('click', async (
       openModal(modals.sucessoSenha);
     };
 
-    // Atualiza o subtítulo do modal com o erro retornado pelo backend (ex: senha atual incorreta)
     const modalErrorSubtitle = document.querySelector('#modal-erro .modal-subtitle');
     if (modalErrorSubtitle) {
       modalErrorSubtitle.textContent = err.message || 'Não foi possível alterar a senha. Verifique sua conexão e tente novamente.';
@@ -637,9 +588,6 @@ document.getElementById('btn-ok-senha').addEventListener('click', () => {
   closeModal(modals.sucessoSenha);
 });
 
-// ==========================================
-// INICIALIZAÇÃO — carregar dados do usuário via API
-// ==========================================
 async function carregarPerfil() {
   inputNome.value     = '';
   inputTelefone.value = '';
@@ -669,7 +617,6 @@ async function carregarPerfil() {
   } catch (err) {
     pendingRetry = carregarPerfil;
     
-    // Mostra erro caso o token seja inválido ou o servidor esteja fora
     const modalErrorSubtitle = document.querySelector('#modal-erro .modal-subtitle');
     if (modalErrorSubtitle) {
       modalErrorSubtitle.textContent = err.message || 'Não foi possível carregar os dados. Verifique sua conexão e tente novamente.';
