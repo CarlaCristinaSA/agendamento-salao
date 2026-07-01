@@ -172,11 +172,19 @@ const NotifCliente = (() => {
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">${cfg.iconeSvg}</svg>
                     </div>
                     <div class="notif-toast__corpo">
-                        <div class="notif-toast__titulo">${cfg.tituloToast}</div>
-                        <div class="notif-toast__nomes">${c.servico} · ${data}${cfg.mostrarHoraToast ? ` às ${hora}` : ''}</div>
+                        <div class="notif-toast__titulo"></div>
+                        <div class="notif-toast__nomes"></div>
                     </div>
                     <button class="notif-toast__fechar" aria-label="Fechar notificação">×</button>
                 `;
+
+                const tituloEl = toast.querySelector('.notif-toast__titulo');
+                if (tituloEl) tituloEl.textContent = cfg.tituloToast;
+
+                const nomesEl = toast.querySelector('.notif-toast__nomes');
+                if (nomesEl) {
+                    nomesEl.textContent = `${c.servico} · ${data}${cfg.mostrarHoraToast ? ` às ${hora}` : ''}`;
+                }
 
                 wrapper.appendChild(toast);
                 requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('entrando')));
