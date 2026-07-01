@@ -286,7 +286,6 @@ const NotifAdmin = (() => {
                         <div class="cancelamento-detalhe">${c.servico} &nbsp;·&nbsp; ${dataFmt} às ${horaFmt}</div>
                     </div>
                     <div class="cancelamento-meta">
-                        <span class="cancelamento-tempo">${tempoRelativo(c.referenciaEm)}</span>
                         <button class="cancelamento-marcar-visto-btn" type="button" title="Marcar como visto" aria-label="Marcar como visto">
                             ${ICONE_SINO_BTN}
                         </button>
@@ -342,23 +341,54 @@ const NotifAdmin = (() => {
             });
         }
 
+        const chaveConhecidos = `${cfg.chaveVistos}_conhecidos`;
+
+        function carregarConhecidosPersistidos() {
+            try {
+                const bruto = localStorage.getItem(chaveConhecidos);
+                if (bruto === null) return null;
+                return new Set((JSON.parse(bruto) || []).map(String));
+            } catch {
+                return null;
+            }
+        }
+
+        function salvarConhecidosPersistidos(setIds) {
+            localStorage.setItem(chaveConhecidos, JSON.stringify([...setIds].slice(-300)));
+        }
+
         async function atualizar() {
             const novaLista = await buscar();
             if (novaLista === null) return;
 
+            const idsAtuais = new Set(novaLista.map(c => String(c.id)));
+
             if (primeiraCarga) {
-                cache         = novaLista;
-                idsConhecidos = new Set(novaLista.map(c => String(c.id)));
+                cache = novaLista;
+
+                const conhecidosPersistidos = carregarConhecidosPersistidos();
+
                 atualizarBadge();
                 renderizarSecao();
-                exibirToast(cache);
+
+                if (conhecidosPersistidos === null) {
+                    idsConhecidos = idsAtuais;
+                } else {
+                    idsConhecidos = conhecidosPersistidos;
+                    const novos = novaLista.filter(c => !idsConhecidos.has(String(c.id)));
+                    if (novos.length > 0) exibirToast(novos);
+                    idsConhecidos = idsAtuais;
+                }
+
+                salvarConhecidosPersistidos(idsAtuais);
                 primeiraCarga = false;
                 return;
             }
 
             const novos   = novaLista.filter(c => !idsConhecidos.has(String(c.id)));
             cache         = novaLista;
-            idsConhecidos = new Set(novaLista.map(c => String(c.id)));
+            idsConhecidos = idsAtuais;
+            salvarConhecidosPersistidos(idsAtuais);
 
             atualizarBadge();
             renderizarSecao();

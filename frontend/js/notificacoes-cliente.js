@@ -259,7 +259,6 @@ const NotifCliente = (() => {
                         <div class="cancelamento-detalhe">${dataFmt} às ${horaFmt}</div>
                     </div>
                     <div class="cancelamento-meta">
-                        <span class="cancelamento-tempo">${tempoRelativo(c.referenciaEm)}</span>
                         <button class="cancelamento-marcar-visto-btn" type="button" title="Marcar como visto" aria-label="Marcar como visto">
                             ${ICONE_SINO_BTN}
                         </button>
