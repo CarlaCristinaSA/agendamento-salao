@@ -167,8 +167,13 @@ function _cardCanceladoHTML(ag) {
 
 function _ordenarPorDataDesc(lista) {
     return [...lista].sort((a, b) => {
-        const dtA = new Date(`${String(a.appointment_date).split('T')[0]}T${String(a.appointment_time).substring(0, 5)}:00`);
-        const dtB = new Date(`${String(b.appointment_date).split('T')[0]}T${String(b.appointment_time).substring(0, 5)}:00`);
+        const dataA = String(a.appointment_date).split('T')[0];
+        const dataB = String(b.appointment_date).split('T')[0];
+        const horaA = String(a.appointment_time || '00:00').substring(0, 5);
+        const horaB = String(b.appointment_time || '00:00').substring(0, 5);
+
+        const dtA = new Date(`${dataA}T${horaA}:00`);
+        const dtB = new Date(`${dataB}T${horaB}:00`);
         return dtB - dtA;
     });
 }
