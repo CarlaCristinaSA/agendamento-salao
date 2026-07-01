@@ -263,8 +263,8 @@ const NotifCliente = (() => {
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">${cfg.iconeSvg}</svg>
                     </div>
                     <div class="cancelamento-info">
-                        <div class="cancelamento-nome">${c.servico}</div>
-                        <div class="cancelamento-detalhe">${dataFmt} às ${horaFmt}</div>
+                        <div class="cancelamento-nome"></div>
+                        <div class="cancelamento-detalhe"></div>
                     </div>
                     <div class="cancelamento-meta">
                         <button class="cancelamento-marcar-visto-btn" type="button" title="Marcar como visto" aria-label="Marcar como visto">
@@ -272,6 +272,12 @@ const NotifCliente = (() => {
                         </button>
                     </div>
                 `;
+
+                const nomeEl = item.querySelector('.cancelamento-nome');
+                if (nomeEl) nomeEl.textContent = c.servico;
+
+                const detalheEl = item.querySelector('.cancelamento-detalhe');
+                if (detalheEl) detalheEl.textContent = `${dataFmt} às ${horaFmt}`;
 
                 item.querySelector('.cancelamento-marcar-visto-btn').addEventListener('click', (evento) => {
                     evento.stopPropagation();
