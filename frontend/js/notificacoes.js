@@ -174,13 +174,21 @@ const NotifAdmin = (() => {
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">${cfg.iconeSvg}</svg>
                 </div>
                 <div class="notif-toast__corpo">
-                    <div class="notif-toast__titulo">
-                        ${naoVistos.length === 1 ? cfg.tituloToastSingular(naoVistos.length) : cfg.tituloToastPlural(naoVistos.length)}
-                    </div>
-                    <div class="notif-toast__nomes">${nomes}${extra}</div>
+                    <div class="notif-toast__titulo"></div>
+                    <div class="notif-toast__nomes"></div>
                 </div>
                 <button class="notif-toast__fechar" aria-label="Fechar notificação">×</button>
             `;
+
+            const tituloEl = toast.querySelector('.notif-toast__titulo');
+            if (tituloEl) {
+                tituloEl.textContent = naoVistos.length === 1
+                    ? cfg.tituloToastSingular(naoVistos.length)
+                    : cfg.tituloToastPlural(naoVistos.length);
+            }
+
+            const nomesEl = toast.querySelector('.notif-toast__nomes');
+            if (nomesEl) nomesEl.textContent = `${nomes}${extra}`;
 
             wrapper.appendChild(toast);
 
