@@ -58,24 +58,9 @@ const NotifAdmin = (() => {
         let lista          = Array.isArray(json1.data) ? [...json1.data] : [];
         const totalPaginas = json1.pagination?.total_pages || 1;
 
-        if (totalPaginas > 1) {
-            const paginas   = Array.from({ length: totalPaginas - 1 }, (_, i) => i + 2);
-            const respostas = await Promise.all(
-                paginas.map(p =>
-                    fetch(
-                        `${URL_API}/admin/appointments?${queryString}&page=${p}&limit=${LIMITE_POR_PAGINA}`,
-                        { headers: { Authorization: `Bearer ${token}` } }
-                    ).then(r => {
-                        if (r.status === 401 || r.status === 403) return { _auth: true };
-                        return r.json();
-                    })
-                )
-            );
-            for (const r of respostas) {
-                if (r._auth) return { erroAuth: true };
-                if (r.success && Array.isArray(r.data)) lista = lista.concat(r.data);
-            }
-        }
+        // Para notificações, a 1ª página já contém os registros mais recentes (quando usando sort=desc).
+        // Evita N requisições adicionais a cada polling.
+        // Se no futuro for necessário buscar mais itens, aumente LIMITE_POR_PAGINA em vez de paginar aqui.
 
         return { erroAuth: false, lista };
     }
