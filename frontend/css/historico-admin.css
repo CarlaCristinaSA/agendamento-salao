@@ -1,0 +1,336 @@
+*, *::before, *::after { 
+    box-sizing: border-box; margin: 0; padding: 0; 
+}
+
+:root {
+    --pink-main:  #E0456A;
+    --pink-light: #E98CA4;
+    --dark:       #110E29;
+    --gray:       #717182;
+    --gray-muted: #6B7280;
+    --gray-light: #F3F4F6;
+    --bg-card:    #FAFAFA;
+    --white:      #FFFFFF;
+    --border:     #E5E7EB;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--dark);
+    min-height: 100vh;
+    background: linear-gradient(135deg,rgba(255, 255, 255, 1) 0%, rgba(255, 245, 247, 1) 50%, rgba(255, 255, 255, 1) 100%);
+}
+
+/* ─── MAIN CONTENT ──────────────────────────────────────────────────────── */
+.pagina-historico {
+    background: linear-gradient(135deg, #FFFFFF 0%, rgba(253,242,248,0.35) 50%, #FFFFFF 100%);
+    padding: 3.5rem 2rem 5rem;
+    min-height: calc(100vh - 5rem);
+}
+
+.container {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+/* ─── PAGE HEADER ───────────────────────────────────────────────────────── */
+.page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 2.5rem;
+}
+
+.header-icon-wrap {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E0456A 0%, #E98CA4 100%);
+  box-shadow: 0 0.5rem 1.5rem 0 #E0456A40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.page-header h1 {
+  font-family: 'Cormorant', serif;
+  font-weight: 600;
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  line-height: 1;
+  letter-spacing: 0.03125rem;
+  color: var(--dark);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.page-header p {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  color: var(--gray);
+  text-align: center;
+}
+
+/* ─── ABAS ──────────────────────────────────────────────────────────────── */
+.abas-historico {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  background: var(--gray-light);
+  padding: 0.375rem;
+  border-radius: 1rem;
+  margin: 0 auto 2rem;
+  width: fit-content;
+}
+
+.aba-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  background: transparent;
+  border-radius: 0.75rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--gray);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+}
+
+.aba-btn:hover {
+  color: var(--dark);
+}
+
+.aba-btn.ativo {
+  background: var(--white);
+  color: var(--dark);
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
+}
+
+.aba-contagem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.375rem;
+  border-radius: 9999px;
+  background: var(--gray-light);
+  color: var(--gray-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: background 0.2s, color 0.2s;
+}
+
+.aba-btn.ativo .aba-contagem {
+  background: var(--gray-light);
+  color: var(--dark);
+}
+
+.aba-contagem--pink {
+  background: linear-gradient(135deg, #E0456A 0%, #E98CA4 100%);
+  color: var(--white);
+}
+
+.aba-btn.ativo .aba-contagem--pink {
+  background: linear-gradient(135deg, #E0456A 0%, #E98CA4 100%);
+  color: var(--white);
+}
+
+/* ─── CARDS GRID ────────────────────────────────────────────────────────── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--white);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 0.625rem 2.5rem 0 #0000000F;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.card--history { opacity: 0.95; }
+
+.card--cancelado {
+  border: 1px solid rgba(224, 69, 106, 0.15);
+  opacity: 1;
+}
+
+/* Card header */
+.card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.card__title {
+  font-family: 'Cormorant', serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  color: var(--dark);
+  flex: 1;
+}
+
+/* Status badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 1.25rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  letter-spacing: 0.0375rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge--concluido {
+  background: linear-gradient(135deg, #E98CA4 0%, #E98CA4 100%);
+  box-shadow: 0 0.0625rem 0.125rem -0.0625rem #0000001A, 0 0.0625rem 0.1875rem 0 #0000001A;
+  color: var(--white);
+}
+
+.badge--cancelado {
+  background: linear-gradient(135deg, #E0456A 0%, #E98CA4 100%);
+  box-shadow: 0 0.0625rem 0.125rem -0.0625rem #0000001A, 0 0.0625rem 0.1875rem 0 #0000001A;
+  color: var(--white);
+}
+
+/* Card body */
+.card__body { display: flex; flex-direction: column; gap: 0.75rem; flex: 1; }
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg-card);
+  border-radius: 1.25rem;
+  padding: 1rem;
+}
+
+.info-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E98CA4 0%, #E98CA4 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.info-icon--pink {
+  background: linear-gradient(135deg, #E0456A 0%, #E98CA4 100%);
+}
+
+.info-text { display: flex; flex-direction: column; gap: 0.25rem; }
+
+.info-label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  letter-spacing: 0.0375rem;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+.info-value {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: var(--dark);
+}
+
+.info-value.valor {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+/* Card footer (data do cancelamento) */
+.card__footer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--gray-light);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  color: var(--gray);
+  text-align: center;
+}
+
+/* ─── EMPTY MESSAGE ─────────────────────────────────────────────────────── */
+.empty-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 2rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: var(--gray);
+  background: var(--white);
+  border-radius: 1.5rem;
+  box-shadow: 0 0.625rem 2.5rem 0 #0000000F;
+}
+
+/* ─── RESPONSIVIDADE ────────────────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .cards-grid { gap: 1.25rem; }
+}
+
+@media (max-width: 900px) {
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .pagina-historico { padding: 2.5rem 1rem 4rem; }
+}
+
+@media (max-width: 600px) {
+  .pagina-historico { padding: 2rem 0.875rem 3rem; }
+
+  .page-header h1 { font-size: clamp(2rem, 11vw, 2.65rem); line-height: 1; }
+  .page-header p  { font-size: 0.95rem; line-height: 1.45; }
+
+  .abas-historico {
+    width: 100%;
+    display: flex;
+  }
+  .aba-btn { flex: 1; justify-content: center; padding: 0.625rem 0.75rem; }
+
+  .cards-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+
+  .card { padding: 1.5rem; border-radius: 1.375rem; }
+
+  .card__title { font-size: 1.375rem; line-height: 1.25; }
+
+  .info-row { padding: 0.875rem; border-radius: 1rem; }
+
+  .info-value       { font-size: 0.9375rem; }
+  .info-value.valor { font-size: 1.0625rem; }
+}
+
+@media (max-width: 360px) {
+  .pagina-historico { padding-inline: 0.625rem; }
+  .card { padding: 1.25rem; }
+}

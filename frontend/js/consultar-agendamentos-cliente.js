@@ -241,6 +241,10 @@ async function cancelarAgendamentoAdmin(idAgendamento) {
             throw new Error(result.error || result.message || "Erro ao cancelar agendamento.");
         }
 
+        if (window.NotifCliente) {
+            window.NotifCliente.marcarCancelamentoComoVisto(idAgendamento);
+        }
+
         await carregarAgendamentos();
         fecharModais();
         abrirCancelamentoSucesso();

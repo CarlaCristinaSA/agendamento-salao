@@ -1,0 +1,448 @@
+.notif-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, #E0456A, #E98CA4);
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+    margin-left: 4px;
+    vertical-align: middle;
+    box-shadow: 0 2px 8px rgba(224, 69, 106, 0.35);
+    animation: notif-pulse 2.4s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+@keyframes notif-pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(224, 69, 106, 0.35); }
+    50%       { transform: scale(1.12); box-shadow: 0 4px 14px rgba(224, 69, 106, 0.5); }
+}
+
+.navbar__toggle.has-notif::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #E0456A;
+    border: 2px solid #ffffff;
+}
+
+.navbar__toggle {
+    position: relative;
+}
+
+.notif-toast-wrapper {
+    position: fixed;
+    top: 5.5rem;
+    right: clamp(1rem, 3vw, 2rem);
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    pointer-events: none;
+}
+
+.notif-toast {
+    pointer-events: auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #ffffff;
+    border: 1px solid rgba(224, 69, 106, 0.25);
+    border-left: 3.5px solid #E0456A;
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+    min-width: clamp(280px, 40vw, 380px);
+    max-width: 380px;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1),
+                opacity 0.3s ease;
+}
+
+.notif-toast.entrando {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.notif-toast.saindo {
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.25s ease-in, opacity 0.2s ease;
+}
+
+.notif-toast__icone {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #E0456A 0%, #E98CA4 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.notif-toast__icone svg {
+    width: 18px;
+    height: 18px;
+}
+
+.notif-toast__corpo {
+    flex: 1;
+    min-width: 0;
+}
+
+.notif-toast__titulo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #110E29;
+    line-height: 1.3;
+}
+
+.notif-toast__nomes {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11.5px;
+    font-weight: 400;
+    color: #717182;
+    margin-top: 3px;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.notif-toast__fechar {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #717182;
+    font-size: 16px;
+    padding: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    transition: color 0.15s, background-color 0.15s;
+}
+
+.notif-toast__fechar:hover {
+    color: #E0456A;
+    background: rgba(224, 69, 106, 0.06);
+}
+
+.secao-cancelamentos {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.cancelamentos-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.875rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+    padding: 0.375rem 0.5rem;
+    margin-inline: -0.5rem;
+    border-radius: 12px;
+    transition: background-color 0.15s;
+}
+
+.cancelamentos-header:hover {
+    background-color: rgba(224, 69, 106, 0.05);
+}
+
+.cancelamentos-header__acoes {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cancelamentos-chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #F3F4F6;
+    transition: transform 0.25s ease, background-color 0.15s;
+    flex-shrink: 0;
+}
+
+.cancelamentos-header.aberto .cancelamentos-chevron {
+    transform: rotate(180deg);
+    background: rgba(224, 69, 106, 0.12);
+}
+
+.cancelamentos-collapse {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+}
+
+.cancelamentos-collapse.aberto {
+    grid-template-rows: 1fr;
+}
+
+.cancelamentos-collapse > .cancelamentos-lista {
+    overflow: hidden;
+    min-height: 0;
+}
+
+.cancelamentos-titulo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cancelamentos-titulo__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #E0456A;
+    flex-shrink: 0;
+    animation: notif-pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes notif-pulse-dot {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.45; }
+}
+
+.cancelamentos-titulo__texto {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #110E29;
+}
+
+.cancelamentos-titulo__contagem {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #ffffff;
+    background: linear-gradient(135deg, #E0456A, #E98CA4);
+    padding: 2px 8px;
+    border-radius: 10px;
+    line-height: 1.5;
+}
+
+.cancelamentos-marcar-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #717182;
+    padding: 4px 0;
+    transition: color 0.2s;
+}
+
+.cancelamentos-marcar-btn:hover {
+    color: #E0456A;
+}
+
+.cancelamentos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cancelamento-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #ffffff;
+    border: 1px solid rgba(224, 69, 106, 0.15);
+    border-left: 3px solid #E0456A;
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 10px rgba(224, 69, 106, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s,
+                opacity 0.28s ease, max-height 0.32s ease, margin 0.32s ease, padding 0.32s ease;
+    max-height: 100px;
+    overflow: hidden;
+}
+
+.cancelamento-item:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(224, 69, 106, 0.12);
+}
+
+.cancelamento-item.saindo {
+    opacity: 0;
+    transform: translateX(24px) scale(0.98);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+    border-width: 0;
+    pointer-events: none;
+}
+
+.cancelamento-icone {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #E0456A 0%, #E98CA4 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(224, 69, 106, 0.2);
+}
+
+.cancelamento-icone svg {
+    width: 18px;
+    height: 18px;
+}
+
+.cancelamento-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.cancelamento-nome {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #110E29;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cancelamento-detalhe {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #717182;
+    margin-top: 3px;
+    line-height: 1.4;
+}
+
+.cancelamento-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.cancelamento-tempo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: #717182;
+    white-space: nowrap;
+}
+
+.cancelamento-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #E0456A;
+    flex-shrink: 0;
+    align-self: center;
+}
+
+.cancelamento-marcar-visto-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(224, 69, 106, 0.25);
+    background: rgba(224, 69, 106, 0.06);
+    color: #E0456A;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.2s, border-color 0.2s, transform 0.15s, color 0.2s;
+}
+
+.cancelamento-marcar-visto-btn:hover {
+    background: #E0456A;
+    color: #ffffff;
+    border-color: #E0456A;
+    transform: scale(1.08);
+}
+
+.cancelamento-marcar-visto-btn:active {
+    transform: scale(0.95);
+}
+
+.cancelamento-marcar-visto-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+.cancelamentos-divider {
+    height: 1px;
+    background: #F3F4F6;
+    margin: 1.25rem 0;
+}
+
+/* ─── RESPONSIVIDADE ──────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+    .notif-toast-wrapper {
+        top: auto;
+        bottom: 1.25rem;
+        right: 0.875rem;
+        left: 0.875rem;
+    }
+
+    .notif-toast {
+        min-width: unset;
+        max-width: 100%;
+    }
+
+    .cancelamentos-titulo__texto {
+        font-size: 12px;
+    }
+
+    .cancelamento-item {
+        padding: 12px 14px;
+        gap: 12px;
+    }
+
+    .cancelamento-icone {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+    }
+
+    .cancelamento-nome {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 360px) {
+    .cancelamento-item {
+        padding: 10px 12px;
+    }
+}

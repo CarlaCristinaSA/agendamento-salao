@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../../css/modaisAgendamentoCliente.css">
     <link rel="stylesheet" href="/frontend/css/navbar-cliente.css">
     <link rel="stylesheet" href="/frontend/css/btn-voltar.css">
+    <link rel="stylesheet" href="/frontend/css/notificacoes-cancelamento.css">
 </head>
 <body>
 
@@ -41,6 +42,7 @@
                 <path d="M6.75 12L8.25 13.5L11.25 10.5" stroke="#E0456A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             Agendamentos
+            <span class="notif-badge" id="notif-badge-agendamentos-cliente" style="display:none">0</span>
         </a>
 
         <a href="/frontend/pages/cliente/historico.html" class="nav-link">
@@ -50,6 +52,7 @@
                 <path d="M9 5.25V9L12 10.5" stroke="#110E29" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             Histórico
+            <span class="notif-badge" id="notif-badge-historico-cliente" style="display:none">0</span>
         </a>
 
         <a href="/frontend/pages/cliente/configuracoes-conta-cliente.html" class="nav-link">
@@ -213,6 +216,7 @@
 
     <script src="../../js/modaisAgendamentoCliente.js"></script>
     <script src="../../js/agendamentoCliente.js"></script>
+    <script src="/frontend/js/notificacoes-cliente.js"></script>
     <script>
         const navToggle = document.getElementById('navbar-toggle');
         const navMenu = document.getElementById('navbar-nav');
